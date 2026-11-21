@@ -115,5 +115,328 @@
       "description": "A gentle stone fountain surrounded by fresh cobblestone paths, where water sparkles and Pip can float tiny paper boats.",
       "updated": "2026-11-21"
     }
+  ],
+  "props": [
+    {
+      "id": "pmwql6u0f",
+      "type": "custom",
+      "name": "Brass Moth Lanterns",
+      "description": "A pair of warm brass post lamps featuring moth-wing filigree that casts cozy patterns on the plaza benches.",
+      "color": "#b8860b",
+      "x": -12.4,
+      "z": -10.7,
+      "rot": 259,
+      "scale": 1,
+      "radius": 1.8,
+      "built": "2026-11-21",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.6,
+              0.04,
+              0.6
+            ],
+            "pos": [
+              -1.5,
+              0.02,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#7e7d7a"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.3,
+              0.1,
+              0.3
+            ],
+            "pos": [
+              -1.5,
+              0.07,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a3b1b"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.08,
+              1.8,
+              0.08
+            ],
+            "pos": [
+              -1.5,
+              1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#b8860b"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.18,
+              0.18,
+              0.18
+            ],
+            "pos": [
+              -1.5,
+              1.9,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d4af37"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.35,
+              0.45,
+              0.35
+            ],
+            "pos": [
+              -1.5,
+              2.2,
+              0
+            ],
+            "rot": [
+              0,
+              45,
+              0
+            ],
+            "color": "#ffdd66"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.45,
+              0.25,
+              0.45
+            ],
+            "pos": [
+              -1.5,
+              2.5,
+              0
+            ],
+            "rot": [
+              0,
+              45,
+              0
+            ],
+            "color": "#8b6b23"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.25,
+              0.02
+            ],
+            "pos": [
+              -1.5,
+              2.2,
+              0.18
+            ],
+            "rot": [
+              0,
+              0,
+              15
+            ],
+            "color": "#b8860b"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.25,
+              0.02
+            ],
+            "pos": [
+              -1.5,
+              2.2,
+              -0.18
+            ],
+            "rot": [
+              0,
+              0,
+              -15
+            ],
+            "color": "#b8860b"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.6,
+              0.04,
+              0.6
+            ],
+            "pos": [
+              1.5,
+              0.02,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#7e7d7a"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.3,
+              0.1,
+              0.3
+            ],
+            "pos": [
+              1.5,
+              0.07,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a3b1b"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.08,
+              1.8,
+              0.08
+            ],
+            "pos": [
+              1.5,
+              1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#b8860b"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.18,
+              0.18,
+              0.18
+            ],
+            "pos": [
+              1.5,
+              1.9,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d4af37"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.35,
+              0.45,
+              0.35
+            ],
+            "pos": [
+              1.5,
+              2.2,
+              0
+            ],
+            "rot": [
+              0,
+              45,
+              0
+            ],
+            "color": "#ffdd66"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.45,
+              0.25,
+              0.45
+            ],
+            "pos": [
+              1.5,
+              2.5,
+              0
+            ],
+            "rot": [
+              0,
+              45,
+              0
+            ],
+            "color": "#8b6b23"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.25,
+              0.02
+            ],
+            "pos": [
+              1.5,
+              2.2,
+              0.18
+            ],
+            "rot": [
+              0,
+              0,
+              -15
+            ],
+            "color": "#b8860b"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.25,
+              0.02
+            ],
+            "pos": [
+              1.5,
+              2.2,
+              -0.18
+            ],
+            "rot": [
+              0,
+              0,
+              15
+            ],
+            "color": "#b8860b"
+          }
+        ]
+      }
+    }
   ]
 }

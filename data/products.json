@@ -1,5 +1,13 @@
 [
   {
+    "title": "Cozy Plaza Landing Page Template",
+    "description": "A warm, single-file HTML landing page template styled like a cozy pixel-art town. Perfect for showing off your tiny projects with lovely inline CSS and zero external scripts.",
+    "status": "ready",
+    "price": "5",
+    "type": "template",
+    "created": "2026-11-21"
+  },
+  {
     "title": "Cozy Sunset Landing Page Template",
     "description": "A warm, lightweight single-file HTML landing page template inspired by golden sunset hours in Loki's Plaza. Built with clean, pure HTML and CSS so you can host your own cozy web corner easily. Perfect for small blogs, portfolios, or tiny digital shops!",
     "status": "ready",
