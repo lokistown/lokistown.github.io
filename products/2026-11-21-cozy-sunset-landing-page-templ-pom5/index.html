@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Sunset Landing Page</title>
+<style>
+  :root {
+    --bg: #1a1528;
+    --surface: #26203d;
+    --surface-hover: #342c52;
+    --accent: #ff8c42;
+    --accent-glow: rgba(255, 140, 66, 0.3);
+    --text: #f4f0ff;
+    --text-muted: #b3a9cc;
+    --border: #3f3560;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+  .logo { font-weight: 700; font-size: 1.25rem; color: var(--accent); }
+  nav a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; transition: color 0.2s; }
+  nav a:hover { color: var(--text); }
+  .hero { padding: 6rem 0 4rem; text-align: center; background: radial-gradient(circle at center, rgba(63, 53, 96, 0.4) 0%, transparent 70%); }
+  .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2.5rem; }
+  .btn { display: inline-block; background-color: var(--accent); color: #fff; font-weight: 600; padding: 0.85rem 2rem; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 20px var(--accent-glow); transition: transform 0.2s, opacity 0.2s; }
+  .btn:hover { transform: translateY(-2px); opacity: 0.95; }
+  .features { padding: 5rem 0; }
+  .section-title { text-align: center; font-size: 2.25rem; margin-bottom: 3rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+  .card { background-color: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: transform 0.2s, background-color 0.2s; }
+  .card:hover { transform: translateY(-4px); background-color: var(--surface-hover); }
+  .card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent); }
+  .card p { color: var(--text-muted); }
+  .pricing { padding: 5rem 0; background-color: rgba(0,0,0,0.15); }
+  .pricing-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 3rem; text-align: center; max-width: 500px; margin: 0 auto; }
+  .price { font-size: 3rem; font-weight: 800; color: var(--accent); margin: 1rem 0 2rem; }
+  .contact { padding: 5rem 0; text-align: center; }
+  .contact p { color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem; }
+  footer { text-align: center; padding: 3rem 0; color: var(--text-muted); border-top: 1px solid var(--border); font-size: 0.9rem; }
+  @media (max-width: 600px) {
+    header { flex-direction: column; gap: 1rem; text-align: center; }
+    nav a { margin: 0 0.75rem; }
+    .container { padding: 0 1.25rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">SunsetCraft</div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <h1>Build <span>Cozy</span> Spaces Online</h1>
+      <p>A beautifully minimal, fully responsive landing page template crafted for creators, makers, and dreamers.</p>
+      <a href="#pricing" class="btn">Get Started Today</a>
+    </section>
+    <section id="features" class="features">
+      <h2 class="section-title">Everything You Need</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Zero Bloat</h3>
+          <p>Single-file structure containing all inline CSS. Lightweight, incredibly fast, and simple to customize.</p>
+        </div>
+        <div class="card">
+          <h3>Responsive Design</h3>
+          <p>Looks stunning on mobile phones, tablets, and wide desktop screens out of the box.</p>
+        </div>
+        <div class="card">
+          <h3>Warm Palette</h3>
+          <p>Carefully curated twilight shades and deep indigo tones that feel relaxing and welcoming.</p>
+        </div>
+      </div>
+    </section>
+    <section id="pricing" class="pricing">
+      <h2 class="section-title">Simple Pricing</h2>
+      <div class="pricing-box">
+        <h3>Full Lifetime License</h3>
+        <div class="price">$3</div>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Instant download of the complete standalone HTML file. Use it on as many projects as you like.</p>
+        <a href="#" class="btn">Buy Template Now</a>
+      </div>
+    </section>
+    <section id="contact" class="contact">
+      <h2 class="section-title">Get in Touch</h2>
+      <p>Have questions or need help customizing your page? Reach out anytime.</p>
+      <a href="mailto:hello@example.com" class="btn">Send a Message</a>
+    </section>
+    <footer>
+      <p>&copy; 2025 SunsetCraft. Made with warmth and care.</p>
+    </footer>
+  </div>
+</body>
+</html>

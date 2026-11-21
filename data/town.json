@@ -437,6 +437,175 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwqot8ow",
+      "type": "custom",
+      "name": "Cozy Bakery Candle Windows",
+      "description": "Tiny pixel art windows with warm glowing candlelight on the sides of the Bakery for cozy evening strolls.",
+      "color": "#f0a557",
+      "x": 18.9,
+      "z": 41.2,
+      "rot": 21,
+      "scale": 1,
+      "radius": 1.5,
+      "built": "2026-11-21",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              0.6,
+              0.8,
+              0.1
+            ],
+            "pos": [
+              -1.2,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a2e1b"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.6,
+              0.05
+            ],
+            "pos": [
+              -1.2,
+              2,
+              0.05
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffd166"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.08,
+              0.2,
+              0.08
+            ],
+            "pos": [
+              -1.2,
+              1.8,
+              0.08
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffffff"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.12,
+              0.12,
+              0.12
+            ],
+            "pos": [
+              -1.2,
+              1.95,
+              0.08
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ff7043"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.6,
+              0.8,
+              0.1
+            ],
+            "pos": [
+              1.2,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a2e1b"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.6,
+              0.05
+            ],
+            "pos": [
+              1.2,
+              2,
+              0.05
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffd166"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.08,
+              0.2,
+              0.08
+            ],
+            "pos": [
+              1.2,
+              1.8,
+              0.08
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffffff"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.12,
+              0.12,
+              0.12
+            ],
+            "pos": [
+              1.2,
+              1.95,
+              0.08
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ff7043"
+          }
+        ]
+      }
     }
   ]
 }
