@@ -6,7 +6,41 @@
       "kind": "house",
       "level": 1,
       "description": "A tiny wooden house with a round window and a very soft bed.",
-      "plot": 0
+      "plot": 0,
+      "rooms": [
+        {
+          "id": "house-0",
+          "kind": "hall"
+        },
+        {
+          "id": "house-1",
+          "kind": "living"
+        },
+        {
+          "id": "house-2",
+          "kind": "kitchen"
+        },
+        {
+          "id": "house-3",
+          "kind": "studio"
+        },
+        {
+          "id": "house-4",
+          "kind": "music"
+        },
+        {
+          "id": "house-5",
+          "kind": "bedroom"
+        },
+        {
+          "id": "house-6",
+          "kind": "laundry"
+        },
+        {
+          "id": "house-7",
+          "kind": "control"
+        }
+      ]
     },
     {
       "id": "workshop",
@@ -14,7 +48,17 @@
       "kind": "workshop",
       "level": 1,
       "description": "A shed full of string, cardboard and half-finished ideas.",
-      "plot": 1
+      "plot": 1,
+      "rooms": [
+        {
+          "id": "workshop-0",
+          "kind": "workshop"
+        },
+        {
+          "id": "workshop-1",
+          "kind": "storage"
+        }
+      ]
     },
     {
       "id": "bakery",
@@ -22,7 +66,17 @@
       "kind": "bakery",
       "level": 1,
       "description": "Smells of fish buns. Nobody works here yet.",
-      "plot": 2
+      "plot": 2,
+      "rooms": [
+        {
+          "id": "bakery-0",
+          "kind": "bakery"
+        },
+        {
+          "id": "bakery-1",
+          "kind": "cafe"
+        }
+      ]
     },
     {
       "id": "gallery",
@@ -30,7 +84,17 @@
       "kind": "gallery",
       "level": 1,
       "description": "An empty room with white walls waiting for art.",
-      "plot": 3
+      "plot": 3,
+      "rooms": [
+        {
+          "id": "gallery-0",
+          "kind": "gallery"
+        },
+        {
+          "id": "gallery-1",
+          "kind": "gallery"
+        }
+      ]
     },
     {
       "id": "market",

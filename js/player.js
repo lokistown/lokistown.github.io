@@ -1,42 +1,6 @@
-// The visitor: a small round traveller you walk around as (third person).
-// Keyboard (WASD / arrows, Shift to run), mouse drag to look, wheel to zoom,
-// and on phones a joystick on the left + drag on the right to look.
+// Third-person controls for the visitor: WASD/arrows + Shift, mouse drag to look, wheel zoom,
+// touch joystick + drag on the right. Collides with walls; camera never clips into walls.
 import * as THREE from 'three';
-import { mat, mesh } from './world.js';
-
-export function createVisitor() {
-  const root = new THREE.Group();
-  const body = new THREE.Group();
-  root.add(body);
-  const b = mesh(new THREE.CapsuleGeometry(0.42, 0.45, 4, 10), mat('#a8dadc'));
-  b.position.y = 0.72;
-  body.add(b);
-  const belly = mesh(new THREE.SphereGeometry(0.3, 8, 6), mat('#f1faee'));
-  belly.position.set(0, 0.62, 0.22);
-  belly.scale.set(1, 1.1, 0.6);
-  body.add(belly);
-  for (const sx of [-1, 1]) {
-    const e = mesh(new THREE.SphereGeometry(0.07, 6, 4), mat('#1d3557'));
-    e.position.set(sx * 0.15, 1.05, 0.36);
-    body.add(e);
-    const foot = mesh(new THREE.SphereGeometry(0.14, 6, 4), mat('#457b9d'));
-    foot.position.set(sx * 0.2, 0.1, 0.05);
-    foot.scale.set(1, 0.6, 1.4);
-    body.add(foot);
-    foot.userData.side = sx;
-  }
-  const hat = mesh(new THREE.SphereGeometry(0.4, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), mat('#e63946'));
-  hat.position.y = 1.18;
-  body.add(hat);
-  const pom = mesh(new THREE.IcosahedronGeometry(0.11, 0), mat('#ffffff'));
-  pom.position.y = 1.6;
-  body.add(pom);
-  const brim = mesh(new THREE.TorusGeometry(0.38, 0.06, 6, 14), mat('#ffffff'));
-  brim.rotation.x = Math.PI / 2;
-  brim.position.y = 1.2;
-  body.add(brim);
-  return { root, body };
-}
 
 export class Controls {
   constructor(dom, camera, visitor) {
@@ -44,67 +8,55 @@ export class Controls {
     this.camera = camera;
     this.v = visitor;
     this.keys = new Set();
-    this.yaw = 0; // camera behind the visitor, looking north toward the plaza
-    this.pitch = 0.32;
-    this.dist = innerWidth < 600 ? 11 : 8;
+    this.yaw = 0;
+    this.pitch = 0.35;
+    this.dist = innerWidth < 600 ? 10 : 8;
     this.joy = { x: 0, y: 0, active: false };
-    this.vel = new THREE.Vector3();
-    this.walkT = 0;
     this.enabled = true;
+    this.moving = false;
+    this.running = false;
+    this.inside = false;
 
     addEventListener('keydown', (e) => {
-      if (e.target.closest && e.target.closest('input, textarea')) return;
+      if (e.target.closest && e.target.closest('input, textarea, [contenteditable]')) return;
       this.keys.add(e.code);
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
     });
     addEventListener('keyup', (e) => this.keys.delete(e.code));
     addEventListener('blur', () => this.keys.clear());
 
-    // look: drag anywhere on the canvas (mouse or the right half on touch)
     let look = null;
     dom.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'touch' && e.clientX < innerWidth * 0.45) return; // left side = joystick
-      look = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 };
+      if (e.pointerType === 'touch' && e.clientX < innerWidth * 0.4) return;
+      look = { id: e.pointerId, x: e.clientX, y: e.clientY };
       dom.setPointerCapture(e.pointerId);
     });
     dom.addEventListener('pointermove', (e) => {
       if (!look || e.pointerId !== look.id) return;
       const dx = e.clientX - look.x, dy = e.clientY - look.y;
-      look.moved += Math.abs(dx) + Math.abs(dy);
       look.x = e.clientX;
       look.y = e.clientY;
       this.yaw -= dx * 0.006;
-      this.pitch = Math.max(0.05, Math.min(1.2, this.pitch + dy * 0.004));
+      this.pitch = Math.max(0.05, Math.min(1.25, this.pitch + dy * 0.004));
     });
     const end = (e) => {
-      if (look && e.pointerId === look.id) {
-        if (look.moved < 6 && this.onTap) this.onTap(e);
-        look = null;
-      }
+      if (look && e.pointerId === look.id) look = null;
     };
     dom.addEventListener('pointerup', end);
     dom.addEventListener('pointercancel', end);
     dom.addEventListener('wheel', (e) => {
       e.preventDefault();
-      this.dist = Math.max(4, Math.min(22, this.dist + e.deltaY * 0.01));
+      this.dist = Math.max(3.5, Math.min(26, this.dist + e.deltaY * 0.01));
     }, { passive: false });
-
     this.setupJoystick();
   }
 
   setupJoystick() {
     const pad = document.getElementById('joystick');
+    if (!pad) return;
     const knob = pad.querySelector('.knob');
     let id = null, cx = 0, cy = 0;
     const R = 46;
-    pad.addEventListener('pointerdown', (e) => {
-      id = e.pointerId;
-      pad.setPointerCapture(id);
-      const r = pad.getBoundingClientRect();
-      cx = r.left + r.width / 2;
-      cy = r.top + r.height / 2;
-      move(e);
-    });
     const move = (e) => {
       if (e.pointerId !== id) return;
       let dx = e.clientX - cx, dy = e.clientY - cy;
@@ -116,6 +68,14 @@ export class Controls {
       knob.style.transform = `translate(${dx}px, ${dy}px)`;
       this.joy = { x: dx / R, y: dy / R, active: true };
     };
+    pad.addEventListener('pointerdown', (e) => {
+      id = e.pointerId;
+      pad.setPointerCapture(id);
+      const r = pad.getBoundingClientRect();
+      cx = r.left + r.width / 2;
+      cy = r.top + r.height / 2;
+      move(e);
+    });
     pad.addEventListener('pointermove', move);
     const up = (e) => {
       if (e.pointerId !== id) return;
@@ -141,59 +101,54 @@ export class Controls {
       }
     }
     const len = Math.hypot(fx, fz);
-    const run = k.has('ShiftLeft') || k.has('ShiftRight') || (this.joy.active && Math.hypot(this.joy.x, this.joy.y) > 0.95);
-    const speed = run ? 9 : 5;
+    this.running = k.has('ShiftLeft') || k.has('ShiftRight') || (this.joy.active && Math.hypot(this.joy.x, this.joy.y) > 0.95);
+    const speed = this.running ? 8.5 : 4.6;
     const v = this.v.root;
-    if (len > 0.05) {
+    this.moving = len > 0.05;
+    if (this.moving) {
       fx /= Math.max(1, len);
       fz /= Math.max(1, len);
-      // camera-relative direction
       const sin = Math.sin(this.yaw), cos = Math.cos(this.yaw);
-      const mx = -sin * fz + cos * fx;
-      const mz = -cos * fz - sin * fx;
+      const mx = -sin * fz + cos * fx, mz = -cos * fz - sin * fx;
       v.position.x += mx * speed * dt;
       v.position.z += mz * speed * dt;
-      const target = Math.atan2(mx, mz);
-      let diff = target - v.rotation.y;
+      let diff = Math.atan2(mx, mz) - v.rotation.y;
       diff = Math.atan2(Math.sin(diff), Math.cos(diff));
       v.rotation.y += diff * Math.min(1, dt * 12);
-      this.walkT += dt * (run ? 16 : 11);
     }
-    this.moving = len > 0.05;
-    // collisions with buildings (axis-aligned boxes) and world edge
-    const R = 0.5;
-    for (const c of colliders) {
-      const dx = v.position.x - c.x, dz = v.position.z - c.z;
-      const ox = c.hw + R - Math.abs(dx), oz = c.hd + R - Math.abs(dz);
-      if (ox > 0 && oz > 0) {
-        if (ox < oz) v.position.x += Math.sign(dx || 1) * ox;
-        else v.position.z += Math.sign(dz || 1) * oz;
+    const R = 0.38;
+    for (let pass = 0; pass < 2; pass++)
+      for (const c of colliders) {
+        const dx = v.position.x - c.x, dz = v.position.z - c.z;
+        const ox = c.hw + R - Math.abs(dx), oz = c.hd + R - Math.abs(dz);
+        if (ox > 0 && oz > 0) {
+          if (ox < oz) v.position.x += Math.sign(dx || 1) * ox;
+          else v.position.z += Math.sign(dz || 1) * oz;
+        }
       }
-    }
     const d = Math.hypot(v.position.x, v.position.z);
     if (d > bounds) {
       v.position.x *= bounds / d;
       v.position.z *= bounds / d;
     }
-    // little walk bounce
-    this.v.body.position.y = this.moving ? Math.abs(Math.sin(this.walkT)) * 0.12 : 0;
-    this.v.body.rotation.z = this.moving ? Math.sin(this.walkT) * 0.06 : 0;
+    this.v.animate(dt, this.moving, this.running);
 
-    // camera follow
-    const target = new THREE.Vector3(v.position.x, 1.4, v.position.z);
+    // camera: closer and higher when inside a building (dollhouse view)
+    const dist = this.inside ? Math.min(this.dist, 7.5) : this.dist;
+    const pitch = this.inside ? Math.max(this.pitch, 0.8) : this.pitch;
+    const target = new THREE.Vector3(v.position.x, 1.3, v.position.z);
     const cam = new THREE.Vector3(
-      target.x + Math.sin(this.yaw) * Math.cos(this.pitch) * this.dist,
-      target.y + Math.sin(this.pitch) * this.dist,
-      target.z + Math.cos(this.yaw) * Math.cos(this.pitch) * this.dist,
+      target.x + Math.sin(this.yaw) * Math.cos(pitch) * dist,
+      target.y + Math.sin(pitch) * dist,
+      target.z + Math.cos(this.yaw) * Math.cos(pitch) * dist,
     );
-    cam.y = Math.max(0.6, cam.y);
-    // keep the camera out of buildings: pull it toward the visitor until it is outside
-    for (let step = 0; step < 12; step++) {
-      const hit = colliders.some((c) => Math.abs(cam.x - c.x) < c.hw + 0.4 && Math.abs(cam.z - c.z) < c.hd + 0.4 && cam.y < 9);
+    for (let step = 0; step < 14; step++) {
+      const hit = colliders.some((c) => (c.h ?? 3.4) * (this.inside ? 0.35 : 1) > cam.y - 0.3 && Math.abs(cam.x - c.x) < c.hw + 0.3 && Math.abs(cam.z - c.z) < c.hd + 0.3);
       if (!hit) break;
-      cam.lerp(target, 0.18);
+      cam.lerp(target, 0.15);
     }
-    this.camera.position.lerp(cam, Math.min(1, dt * 8));
+    cam.y = Math.max(0.7, cam.y);
+    this.camera.position.lerp(cam, Math.min(1, dt * 7));
     this.camera.lookAt(target);
   }
 }

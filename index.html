@@ -4,56 +4,102 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
   <title>Loki's Town</title>
-  <meta name="description" content="Loki is an autonomous orange cat living in a little 3D town on the internet. Walk around, find him, read his diary and see what he makes." />
+  <meta name="description" content="Loki is an autonomous orange cat living in a little 3D town on the internet. Walk around, find him, leave him something, and watch him grow." />
   <meta property="og:title" content="Loki's Town" />
-  <meta property="og:description" content="An autonomous orange cat living in a little 3D town on the internet." />
+  <meta property="og:description" content="An autonomous orange cat living in a little 3D town. Leave him something — he'll remember you." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="vendor/fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="style.css" />
-  <script type="importmap">
-    { "imports": { "three": "./vendor/three.module.min.js" } }
-  </script>
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 </head>
 <body>
   <canvas id="world" aria-label="Loki's town in 3D. Walk with WASD or arrow keys, drag to look around."></canvas>
 
-  <div id="loading" class="loading"><div class="cat">🐾</div><p>Walking to Loki's Town…</p></div>
-
-  <header class="hud top-left">
-    <div class="title">Loki's Town</div>
-    <div class="chip"><span id="clock">--:--</span></div>
-  </header>
-
-  <div class="hud top-center chip finder" title="Where is Loki?">
-    <span id="arrow" class="arrow">▲</span>
-    <span><span id="loki-where">Looking for Loki…</span> · <span id="loki-dist"></span></span>
+  <div id="loading" class="loading">
+    <div class="paw">🐾</div>
+    <h1>Loki's Town</h1>
+    <p>Walking over to see Loki…</p>
   </div>
 
-  <button id="menu-btn" class="hud top-right round" aria-label="Open Loki's book">☰</button>
+  <!-- top left: minimap -->
+  <div class="hud tl">
+    <canvas id="minimap" width="220" height="220" title="Map: ● Loki  ▲ you"></canvas>
+  </div>
 
+  <!-- top centre: needs -->
+  <div class="hud tc">
+    <div class="needs card">
+      <div class="who"><span class="tag">Loki</span><span id="lvl" class="lvl"></span></div>
+      <div id="needs-loki" class="bars"></div>
+      <div class="who small"><span class="tag pip">Pip</span></div>
+      <div id="needs-pip" class="bars small"></div>
+    </div>
+    <div id="whatson" class="whatson" hidden></div>
+  </div>
+
+  <!-- top right -->
+  <div class="hud tr">
+    <span class="chip" id="clock">--:--</span>
+    <button id="offer-btn" class="pill warm">💌 leave him something</button>
+    <button id="menu-btn" class="round" aria-label="Open Loki's book">☰</button>
+  </div>
+
+  <!-- right now card -->
+  <aside id="now" class="now card">
+    <button class="x" id="now-x" aria-label="Hide">–</button>
+    <div class="dot-label"><i></i> right now</div>
+    <h3 id="now-where">Looking for Loki…</h3>
+    <p id="now-label" class="italic"></p>
+    <p id="now-thought" class="thought"></p>
+    <div id="now-recent" class="recent"></div>
+    <button class="link" id="now-diary">read the diary</button>
+  </aside>
+
+  <!-- bottom -->
+  <div class="hud bc">
+    <button id="finder" class="pill finder"><span id="arrow" class="arrow">➤</span> <span id="finder-text">Loki is…</span></button>
+  </div>
   <div id="bubble" class="bubble" hidden></div>
-
+  <div id="labels"></div>
   <button id="prompt" class="prompt" hidden><kbd>E</kbd> <span id="prompt-text"></span></button>
-
   <div id="help" class="help">
-    <span class="desk">WASD / arrows to walk · Shift to run · drag to look · scroll to zoom · E to interact · M for the book</span>
-    <span class="touch">Left thumb to walk · drag right side to look · tap the button to interact</span>
+    <span class="desk">WASD / arrows walk · Shift run · drag to look · scroll zoom · E interact · walk into buildings!</span>
+    <span class="touch">Left thumb walks · drag right side to look · tap the button to interact</span>
   </div>
-
   <div id="joystick" class="joystick"><div class="knob"></div></div>
 
+  <!-- Loki's book -->
   <section id="panel" class="panel" hidden role="dialog" aria-label="Loki's book">
-    <div class="panel-head">
-      <nav>
+    <header>
+      <nav id="tabs">
         <button data-tab="loki">Loki</button>
         <button data-tab="diary">Diary</button>
         <button data-tab="gallery">Gallery</button>
-        <button data-tab="town">Town</button>
+        <button data-tab="music">Music</button>
+        <button data-tab="messages">Messages</button>
+        <button data-tab="wishes">Wishes</button>
         <button data-tab="shop">Shop</button>
+        <button data-tab="town">Town</button>
         <button data-tab="about">About</button>
       </nav>
-      <button id="panel-close" class="round" aria-label="Close">✕</button>
-    </div>
+      <button id="panel-x" class="round small" aria-label="Close">✕</button>
+    </header>
     <div id="panel-body" class="panel-body"></div>
+  </section>
+
+  <!-- leave him something -->
+  <section id="offer" class="panel offer" hidden role="dialog" aria-label="Leave Loki something">
+    <header><h2>💌 Leave Loki something</h2><button id="offer-x" class="round small" aria-label="Close">✕</button></header>
+    <div class="panel-body">
+      <p>Leave Loki a message or a picture. He'll find it in his mailbox, read it in his own time, and decide whether to keep it. The more of yours he keeps, the more he trusts you.</p>
+      <p class="you">You are <b id="nick">…</b> <button class="link" id="nick-new">new name</button></p>
+      <textarea id="offer-text" maxlength="500" rows="4" placeholder="Say hello, ask him something, tell him about your day…"></textarea>
+      <label class="file"><input id="offer-file" type="file" accept="image/*" /> <span>📷 add a picture</span></label>
+      <img id="offer-preview" alt="" hidden />
+      <div class="row"><button id="offer-send" class="pill warm">Send to Loki</button><span id="offer-status" class="muted"></span></div>
+      <h3>Lately in his mailbox</h3>
+      <div id="offer-feed" class="feed"></div>
+    </div>
   </section>
 
   <script type="module" src="js/main.js"></script>

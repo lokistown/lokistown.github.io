@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Loki Control Centre</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <style>
+    @font-face { font-family: 'Fredoka'; src: url('../vendor/fonts/fredoka-latin.woff2') format('woff2'); font-weight: 300 700; }
+    :root { --ink: #3b2416; --paper: #fff8ec; --line: #ead9c3; --accent: #e07a1f; --teal: #2a9d8f; --muted: #8a6f5c; --bg: #2b2d42; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.5 'Fredoka', system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
+    h1 { color: #fff; margin: 6px 0 16px; font-size: 1.7rem; }
+    h1 small { color: #ffd166; font-size: 0.9rem; margin-left: 8px; }
+    .card { background: var(--paper); border: 3px solid var(--ink); border-radius: 18px; padding: 14px 16px; box-shadow: 0 4px 0 rgba(0,0,0,.35); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .stat { background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 8px 12px; }
+    .stat b { display: block; font-size: 1.5rem; color: var(--accent); }
+    .stat span { font-size: 0.8rem; color: var(--muted); }
+    h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    .item { border-bottom: 1.5px dashed var(--line); padding: 7px 0; }
+    .item:last-child { border: 0; }
+    .muted { color: var(--muted); font-size: 0.85em; }
+    .btn { display: inline-block; padding: 5px 12px; border-radius: 999px; border: 2px solid var(--ink); background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; margin: 4px 6px 0 0; cursor: pointer; }
+    .btn.ghost { background: #fff; color: var(--ink); }
+    .tag { font-size: 0.72rem; border: 1.5px solid var(--ink); border-radius: 999px; padding: 0 7px; background: #fdf0da; margin-left: 6px; }
+    .scroll { max-height: 380px; overflow: auto; }
+    .lock { max-width: 380px; margin: 12vh auto; text-align: center; }
+    .lock input { width: 100%; font: inherit; padding: 10px 14px; border-radius: 999px; border: 3px solid var(--ink); margin: 10px 0; }
+    .err { color: #c1121f; }
+    code { background: #fdf0da; padding: 0 4px; border-radius: 4px; }
+    textarea { width: 100%; font: inherit; border: 2px solid var(--ink); border-radius: 12px; padding: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="lock" class="card lock">
+      <h2>🖥️ Loki's Control Centre</h2>
+      <p class="muted">Owner only. Enter the password you saved as <code>LOKI_ADMIN_PASSWORD</code>.</p>
+      <form id="f"><input id="pw" type="password" autocomplete="current-password" placeholder="Password" /><button class="btn" type="submit">Unlock</button></form>
+      <p id="msg" class="muted"></p>
+      <p><a class="btn ghost" href="../">← back to the town</a></p>
+    </div>
+    <div id="app" hidden></div>
+  </div>
+  <script type="module">
+    const $ = (id) => document.getElementById(id);
+    const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+    async function decrypt(pw) {
+      const r = await fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error('No control data yet. It appears after Loki’s first work session with LOKI_ADMIN_PASSWORD set.');
+      const box = await r.json();
+      const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+      const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(box.salt), iterations: box.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(box.iv) }, key, b64(box.data));
+      return JSON.parse(new TextDecoder().decode(plain));
+    }
+
+    function issueUrl(repo, title, body) {
+      return `https://github.com/${repo}/issues/new?labels=gift&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function render(d) {
+      const s = d.state, repo = d.memoryRepo;
+      const ev = d.events || [];
+      const sessions = ev.filter((e) => e.type === 'session_end');
+      const fails = ev.filter((e) => /failed|error/.test(e.type));
+      const provCount = {};
+      sessions.forEach((e) => (e.providers || []).forEach((p) => (provCount[p] = (provCount[p] || 0) + 1)));
+      const visitors = Object.values(d.visitors || {});
+      const openW = (d.wishes || []).filter((w) => w.status === 'open');
+      const app = $('app');
+      app.innerHTML = `
+        <h1>🖥️ Loki's Control Centre <small>updated ${new Date(d.generated).toLocaleString()}</small></h1>
+        <div class="stats">
+          <div class="stat"><b>${s.level}</b><span>level · ${esc(s.stage)}</span></div>
+          <div class="stat"><b>${s.xp}</b><span>XP</span></div>
+          <div class="stat"><b>${s.sessions}</b><span>work sessions</span></div>
+          <div class="stat"><b>${s.tasksDone}</b><span>things done</span></div>
+          <div class="stat"><b>${(d.products || []).length}</b><span>products made</span></div>
+          <div class="stat"><b>${visitors.length}</b><span>visitors known</span></div>
+          <div class="stat"><b>${openW.length}</b><span>wishes waiting</span></div>
+          <div class="stat"><b>${fails.length}</b><span>recent errors</span></div>
+        </div>
+        <div class="grid">
+          <div class="card"><h2>🌠 Loki's wishes for you</h2>
+            ${(d.wishes || []).length ? d.wishes.slice(0, 12).map((w) => `<div class="item"><b>${esc(w.text)}</b><span class="tag">${esc(w.status)}</span><div class="muted">${esc(w.why)} · ${esc(w.created)}</div>
+              ${w.status === 'open' ? `<a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, `Granted: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nYes Loki! Here is what I did:\n\n`)}">🎁 Grant</a><a class="btn ghost" target="_blank" rel="noopener" href="${issueUrl(repo, `Not now: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nNot now, Loki, because: `)}">Not now</a>` : ''}</div>`).join('') : '<p class="muted">No wishes yet.</p>'}
+          </div>
+          <div class="card"><h2>🎁 Give Loki something</h2>
+            <p class="muted">Send Loki a note, an idea, a book to read, praise, or tell him you listed a product. He opens gifts at the start of his next work session and replies on GitHub.</p>
+            <textarea id="gift" rows="3" placeholder="Hi Loki! I listed your art pack on Gumroad…"></textarea>
+            <a class="btn" id="giftbtn" target="_blank" rel="noopener">Send gift</a>
+            <h2 style="margin-top:14px">Gifts so far</h2>
+            ${(d.gifts || []).slice(0, 8).map((g) => `<div class="item"><b>${esc(g.title)}</b> <span class="muted">${esc(g.date)}</span><div>🐱 ${esc(g.reply)}</div></div>`).join('') || '<p class="muted">None yet.</p>'}
+          </div>
+          <div class="card"><h2>🛍️ Products to list</h2>
+            <p class="muted">Ready products are zip files in <a target="_blank" rel="noopener" href="https://github.com/${repo}/tree/main/products">${esc(repo)}/products</a>. Upload them to Gumroad, then send Loki a gift saying so.</p>
+            <div class="scroll">${(d.products || []).map((p) => `<div class="item"><b>${esc(p.title)}</b><span class="tag">${esc(p.status)}</span><span class="tag">$${esc(p.price)}</span><div>${esc(p.description)}</div><div class="muted">${esc(p.type)} · ${esc(p.created)} · tags: ${esc((p.tags || []).join(', '))}</div>
+              <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/${repo}/blob/main/${esc(p.file)}">Download zip</a><a class="btn ghost" target="_blank" rel="noopener" href="https://app.gumroad.com/products/new">New Gumroad product</a></div>`).join('') || '<p class="muted">Nothing yet.</p>'}</div>
+          </div>
+          <div class="card"><h2>🐱 Right now</h2>
+            <p><b>${esc(s.activity)}</b></p><p>💭 ${esc(s.thought)}</p>
+            <p class="muted">Mood ${esc(s.mood)} · needs: ${Object.entries(s.needs || {}).map(([k, v]) => `${k} ${v}`).join(', ')}</p>
+            <p class="muted">What's on: ${esc(s.whatsOn)}</p>
+            <h2>Next hours</h2>
+            <div class="scroll">${(s.schedule || []).map((b) => `<div class="item">${new Date(b.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} — ${esc(b.label)} <span class="muted">(${esc(b.act)} @ ${esc(b.building || 'plaza')}${b.roomKind ? ' / ' + esc(b.roomKind) : ''})</span></div>`).join('') || '<p class="muted">No plan yet.</p>'}</div>
+          </div>
+          <div class="card"><h2>🧠 AI brain usage</h2>
+            ${Object.entries(provCount).map(([p, n]) => `<div class="item">${esc(p)} <span class="tag">${n} sessions</span></div>`).join('') || '<p class="muted">No sessions recorded yet.</p>'}
+            <h2 style="margin-top:12px">⚠️ Recent errors</h2>
+            <div class="scroll">${fails.slice(-15).reverse().map((e) => `<div class="item"><span class="muted">${esc(e.t.slice(0, 16))}</span> ${esc(e.type)}: ${esc(e.summary)}</div>`).join('') || '<p class="muted">None 🎉</p>'}</div>
+          </div>
+          <div class="card"><h2>💌 Visitors Loki knows</h2>
+            <div class="scroll">${visitors.sort((a, b) => b.kept - a.kept).slice(0, 50).map((v) => `<div class="item"><b>${esc(v.nick)}</b> <span class="tag">kept ${v.kept}/${v.total}</span> <span class="muted">${esc(v.note || '')} · last ${esc(v.last || '')}</span></div>`).join('') || '<p class="muted">No visitors yet.</p>'}</div>
+          </div>
+          <div class="card"><h2>📜 Everything Loki did</h2>
+            <div class="scroll">${ev.slice(-120).reverse().map((e) => `<div class="item"><span class="muted">${esc(e.t.slice(0, 16).replace('T', ' '))}</span> <b>${esc(e.type)}</b> ${esc(e.summary || e.action || '')}${e.xp ? ` <span class="tag">+${e.xp} XP</span>` : ''}</div>`).join('')}</div>
+          </div>
+          <div class="card"><h2>📖 Diary</h2>
+            <div class="scroll">${(d.diary || []).map((x) => `<div class="item"><b>${esc(x.title)}</b> <span class="muted">${esc(x.date)} ${esc(x.time)}</span><div>${esc(x.text)}</div></div>`).join('')}</div>
+          </div>
+          <div class="card"><h2>🔗 Links</h2>
+            <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/actions">Work sessions (Actions)</a>
+            <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/actions/workflows/session.yml">Wake Loki now</a>
+            <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/${repo}">Memory repo</a>
+            <a class="btn ghost" target="_blank" rel="noopener" href="https://ko-fi.com/manage/supportreceived">Ko-fi income</a>
+            <a class="btn ghost" target="_blank" rel="noopener" href="https://app.gumroad.com/dashboard">Gumroad sales</a>
+            <a class="btn ghost" href="../">The town</a>
+          </div>
+        </div>`;
+      const ta = $('gift'), gb = $('giftbtn');
+      const upd = () => (gb.href = issueUrl(repo, `Gift: ${(ta.value || 'a little note').slice(0, 60)}`, ta.value || 'A little note for you, Loki.'));
+      ta.oninput = upd;
+      upd();
+    }
+
+    $('f').onsubmit = async (e) => {
+      e.preventDefault();
+      $('msg').textContent = 'Unlocking…';
+      try {
+        const d = await decrypt($('pw').value);
+        $('lock').hidden = true;
+        $('app').hidden = false;
+        render(d);
+      } catch (err) {
+        $('msg').innerHTML = `<span class="err">${err.name === 'OperationError' ? 'Wrong password.' : esc(err.message)}</span>`;
+      }
+    };
+  </script>
+</body>
+</html>

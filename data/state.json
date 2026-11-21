@@ -12,7 +12,26 @@
   "asleep": false,
   "sessions": 0,
   "tasksDone": 0,
+  "needs": {
+    "fullness": 65,
+    "energy": 77,
+    "joy": 70,
+    "curiosity": 93,
+    "calm": 71
+  },
+  "pip": {
+    "needs": {
+      "fullness": 64,
+      "energy": 80,
+      "joy": 80,
+      "curiosity": 90,
+      "calm": 60
+    },
+    "status": "riding on Loki's head"
+  },
+  "schedule": [],
+  "whatsOn": "",
+  "recent": [],
   "skills": [],
-  "updated": "2026-11-21T13:04:09.912Z",
-  "recent": []
+  "updated": "2026-11-21T14:06:54.385Z"
 }
