@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { toon, block, part, shade, signBoard, paperTexture } from './toon.js';
 import { PLOT, ROAD } from './layout.js';
 import { tree, bulbs } from './buildings.js';
+import { flower } from './rooms.js';
 
 export function rng(seed) {
   let h = 2166136261;
@@ -16,8 +17,8 @@ export function rng(seed) {
   };
 }
 
-export function createLand(scene) {
-  const size = PLOT * 18;
+export function createLand(scene, maxRing = 1) {
+  const size = PLOT * (maxRing * 2 + 14);
   const geo = new THREE.PlaneGeometry(size, size, 90, 90);
   const pos = geo.attributes.position;
   const colors = [];
@@ -25,7 +26,7 @@ export function createLand(scene) {
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i), y = pos.getY(i);
     const d = Math.hypot(x, y);
-    const edge = PLOT * 4.2;
+    const edge = PLOT * (maxRing + 2.2);
     let h = 0;
     if (d > edge) h = (d - edge) * 0.12 + Math.sin(x * 0.03) * Math.cos(y * 0.035) * 6 * Math.min(1, (d - edge) / 40);
     pos.setZ(i, h);
@@ -44,19 +45,21 @@ export function createLand(scene) {
   const g = new THREE.Group();
   for (let k = 0; k < 220; k++) {
     const a = r() * Math.PI * 2;
-    const d = PLOT * (4.4 + r() * 3.2);
+    const d = PLOT * (maxRing + 2.4 + r() * 3);
     const t = tree(1.1 + r() * 1.3, r());
-    const hgt = d > PLOT * 4.2 ? (d - PLOT * 4.2) * 0.12 : 0;
+    const hgt = d > PLOT * (maxRing + 2.2) ? (d - PLOT * (maxRing + 2.2)) * 0.12 : 0;
     t.position.set(Math.cos(a) * d, hgt - 0.2, Math.sin(a) * d);
     t.rotation.y = r() * 6;
     g.add(t);
   }
   for (let k = 0; k < 40; k++) {
-    const a = r() * Math.PI * 2, d = PLOT * (3.9 + r() * 1.2);
+    const a = r() * Math.PI * 2, d = PLOT * (maxRing + 1.8 + r() * 1.2);
     const rock = part(new THREE.DodecahedronGeometry(0.6 + r() * 0.9, 0), '#b8b2a7', { x: Math.cos(a) * d, y: 0.3, z: Math.sin(a) * d, ink: 0.04 });
     rock.scale.y = 0.6;
     g.add(rock);
   }
+  g.name = 'land';
+  ground.name = 'land';
   scene.add(g);
 }
 
@@ -121,14 +124,18 @@ export function createPlaza(group, { diary, whatsOn }) {
     const x = Math.cos(a) * 4.2, z = Math.sin(a) * 4.2;
     if (k === 3) continue; // north side holds the boards
     group.add(part(new THREE.CylinderGeometry(0.9, 0.8, 0.6, 12), '#c96f4a', { x, y: 0.3, z }));
-    for (let f = 0; f < 6; f++) group.add(part(new THREE.SphereGeometry(0.18, 8, 6), ['#ef476f', '#ffd166', '#c77dff'][f % 3], { x: x + Math.cos(f) * 0.5, y: 0.72, z: z + Math.sin(f) * 0.5, ink: 0.01 }));
+    for (let f = 0; f < 9; f++) {
+      const fl = flower(['#ef476f', '#ffd166', '#c77dff'][f % 3], 0.32);
+      fl.position.set(x + Math.cos(f * 0.7) * (0.25 + (f % 3) * 0.2), 0.58, z + Math.sin(f * 0.7) * (0.25 + (f % 3) * 0.2));
+      group.add(fl);
+    }
     colliders.push({ x, z, hw: 0.9, hd: 0.9, h: 1 });
   }
   // diary board (north)
   const board = new THREE.Group();
   const tex = paperTexture(diary ? diary.title : "Loki's diary", diary ? diary.text : 'Nothing written yet.', { w: 900, h: 620 });
   const paper = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 2.6), new THREE.MeshBasicMaterial({ map: tex }));
-  paper.position.set(0, 2.2, 0.1);
+  paper.position.set(0, 2.2, 0.125);
   board.add(block(4.2, 3, 0.2, '#7a4a2a', 0, 2.2, 0), paper);
   board.add(block(0.22, 2.6, 0.22, '#5b3a29', -1.9, 1.0, 0), block(0.22, 2.6, 0.22, '#5b3a29', 1.9, 1.0, 0));
   board.add(block(4.7, 0.25, 0.9, '#b5523b', 0, 3.85, 0.1));
@@ -195,7 +202,11 @@ export function decorate(group, usedPlots, maxRing, plotInfoFn) {
       bush.scale.y = 0.7;
       group.add(bush);
     }
-    for (let k = 0; k < 30; k++) group.add(part(new THREE.SphereGeometry(0.09, 6, 4), ['#ef476f', '#ffd166', '#f8f9fa', '#c77dff'][k % 4], { x: info.x + (r() - 0.5) * 22, y: 0.12, z: info.z + (r() - 0.5) * 22, ink: 0, shadow: false }));
+    for (let k = 0; k < 24; k++) {
+      const fl = flower(['#ef476f', '#ffd166', '#f8f9fa', '#c77dff'][k % 4], 0.28);
+      fl.position.set(info.x + (r() - 0.5) * 22, 0, info.z + (r() - 0.5) * 22);
+      group.add(fl);
+    }
     const s = signBoard('Free plot · Loki may build here', 4.2, { icon: '🪧', color: '#8d6e4e' });
     const sp = new THREE.Group();
     sp.add(s, block(0.15, 1.4, 0.15, '#6b4226', -1.6, -0.9, -0.05), block(0.15, 1.4, 0.15, '#6b4226', 1.6, -0.9, -0.05));

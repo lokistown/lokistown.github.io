@@ -41,6 +41,7 @@
   <div class="hud tr">
     <span class="chip" id="clock">--:--</span>
     <button id="offer-btn" class="pill warm">💌 leave him something</button>
+    <button id="fly-btn" class="pill">🕊️ Fly</button>
     <button id="menu-btn" class="round" aria-label="Open Loki's book">☰</button>
   </div>
 
@@ -63,10 +64,16 @@
   <div id="labels"></div>
   <button id="prompt" class="prompt" hidden><kbd>E</kbd> <span id="prompt-text"></span></button>
   <div id="help" class="help">
-    <span class="desk">WASD / arrows walk · Shift run · drag to look · scroll zoom · E interact · walk into buildings!</span>
+    <span class="desk">WASD walk · Shift run · Space hop · drag to look · scroll zoom · E interact · F fly · Tab or click map for the big map</span>
     <span class="touch">Left thumb walks · drag right side to look · tap the button to interact</span>
   </div>
   <div id="joystick" class="joystick"><div class="knob"></div></div>
+
+  <!-- big map -->
+  <section id="bigmap" class="panel bigmap" hidden role="dialog" aria-label="Map of Loki's Town">
+    <header><h2>🗺️ Loki's Town</h2><button id="map-x" class="round small" aria-label="Close">✕</button></header>
+    <div class="map-body"><canvas id="map-canvas"></canvas><div id="map-side" class="map-side"></div></div>
+  </section>
 
   <!-- Loki's book -->
   <section id="panel" class="panel" hidden role="dialog" aria-label="Loki's book">

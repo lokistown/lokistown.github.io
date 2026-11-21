@@ -1,7 +1,8 @@
 // Loki's Town — a walkable 3D world built from Loki's own memory.
 import * as THREE from 'three';
 import { fontsReady, toon, part } from './toon.js';
-import { PLOT, plotInfo, ensurePlots, roomsOf, ROOM_INFO } from './layout.js';
+import { PLOT, plotInfo, ensurePlots, roomsOf, ROOM_INFO, FLOOR_Y, layoutBuilding, toWorld, WALL_H } from './layout.js';
+import { buildProp, mural } from './props.js';
 import { buildBuilding, glass, bulbs } from './buildings.js';
 import { createLand, createRoads, createPlaza, decorate, rng } from './world.js';
 import { NavGrid } from './nav.js';
@@ -70,7 +71,7 @@ const clouds = new THREE.Group();
   }
 }
 scene.add(clouds);
-createLand(scene);
+let landRing = -1;
 
 // ---------- state ----------
 let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], config: {} };
@@ -127,11 +128,88 @@ function buildTown() {
     }
   }
   jets = ctx.jets;
+  // ---- things Loki added: props, statues, plants, custom designs, murals ----
+  newMarkers = [];
+  for (const p of town.props || []) {
+    try {
+      if (p.type === 'mural') {
+        const bb = built.find((x) => x.b.id === p.building && x.footprint);
+        if (!bb) continue;
+        const lay = layoutBuilding(bb.b);
+        const info = plotInfo(bb.b.plot);
+        const side = p.side === 'left' ? -1 : 1;
+        const size = Math.min(lay.D - 1, 3.2);
+        const m = mural(p.file, size);
+        const at = toWorld(info, side * (lay.W / 2 + 0.17), p.offset ? Number(p.offset) : 0);
+        m.position.set(at.x, 0.33 + WALL_H / 2 + 0.1, at.z);
+        m.rotation.y = info.rot + (side > 0 ? Math.PI / 2 : -Math.PI / 2);
+        townGroup.add(m);
+        if (isNew(p.built)) newMarkers.push(label('✨ NEW mural', at.x, 4.6, at.z));
+        continue;
+      }
+      const r = buildProp(p);
+      townGroup.add(r.group);
+      const hw = r.box ? r.box.w / 2 : r.radius * 0.7, hd = r.box ? r.box.d / 2 : r.radius * 0.7;
+      colliders.push({ x: r.group.position.x, z: r.group.position.z, hw, hd, h: 2 });
+      places.push({ id: `prop:${p.id}`, building: p.id, act: p.type === 'bench' ? 'sit' : 'admire', label: p.type === 'bench' ? `sitting on his ${p.name || 'bench'}` : `admiring his ${p.name || p.type}`, where: p.name || p.type, x: r.group.position.x + r.radius + 0.6, z: r.group.position.z, face: -Math.PI / 2, inside: false });
+      items.push({ type: 'prop', x: r.group.position.x, z: r.group.position.z, r: r.radius + 2, label: `🔎 ${p.name || p.type}`, data: p });
+      if (isNew(p.built)) newMarkers.push(label(`✨ NEW: ${p.name || p.type}`, r.group.position.x, 3.2 + r.radius, r.group.position.z));
+    } catch (e) {
+      console.warn('prop failed', p, e);
+    }
+  }
+  for (const bb of built) {
+    if (isNew(bb.b.built)) newMarkers.push(label(`✨ NEW: ${bb.b.name}`, bb.door.x, 6.5, bb.door.z));
+    for (const r of bb.b.rooms || []) if (r.built && isNew(r.built)) newMarkers.push(label(`✨ new room: ${r.name || r.kind}`, bb.door.x, 5.6, bb.door.z));
+  }
+  newMarkers.forEach((m) => townGroup.add(m));
   colliders.push(...decorate(townGroup, new Set(town.buildings.map((b) => b.plot)), maxRing, plotInfo));
+  if (maxRing !== landRing) {
+    scene.children.filter((o) => o.name === 'land').forEach((o) => scene.remove(o));
+    createLand(scene, maxRing);
+    landRing = maxRing;
+  }
   scene.add(townGroup);
   nav = new NavGrid(bounds + 4, 0.5);
   for (const c of colliders) nav.addBox(c, 0.35);
-  life.setWorld(places, nav);
+  life.setWorld(places, nav, floorAt);
+}
+
+let newMarkers = [];
+function isNew(date) {
+  return !!date && Date.now() - new Date(date).getTime() < 3 * 86400000;
+}
+function label(text, x, y, z) {
+  const c = document.createElement('canvas');
+  c.width = 512;
+  c.height = 96;
+  const g = c.getContext('2d');
+  g.font = "700 46px 'Fredoka', sans-serif";
+  const w = Math.min(500, g.measureText(text).width + 40);
+  g.fillStyle = '#ffd166';
+  g.strokeStyle = '#2b1a10';
+  g.lineWidth = 6;
+  g.beginPath();
+  g.roundRect((512 - w) / 2, 10, w, 76, 30);
+  g.fill();
+  g.stroke();
+  g.fillStyle = '#2b1a10';
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.fillText(text, 256, 50);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  sp.scale.set(4, 0.75, 1);
+  sp.position.set(x, y, z);
+  sp.userData.bob = y;
+  return sp;
+}
+// Floor height: building floors are raised a little above the ground.
+function floorAt(x, z) {
+  for (const bb of built) {
+    const f = bb.footprint;
+    if (f && Math.abs(x - f.x) < f.hw && Math.abs(z - f.z) < f.hd) return FLOOR_Y;
+  }
+  return 0;
 }
 
 async function load(first) {
@@ -166,7 +244,7 @@ visitor.root.position.set(0, 0, 6);
 visitor.root.rotation.y = Math.PI;
 scene.add(visitor.root);
 const controls = new Controls(canvas, camera, visitor);
-window.__loki = { visitor, loki, life, controls, camera, get built() { return built; }, get places() { return places; } };
+window.__loki = { visitor, loki, life, controls, camera, get built() { return built; }, get places() { return places; }, openMap: () => openMap() };
 
 // ---------- time of day ----------
 const C = (h) => new THREE.Color(h);
@@ -353,6 +431,7 @@ function interact(it) {
   else if (it.type === 'offer') openOffer();
   else if (it.type === 'control') location.href = 'control/';
   else if (it.type === 'building') openPanel('place', it.data);
+  else if (it.type === 'prop') openPanel('place', { name: it.data.name || it.data.type, description: it.data.description || '', level: '—', built: it.data.built, kind: 'park' });
 }
 $('prompt').addEventListener('click', () => interact(nearest));
 addEventListener('keydown', (e) => {
@@ -380,6 +459,156 @@ function closeAll() {
   closeOffer();
 }
 $('panel-x').onclick = closeAll;
+function toggleFly() {
+  const on = !controls.fly;
+  controls.setFly(on);
+  $('fly-btn').classList.toggle('on', on);
+  $('fly-btn').textContent = on ? '🚶 Walk' : '🕊️ Fly';
+  $('help').classList.remove('fade');
+  $('help').innerHTML = on ? '<span>Flying: WASD move · E/Space up · Q down · drag to look · Shift fast · F to land</span>' : '<span>Walking again!</span>';
+  setTimeout(() => $('help').classList.add('fade'), 5000);
+}
+$('fly-btn').onclick = toggleFly;
+$('minimap').onclick = () => openMap();
+$('map-x').onclick = () => ($('bigmap').hidden = true);
+addEventListener('keydown', (e) => {
+  if (e.target.closest && e.target.closest('input, textarea')) return;
+  if (e.code === 'KeyF') toggleFly();
+  if (e.code === 'Tab') {
+    e.preventDefault();
+    $('bigmap').hidden ? openMap() : ($('bigmap').hidden = true);
+  }
+});
+
+// ---------- big map ----------
+let mapHits = [];
+function openMap() {
+  $('bigmap').hidden = false;
+  drawBigMap();
+  renderMapSide();
+}
+function renderMapSide() {
+  const s = D.state || {};
+  const added = [];
+  for (const b of D.town.buildings) {
+    if (b.built) added.push({ date: b.built, text: `🏠 ${b.name}` });
+    for (const r of b.rooms || []) if (r.built) added.push({ date: r.built, text: `🚪 ${r.name || ROOM_INFO[r.kind]?.name || r.kind} in ${b.name}` });
+  }
+  for (const p of D.town.props || []) added.push({ date: p.built, text: `${p.type === 'mural' ? '🎨' : '⭐'} ${p.name || p.type}` });
+  added.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const orig = D.town.buildings.filter((b) => !b.built).map((b) => b.name);
+  const ideas = s.ideas || [];
+  $('map-side').innerHTML = `
+    <h3>💡 Loki is planning</h3>${ideas.length ? `<ul>${ideas.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="muted">No plans shared yet.</p>'}
+    <h3>✨ Added by Loki</h3>${added.length ? `<ul>${added.slice(0, 30).map((a) => `<li>${esc(a.text)} <span class="muted">${esc(a.date || '')}</span>${isNew(a.date) ? ' <b class="newtag">NEW</b>' : ''}</li>`).join('')}</ul>` : '<p class="muted">Nothing yet — give him time!</p>'}
+    <h3>🏡 The original town</h3><p class="muted">${orig.map(esc).join(', ')} and the plaza.</p>
+    <p class="muted">Click a building on the map to walk there.</p>`;
+}
+function esc(x) {
+  return String(x ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+function drawBigMap() {
+  const cv = $('map-canvas');
+  const box = cv.getBoundingClientRect();
+  const dpr = Math.min(2, devicePixelRatio);
+  cv.width = box.width * dpr;
+  cv.height = box.height * dpr;
+  const g = cv.getContext('2d');
+  g.scale(dpr, dpr);
+  const W = box.width, H = box.height;
+  const extent = bounds + 8;
+  const sc = Math.min(W, H) / (extent * 2);
+  const X = (x) => W / 2 + x * sc, Z = (z) => H / 2 + z * sc;
+  g.fillStyle = '#b7e3a0';
+  g.fillRect(0, 0, W, H);
+  // roads
+  const maxRing = Math.round(bounds / PLOT - 1.2);
+  g.strokeStyle = '#e8cf9d';
+  g.lineWidth = Math.max(2, 3.6 * sc);
+  for (let k = -maxRing; k <= maxRing + 1; k++) {
+    const c = (k - 0.5) * PLOT, e = (maxRing + 0.5) * PLOT;
+    g.beginPath();
+    g.moveTo(X(c), Z(-e));
+    g.lineTo(X(c), Z(e));
+    g.moveTo(X(-e), Z(c));
+    g.lineTo(X(e), Z(c));
+    g.stroke();
+  }
+  g.fillStyle = '#ecdcbc';
+  g.beginPath();
+  g.arc(X(0), Z(0), 10 * sc, 0, Math.PI * 2);
+  g.fill();
+  mapHits = [];
+  g.font = `600 ${Math.max(10, Math.min(14, 3 * sc))}px Fredoka, sans-serif`;
+  g.textAlign = 'center';
+  for (const bb of built) {
+    const b = bb.b;
+    const color = b.built ? (isNew(b.built) ? '#e63946' : '#f28c28') : '#a1887f';
+    g.fillStyle = color;
+    g.strokeStyle = '#2b1a10';
+    g.lineWidth = 2;
+    let hx, hz, hr;
+    if (bb.footprint) {
+      const f = bb.footprint;
+      g.fillRect(X(f.x - f.hw), Z(f.z - f.hd), f.hw * 2 * sc, f.hd * 2 * sc);
+      g.strokeRect(X(f.x - f.hw), Z(f.z - f.hd), f.hw * 2 * sc, f.hd * 2 * sc);
+      hx = f.x; hz = f.z; hr = Math.max(f.hw, f.hd);
+    } else {
+      const i = plotInfo(b.plot);
+      g.beginPath();
+      g.arc(X(i.x), Z(i.z), 6 * sc, 0, Math.PI * 2);
+      g.fill();
+      g.stroke();
+      hx = i.x; hz = i.z; hr = 7;
+    }
+    g.fillStyle = '#2b1a10';
+    g.fillText(b.name, X(hx), Z(hz) + 4);
+    mapHits.push({ x: hx, z: hz, r: hr, door: bb.door, name: b.name });
+  }
+  for (const p of D.town.props || []) {
+    if (p.type === 'mural') continue;
+    g.fillStyle = isNew(p.built) ? '#e63946' : '#8e7cc3';
+    g.beginPath();
+    g.arc(X(p.x), Z(p.z), Math.max(3, 1.2 * sc), 0, Math.PI * 2);
+    g.fill();
+  }
+  const l = loki.root.position, v = visitor.root.position;
+  g.fillStyle = '#f28c28';
+  g.strokeStyle = '#2b1a10';
+  g.lineWidth = 3;
+  g.beginPath();
+  g.arc(X(l.x), Z(l.z), 9, 0, Math.PI * 2);
+  g.fill();
+  g.stroke();
+  g.font = '14px sans-serif';
+  g.fillText('🐱', X(l.x), Z(l.z) - 12);
+  g.fillStyle = '#3d3a6b';
+  g.beginPath();
+  g.arc(X(v.x), Z(v.z), 7, 0, Math.PI * 2);
+  g.fill();
+  g.fillStyle = '#2b1a10';
+  g.font = '600 12px Fredoka, sans-serif';
+  g.fillText('you', X(v.x), Z(v.z) + 20);
+  // legend
+  const leg = [['#a1887f', 'original'], ['#f28c28', 'built by Loki'], ['#e63946', 'new!'], ['#8e7cc3', 'decorations']];
+  g.textAlign = 'left';
+  leg.forEach(([c, t], i) => {
+    g.fillStyle = c;
+    g.fillRect(12, 12 + i * 20, 14, 14);
+    g.fillStyle = '#2b1a10';
+    g.fillText(t, 32, 24 + i * 20);
+  });
+  cv.onclick = (e) => {
+    const r = cv.getBoundingClientRect();
+    const wx = (e.clientX - r.left - W / 2) / sc, wz = (e.clientY - r.top - H / 2) / sc;
+    const hit = mapHits.find((h) => Math.hypot(h.x - wx, h.z - wz) < h.r + 2);
+    if (hit && hit.door) {
+      if (controls.fly) toggleFly();
+      visitor.root.position.set(hit.door.x, 0, hit.door.z);
+      $('bigmap').hidden = true;
+    }
+  };
+}
 $('menu-btn').onclick = () => (panelOpen ? closeAll() : openPanel('loki'));
 $('now-diary').onclick = () => openPanel('diary');
 $('now-x').onclick = () => $('now').classList.toggle('min');
@@ -598,7 +827,8 @@ function frame(forcedDt) {
     for (const tk of bb.ticks) tk.fn(t, activeRoom === tk.roomId && !life.moving);
   }
   controls.inside = inside;
-  controls.update(dt, colliders, bounds);
+  controls.update(dt, colliders, bounds, floorAt);
+  newMarkers.forEach((m, i) => (m.position.y = m.userData.bob + Math.sin(t * 2 + i) * 0.15));
   life.update(dt, t, visitor.root.position);
   for (const p of smoke) {
     const k = (t * 0.22 + p.userData.phase) % 1;
@@ -606,7 +836,7 @@ function frame(forcedDt) {
     p.scale.setScalar(0.5 + k * 1.6);
     p.material.opacity = 0.65 * (1 - k);
   }
-  for (const j of jets) j.position.y = 0.75 + Math.sin(t * 3) * 0.03;
+  for (const j of jets) j.rotation.y = t * 0.15;
   clouds.children.forEach((c) => {
     c.position.x += c.userData.speed * dt;
     if (c.position.x > 230) c.position.x = -230;

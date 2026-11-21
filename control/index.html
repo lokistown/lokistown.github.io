@@ -104,6 +104,19 @@
             <div class="scroll">${(d.products || []).map((p) => `<div class="item"><b>${esc(p.title)}</b><span class="tag">${esc(p.status)}</span><span class="tag">$${esc(p.price)}</span><div>${esc(p.description)}</div><div class="muted">${esc(p.type)} · ${esc(p.created)} · tags: ${esc((p.tags || []).join(', '))}</div>
               <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/${repo}/blob/main/${esc(p.file)}">Download zip</a><a class="btn ghost" target="_blank" rel="noopener" href="https://app.gumroad.com/products/new">New Gumroad product</a></div>`).join('') || '<p class="muted">Nothing yet.</p>'}</div>
           </div>
+          <div class="card"><h2>👛 Loki's wallet</h2>
+            ${(() => { const L = d.ledger || []; const tot = {}; L.forEach((e) => (tot[e.currency] = (tot[e.currency] || 0) + e.amount)); return `<p style="font-size:1.4rem;margin:4px 0"><b>${Object.entries(tot).map(([c, v]) => `${c === 'USD' ? '$' : c === 'EUR' ? '€' : '£'}${v.toFixed(2)}`).join(' · ') || '$0.00'}</b> <span class="muted">earned so far</span></p>`; })()}
+            <p class="muted">Sold something or got a tip? Send Loki a gift like <i>"Sale: $5 for the Cozy template"</i> and he records it here.</p>
+            <a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, 'Sale: $5 for ...', 'Sale: $5 for ... on Gumroad')}">Record a sale</a>
+            <div class="scroll">${(d.ledger || []).slice(0, 20).map((e) => `<div class="item">${esc(e.date)} · <b>${esc(e.currency)} ${Number(e.amount).toFixed(2)}</b> · ${esc(e.note)}</div>`).join('') || '<p class="muted">No income yet.</p>'}</div>
+          </div>
+          <div class="card"><h2>💼 Business ideas</h2>
+            <div class="scroll">${(d.business || []).map((b) => `<div class="item"><b>${esc(b.title)}</b><span class="tag">${esc(b.status)}</span><div>${esc(b.pitch)}</div>${b.steps?.length ? `<ol class="muted">${b.steps.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}${b.needs ? `<div>🙏 <b>Needs from you:</b> ${esc(b.needs)}</div>` : ''}<div class="muted">${esc(b.created)}</div></div>`).join('') || '<p class="muted">No business ideas yet.</p>'}</div>
+          </div>
+          <div class="card"><h2>🏗️ What Loki added to town</h2>
+            <div class="scroll">${(d.props || []).slice().reverse().map((p) => `<div class="item"><b>${esc(p.name || p.type)}</b><span class="tag">${esc(p.type)}</span> <span class="muted">${esc(p.built || '')}</span><div class="muted">${esc(p.description || '')}</div></div>`).join('') || '<p class="muted">Nothing yet.</p>'}</div>
+            <p class="muted">When Loki needs something he sends a push to your phone (ntfy app) and opens an issue in his memory repo. Reply in the issue and he reads it next session.</p>
+          </div>
           <div class="card"><h2>🐱 Right now</h2>
             <p><b>${esc(s.activity)}</b></p><p>💭 ${esc(s.thought)}</p>
             <p class="muted">Mood ${esc(s.mood)} · needs: ${Object.entries(s.needs || {}).map(([k, v]) => `${k} ${v}`).join(', ')}</p>

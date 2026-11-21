@@ -1,10 +1,27 @@
 // Loki (orange tabby), Pip (his mouse friend) and the visitor, all modelled in code.
 import * as THREE from 'three';
-import { toon, part, INK } from './toon.js';
+import { toon, part, block, INK } from './toon.js';
 
 const ORANGE = '#f39a3d', STRIPE = '#c8641c', CREAM = '#fff4e2', PINK = '#f7a8b0', GREEN = '#4cc04a';
 const smooth = (geo) => geo;
 
+// Paint tabby stripes straight onto a geometry's vertices (flush with the fur, no "bars").
+function painted(geo, fn) {
+  const pos = geo.attributes.position;
+  const col = [];
+  const c = new THREE.Color();
+  for (let i = 0; i < pos.count; i++) {
+    c.set(fn(pos.getX(i), pos.getY(i), pos.getZ(i)));
+    col.push(c.r, c.g, c.b);
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  return geo;
+}
+const furMat = new THREE.MeshToonMaterial({ color: '#ffffff', vertexColors: true });
+function furPart(geo, opts) {
+  const m = part(geo, '#ffffff', { ...opts, mat: furMat });
+  return m;
+}
 function arcStripe(radius, tube, arc, color) {
   const m = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 8, 24, arc), toon(color));
   m.castShadow = true;
@@ -18,17 +35,15 @@ export function createLoki() {
   root.add(body);
 
   // torso: capsule lying along z
-  const torsoGeo = new THREE.CapsuleGeometry(0.3, 0.5, 8, 20);
-  const torso = part(torsoGeo, ORANGE, { y: 0.55, ink: 0.025 });
+  // capsule along local y; after rotating, local -z is the cat's back, +z his belly
+  const torsoGeo = painted(new THREE.CapsuleGeometry(0.3, 0.5, 12, 28), (x, y, z) => {
+    if (z > 0.16) return CREAM;
+    const wave = Math.sin(y * 13 + Math.abs(x) * 4);
+    return z < 0.05 && wave > 0.45 ? STRIPE : ORANGE;
+  });
+  const torso = furPart(torsoGeo, { y: 0.55, ink: 0.025 });
   torso.rotation.x = Math.PI / 2;
   body.add(torso);
-  // tabby stripes wrapping over the back
-  for (const [z, r] of [[-0.32, 0.3], [-0.12, 0.31], [0.08, 0.31]]) {
-    const s = arcStripe(r, 0.035, Math.PI * 0.8, STRIPE);
-    s.position.set(0, 0.55, z);
-    s.rotation.z = Math.PI * 0.1;
-    body.add(s);
-  }
   // chest / belly
   const chest = part(new THREE.SphereGeometry(0.25, 20, 14), CREAM, { y: 0.52, z: 0.28, ink: 0 });
   chest.scale.set(1.0, 1.1, 0.9);
@@ -41,16 +56,15 @@ export function createLoki() {
   const head = new THREE.Group();
   head.position.set(0, 0.2, 0.06);
   neck.add(head);
-  const skull = part(new THREE.SphereGeometry(0.36, 28, 20), ORANGE, { ink: 0.025 });
+  const skullGeo = painted(new THREE.SphereGeometry(0.36, 32, 24), (x, y, z) => {
+    // tabby "M" on the forehead + stripes on the cheeks
+    if (y > 0.12 && z > 0.05 && Math.abs(Math.sin(x * 26)) > 0.72) return STRIPE;
+    if (Math.abs(x) > 0.27 && y > -0.08 && y < 0.08 && Math.sin(y * 50) > 0.3) return STRIPE;
+    return ORANGE;
+  });
+  const skull = furPart(skullGeo, { ink: 0.025 });
   skull.scale.set(1.12, 0.96, 1);
   head.add(skull);
-  // forehead stripes (the tabby "M")
-  for (const [x, rz] of [[-0.09, 0.15], [0, 0], [0.09, -0.15]]) {
-    const st = arcStripe(0.36, 0.022, Math.PI * 0.18, STRIPE);
-    st.rotation.set(0, Math.PI / 2, Math.PI / 2 - 0.15 + rz * 0.3);
-    st.position.set(x, 0.02, 0);
-    head.add(st);
-  }
   // muzzle / cheeks
   for (const sx of [-1, 1]) {
     const ch = part(new THREE.SphereGeometry(0.13, 16, 12), CREAM, { x: sx * 0.09, y: -0.12, z: 0.28, ink: 0.012 });
@@ -141,14 +155,9 @@ export function createLoki() {
   for (let k = 0; k < 7; k++) {
     const seg = new THREE.Group();
     seg.position.copy(pos);
-    const color = k === 6 ? STRIPE : ORANGE;
+    const color = k === 6 || k % 2 === 1 ? STRIPE : ORANGE;
     seg.add(part(new THREE.CapsuleGeometry(0.065 - k * 0.003, 0.1, 4, 10), color, { y: 0.07, ink: 0.012 }));
-    if (k % 2 === 1) {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.066 - k * 0.003, 0.018, 6, 14), toon(STRIPE));
-      ring.rotation.x = Math.PI / 2;
-      ring.position.y = 0.07;
-      seg.add(ring);
-    }
+
     seg.rotation.x = k === 0 ? -1.0 : -0.18;
     parent.add(seg);
     tail.push(seg);
@@ -177,7 +186,7 @@ export function createLoki() {
   const zzz = mkSprite('Zzz', '#ffffff');
   const note = mkSprite('♪ ♫', '#ffd166');
 
-  root.scale.setScalar(1.35);
+  root.scale.setScalar(0.62);
   const st = { t: 0, blinkAt: 2, sit: 0, lie: 0 };
   const POSE_SIT = ['sit', 'watch', 'laundry', 'radio', 'admire', 'read', 'work', 'relax', 'sing', 'piano', 'paint', 'coffee', 'print'];
 
@@ -326,13 +335,24 @@ export function createVisitor(colorIndex = 0) {
   body.add(head);
   const face = part(new THREE.SphereGeometry(0.33, 24, 18), SKIN, { ink: 0.022 });
   head.add(face);
-  const hair = part(new THREE.SphereGeometry(0.35, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55), '#5b3a29', { y: 0.02, z: -0.02, ink: 0.015 });
-  hair.rotation.x = -0.25;
+  const HAIR = ['#5b3a29', '#2b1a10', '#c68b59', '#8d5b3c', '#e9c46a'][colorIndex % 5];
+  const hair = part(new THREE.SphereGeometry(0.345, 28, 18, 0, Math.PI * 2, 0, Math.PI * 0.52), HAIR, { y: 0.03, z: -0.03, ink: 0.015 });
+  hair.rotation.x = -0.35;
   head.add(hair);
-  const hat = part(new THREE.SphereGeometry(0.36, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2.4), '#fff4e2', { y: 0.06, z: -0.03, ink: 0.015 });
-  hat.rotation.x = -0.2;
-  head.add(hat);
-  head.add(part(new THREE.SphereGeometry(0.08, 12, 8), '#e63946', { y: 0.38, z: -0.08, ink: 0.01 }));
+  for (const sx of [-1, 0, 1]) {
+    const tuft = part(new THREE.SphereGeometry(0.11, 12, 8), HAIR, { x: sx * 0.13, y: 0.2, z: 0.22, ink: 0.008 });
+    tuft.scale.set(1.2, 0.6, 0.7);
+    head.add(tuft);
+  }
+  for (const sx of [-1, 1]) {
+    const ear = part(new THREE.SphereGeometry(0.06, 10, 8), SKIN, { x: sx * 0.32, y: -0.02, ink: 0.008 });
+    ear.scale.z = 0.6;
+    head.add(ear);
+  }
+  const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.04, 0.012, 6, 12, Math.PI), new THREE.MeshBasicMaterial({ color: '#7a3b2e' }));
+  mouth.position.set(0, -0.14, 0.31);
+  mouth.rotation.z = Math.PI;
+  head.add(mouth);
   for (const sx of [-1, 1]) {
     const eye = new THREE.Mesh(new THREE.SphereGeometry(0.045, 12, 8), new THREE.MeshBasicMaterial({ color: '#2b1a10' }));
     eye.position.set(sx * 0.12, -0.02, 0.3);
@@ -344,9 +364,14 @@ export function createVisitor(colorIndex = 0) {
     head.add(blush);
   }
   // backpack
-  const pack = part(new THREE.CapsuleGeometry(0.2, 0.18, 6, 12), '#c68b59', { y: 0.85, z: -0.27, ink: 0.015 });
-  pack.scale.z = 0.6;
+  const pack = part(new THREE.CapsuleGeometry(0.17, 0.16, 6, 12), '#c68b59', { y: 0.86, z: -0.27, ink: 0.015 });
+  pack.scale.set(1, 1, 0.55);
   body.add(pack);
+  body.add(part(new THREE.SphereGeometry(0.09, 10, 8), '#a56b3f', { y: 0.74, z: -0.36, ink: 0.008 }));
+  for (const sx of [-1, 1]) body.add(block(0.05, 0.45, 0.03, '#8d5b3c', sx * 0.15, 0.92, 0.2, { ink: false }));
+  const hood = part(new THREE.TorusGeometry(0.2, 0.07, 8, 18), hoodie, { y: 1.1, z: -0.08, ink: 0.01 });
+  hood.rotation.x = Math.PI / 2 - 0.3;
+  body.add(hood);
   // limbs
   const limbs = [];
   for (const sx of [-1, 1]) {
@@ -358,7 +383,8 @@ export function createVisitor(colorIndex = 0) {
     const leg = new THREE.Group();
     leg.position.set(sx * 0.13, 0.42, 0);
     leg.add(part(new THREE.CapsuleGeometry(0.09, 0.2, 4, 10), '#3d405b', { y: -0.17, ink: 0.012 }));
-    const shoe = part(new THREE.SphereGeometry(0.1, 12, 8), '#2b2d42', { y: -0.36, z: 0.05, ink: 0.01 });
+    leg.add(part(new THREE.CylinderGeometry(0.1, 0.1, 0.04, 12), '#ffffff', { y: -0.42, z: 0.05, ink: 0 }));
+    const shoe = part(new THREE.SphereGeometry(0.1, 12, 8), '#e63946', { y: -0.36, z: 0.05, ink: 0.01 });
     shoe.scale.set(1, 0.6, 1.4);
     leg.add(shoe);
     body.add(leg);

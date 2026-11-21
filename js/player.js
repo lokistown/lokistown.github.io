@@ -37,7 +37,7 @@ export class Controls {
       look.x = e.clientX;
       look.y = e.clientY;
       this.yaw -= dx * 0.006;
-      this.pitch = Math.max(0.05, Math.min(1.25, this.pitch + dy * 0.004));
+      this.pitch = Math.max(this.fly ? -1.2 : 0.05, Math.min(1.5, this.pitch + dy * 0.004));
     });
     const end = (e) => {
       if (look && e.pointerId === look.id) look = null;
@@ -46,7 +46,8 @@ export class Controls {
     dom.addEventListener('pointercancel', end);
     dom.addEventListener('wheel', (e) => {
       e.preventDefault();
-      this.dist = Math.max(3.5, Math.min(26, this.dist + e.deltaY * 0.01));
+      if (this.fly) this.flyPos.y = Math.max(3, Math.min(220, this.flyPos.y + e.deltaY * 0.05));
+      else this.dist = Math.max(3, Math.min(40, this.dist + e.deltaY * 0.01));
     }, { passive: false });
     this.setupJoystick();
   }
@@ -87,7 +88,38 @@ export class Controls {
     pad.addEventListener('pointercancel', up);
   }
 
-  update(dt, colliders, bounds) {
+  setFly(on) {
+    this.fly = on;
+    if (on) {
+      this.flyPos = this.camera.position.clone();
+      this.flyPos.y = Math.max(this.flyPos.y, 25);
+      this.pitch = -0.6;
+    } else this.pitch = 0.35;
+  }
+  updateFly(dt) {
+    const k = this.keys;
+    let fx = 0, fz = 0, fy = 0;
+    if (k.has('KeyW') || k.has('ArrowUp')) fz += 1;
+    if (k.has('KeyS') || k.has('ArrowDown')) fz -= 1;
+    if (k.has('KeyA') || k.has('ArrowLeft')) fx -= 1;
+    if (k.has('KeyD') || k.has('ArrowRight')) fx += 1;
+    if (k.has('KeyE') || k.has('Space')) fy += 1;
+    if (k.has('KeyQ') || k.has('ControlLeft')) fy -= 1;
+    if (this.joy.active) {
+      fx += this.joy.x;
+      fz -= this.joy.y;
+    }
+    const speed = (k.has('ShiftLeft') || k.has('ShiftRight') ? 60 : 22) * dt;
+    const sin = Math.sin(this.yaw), cos = Math.cos(this.yaw);
+    this.flyPos.x += (-sin * fz + cos * fx) * speed;
+    this.flyPos.z += (-cos * fz - sin * fx) * speed;
+    this.flyPos.y = Math.max(3, Math.min(220, this.flyPos.y + fy * speed));
+    this.camera.position.lerp(this.flyPos, Math.min(1, dt * 8));
+    const look = this.flyPos.clone().add(new THREE.Vector3(-sin * Math.cos(this.pitch), Math.sin(this.pitch), -cos * Math.cos(this.pitch)));
+    this.camera.lookAt(look);
+  }
+  update(dt, colliders, bounds, floorAt) {
+    if (this.fly) return this.updateFly(dt);
     const k = this.keys;
     let fx = 0, fz = 0;
     if (this.enabled) {
@@ -131,12 +163,18 @@ export class Controls {
       v.position.x *= bounds / d;
       v.position.z *= bounds / d;
     }
+    // floors inside buildings + a little hop on Space
+    const ground = floorAt ? floorAt(v.position.x, v.position.z) : 0;
+    this.vy = (this.vy || 0) - 20 * dt;
+    if (this.enabled && k.has('Space') && v.position.y <= ground + 0.01) this.vy = 6;
+    v.position.y = Math.max(ground, v.position.y + this.vy * dt);
+    if (v.position.y <= ground) this.vy = 0;
     this.v.animate(dt, this.moving, this.running);
 
     // camera: closer and higher when inside a building (dollhouse view)
-    const dist = this.inside ? Math.min(this.dist, 7.5) : this.dist;
-    const pitch = this.inside ? Math.max(this.pitch, 0.8) : this.pitch;
-    const target = new THREE.Vector3(v.position.x, 1.3, v.position.z);
+    const dist = this.inside ? Math.min(this.dist, 12) : this.dist;
+    const pitch = this.inside ? Math.max(this.pitch, 0.5) : this.pitch;
+    const target = new THREE.Vector3(v.position.x, v.position.y + 1.3, v.position.z);
     const cam = new THREE.Vector3(
       target.x + Math.sin(this.yaw) * Math.cos(pitch) * dist,
       target.y + Math.sin(pitch) * dist,
