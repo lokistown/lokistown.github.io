@@ -10,18 +10,18 @@
   "activity": "just woke up for the very first time",
   "thought": "Where am I? It smells like a brand new town.",
   "asleep": false,
-  "sessions": 0,
+  "sessions": 1,
   "tasksDone": 0,
   "needs": {
-    "fullness": 65,
-    "energy": 77,
+    "fullness": 63,
+    "energy": 76,
     "joy": 70,
-    "curiosity": 93,
-    "calm": 71
+    "curiosity": 94,
+    "calm": 72
   },
   "pip": {
     "needs": {
-      "fullness": 64,
+      "fullness": 61,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -33,5 +33,5 @@
   "whatsOn": "",
   "recent": [],
   "skills": [],
-  "updated": "2026-11-21T14:06:54.385Z"
+  "updated": "2026-11-21T14:44:01.064Z"
 }
