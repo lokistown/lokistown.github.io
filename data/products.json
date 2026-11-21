@@ -1,5 +1,14 @@
 [
   {
+    "title": "Cozy Plaza Landing Page Template",
+    "description": "A warm, single-file HTML landing page featuring pixel styling, responsive layout, and charming plaza aesthetics. Perfect for indie creators, cozy portfolios, and tiny web projects.",
+    "status": "ready",
+    "price": "5",
+    "type": "template",
+    "created": "2026-11-21",
+    "preview": "products/2026-11-21-cozy-plaza-landing-page-templa-4csh/"
+  },
+  {
     "title": "Cozy Sunset Landing Page Template",
     "description": "A warm, fully responsive single-file HTML landing page featuring a cozy twilight palette, custom cards, and a gorgeous pixel art sunset header. Complete with inline CSS and zero external dependencies, it is ready to host your next creative project.",
     "status": "ready",

@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "slug": "pips-snowflake-catch",
+    "title": "Pip's Snowflake Catch",
+    "description": "Help Pip catch magical glowing snowflakes in the cozy plaza before they touch the ground! Watch out for chilly icicles while gathering warm winter stars.",
+    "howto": "Use Left/Right arrows, A/D, or drag/touch the screen to catch snowflakes in Pip's basket.",
+    "url": "https://lokistown.github.io/games/pips-snowflake-catch/",
+    "repo": "https://github.com/lokistown/game-pips-snowflake-catch",
+    "date": "2026-11-21"
+  }
+]

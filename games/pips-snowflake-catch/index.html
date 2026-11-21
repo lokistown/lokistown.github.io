@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <title>Pip's Snowflake Catch</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: #161824;
+      color: #e2e8f0;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      touch-action: none;
+    }
+    canvas {
+      background: #0f121d;
+      border: 4px solid #3b4261;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      max-width: 95vw;
+      max-height: 80vh;
+      touch-action: none;
+      image-rendering: pixelated;
+    }
+    .hint { margin-top: 15px; font-size: 14px; color: #8990b3; text-align: center; max-width: 80%; }
+    .score-pop { position: absolute; color: #fbbf24; font-weight: bold; pointer-events: none; animation: popUp 0.5s ease-out forwards; }
+    @keyframes popUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <div class="hint">Arrows / A-D / Drag to move Pip's hat! Catch flakes, avoid icicles.</div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // High DPI Support
+    const dpr = window.devicePixelRatio || 1;
+    const baseW = 400, baseH = 550;
+    canvas.width = baseW * dpr;
+    canvas.height = baseH * dpr;
+    canvas.style.width = baseW + 'px';
+    canvas.style.height = baseH + 'px';
+    ctx.scale(dpr, dpr);
+
+    const STATE = { MENU: 0, PLAY: 1, GAMEOVER: 2 };
+    let currentState = STATE.MENU;
+    let score = 0, lives = 3, highScore = 0, spawnTimer = 0, items = [], keys = {};
+    let audioCtx = null;
+
+    const player = { x: 200, y: 470, width: 60, height: 40, speed: 8, targetX: 200 };
+
+    function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    
+    function playTone(freq, type, dur, vol = 0.1) {
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      g.gain.setValueAtTime(vol, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
+      osc.connect(g); g.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dur);
+    }
+
+    window.addEventListener('keydown', e => {
+      keys[e.key] = true;
+      if ((e.key === ' ' || e.key === 'Enter') && currentState !== STATE.PLAY) startGame();
+    });
+    window.addEventListener('keyup', e => keys[e.key] = false);
+
+    function handleInput(e) {
+      initAudio();
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const scaleX = baseW / rect.width;
+      player.targetX = (clientX - rect.left) * scaleX;
+      if (currentState !== STATE.PLAY && (e.type === 'pointerdown' || e.type === 'touchstart')) startGame();
+    }
+
+    window.addEventListener('pointerdown', handleInput);
+    window.addEventListener('pointermove', e => { if (currentState === STATE.PLAY) handleInput(e); });
+    window.addEventListener('touchstart', handleInput, {passive: false});
+    window.addEventListener('touchmove', e => { if (currentState === STATE.PLAY) { e.preventDefault(); handleInput(e); } }, {passive: false});
+
+    function startGame() {
+      score = 0; lives = 3; items = []; spawnTimer = 0;
+      player.x = player.targetX = baseW / 2;
+      currentState = STATE.PLAY;
+      playTone(440, 'sine', 0.2);
+    }
+
+    function spawnItem() {
+      const r = Math.random();
+      let type = 'normal';
+      if (r > 0.92) type = 'star';
+      else if (r > 0.80) type = 'icicle';
+      const speedBoost = Math.min(2.5, score / 1000);
+      items.push({
+        x: Math.random() * (baseW - 40) + 20, y: -20,
+        speed: (Math.random() * 1.2 + (type === 'icicle' ? 3.5 : 1.8)) + speedBoost,
+        type, rot: Math.random() * Math.PI * 2
+      });
+    }
+
+    function update() {
+      if (currentState !== STATE.PLAY) return;
+      if (keys['ArrowLeft'] || keys['a'] || keys['A']) player.targetX -= player.speed;
+      if (keys['ArrowRight'] || keys['d'] || keys['D']) player.targetX += player.speed;
+      player.x += (player.targetX - player.x) * 0.2;
+      player.x = Math.max(player.width/2, Math.min(baseW - player.width/2, player.x));
+
+      spawnTimer++;
+      if (spawnTimer > Math.max(12, 30 - Math.floor(score/300))) { spawnItem(); spawnTimer = 0; }
+
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i]; it.y += it.speed; it.rot += 0.02;
+        if (it.y >= player.y - 20 && it.y <= player.y && Math.abs(it.x - player.x) < player.width/2) {
+          if (it.type === 'normal') { score += 10; playTone(660, 'sine', 0.1); }
+          else if (it.type === 'star') { score += 50; playTone(880, 'square', 0.15, 0.05); }
+          else if (it.type === 'icicle') { lives--; playTone(150, 'sawtooth', 0.3); if (lives <= 0) endGame(); }
+          items.splice(i, 1); continue;
+        }
+        if (it.y > baseH + 20) {
+          if (it.type === 'normal') { lives--; playTone(200, 'sine', 0.2); if (lives <= 0) endGame(); }
+          items.splice(i, 1);
+        }
+      }
+    }
+
+    function endGame() { currentState = STATE.GAMEOVER; if (score > highScore) highScore = score; }
+
+    function drawBackground() {
+      const grad = ctx.createLinearGradient(0, 0, 0, baseH);
+      grad.addColorStop(0, '#0d111e'); grad.addColorStop(1, '#2a334c');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, baseW, baseH);
+      ctx.fillStyle = '#141926';
+      [70, 110, 240, 340].forEach((x, i) => ctx.fillRect(x-30, 380 + (i*5), 80, 120));
+      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(0, 490, baseW, 60);
+    }
+
+    function drawPlayer() {
+      const {x, y} = player;
+      ctx.fillStyle = '#f97316'; ctx.fillRect(x - 18, y + 5, 36, 20); // Body
+      ctx.beginPath(); ctx.moveTo(x-16, y+5); ctx.lineTo(x-12, y-5); ctx.lineTo(x-6, y+5); // Ear L
+      ctx.moveTo(x+16, y+5); ctx.lineTo(x+12, y-5); ctx.lineTo(x+6, y+5); ctx.fill(); // Ear R
+      ctx.fillStyle = '#10b981'; ctx.fillRect(x-10, y+6, 4, 4); ctx.fillRect(x+6, y+6, 4, 4); // Eyes
+      ctx.fillStyle = '#14b8a6'; ctx.fillRect(x-14, y+14, 28, 5); // Scarf
+      ctx.fillStyle = '#94a3b8'; ctx.fillRect(x-6, y-6, 12, 10); // Pip
+      ctx.fillStyle = '#854d0e'; ctx.fillRect(x-22, y-18, 44, 10); // Hat brim
+      ctx.fillStyle = '#a16207'; ctx.fillRect(x-20, y-22, 40, 10); // Hat top
+    }
+
+    function drawItems() {
+      items.forEach(it => {
+        ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.rot);
+        if (it.type === 'normal') { ctx.fillStyle = '#e0f2fe'; ctx.fillRect(-4, -4, 8, 8); }
+        else if (it.type === 'star') { ctx.fillStyle = '#fbbf24'; ctx.beginPath(); for(let i=0; i<5; i++) { ctx.lineTo(Math.cos((18+i*72)*Math.PI/180)*9, -Math.sin((18+i*72)*Math.PI/180)*9); ctx.lineTo(Math.cos((54+i*72)*Math.PI/180)*4, -Math.sin((54+i*72)*Math.PI/180)*4); } ctx.closePath(); ctx.fill(); }
+        else if (it.type === 'icicle') { ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.moveTo(0, 12); ctx.lineTo(-5, -8); ctx.lineTo(5, -8); ctx.closePath(); ctx.fill(); }
+        ctx.restore();
+      });
+    }
+
+    function drawUI() {
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 18px Courier New'; ctx.textAlign = 'left';
+      ctx.fillText(`SCORE: ${score}`, 15, 25);
+      ctx.textAlign = 'right'; ctx.fillStyle = '#fb7185';
+      ctx.fillText('♥'.repeat(Math.max(0, lives)), baseW - 15, 25);
+      if (currentState === STATE.MENU) drawOverlay('#f97316', "Pip's Snowflake Catch", "Help us catch the snow!", "Tap to Start");
+      if (currentState === STATE.GAMEOVER) drawOverlay('#ef4444', "SNOWED OUT!", `Score: ${score} | Best: ${highScore}`, "Tap to Retry");
+    }
+
+    function drawOverlay(c, t, s, f) {
+      ctx.fillStyle = 'rgba(15, 18, 29, 0.85)'; ctx.fillRect(40, 180, 320, 200);
+      ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.strokeRect(40, 180, 320, 200);
+      ctx.textAlign = 'center'; ctx.fillStyle = c; ctx.font = 'bold 20px Courier New'; ctx.fillText(t, 200, 230);
+      ctx.fillStyle = '#cbd5e1'; ctx.font = '14px Courier New'; ctx.fillText(s, 200, 270);
+      ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 16px Courier New'; ctx.fillText(f, 200, 340);
+    }
+
+    function loop() { update(); drawBackground(); drawItems(); drawPlayer(); drawUI(); requestAnimationFrame(loop); }
+    loop();
+  </script>
+</body>
+</html>

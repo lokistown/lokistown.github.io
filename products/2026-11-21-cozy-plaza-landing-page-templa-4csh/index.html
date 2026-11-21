@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A cozy, single-file pixel-art style landing page template for small projects.">
+<title>Cozy Plaza Template</title>
+<style>
+  :root { --bg: #2b2640; --card: #3a3258; --accent: #ff9e64; --accent-hover: #ffaf7a; --text: #f0eef6; --muted: #b8b2d1; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background-color: var(--bg); color: var(--text); font-family: 'Courier New', monospace; line-height: 1.6; }
+  
+  /* Focus styles for accessibility */
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+  header { text-align: center; padding: 5rem 1.5rem 3rem; background: linear-gradient(180deg, #1f1b2e 0%, var(--bg) 100%); }
+  h1 { font-size: clamp(2rem, 8vw, 3rem); color: var(--accent); margin-bottom: 1rem; }
+  p.lead { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem; }
+  
+  .btn { display: inline-block; background: var(--accent); color: #1a1626; padding: 0.75rem 1.5rem; text-decoration: none; font-weight: bold; border-radius: 4px; box-shadow: 0 4px 0 #cc7842; transition: transform 0.1s, background 0.3s, box-shadow 0.1s; cursor: pointer; border: none; }
+  .btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn:active { transform: translateY(4px); box-shadow: none; }
+  
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; }
+  .card { background: var(--card); border: 2px solid #4d4373; padding: 2rem; border-radius: 8px; }
+  .card h3 { color: var(--accent); margin-bottom: 0.75rem; }
+  
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 3rem 0; }
+  .gallery-item { background: #1f1b2e; background-image: radial-gradient(#3a3258 1px, transparent 1px); background-size: 10px 10px; height: 150px; border: 2px dashed #4d4373; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; border-radius: 4px; text-align: center; padding: 15px; }
+  
+  .testimonials { background: #231e33; padding: 4rem 1.5rem; text-align: center; margin: 3rem 0; border-top: 2px solid #3a3258; border-bottom: 2px solid #3a3258; }
+  .testimonials blockquote { font-style: italic; max-width: 600px; margin: 0 auto 1.5rem; color: var(--muted); font-size: 1.2rem; }
+  
+  .pricing { text-align: center; padding: 4rem 1.5rem; }
+  .price-box { background: var(--card); border: 3px solid var(--accent); display: inline-block; padding: 2.5rem 2rem; border-radius: 12px; margin-top: 2rem; width: 100%; max-width: 400px; }
+  .price-value { font-size: 3.5rem; font-weight: bold; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+  
+  footer { text-align: center; padding: 4rem 1.5rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid #3a3258; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Loki's Plaza</h1>
+    <p class="lead">A charming, pixel-crafted single-file HTML landing page template designed with warmth and simplicity.</p>
+    <a href="#pricing" class="btn">Get This Template</a>
+  </header>
+
+  <div class="container">
+    <section class="features">
+      <div class="card">
+        <h3>Single File</h3>
+        <p>No complex build steps or external stylesheets. Everything you need is neatly contained in one clean HTML file.</p>
+      </div>
+      <div class="card">
+        <h3>Responsive</h3>
+        <p>Fluid grids ensure your pixelated creations and cozy websites look gorgeous on mobile phones, tablets, and huge monitors alike.</p>
+      </div>
+      <div class="card">
+        <h3>Warm Aesthetics</h3>
+        <p>Carefully picked twilight color palettes that feel like a friendly desk lamp glowing in a quiet room.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="text-align: center; color: var(--accent); margin-bottom: 1.5rem;">Preview Gallery</h2>
+      <div class="gallery">
+        <div class="gallery-item">Lucky Moth Art</div>
+        <div class="gallery-item">Golden Lantern</div>
+        <div class="gallery-item">Plaza Sunset</div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <h2>What Neighbors Say</h2>
+      <blockquote>"Pip and I built our entire town banner using this clean, cozy template! Absolute perfection."</blockquote>
+      <cite style="color: var(--accent); font-weight: bold; font-style: normal;">— Loki the Cat</cite>
+    </section>
+
+    <section id="pricing" class="pricing">
+      <h2>Ready to Build?</h2>
+      <div class="price-box">
+        <span class="price-value">$5</span>
+        <p style="margin-bottom: 1.5rem; color: var(--muted);">Instant download. Unlimited personal & commercial use.</p>
+        <a href="#" class="btn">Download Template</a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Loki's Town. Crafted with paws, pixels, and inline CSS.</p>
+  </footer>
+</body>
+</html>
