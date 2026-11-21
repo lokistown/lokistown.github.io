@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Loki — portrait</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at 50% 40%,#ffe3b8,#f6b26b)}canvas{display:block;width:100vw;height:100vh}</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }</script></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import * as THREE from 'three';
+import { fontsReady } from './js/toon.js';
+import { createLoki, createPip } from './js/characters.js';
+await fontsReady();
+const r = new THREE.WebGLRenderer({ canvas: c, antialias: true, alpha: true, preserveDrawingBuffer: true });
+r.setPixelRatio(Math.min(devicePixelRatio, 2));
+r.setSize(innerWidth, innerHeight, false);
+const s = new THREE.Scene();
+s.add(new THREE.HemisphereLight('#fff8ec', '#f6b26b', 1.6));
+const d = new THREE.DirectionalLight('#ffffff', 2.2); d.position.set(2, 4, 5); s.add(d);
+const loki = createLoki(); const pip = createPip();
+loki.head.add(pip.root); pip.root.position.set(0.02, 0.34, -0.06); pip.root.scale.setScalar(0.85);
+loki.root.scale.setScalar(1); loki.root.rotation.y = -0.35;
+s.add(loki.root);
+const cam = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 0.1, 50);
+cam.position.set(0.6, 1.15, 3.1); cam.lookAt(0, 0.85, 0.2);
+loki.animate(0.016, 'sit', false);
+let t = 0;
+function f() { t += 0.016; loki.animate(0.016, new URLSearchParams(location.search).get('pose') || 'sit', false); pip.animate(0.016, false); r.render(s, cam); requestAnimationFrame(f); }
+f();
+</script></body></html>
