@@ -83,7 +83,7 @@ function rockGarden() {
 function signpost(name) {
   const g = new THREE.Group();
   g.add(block(0.15, 2.2, 0.15, '#6b4226', 0, 1.1, 0));
-  const s = signBoard(name || 'This way', 2.4, { icon: '🪧' });
+  const s = signBoard(name || 'This way', 2.4, { icon: '' });
   s.position.y = 1.9;
   g.add(s);
   return { g, r: 0.3 };

@@ -13,6 +13,15 @@ import { Controls } from './player.js';
 import { playSong, stopMusic } from './audio.js';
 
 const $ = (id) => document.getElementById(id);
+document.addEventListener('gesturestart', (e) => e.preventDefault());
+document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  if (now - lastTouchEnd < 350 && !(e.target.closest && e.target.closest('input, textarea'))) e.preventDefault();
+  lastTouchEnd = now;
+}, { passive: false });
+document.addEventListener('touchmove', (e) => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
 const q = new URLSearchParams(location.search);
 const hourOverride = q.has('hour') ? Number(q.get('hour')) : null;
 
@@ -77,6 +86,7 @@ let landRing = -1;
 // ---------- state ----------
 let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], config: {} };
 let drops = [];
+let roamBounds = PLOT * 6;
 let townGroup = null, built = [], colliders = [], items = [], places = [], nav = null, lamps = [], smoke = [], jets = [], bounds = PLOT * 3, townKey = '';
 const nightLights = [];
 
@@ -97,7 +107,8 @@ function buildTown() {
   const town = ensurePlots(D.town);
   const ctx = { art: D.gallery, smoke: [], jets: [] };
   const maxRing = Math.max(1, ...town.buildings.map((b) => plotInfo(b.plot).ring));
-  bounds = (maxRing + 1.2) * PLOT;
+  bounds = (maxRing + 1.2) * PLOT; // the town itself (map, Loki's paths)
+  roamBounds = (maxRing + 4.6) * PLOT; // visitors can wander the fields beyond
   createRoads(townGroup, maxRing);
   const plaza = createPlaza(townGroup, { diary: D.diary[0] });
   lamps = plaza.lamps;
@@ -147,7 +158,7 @@ function buildTown() {
         m.position.set(at.x, 0.33 + WALL_H / 2 + 0.1, at.z);
         m.rotation.y = info.rot + (side > 0 ? Math.PI / 2 : -Math.PI / 2);
         townGroup.add(m);
-        if (isNew(p.built)) newMarkers.push(label('✨ NEW mural', at.x, 4.6, at.z));
+        if (isNew(p.built)) newMarkers.push(label('NEW mural', at.x, 4.6, at.z));
         continue;
       }
       const r = buildProp(p);
@@ -155,15 +166,15 @@ function buildTown() {
       const hw = r.box ? r.box.w / 2 : r.radius * 0.7, hd = r.box ? r.box.d / 2 : r.radius * 0.7;
       colliders.push({ x: r.group.position.x, z: r.group.position.z, hw, hd, h: 2 });
       places.push({ id: `prop:${p.id}`, building: p.id, act: p.type === 'bench' ? 'sit' : 'admire', label: p.type === 'bench' ? `sitting on his ${p.name || 'bench'}` : `admiring his ${p.name || p.type}`, where: p.name || p.type, x: r.group.position.x + r.radius + 0.6, z: r.group.position.z, face: -Math.PI / 2, inside: false });
-      items.push({ type: 'prop', x: r.group.position.x, z: r.group.position.z, r: r.radius + 2, label: `🔎 ${p.name || p.type}`, data: p });
-      if (isNew(p.built)) newMarkers.push(label(`✨ NEW: ${p.name || p.type}`, r.group.position.x, 3.2 + r.radius, r.group.position.z));
+      items.push({ type: 'prop', x: r.group.position.x, z: r.group.position.z, r: r.radius + 2, label: `${p.name || p.type}`, data: p });
+      if (isNew(p.built)) newMarkers.push(label(`NEW: ${p.name || p.type}`, r.group.position.x, 3.2 + r.radius, r.group.position.z));
     } catch (e) {
       console.warn('prop failed', p, e);
     }
   }
   for (const bb of built) {
-    if (isNew(bb.b.built)) newMarkers.push(label(`✨ NEW: ${bb.b.name}`, bb.door.x, 6.5, bb.door.z));
-    for (const r of bb.b.rooms || []) if (r.built && isNew(r.built)) newMarkers.push(label(`✨ new room: ${r.name || r.kind}`, bb.door.x, 5.6, bb.door.z));
+    if (isNew(bb.b.built)) newMarkers.push(label(`NEW: ${bb.b.name}`, bb.door.x, 6.5, bb.door.z));
+    for (const r of bb.b.rooms || []) if (r.built && isNew(r.built)) newMarkers.push(label(`new room: ${r.name || r.kind}`, bb.door.x, 5.6, bb.door.z));
   }
   newMarkers.forEach((m) => townGroup.add(m));
   colliders.push(...decorate(townGroup, new Set(town.buildings.map((b) => b.plot)), maxRing, plotInfo));
@@ -332,7 +343,7 @@ function updateNowCard(t) {
   if (t > bubbleSwap) {
     bubbleSwap = t + 6;
     const thought = info.thought || s?.thought || '';
-    bubbleText = info.act === 'sleep' ? 'Zzz… 💤' : bubbleText === thought ? info.label : thought || info.label;
+    bubbleText = info.act === 'sleep' ? 'Zzz… ' : bubbleText === thought ? info.label : thought || info.label;
   }
 }
 function escapeHtml(s) {
@@ -411,7 +422,7 @@ function drawMinimap() {
 let nearest = null;
 function updatePrompt() {
   const v = visitor.root.position;
-  const lokiItem = { type: 'loki', x: loki.root.position.x, z: loki.root.position.z, r: 2.8, label: life.act === 'sleep' ? '💤 Watch Loki sleep' : '🐱 Say hi to Loki' };
+  const lokiItem = { type: 'loki', x: loki.root.position.x, z: loki.root.position.z, r: 2.8, label: life.act === 'sleep' ? 'Watch Loki sleep' : 'Say hi to Loki' };
   let best = null, bd = 1e9;
   for (const it of [lokiItem, ...items]) {
     const d = Math.hypot(v.x - it.x, v.z - it.z);
@@ -467,7 +478,7 @@ function toggleFly() {
   const on = !controls.fly;
   controls.setFly(on);
   $('fly-btn').classList.toggle('on', on);
-  $('fly-btn').textContent = on ? '🚶 Walk' : '🕊️ Fly';
+  $('fly-btn').textContent = on ? 'Walk' : 'Fly';
   $('help').classList.remove('fade');
   $('help').innerHTML = on ? '<span>Flying: WASD move · E/Space up · Q down · drag to look · Shift fast · F to land</span>' : '<span>Walking again!</span>';
   setTimeout(() => $('help').classList.add('fade'), 5000);
@@ -495,17 +506,17 @@ function renderMapSide() {
   const s = D.state || {};
   const added = [];
   for (const b of D.town.buildings) {
-    if (b.built) added.push({ date: b.built, text: `🏠 ${b.name}` });
-    for (const r of b.rooms || []) if (r.built) added.push({ date: r.built, text: `🚪 ${r.name || ROOM_INFO[r.kind]?.name || r.kind} in ${b.name}` });
+    if (b.built) added.push({ date: b.built, text: `${b.name}` });
+    for (const r of b.rooms || []) if (r.built) added.push({ date: r.built, text: `${r.name || ROOM_INFO[r.kind]?.name || r.kind} in ${b.name}` });
   }
-  for (const p of D.town.props || []) added.push({ date: p.built, text: `${p.type === 'mural' ? '🎨' : '⭐'} ${p.name || p.type}` });
+  for (const p of D.town.props || []) added.push({ date: p.built, text: `${p.type === 'mural' ? '' : ''} ${p.name || p.type}` });
   added.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   const orig = D.town.buildings.filter((b) => !b.built).map((b) => b.name);
   const ideas = s.ideas || [];
   $('map-side').innerHTML = `
-    <h3>💡 Loki is planning</h3>${ideas.length ? `<ul>${ideas.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="muted">No plans shared yet.</p>'}
-    <h3>✨ Added by Loki</h3>${added.length ? `<ul>${added.slice(0, 30).map((a) => `<li>${esc(a.text)} <span class="muted">${esc(a.date || '')}</span>${isNew(a.date) ? ' <b class="newtag">NEW</b>' : ''}</li>`).join('')}</ul>` : '<p class="muted">Nothing yet — give him time!</p>'}
-    <h3>🏡 The original town</h3><p class="muted">${orig.map(esc).join(', ')} and the plaza.</p>
+    <h3>Loki is planning</h3>${ideas.length ? `<ul>${ideas.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="muted">No plans shared yet.</p>'}
+    <h3>Added by Loki</h3>${added.length ? `<ul>${added.slice(0, 30).map((a) => `<li>${esc(a.text)} <span class="muted">${esc(a.date || '')}</span>${isNew(a.date) ? ' <b class="newtag">NEW</b>' : ''}</li>`).join('')}</ul>` : '<p class="muted">Nothing yet — give him time!</p>'}
+    <h3>The original town</h3><p class="muted">${orig.map(esc).join(', ')} and the plaza.</p>
     <p class="muted">Click a building on the map to walk there.</p>`;
 }
 function esc(x) {
@@ -678,7 +689,7 @@ function renderPanel(tab) {
       const pct = Math.max(0, Math.min(100, ((s.xp - prev) / (s.nextLevelXp - prev)) * 100));
       const n = needsNow();
       c = h('div', {},
-        h('h2', {}, '🐱 Loki'),
+        h('h2', {}, 'Loki'),
         h('p', { class: 'quote' }, `“${s.thought || '…'}”`),
         h('dl', {},
           h('dt', {}, 'Right now'), h('dd', {}, info ? `${info.label} (${info.where})` : '…'),
@@ -690,7 +701,7 @@ function renderPanel(tab) {
           h('dt', {}, 'Pip'), h('dd', {}, s.pip?.status || 'riding on Loki’s head, as usual'),
         ),
         s.recent?.length ? [h('h3', {}, 'Lately'), h('ul', {}, s.recent.slice(0, 8).map((r) => h('li', {}, `${r.time} — ${r.text}`)))] : null,
-        h('p', {}, h('button', { class: 'btn', onclick: () => openOffer() }, '💌 Leave him something')),
+        h('p', {}, h('button', { class: 'btn', onclick: () => openOffer() }, 'Leave him something')),
       );
     }
   } else if (tab === 'diary') {
@@ -698,7 +709,7 @@ function renderPanel(tab) {
   } else if (tab === 'gallery') {
     c = D.gallery.length ? h('div', { class: 'gallery' }, D.gallery.map((a) => h('figure', {}, h('img', { src: `gallery/${encodeURIComponent(a.file)}`, alt: a.title, loading: 'lazy' }), h('figcaption', {}, `${a.title} · ${a.date}`)))) : h('p', {}, 'No art yet. Loki is warming up his paws.');
   } else if (tab === 'music') {
-    c = h('div', {}, h('h2', {}, '🎹 Loki’s songs'), h('p', { class: 'muted' }, 'Loki is learning to sing and play. These are his own tunes.'),
+    c = h('div', {}, h('h2', {}, 'Loki’s songs'), h('p', { class: 'muted' }, 'Loki is learning to sing and play. These are his own tunes.'),
       D.music.length ? D.music.map((m) => {
         const btn = h('button', { class: 'round small' }, '▶');
         btn.onclick = () => {
@@ -710,23 +721,26 @@ function renderPanel(tab) {
         return h('div', { class: 'track-row' }, btn, h('div', {}, h('b', {}, m.title), h('div', { class: 'muted' }, `${m.date || ''} · ${m.mood || ''}`)));
       }) : h('p', {}, 'No songs yet — he’s still practising scales in the music room.'));
   } else if (tab === 'messages') {
-    c = h('div', {}, h('h2', {}, '💌 Loki’s mailbox'), h('p', {}, h('button', { class: 'btn', onclick: () => openOffer() }, 'Leave him something')), feedEl(offers));
+    c = h('div', {}, h('h2', {}, 'Loki’s mailbox'), h('p', {}, h('button', { class: 'btn', onclick: () => openOffer() }, 'Leave him something')), feedEl(offers));
   } else if (tab === 'wishes') {
-    c = h('div', {}, h('h2', {}, '🌠 Loki’s wishes'), h('p', { class: 'muted' }, 'Things Loki has asked his human for. Some come true.'),
+    c = h('div', {}, h('h2', {}, 'Loki’s wishes'), h('p', { class: 'muted' }, 'Things Loki has asked his human for. Some come true.'),
       D.wishes.length ? D.wishes.map((w) => h('div', { class: 'wish' }, h('span', { class: 'st' }, w.status), h('b', {}, w.text), h('div', { class: 'muted' }, w.why || ''))) : h('p', {}, 'No wishes yet.'));
   } else if (tab === 'games') {
-    c = h('div', {}, h('h2', {}, "🕹️ Loki's games"), h('p', { class: 'muted' }, 'Games Loki designed and coded himself. Each one also has its own GitHub repo.'),
+    c = h('div', {}, h('h2', {}, "Loki's games"), h('p', { class: 'muted' }, 'Games Loki designed and coded himself. Each one also has its own GitHub repo.'),
       D.games.length ? D.games.map((g) => h('div', { class: 'wish' }, h('b', {}, g.title), h('div', {}, g.description), h('div', { class: 'muted' }, g.howto || ''), h('p', {}, h('a', { class: 'btn', href: `games/${g.slug}/`, target: '_blank', rel: 'noopener' }, '▶ Play'), g.repo ? h('a', { class: 'btn alt', href: g.repo, target: '_blank', rel: 'noopener' }, 'Code on GitHub') : null))) : h('p', {}, 'No games yet — Loki is learning to code them in his workshop.'));
+  } else if (tab === 'owner') {
+    c = h('div', {}, h('h2', {}, 'Owner: Control Centre'), h('p', {}, "This is where Loki's human looks after him: his wishes, his wallet, products to list, and everything you can give him (accounts, tools, keys, ideas)."),
+      h('p', {}, h('a', { class: 'btn', href: 'control/' }, 'Open the Control Centre')), h('p', { class: 'muted' }, 'Locked with the password saved as LOKI_ADMIN_PASSWORD. You can also walk into the control room in Loki’s house.'));
   } else if (tab === 'shop') {
     const kofi = D.config.kofi || 'https://ko-fi.com/lokistown';
     const gum = D.config.gumroad || 'https://lokistown.gumroad.com';
-    c = h('div', {}, h('h2', {}, '🛍️ Loki’s shop'), h('p', {}, 'Everything here is made by Loki. Buying something helps his town grow.'),
-      h('p', {}, h('a', { class: 'btn', href: kofi, target: '_blank', rel: 'noopener' }, '☕ Ko-fi: buy Loki a fish'), h('a', { class: 'btn alt', href: gum, target: '_blank', rel: 'noopener' }, '🛒 Gumroad shop')),
+    c = h('div', {}, h('h2', {}, 'Loki’s shop'), h('p', {}, 'Everything here is made by Loki. Buying something helps his town grow.'),
+      h('p', {}, h('a', { class: 'btn', href: kofi, target: '_blank', rel: 'noopener' }, 'Ko-fi: buy Loki a fish'), h('a', { class: 'btn alt', href: gum, target: '_blank', rel: 'noopener' }, 'Gumroad shop')),
       h('h3', {}, 'On the shelves'),
       D.products.filter((p) => p.status === 'listed').length ? D.products.filter((p) => p.status === 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', {}, p.description), p.url ? h('a', { class: 'btn', href: p.url, target: '_blank', rel: 'noopener' }, `Buy · $${p.price || ''}`) : null, p.preview ? h('a', { class: 'btn alt', href: p.preview, target: '_blank', rel: 'noopener' }, 'Preview') : null)) : h('p', { class: 'muted' }, 'Loki is still making his first products. Check back soon!'),
       D.products.filter((p) => p.status !== 'listed').length ? [h('h3', {}, 'Coming soon'), D.products.filter((p) => p.status !== 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', { class: 'muted' }, p.description), p.preview ? h('a', { class: 'btn alt', href: p.preview, target: '_blank', rel: 'noopener' }, 'Preview') : null))] : null);
   } else if (tab === 'town') {
-    c = h('div', {}, h('h2', {}, '🏘️ Loki’s Town'), D.town.buildings.map((b) => h('div', { class: 'wish' }, h('b', {}, `${b.name} · level ${b.level}`), h('div', {}, b.description || ''), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('div', { class: 'muted' }, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name || r.kind).join(', ')))));
+    c = h('div', {}, h('h2', {}, 'Loki’s Town'), D.town.buildings.map((b) => h('div', { class: 'wish' }, h('b', {}, `${b.name} · level ${b.level}`), h('div', {}, b.description || ''), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('div', { class: 'muted' }, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name || r.kind).join(', ')))));
   } else if (tab === 'place' && placeData) {
     const b = placeData;
     c = h('div', {}, h('h2', {}, b.name), h('p', {}, b.description || ''), h('p', { class: 'muted' }, `Level ${b.level}${b.built ? ' · built ' + b.built : ''}`), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('p', {}, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name).join(', ')), h('p', { class: 'muted' }, 'Walk through the door to go inside.'));
@@ -740,7 +754,7 @@ function renderPanel(tab) {
 }
 
 function linkLabel(l) {
-  return l.type === 'place' || l.type === 'building' ? '📍 Go see it' : l.type === 'music' ? '🎵 Listen' : '👀 Open it';
+  return l.type === 'place' || l.type === 'building' ? 'Go see it' : l.type === 'music' ? 'Listen' : 'Open it';
 }
 function followLink(l) {
   if (l.type === 'music') return renderPanel((curTab = 'music'));
@@ -831,7 +845,7 @@ $('offer-send').onclick = async () => {
     $('offer-text').value = '';
     imageData = null;
     $('offer-preview').hidden = true;
-    $('offer-status').textContent = '💌 In his mailbox! He’ll read it in his own time.';
+    $('offer-status').textContent = 'In his mailbox! He’ll read it in his own time.';
     loadOffers();
   } catch (e) {
     $('offer-status').textContent = `Couldn’t send: ${e.message}`;
@@ -887,7 +901,7 @@ function frame(forcedDt) {
     for (const tk of bb.ticks) tk.fn(t, activeRoom === tk.roomId && !life.moving);
   }
   controls.inside = inside;
-  controls.update(dt, colliders, bounds, floorAt);
+  controls.update(dt, colliders, roamBounds, floorAt);
   newMarkers.forEach((m, i) => (m.position.y = m.userData.bob + Math.sin(t * 2 + i) * 0.15));
   life.update(dt, t, visitor.root.position);
   for (const p of smoke) {
@@ -909,7 +923,7 @@ function frame(forcedDt) {
     lastHud = t;
     updatePrompt();
     updateNowCard(t);
-    $('clock').textContent = `🌙 ${now.label}`.replace('🌙', night > 0.5 ? '🌙' : '☀️');
+    $('clock').textContent = `${now.label} ${night > 0.5 ? 'night' : 'day'}`;
   }
   if (t - lastMap > 0.1) {
     lastMap = t;

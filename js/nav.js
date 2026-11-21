@@ -48,7 +48,7 @@ export class NavGrid {
   path(from, to) {
     const s = this.nearestFree(from.x, from.z), g = this.nearestFree(to.x, to.z);
     const start = this.idx(s.x, s.z), goal = this.idx(g.x, g.z);
-    if (start < 0 || goal < 0) return [to];
+    if (start < 0 || goal < 0) return null;
     const n = this.n;
     const gs = new Float32Array(n * n).fill(Infinity);
     const came = new Int32Array(n * n).fill(-1);
@@ -113,7 +113,7 @@ export class NavGrid {
         }
       }
     }
-    if (!found) return [to];
+    if (!found) return null;
     const cells = [];
     for (let k = goal; k !== -1 && k !== start; k = came[k]) cells.push(this.center(k));
     cells.reverse();

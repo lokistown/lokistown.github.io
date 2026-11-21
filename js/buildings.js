@@ -11,15 +11,15 @@ export const glass = new THREE.MeshToonMaterial({ color: '#bfe3ff', emissive: '#
 export const bulbs = new THREE.MeshToonMaterial({ color: '#fff3c4', emissive: '#ffd27a', emissiveIntensity: 0 });
 
 const KIND = {
-  house: { wall: '#f2b880', roof: '#b5523b', icon: '🏠' },
-  workshop: { wall: '#b98b6e', roof: '#5b4636', icon: '🔨' },
-  bakery: { wall: '#f6dcb8', roof: '#d64545', icon: '🥐' },
-  cafe: { wall: '#f2c6a0', roof: '#2a9d8f', icon: '☕' },
-  gallery: { wall: '#eef0f2', roof: '#3d6e9e', icon: '🖼️' },
-  library: { wall: '#b7a6d9', roof: '#4a3f6b', icon: '📚' },
-  shop: { wall: '#f6c28b', roof: '#e07a1f', icon: '🛍️' },
-  tower: { wall: '#b8a9d9', roof: '#4a3f6b', icon: '🔭' },
-  other: { wall: '#d9b99b', roof: '#8a5a3b', icon: '⭐' },
+  house: { wall: '#f2b880', roof: '#b5523b', icon: '' },
+  workshop: { wall: '#b98b6e', roof: '#5b4636', icon: '' },
+  bakery: { wall: '#f6dcb8', roof: '#d64545', icon: '' },
+  cafe: { wall: '#f2c6a0', roof: '#2a9d8f', icon: '' },
+  gallery: { wall: '#eef0f2', roof: '#3d6e9e', icon: '' },
+  library: { wall: '#b7a6d9', roof: '#4a3f6b', icon: '' },
+  shop: { wall: '#f6c28b', roof: '#e07a1f', icon: '' },
+  tower: { wall: '#b8a9d9', roof: '#4a3f6b', icon: '' },
+  other: { wall: '#d9b99b', roof: '#8a5a3b', icon: '' },
 };
 const FLOOR = ['#e9cfa6', '#dcbf95', '#e3c9a2', '#d8b88c'];
 
@@ -194,7 +194,7 @@ function enterable(b, ctx) {
     const r = buildRoom(room.kind, ctx, c.size / 2 - WALL_T / 2 - 0.05, room);
     r.group.position.set(c.cx, 0.36, c.cz);
     interior.add(r.group);
-    const meta = ROOM_INFO[room.kind] || { name: room.kind, icon: '⭐' };
+    const meta = ROOM_INFO[room.kind] || { name: room.kind, icon: '' };
     for (const bl of r.blockers) blockers.push({ x: c.cx + bl.x, z: c.cz + bl.z, w: bl.w, d: bl.d, h: 1.2 });
     for (const s of r.spots) {
       const p = toWorld(info, c.cx + s.x, c.cz + s.z);
@@ -214,7 +214,7 @@ function enterable(b, ctx) {
   const colliders = lay.walls.map((w) => boxToWorld(info, w)).concat(blockers.map((bl) => boxToWorld(info, bl)));
   const doorW = toWorld(info, lay.door.x, lay.door.z + 2.6);
   const fp = boxToWorld(info, { x: 0, z: 0, w: W, d: D });
-  items.push({ type: 'building', x: doorW.x, z: doorW.z, r: 2.6, label: `${style.icon} ${b.name}`, data: b });
+  items.push({ type: 'building', x: doorW.x, z: doorW.z, r: 2.6, label: b.name, data: b });
   places.push({ id: `${b.id}:door`, building: b.id, act: 'stroll', label: `outside ${b.name}`, where: b.name, x: doorW.x, z: doorW.z, face: info.rot, inside: false });
   return {
     root,
@@ -277,9 +277,9 @@ function outdoor(b, ctx) {
     const p = toWorld(info, lx, lz);
     places.push({ id: `${b.id}:${act}:${places.length}`, building: b.id, act, label, where: b.name, x: p.x, z: p.z, face: face + info.rot, inside: false });
   };
-  let icon = '🌳';
+  let icon = '';
   if (b.kind === 'market') {
-    icon = '🧺';
+    icon = '';
     const w = 6 + level * 0.6;
     for (const [x, z] of [[-w / 2, -1.4], [w / 2, -1.4], [-w / 2, 1.4], [w / 2, 1.4]]) root.add(block(0.22, 3.2, 0.22, '#7a4e2d', x, 1.6, z));
     root.add(block(w, 1, 1.4, '#a1785a', 0, 0.5, 0.5));
@@ -300,7 +300,7 @@ function outdoor(b, ctx) {
     add(0, -1.2, 'sell', 'selling at the market stall', Math.PI);
     items.push({ type: 'shop', ...toWorld(info, 0, 2.2), r: 3, label: "Visit Loki's shop" });
   } else if (b.kind === 'fountain') {
-    icon = '⛲';
+    icon = '';
     const R = 2.4 + level * 0.3;
     root.add(part(new THREE.CylinderGeometry(R + 0.2, R + 0.35, 0.25, 32), '#cfc6b6', { y: 0.12, ink: 0.03 }));
     const rim = part(new THREE.TorusGeometry(R, 0.22, 10, 40), '#ddd5c7', { y: 0.62, ink: 0.03 });
@@ -329,7 +329,7 @@ function outdoor(b, ctx) {
     add(0, 2.2, 'nap', 'napping under the old tree');
   } else {
     // park / garden
-    icon = b.kind === 'garden' ? '🌷' : '🌳';
+    icon = b.kind === 'garden' ? '' : '';
     const S = 18;
     const grass = new THREE.Mesh(new THREE.BoxGeometry(S, 0.12, S), toon(b.color || '#8fd16a'));
     grass.position.y = 0.06;
@@ -374,7 +374,7 @@ function outdoor(b, ctx) {
   root.position.set(info.x, 0, info.z);
   root.rotation.y = info.rot;
   const door = toWorld(info, 0, b.kind === 'park' || b.kind === 'garden' ? 10.5 : 5.5);
-  items.push({ type: 'building', ...door, r: 3, label: `${icon} ${b.name}`, data: b });
+  items.push({ type: 'building', ...door, r: 3, label: b.name, data: b });
   return { root, colliders: colliders.concat(local.map((l) => boxToWorld(info, l))), places, items, ticks: [], footprint: null, door, setCutaway() {} };
 }
 

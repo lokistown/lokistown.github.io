@@ -118,7 +118,15 @@ export class LokiLife {
       root.position.set(place.x, this.floorAt(place.x, place.z), place.z);
       this.path = [];
       this.placed = true;
-    } else this.path = this.nav.path({ x: root.position.x, z: root.position.z }, { x: place.x, z: place.z });
+    } else {
+      const path = this.nav.path({ x: root.position.x, z: root.position.z }, { x: place.x, z: place.z });
+      if (path) this.path = path;
+      else {
+        // no walkable route (e.g. boxed in by furniture): hop there instead of walking through walls
+        root.position.set(place.x, this.floorAt(place.x, place.z), place.z);
+        this.path = [];
+      }
+    }
   }
   nextThought(t) {
     const s = this.state;

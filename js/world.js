@@ -19,7 +19,7 @@ export function rng(seed) {
 }
 
 export function createLand(scene, maxRing = 1) {
-  const size = PLOT * (maxRing * 2 + 14);
+  const size = PLOT * (maxRing * 2 + 22);
   const geo = new THREE.PlaneGeometry(size, size, 90, 90);
   const pos = geo.attributes.position;
   const colors = [];
@@ -27,7 +27,7 @@ export function createLand(scene, maxRing = 1) {
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i), y = pos.getY(i);
     const d = Math.hypot(x, y);
-    const edge = PLOT * (maxRing + 2.2);
+    const edge = PLOT * (maxRing + 5);
     let h = 0;
     if (d > edge) h = (d - edge) * 0.12 + Math.sin(x * 0.03) * Math.cos(y * 0.035) * 6 * Math.min(1, (d - edge) / 40);
     pos.setZ(i, h);
@@ -46,15 +46,15 @@ export function createLand(scene, maxRing = 1) {
   const g = new THREE.Group();
   for (let k = 0; k < 220; k++) {
     const a = r() * Math.PI * 2;
-    const d = PLOT * (maxRing + 2.4 + r() * 3);
+    const d = PLOT * (maxRing + 5.2 + r() * 3);
     const t = tree(1.1 + r() * 1.3, r());
-    const hgt = d > PLOT * (maxRing + 2.2) ? (d - PLOT * (maxRing + 2.2)) * 0.12 : 0;
+    const hgt = d > PLOT * (maxRing + 5) ? (d - PLOT * (maxRing + 5)) * 0.12 : 0;
     t.position.set(Math.cos(a) * d, hgt - 0.2, Math.sin(a) * d);
     t.rotation.y = r() * 6;
     g.add(t);
   }
   for (let k = 0; k < 40; k++) {
-    const a = r() * Math.PI * 2, d = PLOT * (maxRing + 1.8 + r() * 1.2);
+    const a = r() * Math.PI * 2, d = PLOT * (maxRing + 2.6 + r() * 2.2);
     const rock = part(new THREE.DodecahedronGeometry(0.6 + r() * 0.9, 0), '#b8b2a7', { x: Math.cos(a) * d, y: 0.3, z: Math.sin(a) * d, ink: 0.04 });
     rock.scale.y = 0.6;
     g.add(rock);
@@ -140,14 +140,14 @@ export function createPlaza(group, { diary, whatsOn }) {
   board.add(block(4.2, 3, 0.2, '#7a4a2a', 0, 2.2, 0), paper);
   board.add(block(0.22, 2.6, 0.22, '#5b3a29', -1.9, 1.0, 0), block(0.22, 2.6, 0.22, '#5b3a29', 1.9, 1.0, 0));
   board.add(block(4.7, 0.25, 0.9, '#b5523b', 0, 3.85, 0.1));
-  const s = signBoard("Loki's diary", 2.8, { icon: '📖' });
+  const s = signBoard("Loki's diary", 2.8, { icon: '' });
   s.position.set(0, 4.35, 0.2);
   board.add(s);
   board.position.set(-3.2, 0, -6.5);
   board.rotation.y = 0.35;
   group.add(board);
   colliders.push({ x: -3.2, z: -6.5, hw: 2.1, hd: 0.6, h: 3 });
-  items.push({ type: 'diary', x: -2.4, z: -4.6, r: 2.6, label: "📖 Read Loki's diary" });
+  items.push({ type: 'diary', x: -2.4, z: -4.6, r: 2.6, label: "Read Loki's diary" });
 
   // mailbox: leave him something
   const mb = new THREE.Group();
@@ -158,14 +158,14 @@ export function createPlaza(group, { diary, whatsOn }) {
   mb.add(block(0.6, 0.06, 0.06, '#2b1a10', 0, 1.62, 0.43, { ink: false }));
   const flag = block(0.08, 0.5, 0.06, '#ffd166', 0.62, 1.8, 0);
   mb.add(flag);
-  const ms = signBoard('Leave him something', 2.6, { icon: '💌', color: '#b5523b' });
+  const ms = signBoard('Leave him something', 2.6, { icon: '', color: '#b5523b' });
   ms.position.set(0, 2.55, 0);
   mb.add(ms);
   mb.position.set(3.4, 0, -6.4);
   mb.rotation.y = -0.35;
   group.add(mb);
   colliders.push({ x: 3.4, z: -6.4, hw: 0.7, hd: 0.5, h: 2 });
-  items.push({ type: 'offer', x: 2.8, z: -4.7, r: 2.6, label: '💌 Leave Loki something' });
+  items.push({ type: 'offer', x: 2.8, z: -4.7, r: 2.6, label: 'Leave Loki something' });
 
   // benches
   for (const [x, z, r] of [[-7.5, 2.5, Math.PI / 2], [7.5, 2.5, -Math.PI / 2]]) {
@@ -208,8 +208,9 @@ export function decorate(group, usedPlots, maxRing, plotInfoFn) {
     // perpendicular offset for pairs of houses
     const px = side ? 0 : 1, pz = side ? 1 : 0;
     if (info.ring > maxRing) {
-      // skyline ring: city blocks and skyscrapers
-      for (const k of [-1, 1]) {
+      // skyline ring: city blocks and skyscrapers, with open gaps to walk through
+      if (r() < 0.45) continue;
+      for (const k of [r() < 0.5 ? -1 : 1]) {
         const tall = r() < 0.45;
         const name = tall ? `commercial/building-skyscraper-${'abcde'[Math.floor(r() * 5)]}` : `commercial/building-${COM[Math.floor(r() * COM.length)]}`;
         const sz = tall ? 10 : 11;

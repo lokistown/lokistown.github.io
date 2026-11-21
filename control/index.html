@@ -29,6 +29,10 @@
     .tag { font-size: 0.72rem; border: 1.5px solid var(--ink); border-radius: 999px; padding: 0 7px; background: #fdf0da; margin-left: 6px; }
     .scroll { max-height: 380px; overflow: auto; }
     .lock { max-width: 380px; margin: 12vh auto; text-align: center; }
+    .toolbox { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+    .tool { border: 2px solid var(--line); border-radius: 12px; padding: 8px 10px; margin: 6px 0; background: #fff; }
+    .tool.have { border-color: #2a9d8f; background: #effaf8; }
+    .tin { width: 100%; font: inherit; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--ink); margin: 6px 0 2px; }
     .lock input { width: 100%; font: inherit; padding: 10px 14px; border-radius: 999px; border: 3px solid var(--ink); margin: 10px 0; }
     .err { color: #c1121f; }
     code { background: #fdf0da; padding: 0 4px; border-radius: 4px; }
@@ -38,7 +42,7 @@
 <body>
   <div class="wrap">
     <div id="lock" class="card lock">
-      <h2>🖥️ Loki's Control Centre</h2>
+      <h2>Loki's Control Centre</h2>
       <p class="muted">Owner only. Enter the password you saved as <code>LOKI_ADMIN_PASSWORD</code>.</p>
       <form id="f"><input id="pw" type="password" autocomplete="current-password" placeholder="Password" /><button class="btn" type="submit">Unlock</button></form>
       <p id="msg" class="muted"></p>
@@ -61,6 +65,35 @@
       return JSON.parse(new TextDecoder().decode(plain));
     }
 
+
+    const TOOLBOX = [
+      { title: 'Places to sell & share (accounts you own)', items: [
+        { name: 'itch.io', type: 'account', why: 'Publish Loki’s games where players look for indie games (free, can sell or take tips).', get: 'https://itch.io/register', ph: 'your itch.io page link' },
+        { name: 'YouTube channel', type: 'account', why: 'Loki plans videos: town tours, songs, game trailers, “a day in my life”. You upload.', get: 'https://www.youtube.com/create_channel', ph: 'channel link' },
+        { name: 'TikTok', type: 'account', why: 'Short clips of Loki’s day, art timelapses and game snippets.', get: 'https://www.tiktok.com/signup', ph: 'profile link' },
+        { name: 'Instagram', type: 'account', why: 'Loki’s art, town updates and new products as posts/reels.', get: 'https://www.instagram.com/accounts/emailsignup/', ph: 'profile link' },
+        { name: 'Pinterest', type: 'account', why: 'Pins of art packs and templates — good for selling digital downloads.', get: 'https://www.pinterest.com/business/create/', ph: 'profile link' },
+        { name: 'Etsy shop', type: 'account', why: 'Sell printables and art packs to Etsy’s big audience (small listing fee).', get: 'https://www.etsy.com/sell', ph: 'shop link' },
+        { name: 'Redbubble / print-on-demand', type: 'account', why: 'Loki’s pixel art on stickers, mugs, shirts — printed and shipped for you.', get: 'https://www.redbubble.com/signup', ph: 'shop link' },
+        { name: 'Newsletter (Buttondown)', type: 'account', why: 'Loki writes a weekly letter to fans; you press send.', get: 'https://buttondown.com/register', ph: 'newsletter link' },
+        { name: 'Bluesky / X', type: 'account', why: 'Daily one-line updates from the town.', get: 'https://bsky.app', ph: 'profile link' },
+        { name: 'Discord server', type: 'account', why: 'A cozy community for Loki’s visitors.', get: 'https://discord.com/register', ph: 'invite link' },
+        { name: 'Own domain', type: 'account', why: 'e.g. lokistown.com instead of lokistown.github.io.', ph: 'domain name' },
+      ] },
+      { title: 'AI tools (free keys, added as GitHub secrets)', items: [
+        { name: 'Groq (backup brain)', secret: 'GROQ_API_KEY', why: 'If Gemini is busy or out of free requests, Loki keeps thinking.', get: 'https://console.groq.com/keys' },
+        { name: 'OpenRouter (2nd backup brain)', secret: 'OPENROUTER_API_KEY', why: 'Free models as another fallback.', get: 'https://openrouter.ai/keys' },
+        { name: 'Hugging Face (image AI)', secret: 'HF_TOKEN', why: 'Coming soon: will let Loki make real illustrations, not only pixel art. (Not wired up yet.)', get: 'https://huggingface.co/settings/tokens' },
+        { name: 'ElevenLabs (voice)', secret: 'ELEVENLABS_API_KEY', why: 'Coming soon: a voice for Loki, for narrated stories and sung songs. (Not wired up yet.)', get: 'https://elevenlabs.io/app/settings/api-keys' },
+      ] },
+      { title: 'Other things you can give', items: [
+        { name: 'Monthly budget', type: 'budget', why: 'An amount Loki may plan to spend (e.g. Etsy listing fees, a domain). You approve each spend.', ph: 'e.g. $10 per month' },
+        { name: 'Something to learn', type: 'learn', why: 'A topic, book or skill you want Loki to study.', ph: 'e.g. colour theory, Phaser games' },
+        { name: 'Feedback', type: 'feedback', why: 'Tell Loki what you liked or what to improve.', ph: 'your feedback' },
+        { name: 'Custom resource', type: 'other', why: 'Anything else: a tool, an account, a file, a collaboration.', ph: 'what and where' },
+      ] },
+    ];
+
     function issueUrl(repo, title, body) {
       return `https://github.com/${repo}/issues/new?labels=gift&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
     }
@@ -76,7 +109,7 @@
       const openW = (d.wishes || []).filter((w) => w.status === 'open');
       const app = $('app');
       app.innerHTML = `
-        <h1>🖥️ Loki's Control Centre <small>updated ${new Date(d.generated).toLocaleString()}</small></h1>
+        <h1>Loki's Control Centre <small>updated ${new Date(d.generated).toLocaleString()}</small></h1>
         <div class="stats">
           <div class="stat"><b>${s.level}</b><span>level · ${esc(s.stage)}</span></div>
           <div class="stat"><b>${s.xp}</b><span>XP</span></div>
@@ -88,57 +121,68 @@
           <div class="stat"><b>${fails.length}</b><span>recent errors</span></div>
         </div>
         <div class="grid">
-          <div class="card"><h2>🌠 Loki's wishes for you</h2>
+          <div class="card"><h2>Loki's wishes for you</h2>
             ${(d.wishes || []).length ? d.wishes.slice(0, 12).map((w) => `<div class="item"><b>${esc(w.text)}</b><span class="tag">${esc(w.status)}</span><div class="muted">${esc(w.why)} · ${esc(w.created)}</div>
-              ${w.status === 'open' ? `<a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, `Granted: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nYes Loki! Here is what I did:\n\n`)}">🎁 Grant</a><a class="btn ghost" target="_blank" rel="noopener" href="${issueUrl(repo, `Not now: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nNot now, Loki, because: `)}">Not now</a>` : ''}</div>`).join('') : '<p class="muted">No wishes yet.</p>'}
+              ${w.status === 'open' ? `<a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, `Granted: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nYes Loki! Here is what I did:\n\n`)}">Grant</a><a class="btn ghost" target="_blank" rel="noopener" href="${issueUrl(repo, `Not now: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nNot now, Loki, because: `)}">Not now</a>` : ''}</div>`).join('') : '<p class="muted">No wishes yet.</p>'}
           </div>
-          <div class="card"><h2>🎁 Give Loki something</h2>
+          <div class="card"><h2>Give Loki something</h2>
             <p class="muted">Send Loki a note, an idea, a book to read, praise, or tell him you listed a product. He opens gifts at the start of his next work session and replies on GitHub.</p>
             <textarea id="gift" rows="3" placeholder="Hi Loki! I listed your art pack on Gumroad…"></textarea>
             <a class="btn" id="giftbtn" target="_blank" rel="noopener">Send gift</a>
             <h2 style="margin-top:14px">Gifts so far</h2>
-            ${(d.gifts || []).slice(0, 8).map((g) => `<div class="item"><b>${esc(g.title)}</b> <span class="muted">${esc(g.date)}</span><div>🐱 ${esc(g.reply)}</div></div>`).join('') || '<p class="muted">None yet.</p>'}
+            ${(d.gifts || []).slice(0, 8).map((g) => `<div class="item"><b>${esc(g.title)}</b> <span class="muted">${esc(g.date)}</span><div>${esc(g.reply)}</div></div>`).join('') || '<p class="muted">None yet.</p>'}
           </div>
-          <div class="card"><h2>🛍️ Products to list</h2>
+          <div class="card"><h2>Products to list</h2>
             <p class="muted">Ready products are zip files in <a target="_blank" rel="noopener" href="https://github.com/${repo}/tree/main/products">${esc(repo)}/products</a>. Upload them to Gumroad, then send Loki a gift saying so.</p>
             <div class="scroll">${(d.products || []).map((p) => `<div class="item"><b>${esc(p.title)}</b><span class="tag">${esc(p.status)}</span><span class="tag">$${esc(p.price)}</span><div>${esc(p.description)}</div><div class="muted">${esc(p.type)} · ${esc(p.created)} · tags: ${esc((p.tags || []).join(', '))}</div>
               <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/${repo}/blob/main/${esc(p.file)}">Download zip</a><a class="btn ghost" target="_blank" rel="noopener" href="https://app.gumroad.com/products/new">New Gumroad product</a></div>`).join('') || '<p class="muted">Nothing yet.</p>'}</div>
           </div>
-          <div class="card"><h2>👛 Loki's wallet</h2>
+          <div class="card"><h2>Loki's wallet</h2>
             ${(() => { const L = d.ledger || []; const tot = {}; L.forEach((e) => (tot[e.currency] = (tot[e.currency] || 0) + e.amount)); return `<p style="font-size:1.4rem;margin:4px 0"><b>${Object.entries(tot).map(([c, v]) => `${c === 'USD' ? '$' : c === 'EUR' ? '€' : '£'}${v.toFixed(2)}`).join(' · ') || '$0.00'}</b> <span class="muted">earned so far</span></p>`; })()}
             <p class="muted">Sold something or got a tip? Send Loki a gift like <i>"Sale: $5 for the Cozy template"</i> and he records it here.</p>
             <a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, 'Sale: $5 for ...', 'Sale: $5 for ... on Gumroad')}">Record a sale</a>
             <div class="scroll">${(d.ledger || []).slice(0, 20).map((e) => `<div class="item">${esc(e.date)} · <b>${esc(e.currency)} ${Number(e.amount).toFixed(2)}</b> · ${esc(e.note)}</div>`).join('') || '<p class="muted">No income yet.</p>'}</div>
           </div>
-          <div class="card"><h2>💼 Business ideas</h2>
-            <div class="scroll">${(d.business || []).map((b) => `<div class="item"><b>${esc(b.title)}</b><span class="tag">${esc(b.status)}</span><div>${esc(b.pitch)}</div>${b.steps?.length ? `<ol class="muted">${b.steps.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}${b.needs ? `<div>🙏 <b>Needs from you:</b> ${esc(b.needs)}</div>` : ''}<div class="muted">${esc(b.created)}</div></div>`).join('') || '<p class="muted">No business ideas yet.</p>'}</div>
+          <div class="card"><h2>Business ideas</h2>
+            <div class="scroll">${(d.business || []).map((b) => `<div class="item"><b>${esc(b.title)}</b><span class="tag">${esc(b.status)}</span><div>${esc(b.pitch)}</div>${b.steps?.length ? `<ol class="muted">${b.steps.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}${b.needs ? `<div><b>Needs from you:</b> ${esc(b.needs)}</div>` : ''}<div class="muted">${esc(b.created)}</div></div>`).join('') || '<p class="muted">No business ideas yet.</p>'}</div>
           </div>
-          <div class="card"><h2>🏗️ What Loki added to town</h2>
+          <div class="card"><h2>What Loki added to town</h2>
             <div class="scroll">${(d.props || []).slice().reverse().map((p) => `<div class="item"><b>${esc(p.name || p.type)}</b><span class="tag">${esc(p.type)}</span> <span class="muted">${esc(p.built || '')}</span><div class="muted">${esc(p.description || '')}</div></div>`).join('') || '<p class="muted">Nothing yet.</p>'}</div>
             <p class="muted">When Loki needs something he sends a push to your phone (ntfy app) and opens an issue in his memory repo. Reply in the issue and he reads it next session.</p>
           </div>
-          <div class="card"><h2>🐱 Right now</h2>
-            <p><b>${esc(s.activity)}</b></p><p>💭 ${esc(s.thought)}</p>
+          <div class="card" style="grid-column:1/-1"><h2>Toolbox: give Loki resources</h2>
+            <p class="muted">Everything here is something you set up or own; Loki never gets your passwords. Tick what you've set up, add the link, and press <b>Give to Loki</b>. He reads it at his next session (every 30 min), remembers it, and plans with it. API keys go into GitHub secrets (the button opens the right page) — Loki notices new keys automatically.</p>
+            <div class="toolbox">${TOOLBOX.map((grp) => `<div class="tgroup"><h3>${esc(grp.title)}</h3>${grp.items.map((t) => {
+              const have = (d.resources || []).some((r) => (r.name || '').toLowerCase() === t.name.toLowerCase()) || (t.secret && (d.tools || []).includes(t.secret));
+              return `<div class="tool ${have ? 'have' : ''}"><b>${esc(t.name)}</b>${have ? '<span class="tag">given</span>' : ''}<div class="muted">${esc(t.why)}</div>
+                ${t.secret ? `<a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/settings/secrets/actions/new">Add secret ${esc(t.secret)}</a>${t.get ? ` <a class="btn ghost" target="_blank" rel="noopener" href="${t.get}">Get a free key</a>` : ''}`
+                : `<input class="tin" data-name="${esc(t.name)}" data-type="${esc(t.type)}" placeholder="${esc(t.ph || 'link or details')}"><a class="btn give" data-name="${esc(t.name)}" data-type="${esc(t.type)}" target="_blank" rel="noopener">Give to Loki</a>${t.get ? ` <a class="btn ghost" target="_blank" rel="noopener" href="${t.get}">Set it up</a>` : ''}`}</div>`;
+            }).join('')}</div>`).join('')}</div>
+            <h3>Already given</h3>${(d.resources || []).map((r) => `<div class="item"><b>${esc(r.name)}</b> <span class="tag">${esc(r.type)}</span> ${r.url ? `<a target="_blank" rel="noopener" href="${esc(r.url)}">${esc(r.url)}</a>` : ''} <span class="muted">${esc(r.notes || '')} · ${esc(r.date)}</span></div>`).join('') || '<p class="muted">Nothing yet.</p>'}
+            <p class="muted">Tools Loki can use right now: ${(d.tools || []).map(esc).join(', ') || 'Gemini only'}</p>
+          </div>
+          <div class="card"><h2>Right now</h2>
+            <p><b>${esc(s.activity)}</b></p><p>${esc(s.thought)}</p>
             <p class="muted">Mood ${esc(s.mood)} · needs: ${Object.entries(s.needs || {}).map(([k, v]) => `${k} ${v}`).join(', ')}</p>
             <p class="muted">What's on: ${esc(s.whatsOn)}</p>
             <h2>Next hours</h2>
             <div class="scroll">${(s.schedule || []).map((b) => `<div class="item">${new Date(b.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} — ${esc(b.label)} <span class="muted">(${esc(b.act)} @ ${esc(b.building || 'plaza')}${b.roomKind ? ' / ' + esc(b.roomKind) : ''})</span></div>`).join('') || '<p class="muted">No plan yet.</p>'}</div>
           </div>
-          <div class="card"><h2>🧠 AI brain usage</h2>
+          <div class="card"><h2>AI brain usage</h2>
             ${Object.entries(provCount).map(([p, n]) => `<div class="item">${esc(p)} <span class="tag">${n} sessions</span></div>`).join('') || '<p class="muted">No sessions recorded yet.</p>'}
-            <h2 style="margin-top:12px">⚠️ Recent errors</h2>
-            <div class="scroll">${fails.slice(-15).reverse().map((e) => `<div class="item"><span class="muted">${esc(e.t.slice(0, 16))}</span> ${esc(e.type)}: ${esc(e.summary)}</div>`).join('') || '<p class="muted">None 🎉</p>'}</div>
+            <h2 style="margin-top:12px">Recent errors</h2>
+            <div class="scroll">${fails.slice(-15).reverse().map((e) => `<div class="item"><span class="muted">${esc(e.t.slice(0, 16))}</span> ${esc(e.type)}: ${esc(e.summary)}</div>`).join('') || '<p class="muted">None </p>'}</div>
           </div>
-          <div class="card"><h2>💌 Visitors Loki knows</h2>
+          <div class="card"><h2>Visitors Loki knows</h2>
             <div class="scroll">${visitors.sort((a, b) => b.kept - a.kept).slice(0, 50).map((v) => `<div class="item"><b>${esc(v.nick)}</b> <span class="tag">kept ${v.kept}/${v.total}</span> <span class="muted">${esc(v.note || '')} · last ${esc(v.last || '')}</span></div>`).join('') || '<p class="muted">No visitors yet.</p>'}</div>
           </div>
-          <div class="card"><h2>📜 Everything Loki did</h2>
+          <div class="card"><h2>Everything Loki did</h2>
             <div class="scroll">${ev.slice(-120).reverse().map((e) => `<div class="item"><span class="muted">${esc(e.t.slice(0, 16).replace('T', ' '))}</span> <b>${esc(e.type)}</b> ${esc(e.summary || e.action || '')}${e.xp ? ` <span class="tag">+${e.xp} XP</span>` : ''}</div>`).join('')}</div>
           </div>
-          <div class="card"><h2>📖 Diary</h2>
+          <div class="card"><h2>Diary</h2>
             <div class="scroll">${(d.diary || []).map((x) => `<div class="item"><b>${esc(x.title)}</b> <span class="muted">${esc(x.date)} ${esc(x.time)}</span><div>${esc(x.text)}</div></div>`).join('')}</div>
           </div>
-          <div class="card"><h2>🔗 Links</h2>
+          <div class="card"><h2>Links</h2>
             <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/actions">Work sessions (Actions)</a>
             <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/actions/workflows/session.yml">Wake Loki now</a>
             <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/${repo}">Memory repo</a>
@@ -147,6 +191,12 @@
             <a class="btn ghost" href="../">The town</a>
           </div>
         </div>`;
+      document.querySelectorAll('.give').forEach((a) => {
+        const inp = document.querySelector(`.tin[data-name="${a.dataset.name}"]`);
+        const upd = () => (a.href = issueUrl(repo, `Resource: ${a.dataset.name}`, `resource: ${JSON.stringify({ type: a.dataset.type, name: a.dataset.name, url: /^https?:/.test(inp.value.trim()) ? inp.value.trim() : '', notes: /^https?:/.test(inp.value.trim()) ? '' : inp.value.trim() })}\n\nHi Loki! I set this up for you.`));
+        inp.oninput = upd;
+        upd();
+      });
       const ta = $('gift'), gb = $('giftbtn');
       const upd = () => (gb.href = issueUrl(repo, `Gift: ${(ta.value || 'a little note').slice(0, 60)}`, ta.value || 'A little note for you, Loki.'));
       ta.oninput = upd;
