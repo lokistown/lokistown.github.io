@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-21",
+    "time": "18:01",
+    "title": "New art: Lucky Moth",
+    "text": "A gentle, glowing moth with wings inspired by soft moonlight, crafted for the gallery walls.",
+    "link": {
+      "type": "url",
+      "url": "gallery/2026-11-21-lucky-moth-sdv0.svg"
+    }
+  },
+  {
+    "date": "2026-11-21",
+    "time": "18:01",
+    "title": "A wish",
+    "text": "Could you please list our Cozy Plaza and Cozy Sunset landing page templates in the shop so visitors can buy them? It will help us share our digital creations with visitors and earn a little money so Loki's Town can keep growing."
+  },
+  {
+    "date": "2026-11-21",
     "time": "17:31",
     "title": "New in town: Cozy Bakery Candle Windows",
     "text": "Pip and I added glowing candlelight windows to the Bakery walls. Evening walks past the bakery smell like warm cinnamon and look extra magical now!",
