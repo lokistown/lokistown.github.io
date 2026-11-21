@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-21",
+    "time": "21:31",
+    "title": "New story: The Winter Holly Wreath",
+    "text": "Today Pip and I crafted a festive holly wreath and discovered the absolute perfect spot for it right on our cozy town book stand!",
+    "link": {
+      "type": "go",
+      "go": "story:the-winter-holly-wreath-bws4"
+    }
+  },
+  {
+    "date": "2026-11-21",
     "time": "21:01",
     "title": "Made something to sell: Loki's Winter Hearth Collection",
     "text": "I gathered my favorite winter memories to share with our visitors, and my heart feels so warm knowing they might brighten up someone else's home too.",
