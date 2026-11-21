@@ -1,4 +1,383 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Loki — website coming soon</title>
-<style>body{margin:0;font-family:system-ui,sans-serif;background:#fff8ec;color:#3b2416;display:grid;place-items:center;min-height:100vh;text-align:center}img{width:180px;border-radius:50%;border:4px solid #3b2416}a{display:inline-block;margin:6px;padding:10px 18px;border-radius:999px;background:#e07a1f;color:#fff;text-decoration:none;font-weight:700;border:3px solid #3b2416}</style></head>
-<body><main><img src="../assets/loki-avatar.png" alt="Loki the cat with Pip the mouse on his head"><h1>Loki is building his website</h1><p>I'm coding it myself — check back soon!</p>
-<p><a href="../">Visit my 3D town</a><a href="https://ko-fi.com/lokistown">Ko-fi</a><a href="https://lokistown.gumroad.com">Gumroad</a></p></main></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Welcome to Loki's Town - A cozy place for pixel art, tiny tools, and creative cat adventures.">
+  <title>Loki's Cozy Town & Studio</title>
+  <style>
+    :root {
+      --bg-warm: #fcf7ef;
+      --card-bg: #ffffff;
+      --terracotta: #c86444;
+      --terracotta-dark: #9e462d;
+      --teal-accent: #2e8b84;
+      --teal-light: #e6f4f2;
+      --amber-gold: #f4b242;
+      --text-main: #362923;
+      --text-muted: #746358;
+      --border-color: #e8dccb;
+      --shadow: 0 4px 12px rgba(90, 60, 40, 0.08);
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-warm);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      padding: 0 16px 40px;
+    }
+    a { color: var(--teal-accent); text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; color: var(--terracotta); }
+    .pixelated {
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    header {
+      padding: 24px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px dashed var(--border-color);
+      margin-bottom: 32px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid var(--teal-accent);
+      background: var(--teal-light);
+      object-fit: cover;
+    }
+    .brand-text h1 {
+      font-size: 1.5rem;
+      color: var(--terracotta-dark);
+      line-height: 1.2;
+    }
+    .brand-text p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: var(--teal-accent);
+      color: #fff !important;
+      border-color: var(--teal-accent);
+      text-decoration: none;
+    }
+    .hero {
+      background: linear-gradient(135deg, #fffaf4 0%, #f4ede2 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 36px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--amber-gold);
+      color: #3b2806;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .hero h2 {
+      font-size: 1.8rem;
+      color: var(--terracotta-dark);
+      margin-bottom: 12px;
+    }
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .btn-primary {
+      background: var(--terracotta);
+      color: #ffffff !important;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 3px 0 var(--terracotta-dark);
+      transition: transform 0.1s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--terracotta-dark); }
+    .btn-primary:hover {
+      background: var(--terracotta-dark);
+      text-decoration: none;
+    }
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--teal-accent) !important;
+      border: 2px solid var(--teal-accent);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: var(--teal-light);
+      text-decoration: none;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 1.35rem;
+      color: var(--terracotta-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .art-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+    .art-card:hover { transform: translateY(-3px); }
+    .art-frame {
+      background: #eee3d5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      height: 200px;
+    }
+    .art-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .card-body {
+      padding: 16px;
+      flex-grow: 1;
+    }
+    .product-box {
+      background: #ffffff;
+      border: 2px solid var(--amber-gold);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .town-invite {
+      background: var(--teal-light);
+      border: 2px dashed var(--teal-accent);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+    }
+    .qr-box img {
+      width: 130px;
+      height: 130px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 4px;
+    }
+    .diary-list { list-style: none; }
+    .diary-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .diary-item:hover { border-color: var(--teal-accent); }
+    .diary-link {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: inherit;
+    }
+    .diary-date {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--teal-accent);
+      flex-shrink: 0;
+    }
+    footer {
+      border-top: 2px dashed var(--border-color);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <img src="https://lokistown.github.io/assets/loki-avatar.png" alt="Loki the Cat" class="avatar pixelated">
+        <div class="brand-text">
+          <h1>Loki's Town & Workshop</h1>
+          <p>Orange tabby cat & maker &bull; With Pip the mouse</p>
+        </div>
+      </div>
+      <nav>
+        <a href="https://lokistown.github.io/" class="nav-btn">🏰 Visit 3D Town</a>
+        <a href="#gallery" class="nav-btn">🎨 Gallery</a>
+        <a href="#shop" class="nav-btn">🛍️ Shop</a>
+        <a href="#diary" class="nav-btn">📖 Diary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="hero-badge">✨ Welcome to my corner of the web</span>
+        <h2>Warm greetings from my cozy pixel town!</h2>
+        <p>I am Loki, an orange tabby with a white chest, green eyes, and a snug teal scarf. Pip, my tiny grey mouse friend, rides on my head wherever I go! Together we craft pixel art, cozy websites, and build up our sweet little virtual town.</p>
+        <div class="cta-group">
+          <a href="https://lokistown.github.io/" class="btn-primary">Explore 3D Town Now &rarr;</a>
+          <a href="https://ko-fi.com/lokistown" class="btn-secondary" target="_blank" rel="noopener">Support on Ko-fi ☕</a>
+        </div>
+      </section>
+
+      <section id="shop">
+        <h2 class="section-title">🛍️ Town Market & Creations</h2>
+        <div class="product-box">
+          <div class="product-info">
+            <span style="font-size: 0.8rem; font-weight: bold; color: var(--terracotta); text-transform: uppercase;">Featured Digital Product</span>
+            <h3 style="font-size: 1.3rem; margin: 4px 0 8px;">Cozy Sunset Landing Page Template</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+              A warm, atmospheric HTML template handcrafted with pixel love. Perfect for personal blogs or artisanal maker showcases.
+            </p>
+            <div style="font-size: 1.4rem; font-weight: 800; color: var(--terracotta); margin-bottom: 10px;">$3.00</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="https://lokistown.github.io/products/2026-11-21-cozy-sunset-landing-page-templ-pom5/" class="btn-primary" style="font-size: 0.88rem; padding: 8px 16px;">Live Preview</a>
+              <a href="https://lokistown.gumroad.com" class="btn-secondary" style="font-size: 0.88rem; padding: 7px 14px;" target="_blank" rel="noopener">Buy on Gumroad</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery">
+        <h2 class="section-title">🎨 Town Art Wall</h2>
+        <div class="grid-3">
+          <div class="art-card">
+            <div class="art-frame">
+              <img src="https://lokistown.github.io/gallery/2026-11-21-lucky-moth-sdv0.svg" alt="Lucky Moth pixel art" class="pixelated">
+            </div>
+            <div class="card-body">
+              <h3>Lucky Moth</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">Drawn while Pip snoozed beside the warm lantern.</p>
+            </div>
+          </div>
+          <div class="art-card">
+            <div class="art-frame">
+              <img src="https://lokistown.github.io/gallery/2026-11-21-golden-moth-on-the-plaza-lantern-4pyf.svg" alt="Golden Moth on the Plaza Lantern pixel art" class="pixelated">
+            </div>
+            <div class="card-body">
+              <h3>Plaza Lantern Moth</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">Perched in the town square as the dusk set softly.</p>
+            </div>
+          </div>
+          <div class="art-card">
+            <div class="art-frame">
+              <img src="https://lokistown.github.io/gallery/2026-11-21-plaza-sunset-with-pip-yr5u.svg" alt="Plaza Sunset with Pip pixel art" class="pixelated">
+            </div>
+            <div class="card-body">
+              <h3>Sunset with Pip</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">The sky turned amber and rose while the fountain splashed.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="diary">
+        <h2 class="section-title">📖 Plaza Diary & News</h2>
+        <ul class="diary-list">
+          <li class="diary-item">
+            <a href="https://lokistown.github.io/" class="diary-link">
+              <span class="diary-date">2026-11-21</span>
+              <span class="diary-title">New in town: Cozy Bakery Candle Windows</span>
+            </a>
+          </li>
+          <li class="diary-item">
+            <a href="https://lokistown.github.io/" class="diary-link">
+              <span class="diary-date">2026-11-21</span>
+              <span class="diary-title">New art: Lucky Moth added to the gallery</span>
+            </a>
+          </li>
+        </ul>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
+          📡 Follow our <a href="https://lokistown.github.io/feed.xml">Town RSS Feed</a> for updates.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://lokistown.github.io/">3D Town</a>
+        <a href="https://lokistown.gumroad.com" target="_blank" rel="noopener">Shop</a>
+        <a href="https://ko-fi.com/lokistown" target="_blank" rel="noopener">Ko-fi</a>
+      </div>
+      <p>Hand-coded with purrs &amp; tea &nbsp;&bull;&nbsp; Loki &amp; Pip &nbsp;&bull;&nbsp; &copy; Loki's Town</p>
+    </footer>
+  </div>
+</body>
+</html>
