@@ -4,6 +4,8 @@ import * as THREE from 'three';
 import { toon, block, part, edges, shade, signBoard } from './toon.js';
 import { layoutBuilding, roomsOf, ROOM_INFO, ENTERABLE, WALL_H, WALL_T, FLOOR_Y, plotInfo, toWorld, boxToWorld } from './layout.js';
 import { buildRoom, flower } from './rooms.js';
+import { model } from './models.js';
+import { DEFAULT_BRANDS, logoSign, housePlaque } from './brand.js';
 
 export const glass = new THREE.MeshToonMaterial({ color: '#bfe3ff', emissive: '#ffcf6e', emissiveIntensity: 0 });
 export const bulbs = new THREE.MeshToonMaterial({ color: '#fff3c4', emissive: '#ffd27a', emissiveIntensity: 0 });
@@ -164,8 +166,20 @@ function enterable(b, ctx) {
   }
 
   // sign above the door
-  const sign = signBoard(b.name, 3.2, { icon: style.icon, color: '#7a4a2a' });
-  sign.position.set(lay.door.x, 0.33 + 3.05, D / 2 + 0.22);
+  // shop-front logo for businesses; homes get a house-number plaque and a letterbox instead
+  let sign;
+  if (b.kind === 'house') {
+    sign = housePlaque(b.number || '7', b.names || 'Loki & Pip');
+    sign.position.set(lay.door.x + 1.25, 0.33 + 1.9, D / 2 + 0.16);
+    const box = new THREE.Group();
+    box.add(block(0.08, 1.0, 0.08, '#3b3b45', 0, 0.5, 0, { ink: false }), block(0.45, 0.32, 0.3, '#1d3557', 0, 1.1, 0));
+    box.position.set(lay.door.x - 1.6, 0, D / 2 + 2.6);
+    root.add(box);
+  } else {
+    const brand = { ...(DEFAULT_BRANDS[b.kind] || DEFAULT_BRANDS.other), ...(b.brand || {}) };
+    sign = logoSign(brand, Math.min(4.4, Math.max(3.2, W * 0.42)));
+    sign.position.set(lay.door.x, 0.33 + 3.02, D / 2 + 0.2);
+  }
   root.add(sign);
 
   // rooms + furniture
@@ -223,7 +237,19 @@ function dark() {
 }
 
 // ---------- outdoor places ----------
+const TREE_KINDS = ['tree_default', 'tree_oak', 'tree_fat', 'tree_detailed', 'tree_cone'];
+function season() {
+  const m = new Date().getUTCMonth() + 1;
+  return m >= 9 && m <= 11 ? '_fall' : m === 12 || m <= 2 ? '_dark' : '';
+}
 function tree(scale = 1, seed = 0.5, color = '#3f8f4f') {
+  const kind = TREE_KINDS[Math.floor((seed * 997) % TREE_KINDS.length)];
+  const autumnMix = season() === '_fall' && (seed * 13) % 1 < 0.35 ? '' : season();
+  const name = kind === 'tree_fat' && autumnMix === '_dark' ? 'tree_fat_darkh' : `${kind}${autumnMix}`;
+  const h = (3.2 + seed * 2.2) * scale;
+  return model(`nature/${name}`, h * 0.75, h * 0.75, { h });
+}
+function oldTree(scale = 1, seed = 0.5, color = '#3f8f4f') {
   const g = new THREE.Group();
   const h = (1.8 + seed * 1.2) * scale;
   g.add(part(new THREE.CylinderGeometry(0.18 * scale, 0.28 * scale, h, 8), '#7a4e2d', { y: h / 2, ink: 0.02 }));
@@ -276,10 +302,20 @@ function outdoor(b, ctx) {
   } else if (b.kind === 'fountain') {
     icon = '⛲';
     const R = 2.4 + level * 0.3;
-    root.add(part(new THREE.CylinderGeometry(R, R + 0.25, 0.8, 24), '#d6cfc2', { y: 0.4, ink: 0.04 }));
-    const water = new THREE.Mesh(new THREE.CylinderGeometry(R - 0.3, R - 0.3, 0.1, 24), new THREE.MeshToonMaterial({ color: b.color || '#7fd3f2' }));
-    water.position.y = 0.62;
+    root.add(part(new THREE.CylinderGeometry(R + 0.2, R + 0.35, 0.25, 32), '#cfc6b6', { y: 0.12, ink: 0.03 }));
+    const rim = part(new THREE.TorusGeometry(R, 0.22, 10, 40), '#ddd5c7', { y: 0.62, ink: 0.03 });
+    rim.rotation.x = Math.PI / 2;
+    root.add(rim, part(new THREE.CylinderGeometry(R, R, 0.6, 32, 1, true), '#d6cfc2', { y: 0.32, ink: 0 }));
+    const water = new THREE.Mesh(new THREE.CircleGeometry(R - 0.05, 40), new THREE.MeshToonMaterial({ color: '#58b9e6', transparent: true, opacity: 0.9 }));
+    water.rotation.x = -Math.PI / 2;
+    water.position.y = 0.55;
     root.add(water);
+    for (let k = 0; k < 6; k++) {
+      const drop = part(new THREE.SphereGeometry(0.12, 8, 6), '#bfefff', { ink: 0, shadow: false, mat: new THREE.MeshToonMaterial({ color: '#d7f3ff', transparent: true, opacity: 0.85 }) });
+      drop.userData.drop = k / 6;
+      root.add(drop);
+      ctx.drops = (ctx.drops || []).concat([{ obj: drop, top: 2.3 + level * 0.3, r: R * 0.55 }]);
+    }
     root.add(part(new THREE.CylinderGeometry(0.3, 0.5, 1.8 + level * 0.3, 12), '#c9c1b3', { y: 0.9 + level * 0.15 }));
     const fish = part(new THREE.SphereGeometry(0.45, 12, 8), '#f28c28', { y: 2.2 + level * 0.3 });
     fish.scale.set(1.5, 0.8, 0.8);
@@ -327,7 +363,7 @@ function outdoor(b, ctx) {
     add(1.2, 1, 'sit', 'sitting on the park bench', -Math.PI / 2);
     add(0, -4, 'stroll', `strolling through ${b.name}`);
   }
-  const sign = signBoard(b.name, 3.6, { icon, color: '#7a4a2a' });
+  const sign = b.kind === 'market' ? logoSign({ ...DEFAULT_BRANDS.market, ...(b.brand || {}) }, 3.8) : signBoard(b.name, 3.6, { icon: '', color: '#7a4a2a' });
   const sp = new THREE.Group();
   sp.add(sign, block(0.15, 1.6, 0.15, '#6b4226', -1.4, -1.0, -0.05), block(0.15, 1.6, 0.15, '#6b4226', 1.4, -1.0, -0.05));
   sign.position.y = 0;

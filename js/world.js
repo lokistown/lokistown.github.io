@@ -4,6 +4,7 @@ import { toon, block, part, shade, signBoard, paperTexture } from './toon.js';
 import { PLOT, ROAD } from './layout.js';
 import { tree, bulbs } from './buildings.js';
 import { flower } from './rooms.js';
+import { model } from './models.js';
 
 export function rng(seed) {
   let h = 2166136261;
@@ -183,36 +184,79 @@ export function createPlaza(group, { diary, whatsOn }) {
 }
 
 // Empty plots become little meadows with a "free plot" sign; roads get trees & lamps.
+export const decorList = []; // neighbourhood footprints, for the big map
 export function decorate(group, usedPlots, maxRing, plotInfoFn) {
   const colliders = [];
+  decorList.length = 0;
   const r = rng('decor');
-  for (let idx = 0; idx < 200; idx++) {
+  const SUB = 'abcdefghijklmnopqrstu'.split('');
+  const COM = 'abcdefghijklmn'.split('');
+  const place = (m, x, z, rot, hw, hd) => {
+    m.position.set(x, 0, z);
+    m.rotation.y = rot;
+    group.add(m);
+    if (hw) colliders.push({ x, z, hw, hd, h: 8 });
+    const path = m.userData.model || '';
+    decorList.push({ x, z, hw, hd, kind: /skyscraper/.test(path) ? 'tower' : /commercial\/building/.test(path) ? 'shop' : /suburban\/building/.test(path) ? 'home' : /tree/.test(path) || !path ? 'tree' : 'plant' });
+  };
+  for (let idx = 0; idx < 400; idx++) {
     const info = plotInfoFn(idx);
-    if (info.ring > maxRing) break;
+    if (info.ring > maxRing + 1) break;
     if (usedPlots.has(idx)) continue;
-    for (let k = 0; k < 5; k++) {
-      const t = tree(0.9 + r() * 0.6, r());
-      const x = info.x + (r() - 0.5) * 18, z = info.z + (r() - 0.5) * 18;
-      t.position.set(x, 0, z);
-      group.add(t);
-      colliders.push({ x, z, hw: 0.4, hd: 0.4, h: 4 });
+    const roll = r();
+    const side = Math.abs(info.dx) > 0;
+    // perpendicular offset for pairs of houses
+    const px = side ? 0 : 1, pz = side ? 1 : 0;
+    if (info.ring > maxRing) {
+      // skyline ring: city blocks and skyscrapers
+      for (const k of [-1, 1]) {
+        const tall = r() < 0.45;
+        const name = tall ? `commercial/building-skyscraper-${'abcde'[Math.floor(r() * 5)]}` : `commercial/building-${COM[Math.floor(r() * COM.length)]}`;
+        const sz = tall ? 10 : 11;
+        const m = model(name, sz, sz, { h: tall ? 22 + r() * 16 : null });
+        place(m, info.x + px * k * 7.5, info.z + pz * k * 7.5, info.rot, sz / 2, sz / 2);
+      }
+      continue;
     }
-    for (let k = 0; k < 14; k++) {
-      const bush = part(new THREE.SphereGeometry(0.5 + r() * 0.4, 10, 8), shade('#5fa35a', r() * 0.1), { x: info.x + (r() - 0.5) * 20, y: 0.25, z: info.z + (r() - 0.5) * 20, ink: 0.03 });
-      bush.scale.y = 0.7;
-      group.add(bush);
+    if (roll < 0.55) {
+      // two neighbours' houses with fences, trees and a planter
+      for (const k of [-1, 1]) {
+        const m = model(`suburban/building-type-${SUB[Math.floor(r() * SUB.length)]}`, 9, 9);
+        const hx = info.x + px * k * 6.5 - info.dx * 1, hz = info.z + pz * k * 6.5 - info.dz * 1;
+        place(m, hx, hz, info.rot, 4.5, 4.5);
+        const f = model('suburban/fence-2x3', 9.5, 2, { stretch: true, h: 1 });
+        place(f, hx + info.dx * 6.2, hz + info.dz * 6.2, info.rot + Math.PI / 2 * 0, 0, 0);
+        const t = tree(0.8, r());
+        place(t, hx - info.dx * 6 + px * k * 3, hz - info.dz * 6 + pz * k * 3, 0, 0.5, 0.5);
+      }
+      const pl = model('suburban/planter', 2, 2);
+      place(pl, info.x + info.dx * 9, info.z + info.dz * 9, info.rot, 1, 1);
+    } else if (roll < 0.75) {
+      // corner shop with parasols
+      const m = model(`commercial/building-${COM[Math.floor(r() * COM.length)]}`, 12, 12);
+      place(m, info.x - info.dx * 2, info.z - info.dz * 2, info.rot, 6, 6);
+      for (const k of [-1, 1]) {
+        const ps = model(`commercial/detail-parasol-${r() < 0.5 ? 'a' : 'b'}`, 2.4, 2.4);
+        place(ps, info.x + info.dx * 7.5 + px * k * 3, info.z + info.dz * 7.5 + pz * k * 3, 0, 0, 0);
+      }
+    } else {
+      // a lawn Loki may build on
+      for (let k = 0; k < 4; k++) {
+        const t = tree(0.9 + r() * 0.5, r());
+        const x = info.x + (r() - 0.5) * 20, z = info.z + (r() - 0.5) * 20;
+        place(t, x, z, 0, 0.5, 0.5);
+      }
+      for (let k = 0; k < 10; k++) {
+        const b = model(`nature/${['plant_bush', 'plant_bushLarge', 'grass_large', 'flower_redA', 'flower_yellowA', 'flower_purpleB', 'mushroom_redGroup'][k % 7]}`, 1.2, 1.2, { h: 0.9 });
+        place(b, info.x + (r() - 0.5) * 22, info.z + (r() - 0.5) * 22, r() * 6, 0, 0);
+      }
+      const s = signBoard('For sale · Loki may build here', 4.2, { icon: '', color: '#8d6e4e' });
+      const sp = new THREE.Group();
+      sp.add(s, block(0.15, 1.4, 0.15, '#6b4226', -1.6, -0.9, -0.05), block(0.15, 1.4, 0.15, '#6b4226', 1.6, -0.9, -0.05));
+      sp.position.set(info.x + info.dx * 9.5, 1.9, info.z + info.dz * 9.5);
+      sp.rotation.y = info.rot;
+      group.add(sp);
     }
-    for (let k = 0; k < 24; k++) {
-      const fl = flower(['#ef476f', '#ffd166', '#f8f9fa', '#c77dff'][k % 4], 0.28);
-      fl.position.set(info.x + (r() - 0.5) * 22, 0, info.z + (r() - 0.5) * 22);
-      group.add(fl);
-    }
-    const s = signBoard('Free plot · Loki may build here', 4.2, { icon: '🪧', color: '#8d6e4e' });
-    const sp = new THREE.Group();
-    sp.add(s, block(0.15, 1.4, 0.15, '#6b4226', -1.6, -0.9, -0.05), block(0.15, 1.4, 0.15, '#6b4226', 1.6, -0.9, -0.05));
-    sp.position.set(info.x + info.dx * 9.5, 1.9, info.z + info.dz * 9.5);
-    sp.rotation.y = info.rot;
-    group.add(sp);
   }
   // street trees and lamps along the roads
   const ext = (maxRing + 0.5) * PLOT;

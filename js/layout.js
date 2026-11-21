@@ -80,9 +80,11 @@ export const ROOM_INFO = {
   library: { name: 'Library', icon: '📚' },
   shop: { name: 'Shop', icon: '🛍️' },
   garden_room: { name: 'Greenhouse', icon: '🪴' },
+  bathroom: { name: 'Bathroom', icon: '🛁' },
+  arcade: { name: 'Arcade', icon: '🕹️' },
 };
 
-export const ENTERABLE = ['house', 'workshop', 'bakery', 'cafe', 'gallery', 'library', 'shop', 'tower', 'other'];
+export const ENTERABLE = ['house', 'workshop', 'bakery', 'cafe', 'gallery', 'library', 'shop', 'tower', 'arcade', 'other'];
 export const DEFAULT_ROOMS = {
   house: ['hall', 'living', 'kitchen', 'studio', 'music', 'bedroom', 'laundry', 'control'],
   workshop: ['workshop', 'storage'],
@@ -92,6 +94,7 @@ export const DEFAULT_ROOMS = {
   library: ['library', 'library'],
   shop: ['shop'],
   tower: ['library'],
+  arcade: ['arcade', 'cafe'],
   other: ['living'],
 };
 

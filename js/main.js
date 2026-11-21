@@ -4,7 +4,8 @@ import { fontsReady, toon, part } from './toon.js';
 import { PLOT, plotInfo, ensurePlots, roomsOf, ROOM_INFO, FLOOR_Y, layoutBuilding, toWorld, WALL_H } from './layout.js';
 import { buildProp, mural } from './props.js';
 import { buildBuilding, glass, bulbs } from './buildings.js';
-import { createLand, createRoads, createPlaza, decorate, rng } from './world.js';
+import { createLand, createRoads, createPlaza, decorate, decorList, rng } from './world.js';
+import { DEFAULT_BRANDS } from './brand.js';
 import { NavGrid } from './nav.js';
 import { createLoki, createPip, createVisitor } from './characters.js';
 import { LokiLife, ukNow } from './life.js';
@@ -75,6 +76,7 @@ let landRing = -1;
 
 // ---------- state ----------
 let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], config: {} };
+let drops = [];
 let townGroup = null, built = [], colliders = [], items = [], places = [], nav = null, lamps = [], smoke = [], jets = [], bounds = PLOT * 3, townKey = '';
 const nightLights = [];
 
@@ -128,6 +130,7 @@ function buildTown() {
     }
   }
   jets = ctx.jets;
+  drops = ctx.drops || [];
   // ---- things Loki added: props, statues, plants, custom designs, murals ----
   newMarkers = [];
   for (const p of town.props || []) {
@@ -427,6 +430,7 @@ function interact(it) {
   else if (it.type === 'diary') openPanel('diary');
   else if (it.type === 'gallery') openPanel('gallery');
   else if (it.type === 'music') openPanel('music');
+  else if (it.type === 'games') openPanel('games');
   else if (it.type === 'shop') openPanel('shop');
   else if (it.type === 'offer') openOffer();
   else if (it.type === 'control') location.href = 'control/';
@@ -519,85 +523,120 @@ function drawBigMap() {
   const extent = bounds + 8;
   const sc = Math.min(W, H) / (extent * 2);
   const X = (x) => W / 2 + x * sc, Z = (z) => H / 2 + z * sc;
-  g.fillStyle = '#b7e3a0';
+  g.fillStyle = '#a8dc8a';
   g.fillRect(0, 0, W, H);
-  // roads
-  const maxRing = Math.round(bounds / PLOT - 1.2);
-  g.strokeStyle = '#e8cf9d';
-  g.lineWidth = Math.max(2, 3.6 * sc);
-  for (let k = -maxRing; k <= maxRing + 1; k++) {
-    const c = (k - 0.5) * PLOT, e = (maxRing + 0.5) * PLOT;
+  for (let k = 0; k < 400; k++) {
+    g.fillStyle = k % 2 ? 'rgba(255,255,255,0.05)' : 'rgba(0,60,0,0.05)';
     g.beginPath();
-    g.moveTo(X(c), Z(-e));
-    g.lineTo(X(c), Z(e));
-    g.moveTo(X(-e), Z(c));
-    g.lineTo(X(e), Z(c));
-    g.stroke();
+    g.arc((k * 97) % W, (k * 53) % H, 6 + (k % 5) * 4, 0, Math.PI * 2);
+    g.fill();
   }
-  g.fillStyle = '#ecdcbc';
-  g.beginPath();
-  g.arc(X(0), Z(0), 10 * sc, 0, Math.PI * 2);
-  g.fill();
+  const maxRing = Math.round(bounds / PLOT - 1.2);
+  const e = (maxRing + 0.5) * PLOT;
+  const road = (x1, z1, x2, z2) => {
+    g.lineCap = 'round';
+    g.strokeStyle = '#b89a6a';
+    g.lineWidth = Math.max(4, 4.4 * sc);
+    g.beginPath(); g.moveTo(X(x1), Z(z1)); g.lineTo(X(x2), Z(z2)); g.stroke();
+    g.strokeStyle = '#ead7aa';
+    g.lineWidth = Math.max(3, 3.6 * sc);
+    g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,0.8)';
+    g.lineWidth = 1;
+    g.setLineDash([6, 6]);
+    g.stroke();
+    g.setLineDash([]);
+  };
+  for (let k = -maxRing; k <= maxRing + 1; k++) {
+    const c = (k - 0.5) * PLOT;
+    road(c, -e, c, e);
+    road(-e, c, e, c);
+  }
+  g.fillStyle = '#f1e2c2';
+  g.strokeStyle = '#c8ae7e';
+  g.lineWidth = 2;
+  g.beginPath(); g.arc(X(0), Z(0), 10 * sc, 0, Math.PI * 2); g.fill(); g.stroke();
+  g.beginPath(); g.arc(X(0), Z(0), 6 * sc, 0, Math.PI * 2); g.stroke();
+  const shadow = (x, y, w, h) => { g.fillStyle = 'rgba(0,0,0,0.18)'; g.fillRect(x + 3, y + 3, w, h); };
+  for (const d of decorList) {
+    if (d.kind === 'tree' || d.kind === 'plant') {
+      g.fillStyle = d.kind === 'tree' ? '#d98b3a' : '#5fa35a';
+      g.strokeStyle = 'rgba(0,0,0,0.25)';
+      g.beginPath(); g.arc(X(d.x), Z(d.z), Math.max(2.5, (d.kind === 'tree' ? 1.6 : 0.7) * sc), 0, Math.PI * 2); g.fill(); g.stroke();
+      continue;
+    }
+    const x = X(d.x - d.hw), y = Z(d.z - d.hd), w = d.hw * 2 * sc, h = d.hd * 2 * sc;
+    shadow(x, y, w, h);
+    const col = d.kind === 'tower' ? ['#9aa7b8', '#7d8a9c'] : d.kind === 'shop' ? ['#c9b8a6', '#a89580'] : ['#7fb27a', '#5f9a5a'];
+    const gr = g.createLinearGradient(x, y, x + w, y + h);
+    gr.addColorStop(0, col[0]); gr.addColorStop(1, col[1]);
+    g.fillStyle = gr;
+    g.fillRect(x, y, w, h);
+    g.strokeStyle = 'rgba(0,0,0,0.35)';
+    g.strokeRect(x, y, w, h);
+    if (d.kind === 'tower') { g.fillStyle = 'rgba(255,255,255,0.35)'; for (let k = 1; k < 4; k++) g.fillRect(x + (w * k) / 4 - 1, y + 2, 2, h - 4); }
+    if (d.kind === 'home') { g.strokeStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.moveTo(x, y + h / 2); g.lineTo(x + w, y + h / 2); g.stroke(); }
+  }
   mapHits = [];
-  g.font = `600 ${Math.max(10, Math.min(14, 3 * sc))}px Fredoka, sans-serif`;
-  g.textAlign = 'center';
   for (const bb of built) {
     const b = bb.b;
-    const color = b.built ? (isNew(b.built) ? '#e63946' : '#f28c28') : '#a1887f';
-    g.fillStyle = color;
-    g.strokeStyle = '#2b1a10';
-    g.lineWidth = 2;
+    const lokiMade = !!b.built, fresh = isNew(b.built);
     let hx, hz, hr;
     if (bb.footprint) {
       const f = bb.footprint;
-      g.fillRect(X(f.x - f.hw), Z(f.z - f.hd), f.hw * 2 * sc, f.hd * 2 * sc);
-      g.strokeRect(X(f.x - f.hw), Z(f.z - f.hd), f.hw * 2 * sc, f.hd * 2 * sc);
+      const x = X(f.x - f.hw), y = Z(f.z - f.hd), w = f.hw * 2 * sc, h = f.hd * 2 * sc;
+      shadow(x, y, w, h);
+      g.fillStyle = lokiMade ? (fresh ? '#ef5b5b' : '#f28c28') : '#b5523b';
+      g.fillRect(x, y, w, h);
+      g.strokeStyle = '#2b1a10';
+      g.lineWidth = 2;
+      g.strokeRect(x, y, w, h);
+      g.strokeStyle = 'rgba(255,255,255,0.5)';
+      g.beginPath();
+      if (w > h) { g.moveTo(x + 4, y + h / 2); g.lineTo(x + w - 4, y + h / 2); } else { g.moveTo(x + w / 2, y + 4); g.lineTo(x + w / 2, y + h - 4); }
+      g.stroke();
       hx = f.x; hz = f.z; hr = Math.max(f.hw, f.hd);
     } else {
       const i = plotInfo(b.plot);
-      g.beginPath();
-      g.arc(X(i.x), Z(i.z), 6 * sc, 0, Math.PI * 2);
-      g.fill();
-      g.stroke();
+      g.fillStyle = b.kind === 'fountain' ? '#58b9e6' : b.kind === 'market' ? '#e76f51' : '#7cc36a';
+      g.strokeStyle = '#2b1a10';
+      g.lineWidth = 2;
+      g.beginPath(); g.arc(X(i.x), Z(i.z), Math.max(8, (b.kind === 'park' || b.kind === 'garden' ? 9 : 4) * sc), 0, Math.PI * 2); g.fill(); g.stroke();
       hx = i.x; hz = i.z; hr = 7;
     }
+    const brand = b.kind === 'house' ? 'No. 7 · Loki & Pip' : (b.brand && b.brand.name) || (DEFAULT_BRANDS[b.kind] && DEFAULT_BRANDS[b.kind].name) || b.name;
+    g.font = `700 ${Math.max(11, Math.min(14, 3.2 * sc))}px Fredoka, sans-serif`;
+    const tw = g.measureText(brand).width + 14;
+    g.fillStyle = 'rgba(255,248,236,0.95)';
+    g.strokeStyle = lokiMade ? (fresh ? '#ef5b5b' : '#f28c28') : '#2b1a10';
+    g.lineWidth = 2;
+    g.beginPath(); g.roundRect(X(hx) - tw / 2, Z(hz) - 10, tw, 20, 10); g.fill(); g.stroke();
     g.fillStyle = '#2b1a10';
-    g.fillText(b.name, X(hx), Z(hz) + 4);
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.fillText(brand, X(hx), Z(hz) + 1);
+    if (fresh) { g.fillStyle = '#ef5b5b'; g.font = '700 10px Fredoka'; g.fillText('NEW', X(hx), Z(hz) - 16); }
     mapHits.push({ x: hx, z: hz, r: hr, door: bb.door, name: b.name });
   }
   for (const p of D.town.props || []) {
     if (p.type === 'mural') continue;
-    g.fillStyle = isNew(p.built) ? '#e63946' : '#8e7cc3';
-    g.beginPath();
-    g.arc(X(p.x), Z(p.z), Math.max(3, 1.2 * sc), 0, Math.PI * 2);
-    g.fill();
+    g.fillStyle = isNew(p.built) ? '#ef5b5b' : '#8e7cc3';
+    g.strokeStyle = '#2b1a10';
+    g.beginPath(); g.arc(X(p.x), Z(p.z), Math.max(4, 1.2 * sc), 0, Math.PI * 2); g.fill(); g.stroke();
   }
   const l = loki.root.position, v = visitor.root.position;
-  g.fillStyle = '#f28c28';
-  g.strokeStyle = '#2b1a10';
-  g.lineWidth = 3;
-  g.beginPath();
-  g.arc(X(l.x), Z(l.z), 9, 0, Math.PI * 2);
-  g.fill();
-  g.stroke();
-  g.font = '14px sans-serif';
-  g.fillText('🐱', X(l.x), Z(l.z) - 12);
+  g.fillStyle = '#f28c28'; g.strokeStyle = '#2b1a10'; g.lineWidth = 3;
+  g.beginPath(); g.arc(X(l.x), Z(l.z), 9, 0, Math.PI * 2); g.fill(); g.stroke();
+  g.fillStyle = '#2b1a10'; g.font = '700 11px Fredoka'; g.textAlign = 'center'; g.fillText('Loki', X(l.x), Z(l.z) - 16);
   g.fillStyle = '#3d3a6b';
-  g.beginPath();
-  g.arc(X(v.x), Z(v.z), 7, 0, Math.PI * 2);
-  g.fill();
-  g.fillStyle = '#2b1a10';
-  g.font = '600 12px Fredoka, sans-serif';
-  g.fillText('you', X(v.x), Z(v.z) + 20);
-  // legend
-  const leg = [['#a1887f', 'original'], ['#f28c28', 'built by Loki'], ['#e63946', 'new!'], ['#8e7cc3', 'decorations']];
+  g.beginPath(); g.arc(X(v.x), Z(v.z), 7, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#2b1a10'; g.fillText('you', X(v.x), Z(v.z) + 18);
+  const leg = [['#b5523b', 'original town'], ['#f28c28', 'built by Loki'], ['#ef5b5b', 'new!'], ['#8e7cc3', "Loki's decorations"], ['#7fb27a', 'neighbours'], ['#9aa7b8', 'city blocks']];
+  g.fillStyle = 'rgba(255,248,236,0.9)';
+  g.beginPath(); g.roundRect(8, 8, 150, 20 + leg.length * 18, 10); g.fill();
   g.textAlign = 'left';
-  leg.forEach(([c, t], i) => {
-    g.fillStyle = c;
-    g.fillRect(12, 12 + i * 20, 14, 14);
-    g.fillStyle = '#2b1a10';
-    g.fillText(t, 32, 24 + i * 20);
-  });
+  g.font = '600 12px Fredoka';
+  leg.forEach(([c, t], i) => { g.fillStyle = c; g.fillRect(16, 18 + i * 18, 12, 12); g.fillStyle = '#2b1a10'; g.fillText(t, 34, 25 + i * 18); });
   cv.onclick = (e) => {
     const r = cv.getBoundingClientRect();
     const wx = (e.clientX - r.left - W / 2) / sc, wz = (e.clientY - r.top - H / 2) / sc;
@@ -836,7 +875,10 @@ function frame(forcedDt) {
     p.scale.setScalar(0.5 + k * 1.6);
     p.material.opacity = 0.65 * (1 - k);
   }
-  for (const j of jets) j.rotation.y = t * 0.15;
+  for (const d of drops) {
+    const k = (t * 0.55 + d.obj.userData.drop) % 1, a = d.obj.userData.drop * Math.PI * 2;
+    d.obj.position.set(Math.cos(a) * d.r * k, 0.6 + Math.sin(k * Math.PI) * d.top, Math.sin(a) * d.r * k);
+  }
   clouds.children.forEach((c) => {
     c.position.x += c.userData.speed * dt;
     if (c.position.x > 230) c.position.x = -230;

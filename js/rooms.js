@@ -3,13 +3,19 @@
 // as the real object: sofas, fridges, washing machines, pianos, easels...
 import * as THREE from 'three';
 import { toon, block, part, paperTexture } from './toon.js';
+import { model } from './models.js';
 
 const WOOD = '#a8754a', DARK = '#5b3a29', CREAM = '#fff3dc', METAL = '#9aa5ab', BLACK = '#2b2d42';
 const cyl = (r1, r2, h, s = 16) => new THREE.CylinderGeometry(r1, r2, h, s);
 const sph = (r, a = 16, b = 12) => new THREE.SphereGeometry(r, a, b);
 
 // ---------------- reusable objects (all built facing +z, origin at floor centre) ----------------
+const FLOWER_MODELS = { '#ef476f': 'flower_redA', '#ffd166': 'flower_yellowA', '#c77dff': 'flower_purpleA', '#f8f9fa': 'flower_yellowB' };
 export function flower(color = '#ef476f', h = 0.35) {
+  const name = FLOWER_MODELS[color] || 'flower_redB';
+  return model(`nature/${name}`, h * 0.8, h * 0.8, { h: h * 1.2 });
+}
+export function flowerOld(color = '#ef476f', h = 0.35) {
   const g = new THREE.Group();
   g.add(block(0.02, h, 0.02, '#3f8f4f', 0, h / 2, 0, { ink: false, cast: false }));
   for (let k = 0; k < 5; k++) {
@@ -432,28 +438,63 @@ function register() {
   return g;
 }
 
-// ---------------- room recipes ----------------
-// Each item: [builder, wall ('n' back, 's' front, 'e' right, 'w' left), side (-1/1 along the wall), width, depth, opts]
-// opts.spot = {act, label, d (distance in front)} ; opts.item = interactable type
+// Real furniture (Kenney CC0 models) where available; our own models only where none exists.
+const K = (path, w, d, h, extra = {}) => () => model(`furniture/${path}`, w, d, { h, ...extra });
+const N = (path, w, d, h) => () => model(`nature/${path}`, w, d, { h });
+function arcadeCabinet(color = '#8e7cc3') {
+  const g = new THREE.Group();
+  g.add(block(0.7, 1.7, 0.65, color, 0, 0.85, 0), block(0.72, 0.25, 0.3, '#2b2d42', 0, 1.0, 0.22));
+  const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.52, 0.42), new THREE.MeshBasicMaterial({ color: '#4cc9f0' }));
+  scr.position.set(0, 1.38, 0.3);
+  scr.rotation.x = -0.15;
+  g.add(scr, block(0.6, 0.18, 0.08, '#ffd166', 0, 1.72, 0.29), part(new THREE.SphereGeometry(0.04, 8, 6), '#e63946', { x: -0.12, y: 1.15, z: 0.36, ink: 0 }), part(new THREE.SphereGeometry(0.035, 8, 6), '#06d6a0', { x: 0.12, y: 1.15, z: 0.36, ink: 0 }));
+  g.userData.screens = [scr];
+  return g;
+}
 function recipes(ctx) {
   const art = (k) => artTexture(ctx.art[k]?.file);
   return {
-    hall: [[coatRack, 'n', -1, 0.45, 0.45], [shoeBench, 'w', 1, 1.0, 0.4], [() => pottedPlant(1.1), 'n', 1, 0.5, 0.5, { spot: { act: 'greet', label: 'saying hi by the front door', d: 1.2 } }], [mirror, 'e', -1, 0.8, 0.08, { wallHung: true }]],
-    living: [[() => sofa(1.6), 'n', -1, 1.6, 0.8, { spot: { act: 'relax', label: 'curled up on the sofa watching TV', d: 0.25, onTop: 0.32 } }], [tvUnit, 's', -1, 1.4, 0.45], [floorLamp, 'n', 1, 0.4, 0.4], [() => armchair('#e76f51'), 'e', 1, 0.9, 0.85, { spot: { act: 'radio', label: 'listening to the radio in his armchair', d: 0.2, onTop: 0.3 } }], [() => pottedPlant(1.3), 'w', 1, 0.5, 0.5]],
-    kitchen: [[() => kitchenCounter(1.7), 'n', -1, 1.7, 0.62, { spot: { act: 'cook', label: 'cooking something that smells of fish', d: 0.7 } }], [fridge, 'n', 1, 0.72, 0.66], [catBowl, 'e', 1, 0.8, 0.45, { spot: { act: 'eat', label: 'eating fish from his bowl', d: 0.55 } }], [() => { const g = table(1.0, 0.8, '#d4a373'); const c = chair(); c.position.set(0, 0, 0.6); c.rotation.y = Math.PI; g.add(c); return g; }, 'w', -1, 1.0, 0.8]],
-    bedroom: [[catBed, 'n', -1, 1.3, 1.3, { spot: { act: 'sleep', label: 'asleep in his bed', d: -0.65, onTop: 0.12 } }], [wardrobe, 'n', 1, 1.1, 0.55], [nightstand, 'w', 1, 0.5, 0.42], [() => rug(1.6, 1.1, '#9c89b8'), 'e', -1, 1.4, 1.0, { flat: true, spot: { act: 'stretch', label: 'stretching after a nap', d: -0.5 } }]],
-    laundry: [[() => washer('wash'), 'n', -1, 0.7, 0.66, { spot: { act: 'laundry', label: 'watching the washing machine spin', d: 0.75 }, anim: 'drum' }], [() => washer('dry'), 'n', 1, 0.7, 0.66, { anim: 'drum' }], [laundryBasket, 'e', 1, 0.6, 0.6], [() => shelfUnit(1.0, ['#4cc9f0', '#f4a3a3', '#ffd166']), 'w', -1, 1.0, 0.36], [dryingRack, 's', 1, 1.1, 0.45]],
-    music: [[piano, 'n', -1, 1.5, 1.15, { spot: { act: 'piano', label: 'playing the piano', d: -0.15 } }], [micStand, 'n', 1, 0.5, 0.5, { spot: { act: 'sing', label: 'practising singing at the microphone', d: 0.6 }, anim: 'notes' }], [speaker, 'e', 1, 0.45, 0.4], [speaker, 'w', 1, 0.45, 0.4], [guitar, 'e', -1, 0.4, 0.3]],
-    studio: [[() => easel(art(0)), 'n', -1, 0.9, 0.6, { spot: { act: 'paint', label: 'painting at his easel', d: 0.8 } }], [paintTable, 'n', 1, 0.9, 0.55], [() => { const g = new THREE.Group(); for (let k = 0; k < 3; k++) { const f = frame(art(k + 1), 0.7, 0.7); f.position.set(0, 0.42, -0.05 + k * 0.08); f.rotation.x = -0.2; g.add(f); } return g; }, 'w', 1, 0.8, 0.4], [() => rug(1.5, 1.2, '#ffd166', '#f28c28'), 's', -1, 1.5, 1.2, { flat: true }]],
-    control: [[deskSetup, 'n', -1, 1.6, 0.7, { spot: { act: 'work', label: 'checking his screens in the control room', d: 0.75 }, anim: 'screens' }], [officeChair, 'n', -1, 0.5, 0.5, { offsetD: 0.75, noBlock: true }], [serverRack, 'n', 1, 0.6, 0.6, { anim: 'leds' }], [() => pottedPlant(0.9), 'e', 1, 0.45, 0.45]],
-    workshop: [[workbench, 'n', -1, 1.7, 0.7, { spot: { act: 'build', label: 'building something at the workbench', d: 0.7 } }], [printer3d, 'n', 1, 0.6, 0.55, { spot: { act: 'print', label: 'watching the 3D printer', d: 0.7 }, anim: 'printer' }], [() => crates(2), 'e', 1, 0.6, 0.5], [() => shelfUnit(1.0), 'w', -1, 1.0, 0.36]],
-    storage: [[() => shelfUnit(1.2, ['#c68b59', '#ffd166', '#06d6a0']), 'n', -1, 1.2, 0.36], [() => crates(3), 'n', 1, 0.6, 0.5], [() => crates(2), 'e', 1, 0.6, 0.5, { spot: { act: 'tidy', label: 'tidying the storeroom', d: 0.8 } }]],
-    bakery: [[brickOven, 'n', -1, 1.5, 1.1, { spot: { act: 'bake', label: 'baking fish buns', d: 0.8 } }], [displayCounter, 'e', 1, 1.6, 0.6], [() => shelfUnit(1.0, ['#d99a4e', '#e9b872', '#c4621a']), 'n', 1, 1.0, 0.36]],
-    cafe: [[espresso, 'n', -1, 1.6, 0.62, { spot: { act: 'coffee', label: 'making a warm milk at the café counter', d: 0.7 } }], [bistro, 'w', 1, 1.6, 0.9, { spot: { act: 'sit', label: 'sitting at a café table', d: 0.9 } }], [bistro, 'e', 1, 1.6, 0.9], [() => pottedPlant(1.2), 'n', 1, 0.5, 0.5]],
-    gallery: [[() => frame(art(ctx.galleryOffset || 0), 1.2, 1.2), 'n', -1, 1.3, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 1), 1.2, 1.2), 'n', 1, 1.3, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 2), 1.1, 1.1), 'w', 1, 1.2, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 3), 1.1, 1.1), 'e', -1, 1.2, 0.1, { wallHung: true, y: 1.6 }], [() => pedestal('#f28c28'), 'w', -1, 0.5, 0.5, { spot: { act: 'admire', label: 'admiring the art in the gallery', d: 1.0 }, item: 'gallery' }]],
-    library: [[() => bookshelf(1.5), 'n', -1, 1.5, 0.38], [() => bookshelf(1.2), 'n', 1, 1.2, 0.38], [() => armchair('#2a9d8f'), 'w', 1, 0.9, 0.85, { spot: { act: 'read', label: 'reading in a comfy armchair', d: 0.2, onTop: 0.3 } }], [floorLamp, 'e', 1, 0.4, 0.4]],
-    shop: [[register, 'n', 1, 1.6, 0.62, { spot: { act: 'sell', label: 'minding the shop counter', d: -0.7 }, item: 'shop' }], [() => shelfUnit(1.3, ['#f28c28', '#2a9d8f', '#ffd166', '#e63946']), 'n', -1, 1.3, 0.36], [() => shelfUnit(1.3, ['#8e7cc3', '#06d6a0', '#f4a261']), 'w', 1, 1.3, 0.36]],
-    garden_room: [[() => pottedPlant(1.6), 'n', -1, 0.7, 0.7], [() => pottedPlant(1.4), 'n', 1, 0.6, 0.6, { spot: { act: 'garden', label: 'watering his plants', d: 0.8 } }], [() => pottedPlant(1.5), 'e', 1, 0.6, 0.6], [() => pottedPlant(1.2), 'w', -1, 0.6, 0.6]],
+    hall: [[K('coatRackStanding', 0.5, 0.5, 1.8), 'n', -1, 0.5, 0.5], [K('bench', 1.1, 0.45), 'w', 1, 1.1, 0.45], [K('pottedPlant', 0.55, 0.55, 1.1), 'n', 1, 0.55, 0.55, { spot: { act: 'greet', label: 'saying hi by the front door', d: 1.2 } }], [mirror, 'e', -1, 0.8, 0.08, { wallHung: true }], [K('lampSquareFloor', 0.4, 0.4, 1.6), 'e', 1, 0.4, 0.4]],
+    living: [
+      [K('loungeSofa', 1.8, 0.85), 'n', -1, 1.8, 0.85, { spot: { act: 'relax', label: 'curled up on the sofa watching TV', d: 0.2, onTop: 0.38 } }],
+      [K('cabinetTelevision', 1.4, 0.45), 's', -1, 1.4, 0.45, { on: [['furniture/televisionModern', 1.2, 0.25, 0.8, 0.52]] }],
+      [K('loungeChair', 0.9, 0.9), 'e', 1, 0.9, 0.9, { spot: { act: 'radio', label: 'listening to the radio in his armchair', d: 0.15, onTop: 0.35 } }],
+      [K('sideTable', 0.5, 0.5), 'e', -1, 0.5, 0.5, { on: [['furniture/radio', 0.4, 0.25, 0.3, 0.55]] }],
+      [K('lampRoundFloor', 0.45, 0.45, 1.6), 'n', 1, 0.45, 0.45], [K('pottedPlant', 0.55, 0.55, 1.2), 'w', 1, 0.55, 0.55], [K('rugRectangle', 1.8, 1.2), 's', 1, 1.8, 1.2, { flat: true }]],
+    kitchen: [
+      [K('kitchenSink', 0.8, 0.65), 'n', -1, 0.8, 0.65, { at: -2.55, spot: { act: 'cook', label: 'washing up and cooking something fishy', d: 0.7 } }],
+      [K('kitchenStove', 0.8, 0.65), 'n', -1, 0.8, 0.65, { at: -1.72 }],
+      [K('kitchenCabinet', 0.8, 0.65), 'n', 1, 0.8, 0.65, { at: 1.72, on: [['furniture/kitchenCoffeeMachine', 0.35, 0.3, 0.45, 0.88], ['furniture/toaster', 0.3, 0.2, 0.25, 0.88, 0.25]] }],
+      [K('kitchenFridgeLarge', 0.8, 0.7), 'n', 1, 0.8, 0.7, { at: 2.55 }],
+      [catBowl, 'e', 1, 0.8, 0.45, { spot: { act: 'eat', label: 'eating fish from his bowl', d: 0.55 } }],
+      [() => { const g = new THREE.Group(); g.add(model('furniture/tableRound', 1.0, 1.0)); for (const s of [-1, 1]) { const c = model('furniture/chair', 0.5, 0.5); c.position.set(s * 0.75, 0, 0); c.rotation.y = -s * Math.PI / 2; g.add(c); } return g; }, 'w', -1, 1.0, 1.0],
+      [K('kitchenCabinetUpper', 0.8, 0.35), 'n', -1, 0.8, 0.35, { at: -2.55, wallHung: true, y: 1.5 }], [K('kitchenCabinetUpper', 0.8, 0.35), 'n', -1, 0.8, 0.35, { at: -1.72, wallHung: true, y: 1.5 }]],
+    bedroom: [
+      [catBed, 'n', -1, 1.3, 1.3, { spot: { act: 'sleep', label: 'asleep in his bed', d: -0.65, onTop: 0.12 } }],
+      [K('bookcaseClosedDoors', 1.1, 0.5, 2.0), 'n', 1, 1.1, 0.5],
+      [K('cabinetBedDrawerTable', 0.5, 0.45), 'w', 1, 0.5, 0.45, { on: [['furniture/lampSquareTable', 0.25, 0.25, 0.45, 0.5]] }],
+      [nightstand, 'w', -1, 0.5, 0.42],
+      [K('rugRound', 1.4, 1.4), 'e', -1, 1.4, 1.4, { flat: true, spot: { act: 'stretch', label: 'stretching after a nap', d: -0.6 } }], [K('pottedPlant', 0.5, 0.5, 1.0), 'e', 1, 0.5, 0.5]],
+    bathroom: [[K('bathtub', 1.7, 0.85), 'n', -1, 1.7, 0.85, { spot: { act: 'bath', label: 'having a (very short) bath', d: -0.4, onTop: 0.2 } }], [K('toilet', 0.5, 0.7), 'n', 1, 0.5, 0.7], [K('bathroomSink', 0.6, 0.5), 'e', 1, 0.6, 0.5, { on: [] }], [K('bathroomMirror', 0.6, 0.08), 'e', 1, 0.6, 0.08, { wallHung: true, y: 1.2 }], [K('bathroomCabinetDrawer', 0.8, 0.45), 'w', 1, 0.8, 0.45], [K('rugSquare', 1, 1), 's', -1, 1, 1, { flat: true }]],
+    laundry: [
+      [K('washer', 0.75, 0.7), 'n', -1, 0.75, 0.7, { at: -2.55, spot: { act: 'laundry', label: 'watching the washing machine spin', d: 0.75 } }],
+      [K('dryer', 0.75, 0.7), 'n', -1, 0.75, 0.7, { at: -1.72 }],
+      [laundryBasket, 'e', 1, 0.6, 0.6], [K('bathroomCabinet', 0.9, 0.4, 1.6), 'w', -1, 0.9, 0.4], [dryingRack, 's', 1, 1.1, 0.45]],
+    music: [[piano, 'n', -1, 1.5, 1.15, { spot: { act: 'piano', label: 'playing the piano', d: -0.15 } }], [micStand, 'n', 1, 0.5, 0.5, { spot: { act: 'sing', label: 'practising singing at the microphone', d: 0.6 } }], [K('speaker', 0.5, 0.45, 1.1), 'e', 1, 0.5, 0.45], [K('speaker', 0.5, 0.45, 1.1), 'w', 1, 0.5, 0.45], [guitar, 'e', -1, 0.4, 0.3], [K('loungeChairRelax', 0.9, 0.9), 's', -1, 0.9, 0.9]],
+    studio: [[() => easel(art(0)), 'n', -1, 0.9, 0.6, { spot: { act: 'paint', label: 'painting at his easel', d: 0.8 } }], [paintTable, 'n', 1, 0.9, 0.55], [K('bookcaseOpenLow', 1.0, 0.4), 'w', 1, 1.0, 0.4], [() => { const g = new THREE.Group(); for (let k = 0; k < 3; k++) { const f = frame(art(k + 1), 0.7, 0.7); f.position.set(0, 0.42, -0.05 + k * 0.08); f.rotation.x = -0.2; g.add(f); } return g; }, 'w', -1, 0.8, 0.4], [K('rugRectangle', 1.6, 1.1), 's', -1, 1.6, 1.1, { flat: true }]],
+    control: [[K('desk', 1.6, 0.8), 'n', -1, 1.6, 0.8, { spot: { act: 'work', label: 'checking his screens in the control room', d: 0.8 }, on: [['furniture/computerScreen', 0.55, 0.2, 0.45, 0.76, -0.4], ['furniture/computerScreen', 0.55, 0.2, 0.45, 0.76, 0.3], ['furniture/computerKeyboard', 0.45, 0.15, 0.05, 0.76, -0.05, 0.2], ['furniture/computerMouse', 0.08, 0.12, 0.04, 0.76, 0.35, 0.2]] }], [K('chairDesk', 0.6, 0.6), 'n', -1, 0.6, 0.6, { offsetD: 0.85, noBlock: true }], [serverRack, 'n', 1, 0.6, 0.6, { anim: 'leds' }], [K('pottedPlant', 0.5, 0.5, 1.1), 'e', 1, 0.5, 0.5], [K('sideTable', 0.55, 0.5), 'w', 1, 0.55, 0.5, { on: [['furniture/laptop', 0.4, 0.3, 0.25, 0.52]] }]],
+    workshop: [[workbench, 'n', -1, 1.7, 0.7, { spot: { act: 'build', label: 'building something at the workbench', d: 0.7 } }], [printer3d, 'n', 1, 0.6, 0.55, { spot: { act: 'print', label: 'watching the 3D printer', d: 0.7 }, anim: 'printer' }], [K('cardboardBoxClosed', 0.6, 0.6), 'e', 1, 0.6, 0.6], [K('bookcaseOpen', 1.0, 0.4, 1.9), 'w', -1, 1.0, 0.4]],
+    storage: [[K('bookcaseOpen', 1.2, 0.4, 1.9), 'n', -1, 1.2, 0.4], [K('cardboardBoxClosed', 0.7, 0.7), 'n', 1, 0.7, 0.7], [K('cardboardBoxOpen', 0.7, 0.7), 'e', 1, 0.7, 0.7, { spot: { act: 'tidy', label: 'tidying the storeroom', d: 0.8 } }]],
+    bakery: [[brickOven, 'n', -1, 1.5, 1.1, { spot: { act: 'bake', label: 'baking fish buns', d: 0.8 } }], [displayCounter, 'e', 1, 1.6, 0.6], [K('bookcaseOpen', 1.0, 0.4, 1.8), 'n', 1, 1.0, 0.4], [K('kitchenCabinetDrawer', 0.8, 0.6), 'w', 1, 0.8, 0.6, { on: [['furniture/kitchenBlender', 0.25, 0.25, 0.4, 0.88]] }]],
+    cafe: [[K('kitchenBar', 1.6, 0.6), 'n', -1, 1.6, 0.6, { spot: { act: 'coffee', label: 'making a warm milk at the café counter', d: 0.75 }, on: [['furniture/kitchenCoffeeMachine', 0.4, 0.35, 0.5, 1.0, -0.45], ['furniture/kitchenBlender', 0.2, 0.2, 0.35, 1.0, 0.45]] }],
+      [() => { const g = new THREE.Group(); g.add(model('furniture/tableRound', 0.9, 0.9)); for (const s of [-1, 1]) { const c = model('furniture/chairCushion', 0.5, 0.5); c.position.set(s * 0.68, 0, 0); c.rotation.y = -s * Math.PI / 2; g.add(c); } return g; }, 'w', 1, 0.9, 0.9, { spot: { act: 'sit', label: 'sitting at a café table', d: 0.9 } }],
+      [() => { const g = new THREE.Group(); g.add(model('furniture/tableRound', 0.9, 0.9)); for (const s of [-1, 1]) { const c = model('furniture/chairCushion', 0.5, 0.5); c.position.set(s * 0.68, 0, 0); c.rotation.y = -s * Math.PI / 2; g.add(c); } return g; }, 'e', 1, 0.9, 0.9],
+      [K('stoolBar', 0.4, 0.4), 'n', -1, 0.4, 0.4, { offsetD: 0.8, noBlock: true, at: -2.4 }], [K('pottedPlant', 0.55, 0.55, 1.2), 'n', 1, 0.55, 0.55]],
+    gallery: [[() => frame(art(ctx.galleryOffset || 0), 1.2, 1.2), 'n', -1, 1.3, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 1), 1.2, 1.2), 'n', 1, 1.3, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 2), 1.1, 1.1), 'w', 1, 1.2, 0.1, { wallHung: true, y: 1.6 }], [() => frame(art((ctx.galleryOffset || 0) + 3), 1.1, 1.1), 'e', -1, 1.2, 0.1, { wallHung: true, y: 1.6 }], [K('benchCushion', 1.2, 0.5), 'w', -1, 1.2, 0.5, { spot: { act: 'admire', label: 'admiring the art in the gallery', d: 0.6 }, item: 'gallery' }], [() => pedestal('#f28c28'), 'e', 1, 0.5, 0.5], [K('pottedPlant', 0.5, 0.5, 1.2), 's', 1, 0.5, 0.5]],
+    library: [[K('bookcaseClosedWide', 1.7, 0.45, 2.0), 'n', -1, 1.7, 0.45], [K('bookcaseOpen', 1.2, 0.4, 1.9), 'n', 1, 1.2, 0.4], [K('loungeChairRelax', 0.9, 0.9), 'w', 1, 0.9, 0.9, { spot: { act: 'read', label: 'reading in a comfy armchair', d: 0.2, onTop: 0.32 } }], [K('lampRoundFloor', 0.45, 0.45, 1.6), 'e', 1, 0.45, 0.45], [K('sideTable', 0.5, 0.5), 'e', -1, 0.5, 0.5, { on: [['furniture/books', 0.35, 0.25, 0.2, 0.55]] }]],
+    shop: [[register, 'n', 1, 1.6, 0.62, { spot: { act: 'sell', label: 'minding the shop counter', d: -0.7 }, item: 'shop' }], [K('bookcaseOpen', 1.3, 0.4, 1.9), 'n', -1, 1.3, 0.4], [K('bookcaseOpenLow', 1.2, 0.4), 'w', 1, 1.2, 0.4, { on: [['furniture/cardboardBoxClosed', 0.3, 0.3, 0.3, 0.75, -0.3], ['furniture/cardboardBoxOpen', 0.3, 0.3, 0.3, 0.75, 0.3]] }], [K('pottedPlant', 0.5, 0.5, 1.2), 'e', 1, 0.5, 0.5]],
+    arcade: [[() => arcadeCabinet('#8e7cc3'), 'n', -1, 0.7, 0.65, { at: -2.5, spot: { act: 'play', label: 'playing his own arcade game', d: 0.7 }, anim: 'screens', item: 'games' }], [() => arcadeCabinet('#e76f51'), 'n', -1, 0.7, 0.65, { at: -1.6, anim: 'screens' }], [() => arcadeCabinet('#2a9d8f'), 'n', 1, 0.7, 0.65, { at: 1.6, anim: 'screens' }], [() => arcadeCabinet('#f4a261'), 'n', 1, 0.7, 0.65, { at: 2.5, anim: 'screens' }], [K('stoolBar', 0.4, 0.4), 'e', 1, 0.4, 0.4], [K('loungeSofa', 1.6, 0.8), 's', -1, 1.6, 0.8]],
+    garden_room: [[N('plant_bushLarge', 0.9, 0.9, 1.0), 'n', -1, 0.9, 0.9], [K('pottedPlant', 0.6, 0.6, 1.4), 'n', 1, 0.6, 0.6, { spot: { act: 'garden', label: 'watering his plants', d: 0.8 } }], [N('flower_redA', 0.5, 0.5, 0.6), 'e', 1, 0.5, 0.5], [N('plant_bushDetailed', 0.8, 0.8, 0.9), 'w', -1, 0.8, 0.8]],
   };
 }
 
@@ -465,7 +506,7 @@ export function buildRoom(kind, ctx, half, room) {
   for (const [fn, wall, side, w, d, opts = {}] of list) {
     const obj = fn();
     // position along the wall, in its corner, never in the doorway strip
-    const along = side * Math.max(1.15 + w / 2, half - w / 2 - 0.08);
+    const along = opts.at != null ? Math.sign(opts.at) * Math.min(Math.abs(opts.at), half - w / 2 - 0.05) : side * Math.max(1.15 + w / 2, half - w / 2 - 0.08);
     const off = half - d / 2 - 0.05 - (opts.offsetD || 0);
     let x = 0, z = 0;
     if (wall === 'n') (x = along), (z = -off);
@@ -474,6 +515,11 @@ export function buildRoom(kind, ctx, half, room) {
     if (wall === 'w') (x = -off), (z = along);
     obj.position.set(x, opts.wallHung ? opts.y || 0 : 0, z);
     obj.rotation.y = ROT[wall];
+    for (const [path, ow, od, oh, oy, ox = 0, oz = 0] of opts.on || []) {
+      const extra = model(path, ow, od, { h: oh });
+      extra.position.set(ox, oy, oz);
+      obj.add(extra);
+    }
     g.add(obj);
     const horiz = wall === 'n' || wall === 's';
     if (!opts.flat && !opts.wallHung && !opts.noBlock) blockers.push({ x, z, w: horiz ? w : d, d: horiz ? d : w });
@@ -482,12 +528,12 @@ export function buildRoom(kind, ctx, half, room) {
       const dist = d / 2 + opts.spot.d;
       spots.push({ act: opts.spot.act, label: opts.spot.label, x: x + Math.sin(facing) * dist, z: z + Math.cos(facing) * dist, face: facing + Math.PI, onTop: opts.spot.onTop || 0 });
     }
-    if (opts.item) items.push({ type: opts.item, x: x + Math.sin(facing) * (d / 2 + 1.1), z: z + Math.cos(facing) * (d / 2 + 1.1), r: 2.2, label: opts.item === 'shop' ? "🛍️ Visit Loki's shop" : "🖼️ Look at Loki's paintings" });
+    if (opts.item) items.push({ type: opts.item, x: x + Math.sin(facing) * (d / 2 + 1.1), z: z + Math.cos(facing) * (d / 2 + 1.1), r: 2.2, label: opts.item === 'shop' ? "Visit Loki's shop" : opts.item === 'games' ? "Play Loki's games" : "Look at Loki's paintings" });
     if (opts.anim) anims.push({ type: opts.anim, obj });
   }
-  if (kind === 'music') items.push({ type: 'music', x: 0, z: 0, r: 2.6, label: "🎹 Listen to Loki's songs" });
-  if (kind === 'studio') items.push({ type: 'gallery', x: 0, z: 0, r: 2.2, label: "🎨 See Loki's paintings" });
-  if (kind === 'control') items.push({ type: 'control', x: 0, z: 0, r: 2.2, label: '🖥️ Open the Control Centre (owner)' });
+  if (kind === 'music') items.push({ type: 'music', x: 0, z: 0, r: 2.6, label: "Listen to Loki's songs" });
+  if (kind === 'studio') items.push({ type: 'gallery', x: 0, z: 0, r: 2.2, label: "See Loki's paintings" });
+  if (kind === 'control') items.push({ type: 'control', x: 0, z: 0, r: 2.2, label: 'Open the Control Centre (owner)' });
   // music notes sprite
   let notes = null;
   if (kind === 'music') {
@@ -514,7 +560,7 @@ export function buildRoom(kind, ctx, half, room) {
     for (const a of anims) {
       if (a.type === 'drum' && a.obj.userData.drum) a.obj.userData.drum.rotation.z = t * (active ? 6 : 0.8);
       if (a.type === 'leds') a.obj.userData.leds.forEach((l, i) => l.material.color.set(Math.sin(t * 3 + i * 1.7) > 0 ? '#06d6a0' : '#1b4332'));
-      if (a.type === 'screens') a.obj.userData.screens.forEach((s, i) => s.material.color.setHSL((t * 0.03 + i * 0.3) % 1, 0.55, 0.6));
+      if (a.type === 'screens' && a.obj.userData.screens) a.obj.userData.screens.forEach((s, i) => s.material.color.setHSL((t * 0.05 + i * 0.3) % 1, 0.6, 0.6));
       if (a.type === 'printer') a.obj.userData.head.position.x = Math.sin(t * (active ? 4 : 0.5)) * 0.2;
     }
     if (notes) {
