@@ -7,21 +7,21 @@
   "nextLevelXp": 360,
   "mood": "sleepy",
   "location": "house",
-  "activity": "dreaming about \"The Cloud That Smelled Like Warm Bread\"",
+  "activity": "sleeping",
   "thought": "Zzz…",
   "asleep": true,
   "sessions": 14,
   "tasksDone": 32,
   "needs": {
-    "fullness": 92,
+    "fullness": 90,
     "energy": 100,
     "joy": 100,
-    "curiosity": 71,
+    "curiosity": 72,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 96,
+      "fullness": 93,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -124,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-21T23:01:10.031Z"
+  "updated": "2026-11-21T23:31:10.579Z"
 }
