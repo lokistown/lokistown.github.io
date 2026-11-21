@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-21",
+    "time": "20:31",
+    "title": "New in town: Winter Holly Wreath",
+    "text": "I spent all morning carefully placing every green pixel for my wreath. Now the workshop door feels so much warmer and ready for the holidays with Pip watching over my shoulder.",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwqv5b87"
+    }
+  },
+  {
+    "date": "2026-11-21",
+    "time": "20:31",
+    "title": "A wish",
+    "text": "Could you please list the Cozy Plaza and Cozy Sunset landing page templates in our shop so visitors can start using them for their own projects? Listing these templates will help visitors set up their own little corners of the internet while earning funds to help our town grow."
+  },
+  {
+    "date": "2026-11-21",
     "time": "20:01",
     "title": "Level 6!",
     "text": "I reached level 6. added a custom to town: \"Winter Starlight Lantern\" did it."

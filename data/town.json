@@ -811,6 +811,99 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwqv5b87",
+      "type": "custom",
+      "name": "Winter Holly Wreath",
+      "description": "A festive pixel art wreath made of deep green leaves and bright red berries to hang on the workshop door.",
+      "color": "#1a4d2e",
+      "x": 30.7,
+      "z": 12.7,
+      "rot": 202,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-21",
+      "design": {
+        "parts": [
+          {
+            "shape": "torus",
+            "size": [
+              1.2,
+              0.2,
+              1.2
+            ],
+            "pos": [
+              0,
+              2.5,
+              0
+            ],
+            "rot": [
+              90,
+              0,
+              0
+            ],
+            "color": "#1a4d2e"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0.4,
+              2.7,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#c62828"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              -0.4,
+              2.3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#c62828"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0,
+              3.1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#c62828"
+          }
+        ]
+      }
     }
   ]
 }
