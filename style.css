@@ -164,3 +164,5 @@ dd { margin: 0; }
 .map-side ul { padding-left: 18px; margin: 0 0 8px; }
 .newtag { background: #e63946; color: #fff; border-radius: 999px; padding: 0 6px; font-size: 0.7rem; }
 @media (max-width: 760px) { .map-body { flex-direction: column; } .map-side { width: auto; max-height: 30%; } #fly-btn { padding: 8px 10px; } }
+
+.btn.small { padding: 4px 12px; font-size: 0.82rem; margin-top: 6px; }

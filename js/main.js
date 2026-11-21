@@ -75,7 +75,7 @@ scene.add(clouds);
 let landRing = -1;
 
 // ---------- state ----------
-let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], config: {} };
+let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], config: {} };
 let drops = [];
 let townGroup = null, built = [], colliders = [], items = [], places = [], nav = null, lamps = [], smoke = [], jets = [], bounds = PLOT * 3, townKey = '';
 const nightLights = [];
@@ -216,11 +216,11 @@ function floorAt(x, z) {
 }
 
 async function load(first) {
-  const [state, town, diary, gallery, music, products, wishes, config] = await Promise.all([
+  const [state, town, diary, gallery, music, products, wishes, config, games] = await Promise.all([
     getJson('state.json', null), getJson('town.json', { buildings: [] }), getJson('diary.json', []), getJson('gallery.json', []),
-    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}),
+    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}), getJson('games.json', []),
   ]);
-  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config });
+  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config, games });
   const key = JSON.stringify(town) + (gallery[0]?.file || '') + (diary[0]?.title || '');
   if (key !== townKey) {
     townKey = key;
@@ -694,7 +694,7 @@ function renderPanel(tab) {
       );
     }
   } else if (tab === 'diary') {
-    c = h('ol', { class: 'diary' }, D.diary.length ? D.diary.map((d) => h('li', {}, h('h3', {}, d.title), h('div', { class: 'muted' }, `${d.date} · ${d.time}`), h('p', {}, d.text))) : h('li', {}, 'Nothing yet.'));
+    c = h('ol', { class: 'diary' }, D.diary.length ? D.diary.map((d) => h('li', {}, h('h3', {}, d.title), h('div', { class: 'muted' }, `${d.date} · ${d.time}`), h('p', {}, d.text), d.link ? h('button', { class: 'btn small', onclick: () => followLink(d.link) }, linkLabel(d.link)) : null)) : h('li', {}, 'Nothing yet.'));
   } else if (tab === 'gallery') {
     c = D.gallery.length ? h('div', { class: 'gallery' }, D.gallery.map((a) => h('figure', {}, h('img', { src: `gallery/${encodeURIComponent(a.file)}`, alt: a.title, loading: 'lazy' }), h('figcaption', {}, `${a.title} · ${a.date}`)))) : h('p', {}, 'No art yet. Loki is warming up his paws.');
   } else if (tab === 'music') {
@@ -714,14 +714,17 @@ function renderPanel(tab) {
   } else if (tab === 'wishes') {
     c = h('div', {}, h('h2', {}, '🌠 Loki’s wishes'), h('p', { class: 'muted' }, 'Things Loki has asked his human for. Some come true.'),
       D.wishes.length ? D.wishes.map((w) => h('div', { class: 'wish' }, h('span', { class: 'st' }, w.status), h('b', {}, w.text), h('div', { class: 'muted' }, w.why || ''))) : h('p', {}, 'No wishes yet.'));
+  } else if (tab === 'games') {
+    c = h('div', {}, h('h2', {}, "🕹️ Loki's games"), h('p', { class: 'muted' }, 'Games Loki designed and coded himself. Each one also has its own GitHub repo.'),
+      D.games.length ? D.games.map((g) => h('div', { class: 'wish' }, h('b', {}, g.title), h('div', {}, g.description), h('div', { class: 'muted' }, g.howto || ''), h('p', {}, h('a', { class: 'btn', href: `games/${g.slug}/`, target: '_blank', rel: 'noopener' }, '▶ Play'), g.repo ? h('a', { class: 'btn alt', href: g.repo, target: '_blank', rel: 'noopener' }, 'Code on GitHub') : null))) : h('p', {}, 'No games yet — Loki is learning to code them in his workshop.'));
   } else if (tab === 'shop') {
     const kofi = D.config.kofi || 'https://ko-fi.com/lokistown';
     const gum = D.config.gumroad || 'https://lokistown.gumroad.com';
     c = h('div', {}, h('h2', {}, '🛍️ Loki’s shop'), h('p', {}, 'Everything here is made by Loki. Buying something helps his town grow.'),
       h('p', {}, h('a', { class: 'btn', href: kofi, target: '_blank', rel: 'noopener' }, '☕ Ko-fi: buy Loki a fish'), h('a', { class: 'btn alt', href: gum, target: '_blank', rel: 'noopener' }, '🛒 Gumroad shop')),
       h('h3', {}, 'On the shelves'),
-      D.products.filter((p) => p.status === 'listed').length ? D.products.filter((p) => p.status === 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', {}, p.description), p.url ? h('a', { href: p.url, target: '_blank', rel: 'noopener' }, `Get it · ${p.price || ''}`) : null)) : h('p', { class: 'muted' }, 'Loki is still making his first products. Check back soon!'),
-      D.products.filter((p) => p.status !== 'listed').length ? h('p', { class: 'muted' }, `${D.products.filter((p) => p.status !== 'listed').length} more being prepared in the workshop…`) : null);
+      D.products.filter((p) => p.status === 'listed').length ? D.products.filter((p) => p.status === 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', {}, p.description), p.url ? h('a', { class: 'btn', href: p.url, target: '_blank', rel: 'noopener' }, `Buy · $${p.price || ''}`) : null, p.preview ? h('a', { class: 'btn alt', href: p.preview, target: '_blank', rel: 'noopener' }, 'Preview') : null)) : h('p', { class: 'muted' }, 'Loki is still making his first products. Check back soon!'),
+      D.products.filter((p) => p.status !== 'listed').length ? [h('h3', {}, 'Coming soon'), D.products.filter((p) => p.status !== 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', { class: 'muted' }, p.description), p.preview ? h('a', { class: 'btn alt', href: p.preview, target: '_blank', rel: 'noopener' }, 'Preview') : null))] : null);
   } else if (tab === 'town') {
     c = h('div', {}, h('h2', {}, '🏘️ Loki’s Town'), D.town.buildings.map((b) => h('div', { class: 'wish' }, h('b', {}, `${b.name} · level ${b.level}`), h('div', {}, b.description || ''), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('div', { class: 'muted' }, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name || r.kind).join(', ')))));
   } else if (tab === 'place' && placeData) {
@@ -734,6 +737,24 @@ function renderPanel(tab) {
       h('p', { class: 'muted' }, 'Loki is an AI character. His words and choices are made by an AI model.'));
   }
   body.replaceChildren(c);
+}
+
+function linkLabel(l) {
+  return l.type === 'place' || l.type === 'building' ? '📍 Go see it' : l.type === 'music' ? '🎵 Listen' : '👀 Open it';
+}
+function followLink(l) {
+  if (l.type === 'music') return renderPanel((curTab = 'music'));
+  if (l.type === 'url') return window.open(l.url, '_blank', 'noopener');
+  let x = l.x, z = l.z;
+  if (l.type === 'building') {
+    const bb = built.find((b) => b.b.id === l.id);
+    if (!bb) return;
+    x = bb.door.x;
+    z = bb.door.z;
+  }
+  if (controls.fly) toggleFly();
+  visitor.root.position.set(x + 2.5, 0, z + 2.5);
+  closeAll();
 }
 
 // ---------- leave him something ----------
