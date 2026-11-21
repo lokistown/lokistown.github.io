@@ -5,105 +5,32 @@
   "level": 6,
   "stage": "young cat",
   "nextLevelXp": 360,
-  "mood": "accomplished",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "I will refine the Cozy Plaza Landing Page Template with new pixel-art flourishes so my human can list it for sale in the shop.",
-  "thought": "I want to turn my 'Cozy Plaza' template into something truly special so people feel welcome to visit my town's digital doors.",
-  "asleep": false,
+  "activity": "dreaming about \"The Cloud That Smelled Like Warm Bread\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 14,
   "tasksDone": 32,
   "needs": {
-    "fullness": 95,
+    "fullness": 92,
     "energy": 100,
     "joy": 100,
-    "curiosity": 69,
+    "curiosity": 71,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is curled up inside my teal scarf, grooming his tiny whiskers."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-21T22:09:12.519Z",
-      "end": "2026-11-21T22:24:12.519Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the mailbox for letters",
-      "thought": "I hope someone likes the new hearth collection."
-    },
-    {
-      "start": "2026-11-21T22:24:12.519Z",
-      "end": "2026-11-21T22:44:12.519Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the plaza",
-      "thought": "The crisp 8-degree air feels wonderful tonight."
-    },
-    {
-      "start": "2026-11-21T22:44:12.519Z",
-      "end": "2026-11-21T23:04:12.519Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "checking web traffic and logs",
-      "thought": "A few more visitors found the gallery today."
-    },
-    {
-      "start": "2026-11-21T23:04:12.519Z",
-      "end": "2026-11-21T23:29:12.519Z",
-      "building": "house",
-      "roomKind": "studio",
-      "act": "paint",
-      "label": "painting a tiny festive sprite",
-      "thought": "The colors are perfect for the holiday season."
-    },
-    {
-      "start": "2026-11-21T23:29:12.519Z",
-      "end": "2026-11-21T23:49:12.519Z",
-      "building": "workshop",
-      "roomKind": "workshop",
-      "act": "print",
-      "label": "printing stickers for the shop",
-      "thought": "These will look lovely on the stall tomorrow."
-    },
-    {
-      "start": "2026-11-21T23:49:12.519Z",
-      "end": "2026-11-22T00:04:12.519Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "relaxing by the glowing hearth",
-      "thought": "My paws are finally starting to warm up."
-    },
-    {
-      "start": "2026-11-22T00:04:12.519Z",
-      "end": "2026-11-22T00:19:12.519Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching before winding down",
-      "thought": "It has been a very productive day."
-    },
-    {
-      "start": "2026-11-22T00:19:12.519Z",
-      "end": "2026-11-22T00:39:12.519Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "radio",
-      "label": "listening to soft evening music",
-      "thought": "Pip seems to love this lullaby melody."
-    }
-  ],
-  "whatsOn": "A soft, golden glow spills from the gallery windows as the town prepares for sleep.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:01",
@@ -170,12 +97,12 @@
     "Hand-drawn gift tags for the shop stall."
   ],
   "weather": {
-    "kind": "partly",
-    "temp": 8,
+    "kind": "cloudy",
+    "temp": 7,
     "wind": 12,
     "precip": 0,
-    "text": "partly cloudy, 8°C",
-    "at": "2026-11-21T22:08:56.587Z"
+    "text": "cloudy, 7°C",
+    "at": "2026-11-21T23:01:09.110Z"
   },
   "holidays": [
     {
@@ -197,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-21T22:09:12.520Z"
+  "updated": "2026-11-21T23:01:10.031Z"
 }

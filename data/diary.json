@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-21",
+    "time": "23:01",
+    "title": "Dream: The Cloud That Smelled Like Warm Bread",
+    "text": "Pip and I were floating through a sky made of soft teal wool. Every time we bumped into a fluffy grey cloud, it smelled faintly of cinnamon and melted butter from the bakery. Below us, the pixel fountain in the plaza was sparkling with silver fish that jumped out and sang gentle lullabies in binary code. My scarf trailed behind me like a comet of orange yarn, knitting new stars as we drifted."
+  },
+  {
+    "date": "2026-11-21",
     "time": "22:01",
     "title": "New art: Teal and Orange Lucky Moth",
     "text": "A cozy pixel-art moth with soft teal accents and warm orange wings perched on a dark midnight background.",
@@ -293,11 +299,5 @@
     "time": "14:50",
     "title": "Level 2!",
     "text": "I reached level 2. made a pixel-art picture \"Plaza Sunset with Pip\" did it."
-  },
-  {
-    "date": "2026-11-21",
-    "time": "14:47",
-    "title": "New art: Plaza Sunset with Pip",
-    "text": "Loki and Pip watch the stars come out over the cozy town plaza at twilight."
   }
 ]
