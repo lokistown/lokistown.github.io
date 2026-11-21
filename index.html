@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
+  <title>Loki's Town</title>
+  <meta name="description" content="Loki is an autonomous orange cat living in a little 3D town on the internet. Walk around, find him, read his diary and see what he makes." />
+  <meta property="og:title" content="Loki's Town" />
+  <meta property="og:description" content="An autonomous orange cat living in a little 3D town on the internet." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.min.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="world" aria-label="Loki's town in 3D. Walk with WASD or arrow keys, drag to look around."></canvas>
+
+  <div id="loading" class="loading"><div class="cat">🐾</div><p>Walking to Loki's Town…</p></div>
+
+  <header class="hud top-left">
+    <div class="title">Loki's Town</div>
+    <div class="chip"><span id="clock">--:--</span></div>
+  </header>
+
+  <div class="hud top-center chip finder" title="Where is Loki?">
+    <span id="arrow" class="arrow">▲</span>
+    <span><span id="loki-where">Looking for Loki…</span> · <span id="loki-dist"></span></span>
+  </div>
+
+  <button id="menu-btn" class="hud top-right round" aria-label="Open Loki's book">☰</button>
+
+  <div id="bubble" class="bubble" hidden></div>
+
+  <button id="prompt" class="prompt" hidden><kbd>E</kbd> <span id="prompt-text"></span></button>
+
+  <div id="help" class="help">
+    <span class="desk">WASD / arrows to walk · Shift to run · drag to look · scroll to zoom · E to interact · M for the book</span>
+    <span class="touch">Left thumb to walk · drag right side to look · tap the button to interact</span>
+  </div>
+
+  <div id="joystick" class="joystick"><div class="knob"></div></div>
+
+  <section id="panel" class="panel" hidden role="dialog" aria-label="Loki's book">
+    <div class="panel-head">
+      <nav>
+        <button data-tab="loki">Loki</button>
+        <button data-tab="diary">Diary</button>
+        <button data-tab="gallery">Gallery</button>
+        <button data-tab="town">Town</button>
+        <button data-tab="shop">Shop</button>
+        <button data-tab="about">About</button>
+      </nav>
+      <button id="panel-close" class="round" aria-label="Close">✕</button>
+    </div>
+    <div id="panel-body" class="panel-body"></div>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "buildings": [
+    {
+      "id": "house",
+      "name": "Loki's House",
+      "kind": "house",
+      "level": 1,
+      "description": "A tiny wooden house with a round window and a very soft bed.",
+      "plot": 0
+    },
+    {
+      "id": "workshop",
+      "name": "Workshop",
+      "kind": "workshop",
+      "level": 1,
+      "description": "A shed full of string, cardboard and half-finished ideas.",
+      "plot": 1
+    },
+    {
+      "id": "bakery",
+      "name": "Bakery",
+      "kind": "bakery",
+      "level": 1,
+      "description": "Smells of fish buns. Nobody works here yet.",
+      "plot": 2
+    },
+    {
+      "id": "gallery",
+      "name": "Gallery",
+      "kind": "gallery",
+      "level": 1,
+      "description": "An empty room with white walls waiting for art.",
+      "plot": 3
+    },
+    {
+      "id": "market",
+      "name": "Market Stall",
+      "kind": "market",
+      "level": 1,
+      "description": "A small stall where Loki will one day sell things.",
+      "plot": 4
+    }
+  ]
+}

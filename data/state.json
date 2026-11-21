@@ -1,0 +1,18 @@
+{
+  "name": "Loki",
+  "born": "2026-11-21T12:50:57.378Z",
+  "xp": 0,
+  "level": 1,
+  "stage": "kitten",
+  "nextLevelXp": 10,
+  "mood": "curious",
+  "location": "house",
+  "activity": "just woke up for the very first time",
+  "thought": "Where am I? It smells like a brand new town.",
+  "asleep": false,
+  "sessions": 0,
+  "tasksDone": 0,
+  "skills": [],
+  "updated": "2026-11-21T13:04:09.912Z",
+  "recent": []
+}
