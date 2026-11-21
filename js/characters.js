@@ -390,20 +390,32 @@ export function createVisitor(colorIndex = 0) {
     body.add(leg);
     limbs.push({ arm, leg, sx });
   }
-  let t = 0;
+  let t = 0, waveT = 0, bonkT = 0;
   return {
     root,
     body,
+    wave() { waveT = 1.6; },
+    bonk() { bonkT = 0.6; },
     animate(dt, moving, running) {
       t += dt * (running ? 1.5 : 1);
+      waveT = Math.max(0, waveT - dt);
+      bonkT = Math.max(0, bonkT - dt);
       const a = moving ? Math.sin(t * 10) * 0.7 : 0;
       limbs.forEach(({ arm, leg, sx }) => {
         arm.rotation.x = a * sx;
         leg.rotation.x = -a * sx;
         arm.rotation.z = sx * (moving ? 0.1 : 0.05 + Math.sin(t * 2) * 0.02);
+        if (waveT > 0 && sx > 0) {
+          arm.rotation.x = 0;
+          arm.rotation.z = 2.6 + Math.sin(t * 14) * 0.35; // hand up, waving
+        }
       });
       body.position.y = moving ? Math.abs(Math.sin(t * 10)) * 0.06 : Math.sin(t * 2) * 0.01;
       head.rotation.z = moving ? Math.sin(t * 5) * 0.05 : 0;
+      // soft "boing" when something lands on them
+      const b = bonkT > 0 ? Math.sin((0.6 - bonkT) * 26) * bonkT : 0;
+      body.scale.set(1 + b * 0.25, 1 - b * 0.3, 1 + b * 0.25);
+      if (bonkT > 0) head.rotation.z = Math.sin(bonkT * 30) * 0.15;
     },
   };
 }

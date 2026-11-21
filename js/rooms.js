@@ -269,8 +269,13 @@ const texLoader = new THREE.TextureLoader();
 export function artTexture(file) {
   if (!file) return null;
   const t = texLoader.load(`gallery/${encodeURIComponent(file)}`);
-  t.magFilter = t.minFilter = THREE.NearestFilter;
   t.colorSpace = THREE.SRGBColorSpace;
+  if (/\.svg$/i.test(file)) t.magFilter = t.minFilter = THREE.NearestFilter;
+  else {
+    // painted illustrations are 768x832: show the top square (hides the image tool's small logo)
+    t.repeat.set(1, 768 / 832);
+    t.offset.set(0, 1 - 768 / 832);
+  }
   return t;
 }
 function easel(tex) {

@@ -267,7 +267,7 @@ export function decorate(group, usedPlots, maxRing, plotInfoFn) {
       if (Math.hypot(c, s) < 14) continue;
       const side = 3.2;
       for (const [x, z] of [[c + side, s + 7], [s + 7, c - side]]) {
-        if (Math.abs(x) < 11 && Math.abs(z) < 11) continue;
+        if (Math.abs(x) < 15.5 && Math.abs(z) < 15.5) continue; // the plaza block holds Loki's exhibits
         if (Math.round((x + z) * 7) % 3 === 0) {
           const lp = new THREE.Group();
           lp.add(part(new THREE.CylinderGeometry(0.07, 0.1, 3, 8), '#3b3b45', { y: 1.5, ink: 0.015 }), part(new THREE.SphereGeometry(0.2, 10, 8), '#fff', { y: 3.1, mat: bulbs, ink: 0.01 }));

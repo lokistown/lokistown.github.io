@@ -36,6 +36,8 @@
     .lock input { width: 100%; font: inherit; padding: 10px 14px; border-radius: 999px; border: 3px solid var(--ink); margin: 10px 0; }
     .err { color: #c1121f; }
     code { background: #fdf0da; padding: 0 4px; border-radius: 4px; }
+    .sw { display: flex; gap: 10px; align-items: center; padding: 6px 0; font-weight: 600; cursor: pointer; }
+    .sw input { width: 20px; height: 20px; accent-color: var(--accent); }
     textarea { width: 100%; font: inherit; border: 2px solid var(--ink); border-radius: 12px; padding: 8px; }
   </style>
 </head>
@@ -67,6 +69,10 @@
 
 
     const TOOLBOX = [
+      { title: 'Selling on autopilot (account needed, set up later)', items: [
+        { name: 'Stripe (automatic shop)', secret: 'STRIPE_SECRET_KEY', why: 'The one that makes listing automatic: with a Stripe key Loki can create a product + payment link himself the moment he finishes something, and buyers get the download straight away. Free to open, Stripe takes a small fee per sale. (Wired up as soon as you have the key.)', get: 'https://dashboard.stripe.com/register' },
+        { name: 'itch.io (games, automatic uploads)', secret: 'BUTLER_API_KEY', why: 'Loki can push new versions of his games to itch.io by himself with the butler tool once you create the page and add the key.', get: 'https://itch.io/user/settings/api-keys' },
+      ] },
       { title: 'Places to sell & share (accounts you own)', items: [
         { name: 'itch.io', type: 'account', why: 'Publish Loki’s games where players look for indie games (free, can sell or take tips).', get: 'https://itch.io/register', ph: 'your itch.io page link' },
         { name: 'YouTube channel', type: 'account', why: 'Loki plans videos: town tours, songs, game trailers, “a day in my life”. You upload.', get: 'https://www.youtube.com/create_channel', ph: 'channel link' },
@@ -86,6 +92,7 @@
         { name: 'Groq (backup brain)', secret: 'GROQ_API_KEY', why: 'If Gemini is busy or out of free requests, Loki keeps thinking.', get: 'https://console.groq.com/keys' },
         { name: 'OpenRouter (2nd backup brain)', secret: 'OPENROUTER_API_KEY', why: 'Free models as another fallback.', get: 'https://openrouter.ai/keys' },
         { name: 'Hugging Face (image AI)', secret: 'HF_TOKEN', why: 'Coming soon: will let Loki make real illustrations, not only pixel art. (Not wired up yet.)', get: 'https://huggingface.co/settings/tokens' },
+        { name: 'Pollinations pollen key (pictures)', secret: 'POLLINATIONS_TOKEN', why: 'Loki already paints real illustrations for free (1 picture every 45 s, small logo). A free pollen key removes the wait and the logo.', get: 'https://enter.pollinations.ai' },
         { name: 'ElevenLabs (voice)', secret: 'ELEVENLABS_API_KEY', why: 'Coming soon: a voice for Loki, for narrated stories and sung songs. (Not wired up yet.)', get: 'https://elevenlabs.io/app/settings/api-keys' },
       ] },
       { title: 'Other things you can give', items: [
@@ -123,6 +130,14 @@
           <div class="stat"><b>${fails.length}</b><span>recent errors</span></div>
         </div>
         <div class="grid">
+          <div class="card" id="townctl"><h2>Visitors in town</h2>
+            <p class="muted">People walking around the town at the same time can see each other, wave, and throw soft things (yarn balls, paper planes, flowers...). Changes apply instantly.</p>
+            <p id="town-live" class="muted">Checking…</p>
+            <label class="sw"><input type="checkbox" data-k="multiplayer"> Visitors can see each other walking around</label>
+            <label class="sw"><input type="checkbox" data-k="showCount"> Show the “people in town” counter</label>
+            <label class="sw"><input type="checkbox" data-k="throwing"> Allow throwing soft things for attention</label>
+            <p id="town-msg" class="muted"></p>
+          </div>
           <div class="card"><h2>Loki's wishes for you</h2>
             ${(d.wishes || []).length ? d.wishes.slice(0, 12).map((w) => `<div class="item"><b>${esc(w.text)}</b><span class="tag">${esc(w.status)}</span><div class="muted">${esc(w.why)} · ${esc(w.created)}</div>
               ${w.status === 'open' ? `<a class="btn" target="_blank" rel="noopener" href="${issueUrl(repo, `Granted: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nYes Loki! Here is what I did:\n\n`)}">Grant</a><a class="btn ghost" target="_blank" rel="noopener" href="${issueUrl(repo, `Not now: ${w.text.slice(0, 60)}`, `wish:${w.id}\n\nNot now, Loki, because: `)}">Not now</a>` : ''}</div>`).join('') : '<p class="muted">No wishes yet.</p>'}
@@ -154,6 +169,12 @@
           </div>
           <div class="card" style="grid-column:1/-1"><h2>Toolbox: give Loki resources</h2>
             <p class="muted">Everything here is something you set up or own; Loki never gets your passwords. Tick what you've set up, add the link, and press <b>Give to Loki</b>. He reads it at his next session (every 30 min), remembers it, and plans with it. API keys go into GitHub secrets (the button opens the right page) — Loki notices new keys automatically.</p>
+            <h3>Free tools Loki already uses (no account needed)</h3>
+            <div class="toolbox">${(d.freeTools || []).map((f) => {
+              const uses = (d.toolLog || []).filter((l) => l.tool === f.id);
+              const ok = uses.filter((l) => l.ok).length, last = uses[0];
+              return `<div class="tool have"><b>${esc(f.name)}</b> <span class="tag">${uses.length ? `used ${uses.length}x${ok < uses.length ? ` · ${uses.length - ok} failed` : ''}` : 'ready'}</span><div class="muted">${esc(f.does)}</div>${last && !last.ok ? `<div class="err">last error: ${esc(last.note)}</div>` : ''}<a class="btn ghost" target="_blank" rel="noopener" href="${esc(f.url)}">Open</a></div>`;
+            }).join('') || '<p class="muted">Shows up after Loki’s next work session.</p>'}</div>
             <div class="toolbox">${TOOLBOX.map((grp) => `<div class="tgroup"><h3>${esc(grp.title)}</h3>${grp.items.map((t) => {
               const have = (d.resources || []).some((r) => (r.name || '').toLowerCase() === t.name.toLowerCase()) || (t.secret && (d.tools || []).includes(t.secret));
               return `<div class="tool ${have ? 'have' : ''}"><b>${esc(t.name)}</b>${have ? '<span class="tag">given</span>' : ''}<div class="muted">${esc(t.why)}</div>
@@ -205,6 +226,32 @@
       upd();
     }
 
+
+    async function townControls(d) {
+      const o = d.owner || {}, msg = $('town-msg'), live = $('town-live');
+      const boxes = [...document.querySelectorAll('#townctl input[data-k]')];
+      if (!o.workerUrl || !o.key) {
+        live.textContent = 'Available after Loki’s next work session (he adds the key to this page).';
+        boxes.forEach((b) => (b.disabled = true));
+        return;
+      }
+      const call = async (body) => {
+        const r = await fetch(`${o.workerUrl}/admin/town`, { method: body ? 'POST' : 'GET', headers: { authorization: `Bearer ${o.key}`, 'content-type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+        if (!r.ok) throw new Error(`worker said ${r.status}`);
+        return r.json();
+      };
+      const show = (s) => {
+        boxes.forEach((b) => (b.checked = !!s[b.dataset.k]));
+        live.innerHTML = s.multiplayer ? `<b>${s.online}</b> ${s.online === 1 ? 'person' : 'people'} in town right now` : 'Visitors can’t see each other right now.';
+      };
+      try { show(await call()); } catch (e) { live.textContent = `Couldn’t reach the town: ${e.message}`; }
+      boxes.forEach((b) => (b.onchange = async () => {
+        msg.textContent = 'Saving…';
+        try { show(await call({ [b.dataset.k]: b.checked })); msg.textContent = 'Saved. Everyone in town sees the change now.'; }
+        catch (e) { msg.textContent = `Couldn’t save: ${e.message}`; b.checked = !b.checked; }
+      }));
+      setInterval(async () => { try { const s = await call(); $('town-live').innerHTML = s.multiplayer ? `<b>${s.online}</b> ${s.online === 1 ? 'person' : 'people'} in town right now` : 'Visitors can’t see each other right now.'; } catch {} }, 30000);
+    }
     $('f').onsubmit = async (e) => {
       e.preventDefault();
       $('msg').textContent = 'Unlocking…';
@@ -213,6 +260,7 @@
         $('lock').hidden = true;
         $('app').hidden = false;
         render(d);
+        townControls(d);
       } catch (err) {
         $('msg').innerHTML = `<span class="err">${err.name === 'OperationError' ? 'Wrong password.' : esc(err.message)}</span>`;
       }

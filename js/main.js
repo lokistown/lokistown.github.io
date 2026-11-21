@@ -11,6 +11,9 @@ import { createLoki, createPip, createVisitor } from './characters.js';
 import { LokiLife, ukNow } from './life.js';
 import { Controls } from './player.js';
 import { playSong, stopMusic } from './audio.js';
+import { Social } from './social.js';
+import { buildShowcase, slugOf } from './showcase.js';
+import { Weather, createStreetLife } from './life2.js';
 
 const $ = (id) => document.getElementById(id);
 document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -82,9 +85,12 @@ const clouds = new THREE.Group();
 }
 scene.add(clouds);
 let landRing = -1;
+const weather = new Weather(scene);
+let street = null;
 
 // ---------- state ----------
-let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], config: {} };
+let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], stories: [], config: {} };
+let spots = {};
 let drops = [];
 let roamBounds = PLOT * 6;
 let townGroup = null, built = [], colliders = [], items = [], places = [], nav = null, lamps = [], smoke = [], jets = [], bounds = PLOT * 3, townKey = '';
@@ -115,6 +121,12 @@ function buildTown() {
   colliders = [...plaza.colliders];
   items = [...plaza.items];
   places = [...plaza.places];
+  newMarkers = [];
+  const show = buildShowcase(townGroup, D, isNew);
+  colliders.push(...show.colliders);
+  items.push(...show.items);
+  places.push(...show.places);
+  spots = show.spots;
   built = [];
   for (const b of town.buildings) {
     const r = buildBuilding(b, ctx);
@@ -143,7 +155,7 @@ function buildTown() {
   jets = ctx.jets;
   drops = ctx.drops || [];
   // ---- things Loki added: props, statues, plants, custom designs, murals ----
-  newMarkers = [];
+  for (const m of show.markers) newMarkers.push(label(m.text, m.x, m.y, m.z));
   for (const p of town.props || []) {
     try {
       if (p.type === 'mural') {
@@ -165,6 +177,7 @@ function buildTown() {
       townGroup.add(r.group);
       const hw = r.box ? r.box.w / 2 : r.radius * 0.7, hd = r.box ? r.box.d / 2 : r.radius * 0.7;
       colliders.push({ x: r.group.position.x, z: r.group.position.z, hw, hd, h: 2 });
+      spots[`prop:${p.id}`] = { x: r.group.position.x + r.radius + 1.6, z: r.group.position.z, face: -Math.PI / 2 };
       places.push({ id: `prop:${p.id}`, building: p.id, act: p.type === 'bench' ? 'sit' : 'admire', label: p.type === 'bench' ? `sitting on his ${p.name || 'bench'}` : `admiring his ${p.name || p.type}`, where: p.name || p.type, x: r.group.position.x + r.radius + 0.6, z: r.group.position.z, face: -Math.PI / 2, inside: false });
       items.push({ type: 'prop', x: r.group.position.x, z: r.group.position.z, r: r.radius + 2, label: `${p.name || p.type}`, data: p });
       if (isNew(p.built)) newMarkers.push(label(`NEW: ${p.name || p.type}`, r.group.position.x, 3.2 + r.radius, r.group.position.z));
@@ -178,6 +191,8 @@ function buildTown() {
   }
   newMarkers.forEach((m) => townGroup.add(m));
   colliders.push(...decorate(townGroup, new Set(town.buildings.map((b) => b.plot)), maxRing, plotInfo));
+  street = createStreetLife(townGroup, maxRing);
+  colliders.push(...street.colliders);
   if (maxRing !== landRing) {
     scene.children.filter((o) => o.name === 'land').forEach((o) => scene.remove(o));
     createLand(scene, maxRing);
@@ -227,17 +242,18 @@ function floorAt(x, z) {
 }
 
 async function load(first) {
-  const [state, town, diary, gallery, music, products, wishes, config, games] = await Promise.all([
+  const [state, town, diary, gallery, music, products, wishes, config, games, stories] = await Promise.all([
     getJson('state.json', null), getJson('town.json', { buildings: [] }), getJson('diary.json', []), getJson('gallery.json', []),
-    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}), getJson('games.json', []),
+    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}), getJson('games.json', []), getJson('stories.json', []),
   ]);
-  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config, games });
-  const key = JSON.stringify(town) + (gallery[0]?.file || '') + (diary[0]?.title || '');
+  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config, games, stories });
+  const key = JSON.stringify(town) + JSON.stringify([gallery.slice(0, 3), products.map((p) => p.title + p.status), games.map((g) => g.slug), music.length, stories.map((x) => x.slug), state?.website, diary[0]?.title]);
   if (key !== townKey) {
     townKey = key;
     buildTown();
   }
   life.setState(state);
+  weather.set(q.get('weather') ? { kind: q.get('weather') } : state?.weather);
   renderNeeds();
   if (panelOpen) renderPanel(curTab);
   if (first) loadOffers();
@@ -258,7 +274,7 @@ visitor.root.position.set(0, 0, 6);
 visitor.root.rotation.y = Math.PI;
 scene.add(visitor.root);
 const controls = new Controls(canvas, camera, visitor);
-window.__loki = { visitor, loki, life, controls, camera, get built() { return built; }, get places() { return places; }, openMap: () => openMap() };
+window.__loki = { goTo: (g) => goTo(g), visitor, loki, life, controls, camera, get built() { return built; }, get places() { return places; }, openMap: () => openMap() };
 
 // ---------- time of day ----------
 const C = (h) => new THREE.Color(h);
@@ -268,17 +284,21 @@ function applyTime(h) {
   const day = THREE.MathUtils.clamp(elev * 2.2, 0, 1);
   const dusk = THREE.MathUtils.clamp(1 - Math.abs(elev) * 3.5, 0, 1);
   night = 1 - day;
-  const top = C('#0b1030').lerp(C('#6fbdf0'), day).lerp(C('#6a5aa8'), dusk * 0.5);
-  const bottom = C('#1b2350').lerp(C('#e4f5ff'), day).lerp(C('#ffb38a'), dusk * 0.8);
+  const wm = weather.mods();
+  const greyTop = C('#7d8794'), greyBot = C('#b9c0c8');
+  const top = C('#0b1030').lerp(C('#6fbdf0'), day).lerp(C('#6a5aa8'), dusk * 0.5).lerp(greyTop.multiplyScalar(0.3 + day * 0.7), wm.grey);
+  const bottom = C('#1b2350').lerp(C('#e4f5ff'), day).lerp(C('#ffb38a'), dusk * 0.8).lerp(greyBot.multiplyScalar(0.3 + day * 0.7), wm.grey);
+  scene.fog.near = wm.fog[0];
+  scene.fog.far = wm.fog[1];
   skyMat.uniforms.top.value.copy(top);
   skyMat.uniforms.bottom.value.copy(bottom);
   scene.fog.color.copy(bottom);
   const az = ((h - 6.5) / 13.5) * Math.PI;
   sun.position.set(Math.cos(az) * 120 + visitor.root.position.x, Math.max(10, elev * 150), -50 + visitor.root.position.z);
   sun.target.position.copy(visitor.root.position);
-  sun.intensity = 0.25 + day * 2.2;
+  sun.intensity = (0.25 + day * 2.2) * wm.dim + weather.flash * 3;
   sun.color.copy(C('#fff1d6')).lerp(C('#ffa86b'), dusk);
-  hemi.intensity = 0.75 + day * 0.65;
+  hemi.intensity = (0.75 + day * 0.65) * (0.6 + wm.dim * 0.4) + weather.flash * 1.5;
   hemi.color.copy(C('#8fa0e8')).lerp(C('#e8f6ff'), day);
   stars.material.opacity = THREE.MathUtils.clamp(night * 1.3 - 0.3, 0, 1);
   stars.visible = stars.material.opacity > 0.01;
@@ -396,6 +416,12 @@ function drawMinimap() {
       mm.fill();
     }
   }
+  mm.fillStyle = '#4cc9f0';
+  for (const p of social.peers.values()) {
+    mm.beginPath();
+    mm.arc(p.model.root.position.x * scale, p.model.root.position.z * scale, 5, 0, Math.PI * 2);
+    mm.fill();
+  }
   const l = loki.root.position, v = visitor.root.position;
   mm.fillStyle = '#f28c28';
   mm.strokeStyle = '#2b1a10';
@@ -424,7 +450,9 @@ function updatePrompt() {
   const v = visitor.root.position;
   const lokiItem = { type: 'loki', x: loki.root.position.x, z: loki.root.position.z, r: 2.8, label: life.act === 'sleep' ? 'Watch Loki sleep' : 'Say hi to Loki' };
   let best = null, bd = 1e9;
-  for (const it of [lokiItem, ...items]) {
+  const peer = social.nearest(v);
+  const peerItem = peer ? [{ type: 'peer', x: peer.model.root.position.x, z: peer.model.root.position.z, r: 2.8, label: `Say hi to ${peer.nick}`, peer }] : [];
+  for (const it of [lokiItem, ...peerItem, ...items]) {
     const d = Math.hypot(v.x - it.x, v.z - it.z);
     if (d < it.r && d < bd) {
       best = it;
@@ -437,6 +465,7 @@ function updatePrompt() {
 }
 function interact(it) {
   if (!it) return;
+  if (it.type === 'peer') return social.openMenu(it.peer);
   if (it.type === 'loki') openPanel('loki');
   else if (it.type === 'diary') openPanel('diary');
   else if (it.type === 'gallery') openPanel('gallery');
@@ -446,12 +475,13 @@ function interact(it) {
   else if (it.type === 'offer') openOffer();
   else if (it.type === 'control') location.href = 'control/';
   else if (it.type === 'building') openPanel('place', it.data);
+  else if (it.type === 'thing') openThing(it.kind, it.data);
   else if (it.type === 'prop') openPanel('place', { name: it.data.name || it.data.type, description: it.data.description || '', level: '—', built: it.data.built, kind: 'park' });
 }
 $('prompt').addEventListener('click', () => interact(nearest));
 addEventListener('keydown', (e) => {
   if (e.target.closest && e.target.closest('input, textarea')) return;
-  if (e.code === 'Escape') closeAll();
+  if (e.code === 'Escape') { closeAll(); social.closeMenu(); social.togglePeople(false); }
   else if (e.code === 'KeyE' && !panelOpen && !offerOpen) interact(nearest);
   else if (e.code === 'KeyM') panelOpen ? closeAll() : openPanel('loki');
 });
@@ -639,6 +669,12 @@ function drawBigMap() {
   g.fillStyle = '#f28c28'; g.strokeStyle = '#2b1a10'; g.lineWidth = 3;
   g.beginPath(); g.arc(X(l.x), Z(l.z), 9, 0, Math.PI * 2); g.fill(); g.stroke();
   g.fillStyle = '#2b1a10'; g.font = '700 11px Fredoka'; g.textAlign = 'center'; g.fillText('Loki', X(l.x), Z(l.z) - 16);
+  for (const p of social.peers.values()) {
+    const pp = p.model.root.position;
+    g.fillStyle = '#4cc9f0'; g.strokeStyle = '#2b1a10'; g.lineWidth = 2;
+    g.beginPath(); g.arc(X(pp.x), Z(pp.z), 6, 0, Math.PI * 2); g.fill(); g.stroke();
+    g.fillStyle = '#2b1a10'; g.font = '600 10px Fredoka'; g.textAlign = 'center'; g.fillText(p.nick, X(pp.x), Z(pp.z) - 11);
+  }
   g.fillStyle = '#3d3a6b';
   g.beginPath(); g.arc(X(v.x), Z(v.z), 7, 0, Math.PI * 2); g.fill();
   g.fillStyle = '#2b1a10'; g.fillText('you', X(v.x), Z(v.z) + 18);
@@ -707,7 +743,7 @@ function renderPanel(tab) {
   } else if (tab === 'diary') {
     c = h('ol', { class: 'diary' }, D.diary.length ? D.diary.map((d) => h('li', {}, h('h3', {}, d.title), h('div', { class: 'muted' }, `${d.date} · ${d.time}`), h('p', {}, d.text), d.link ? h('button', { class: 'btn small', onclick: () => followLink(d.link) }, linkLabel(d.link)) : null)) : h('li', {}, 'Nothing yet.'));
   } else if (tab === 'gallery') {
-    c = D.gallery.length ? h('div', { class: 'gallery' }, D.gallery.map((a) => h('figure', {}, h('img', { src: `gallery/${encodeURIComponent(a.file)}`, alt: a.title, loading: 'lazy' }), h('figcaption', {}, `${a.title} · ${a.date}`)))) : h('p', {}, 'No art yet. Loki is warming up his paws.');
+    c = D.gallery.length ? h('div', { class: 'gallery' }, D.gallery.map((a) => h('figure', {}, h('img', { class: /\.svg$/i.test(a.file) ? 'pixel' : 'painted', src: `gallery/${encodeURIComponent(a.file)}`, alt: a.title, loading: 'lazy' }), h('figcaption', {}, `${a.title} · ${a.date}`, spots[`art:${a.file}`] ? h('button', { class: 'link', onclick: () => goTo(`art:${a.file}`) }, ' · see it in town') : null)))) : h('p', {}, 'No art yet. Loki is warming up his paws.');
   } else if (tab === 'music') {
     c = h('div', {}, h('h2', {}, 'Loki’s songs'), h('p', { class: 'muted' }, 'Loki is learning to sing and play. These are his own tunes.'),
       D.music.length ? D.music.map((m) => {
@@ -728,6 +764,9 @@ function renderPanel(tab) {
   } else if (tab === 'games') {
     c = h('div', {}, h('h2', {}, "Loki's games"), h('p', { class: 'muted' }, 'Games Loki designed and coded himself. Each one also has its own GitHub repo.'),
       D.games.length ? D.games.map((g) => h('div', { class: 'wish' }, h('b', {}, g.title), h('div', {}, g.description), h('div', { class: 'muted' }, g.howto || ''), h('p', {}, h('a', { class: 'btn', href: `games/${g.slug}/`, target: '_blank', rel: 'noopener' }, '▶ Play'), g.repo ? h('a', { class: 'btn alt', href: g.repo, target: '_blank', rel: 'noopener' }, 'Code on GitHub') : null))) : h('p', {}, 'No games yet — Loki is learning to code them in his workshop.'));
+  } else if (tab === 'stories') {
+    c = h('div', {}, h('h2', {}, "Loki's stories"), h('p', { class: 'muted' }, 'Little illustrated stories Loki writes about his town, Pip and his visitors.'),
+      D.stories.length ? D.stories.map((st) => h('div', { class: 'wish' }, h('b', {}, st.title), h('div', {}, st.blurb || ''), h('p', {}, h('a', { class: 'btn', href: `stories/${st.slug}/`, target: '_blank', rel: 'noopener' }, 'Read'), h('button', { class: 'btn alt', onclick: () => goTo(`story:${st.slug}`) }, 'Find it in town')))) : h('p', {}, 'No stories yet. Loki is collecting ideas.'));
   } else if (tab === 'owner') {
     c = h('div', {}, h('h2', {}, 'Owner: Control Centre'), h('p', {}, "This is where Loki's human looks after him: his wishes, his wallet, products to list, and everything you can give him (accounts, tools, keys, ideas)."),
       h('p', {}, h('a', { class: 'btn', href: 'control/' }, 'Open the Control Centre')), h('p', { class: 'muted' }, 'Locked with the password saved as LOKI_ADMIN_PASSWORD. You can also walk into the control room in Loki’s house.'));
@@ -741,6 +780,8 @@ function renderPanel(tab) {
       D.products.filter((p) => p.status !== 'listed').length ? [h('h3', {}, 'Coming soon'), D.products.filter((p) => p.status !== 'listed').map((p) => h('div', { class: 'wish' }, h('b', {}, p.title), h('div', { class: 'muted' }, p.description), p.preview ? h('a', { class: 'btn alt', href: p.preview, target: '_blank', rel: 'noopener' }, 'Preview') : null))] : null);
   } else if (tab === 'town') {
     c = h('div', {}, h('h2', {}, 'Loki’s Town'), D.town.buildings.map((b) => h('div', { class: 'wish' }, h('b', {}, `${b.name} · level ${b.level}`), h('div', {}, b.description || ''), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('div', { class: 'muted' }, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name || r.kind).join(', ')))));
+  } else if (tab === 'thing' && placeData?.kind) {
+    c = thingView(placeData.kind, placeData.data);
   } else if (tab === 'place' && placeData) {
     const b = placeData;
     c = h('div', {}, h('h2', {}, b.name), h('p', {}, b.description || ''), h('p', { class: 'muted' }, `Level ${b.level}${b.built ? ' · built ' + b.built : ''}`), ['park', 'garden', 'fountain', 'tree', 'market'].includes(b.kind) ? null : h('p', {}, 'Rooms: ' + roomsOf(b).map((r) => r.name || ROOM_INFO[r.kind]?.name).join(', ')), h('p', { class: 'muted' }, 'Walk through the door to go inside.'));
@@ -754,10 +795,81 @@ function renderPanel(tab) {
   body.replaceChildren(c);
 }
 
+function openThing(kind, data) {
+  if (kind === 'music') return openPanel('music');
+  if (kind === 'stories') return openPanel('stories');
+  openPanel('thing', { kind, data });
+}
+function thingView(kind, d) {
+  const a = (text, href, cls = 'btn') => h('a', { class: cls, href, target: '_blank', rel: 'noopener' }, text);
+  if (kind === 'art') return h('div', {}, h('h2', {}, d.title), h('img', { class: /\.svg$/i.test(d.file) ? 'hero pixel' : 'hero painted', src: `gallery/${encodeURIComponent(d.file)}`, alt: d.title }), h('p', {}, d.description || ''), h('p', { class: 'muted' }, `Made by Loki · ${d.date || ''}`), h('p', {}, h('button', { class: 'btn alt', onclick: () => renderPanel((curTab = 'gallery')) }, 'All of his art')));
+  if (kind === 'game') return h('div', {}, h('h2', {}, d.title), h('p', {}, d.description || ''), h('p', { class: 'muted' }, d.howto || ''), h('p', {}, a('Play', `games/${d.slug}/`), d.repo ? a('Code on GitHub', d.repo, 'btn alt') : null));
+  if (kind === 'product') {
+    const kofi = D.config.kofi || 'https://ko-fi.com/lokistown';
+    return h('div', {}, h('h2', {}, d.title), h('p', {}, d.description || ''), h('p', { class: 'muted' }, `$${d.price || '?'} · ${d.type || ''} · made ${d.created || ''}`),
+      h('p', {}, d.preview ? a('Preview', d.preview) : null, d.url ? a(`Buy · $${d.price || ''}`, d.url, 'btn alt') : a('Support Loki on Ko-fi', kofi, 'btn alt')),
+      d.status !== 'listed' ? h('p', { class: 'muted' }, 'Not in the shop yet. Loki asked his human to list it.') : null);
+  }
+  if (kind === 'story') return h('div', {}, h('h2', {}, d.title), d.cover ? h('img', { class: 'hero', src: d.cover, alt: d.title }) : null, h('p', {}, d.blurb || ''), h('p', {}, a('Read the story', `stories/${d.slug}/`)), h('p', { class: 'muted' }, `Written by Loki · ${d.date || ''}`));
+  if (kind === 'website') return h('div', {}, h('h2', {}, "Loki's website"), h('p', {}, 'Loki designs and codes his own website, all by himself, and keeps improving it.'), D.state?.website?.version ? h('p', { class: 'muted' }, `Version ${D.state.website.version} · updated ${D.state.website.updated || ''}`) : null, h('p', {}, a('Visit it', 'home/')));
+  return h('p', {}, 'Nothing here yet.');
+}
+
+// Deep links: ?go=art:<file> | game:<slug> | product:<slug> | song:<slug> | story:<slug> | home | building:<id> | prop:<id> | place:<x>,<z> | diary
+function goTo(go) {
+  if (!go) return;
+  const [kind, ...rest] = String(go).split(':');
+  const id = rest.join(':');
+  const walk = (x, z, face) => {
+    if (controls.fly) toggleFly();
+    visitor.root.position.set(x, 0, z);
+    if (face != null) {
+      visitor.root.rotation.y = face;
+      controls.yaw = face + Math.PI;
+    }
+  };
+  closeAll();
+  if (kind === 'diary') return openPanel('diary');
+  if (kind === 'building') {
+    const bb = built.find((b) => b.b.id === id);
+    if (bb) walk(bb.door.x + 2.5, bb.door.z + 2.5);
+    return;
+  }
+  if (kind === 'place') {
+    const [x, z] = id.split(',').map(Number);
+    return walk(x + 2.5, z + 2.5);
+  }
+  const spot = spots[kind === 'home' ? 'home' : `${kind}:${id}`] || spots[`${kind}:*`];
+  if (spot) walk(spot.x, spot.z, spot.face);
+  if (kind === 'prop') return;
+  if (kind === 'song') return openPanel('music');
+  if (kind === 'home') return openThing('website');
+  const find = { art: () => D.gallery.find((a) => a.file === id), game: () => D.games.find((g) => g.slug === id), product: () => D.products.find((p) => slugOf.product(p) === id), story: () => D.stories.find((s) => s.slug === id) }[kind];
+  const thing = find?.();
+  if (thing) openThing(kind, thing);
+  else if (kind === 'art') openPanel('gallery');
+}
+function legacyGo(l) {
+  if (l.go) return l.go;
+  if (l.type === 'music') return 'song:*';
+  if (l.type === 'building') return `building:${l.id}`;
+  if (l.type === 'place') return `place:${l.x},${l.z}`;
+  const u = String(l.url || '');
+  let m;
+  if ((m = u.match(/^gallery\/(.+)$/))) return `art:${decodeURIComponent(m[1])}`;
+  if ((m = u.match(/^games\/([^/]+)/))) return `game:${m[1]}`;
+  if ((m = u.match(/^products\/([^/]+)/))) return `product:${m[1]}`;
+  if ((m = u.match(/^stories\/([^/]+)/))) return `story:${m[1]}`;
+  if (/^home\/?$/.test(u)) return 'home';
+  return null;
+}
+
 function linkLabel(l) {
   return l.type === 'place' || l.type === 'building' ? 'Go see it' : l.type === 'music' ? 'Listen' : 'Open it';
 }
 function followLink(l) {
+  const go = legacyGo(l);
+  if (go) return goTo(go);
   if (l.type === 'music') return renderPanel((curTab = 'music'));
   if (l.type === 'url') return window.open(l.url, '_blank', 'noopener');
   let x = l.x, z = l.z;
@@ -796,6 +908,8 @@ function newNick() {
   return ADJ[r[0] % ADJ.length] + ANI[r[1] % ANI.length] + (r[2] % 90 + 10);
 }
 let me = ident();
+const social = new Social({ scene, camera, canvas, visitor, controls, getMe: () => me, colorIdx, workerUrl: null });
+window.__loki.social = social;
 let imageData = null;
 function openOffer() {
   $('panel').hidden = true;
@@ -820,6 +934,7 @@ $('nick-new').onclick = () => {
     localStorage.setItem('loki.nick', me.nick);
   } catch {}
   $('nick').textContent = me.nick;
+  social.rename();
 };
 $('offer-file').onchange = async (e) => {
   const f = e.target.files[0];
@@ -905,6 +1020,9 @@ function frame(forcedDt) {
   controls.update(dt, colliders, roamBounds, floorAt);
   newMarkers.forEach((m, i) => (m.position.y = m.userData.bob + Math.sin(t * 2 + i) * 0.15));
   life.update(dt, t, visitor.root.position);
+  social.update(dt);
+  weather.update(dt, visitor.root.position);
+  street?.update(dt, t, night, [visitor.root.position, ...[...social.peers.values()].map((p) => p.model.root.position)]);
   for (const p of smoke) {
     const k = (t * 0.22 + p.userData.phase) % 1;
     p.position.set(Math.sin(k * 6) * 0.4, 1.4 + k * 3.5, 0);
@@ -924,7 +1042,7 @@ function frame(forcedDt) {
     lastHud = t;
     updatePrompt();
     updateNowCard(t);
-    $('clock').textContent = `${now.label} ${night > 0.5 ? 'night' : 'day'}`;
+    $('clock').textContent = `${now.label} ${weather.text ? '· ' + weather.text.split(',')[0] : night > 0.5 ? 'night' : 'day'}`;
   }
   if (t - lastMap > 0.1) {
     lastMap = t;
@@ -944,6 +1062,9 @@ window.__loki.step = (n = 60, dt = 0.05) => {
   await fontsReady();
   await load(true);
   $('loading').hidden = true;
+  social.workerUrl = D.config.workerUrl;
+  social.start();
+  if (q.get('go')) goTo(q.get('go'));
   requestAnimationFrame(tick);
   setTimeout(() => $('help').classList.add('fade'), 10000);
   setInterval(() => load(false), 120000);

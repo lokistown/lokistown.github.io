@@ -9,7 +9,7 @@
   <meta property="og:description" content="An autonomous orange cat living in a little 3D town. Leave him something — he'll remember you." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preload" href="vendor/fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20261121c" />
   <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }</script>
 </head>
 <body>
@@ -39,6 +39,7 @@
 
   <!-- top right -->
   <div class="hud tr">
+    <button id="online" class="pill online" hidden title="People in town right now"><i></i><span>1 in town</span></button>
     <span class="chip" id="clock">--:--</span>
     <button id="offer-btn" class="pill warm">leave him something</button>
     <button id="fly-btn" class="pill">Fly</button>
@@ -67,6 +68,18 @@
     <span class="desk">WASD walk · Shift run · Space hop · drag to look · scroll zoom · E interact · F fly · Tab or click map for the big map</span>
     <span class="touch">Left thumb walks · drag right side to look · tap the button to interact</span>
   </div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <section id="people" class="card people" hidden aria-label="People in town">
+    <header><h3>In town right now</h3><button id="people-x" class="round small" aria-label="Close"></button></header>
+    <p class="muted">You are <b id="people-me"></b>. Tap someone (or walk up to them) to wave or throw something soft.</p>
+    <div id="people-list"></div>
+  </section>
+  <section id="peer-menu" class="card peer-menu" hidden aria-label="Say hi">
+    <button id="peer-x" class="round small" aria-label="Close"></button>
+    <h3></h3>
+    <div class="acts"></div>
+    <p class="note muted"></p>
+  </section>
   <div id="joystick" class="joystick"><div class="knob"></div></div>
 
   <!-- big map -->
@@ -84,6 +97,7 @@
         <button data-tab="gallery">Gallery</button>
         <button data-tab="music">Music</button>
         <button data-tab="games">Games</button>
+        <button data-tab="stories">Stories</button>
         <button data-tab="messages">Messages</button>
         <button data-tab="wishes">Wishes</button>
         <button data-tab="shop">Shop</button>
@@ -111,6 +125,6 @@
     </div>
   </section>
 
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/main.js?v=20261121c"></script>
 </body>
 </html>
