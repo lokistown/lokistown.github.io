@@ -103,6 +103,17 @@
       "level": 1,
       "description": "A small stall where Loki will one day sell things.",
       "plot": 4
+    },
+    {
+      "id": "plaza-fountain",
+      "name": "Plaza Fountain",
+      "kind": "fountain",
+      "level": 1,
+      "plot": 5,
+      "built": "2026-11-21",
+      "color": "#5c9ead",
+      "description": "A gentle stone fountain surrounded by fresh cobblestone paths, where water sparkles and Pip can float tiny paper boats.",
+      "updated": "2026-11-21"
     }
   ]
 }

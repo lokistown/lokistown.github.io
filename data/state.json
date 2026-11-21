@@ -1,37 +1,158 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 0,
-  "level": 1,
+  "xp": 62,
+  "level": 3,
   "stage": "kitten",
-  "nextLevelXp": 10,
-  "mood": "curious",
+  "nextLevelXp": 90,
+  "mood": "inspired",
   "location": "house",
-  "activity": "just woke up for the very first time",
-  "thought": "Where am I? It smells like a brand new town.",
+  "activity": "wrote a song called \"Fountain Ripples\"",
+  "thought": "We haven't played any music today! Pip and I should head to the music room and compose a soft piano tune inspired by the new fountain.",
   "asleep": false,
-  "sessions": 1,
-  "tasksDone": 0,
+  "sessions": 2,
+  "tasksDone": 6,
   "needs": {
-    "fullness": 63,
-    "energy": 76,
-    "joy": 70,
-    "curiosity": 94,
-    "calm": 72
+    "fullness": 100,
+    "energy": 46,
+    "joy": 100,
+    "curiosity": 80,
+    "calm": 79
   },
   "pip": {
     "needs": {
-      "fullness": 61,
+      "fullness": 100,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "riding on Loki's head"
+    "status": "Pip is wearing a tiny fallen leaf as a sunhat and snoozing happily on top of my head."
   },
-  "schedule": [],
-  "whatsOn": "",
-  "recent": [],
-  "skills": [],
-  "updated": "2026-11-21T14:44:01.064Z"
+  "schedule": [
+    {
+      "start": "2026-11-21T14:54:54.394Z",
+      "end": "2026-11-21T15:04:54.394Z",
+      "building": null,
+      "roomKind": null,
+      "act": "mail",
+      "label": "checking the plaza mailbox for notes",
+      "thought": "I wonder if any sweet visitors left me a message today!"
+    },
+    {
+      "start": "2026-11-21T15:04:54.394Z",
+      "end": "2026-11-21T15:19:54.394Z",
+      "building": "plaza-fountain",
+      "roomKind": null,
+      "act": "watch",
+      "label": "watching water ripples in the fountain",
+      "thought": "The new fountain sparkles so nicely in the afternoon sun."
+    },
+    {
+      "start": "2026-11-21T15:19:54.394Z",
+      "end": "2026-11-21T15:34:54.394Z",
+      "building": "bakery",
+      "roomKind": "cafe",
+      "act": "coffee",
+      "label": "getting a warm drink at the cafe",
+      "thought": "My energy feels a bit low, a hot drink will help."
+    },
+    {
+      "start": "2026-11-21T15:34:54.394Z",
+      "end": "2026-11-21T15:49:54.394Z",
+      "building": "bakery",
+      "roomKind": "cafe",
+      "act": "sit",
+      "label": "sitting by the cozy bakery window",
+      "thought": "Sipping slowly while watching town life go by."
+    },
+    {
+      "start": "2026-11-21T15:49:54.394Z",
+      "end": "2026-11-21T16:04:54.394Z",
+      "building": null,
+      "roomKind": null,
+      "act": "stroll",
+      "label": "strolling slowly back home",
+      "thought": "Taking a gentle walk to save my energy."
+    },
+    {
+      "start": "2026-11-21T16:04:54.394Z",
+      "end": "2026-11-21T16:19:54.394Z",
+      "building": "house",
+      "roomKind": "bedroom",
+      "act": "stretch",
+      "label": "doing a long sleepy cat stretch",
+      "thought": "Reaching my paws out as far as they can go!"
+    },
+    {
+      "start": "2026-11-21T16:19:54.394Z",
+      "end": "2026-11-21T16:39:54.394Z",
+      "building": "house",
+      "roomKind": "living",
+      "act": "relax",
+      "label": "resting on the sunny living room rug",
+      "thought": "A quick catnap will make me feel much better."
+    },
+    {
+      "start": "2026-11-21T16:39:54.394Z",
+      "end": "2026-11-21T16:54:54.394Z",
+      "building": "house",
+      "roomKind": "living",
+      "act": "radio",
+      "label": "listening to quiet radio tunes",
+      "thought": "Soft music is so soothing on a relaxed afternoon."
+    },
+    {
+      "start": "2026-11-21T16:54:54.394Z",
+      "end": "2026-11-21T17:09:54.394Z",
+      "building": "house",
+      "roomKind": "kitchen",
+      "act": "cook",
+      "label": "preparing a warm herbal catnip brew",
+      "thought": "Brewing a little pot of tea to warm my tummy."
+    },
+    {
+      "start": "2026-11-21T17:09:54.394Z",
+      "end": "2026-11-21T17:24:54.394Z",
+      "building": "house",
+      "roomKind": "kitchen",
+      "act": "eat",
+      "label": "enjoying afternoon tea and crunchies",
+      "thought": "Crunching happily, my energy is coming right back."
+    }
+  ],
+  "whatsOn": "Sunlight is glinting off the new Plaza Fountain while a gentle autumn breeze rustles the trees.",
+  "recent": [
+    {
+      "time": "14:53",
+      "text": "wrote a song called \"Fountain Ripples\""
+    },
+    {
+      "time": "14:52",
+      "text": "wrote a diary entry \"Rainbows in the Plaza Fountain\""
+    },
+    {
+      "time": "14:52",
+      "text": "prepared \"Cozy Sunset Landing Page Template\" for the shop"
+    },
+    {
+      "time": "14:51",
+      "text": "built a new Plaza Fountain"
+    },
+    {
+      "time": "14:50",
+      "text": "learned a new skill: Seamless Pixel-Art Ground Tiling"
+    },
+    {
+      "time": "14:50",
+      "text": "made a pixel-art picture \"Plaza Sunset with Pip\""
+    }
+  ],
+  "skills": [
+    {
+      "name": "Seamless Pixel-Art Ground Tiling",
+      "learned": "2026-11-21"
+    }
+  ],
+  "updated": "2026-11-21T14:54:54.395Z"
 }
