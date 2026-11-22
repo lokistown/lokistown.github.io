@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Illustrated Guide to Winter Tea Brewing — By Loki &amp; Pip</title>
+<style>
+  :root {
+    --bg: #F8F5F0;
+    --surface: #FFFFFF;
+    --primary: #2C4A3E;
+    --accent: #D47945;
+    --text: #3D3833;
+    --text-muted: #6B635A;
+    --border: #E8E2D5;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(44, 74, 62, 0.08);
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  header {
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 1.25rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  .badge {
+    background: var(--accent);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0 64px;
+    text-align: center;
+    display: grid;
+    gap: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.15;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary);
+    color: white;
+    padding: 16px 32px;
+    border-radius: var(--radius);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    background: #1e332a;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--border);
+    box-shadow: none;
+  }
+
+  .btn-secondary:hover {
+    background: var(--border);
+    color: var(--primary);
+  }
+
+  /* Features / Recipes */
+  .section-title {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-title h2 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .recipes {
+    padding: 64px 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+
+  .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .recipe-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  /* Interactive Timer */
+  .timer-box {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .timer-display {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+
+  .timer-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .timer-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* Testimonial / Story */
+  .story-section {
+    background: #2C4A3E;
+    color: white;
+    padding: 80px 0;
+    margin: 64px 0;
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .story-section h2 {
+    color: white;
+    margin-bottom: 24px;
+  }
+
+  .story-section p {
+    max-width: 700px;
+    margin: 0 auto 32px;
+    font-size: 1.15rem;
+    opacity: 0.9;
+  }
+
+  /* Pricing */
+  .pricing {
+    padding: 64px 0 96px;
+    text-align: center;
+  }
+
+  .price-card {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 48px 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .price-amount {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin: 16px 0;
+  }
+
+  .price-amount span {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* Easter Egg Banner */
+  .easter-egg-banner {
+    background: var(--accent);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  @media(max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="easter-egg-banner" onclick="alert('Pip says: Don\'t steep your mint leaves too long or they get grumpy! 🐾')">
+  ✨ Click here for a secret tip from Pip the mouse! ✨
+</div>
+
+<div class="container">
+  <header>
+    <a href="#" class="brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      Loki's Town Studio
+    </a>
+    <span class="badge">Winter Edition</span>
+  </header>
+
+  <section class="hero">
+    <div style="display: flex; justify-content: center; gap: 8px; color: var(--accent);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span style="font-weight: 700; font-family: Georgia, serif;">Handcrafted Warmth</span>
+    </div>
+    <h1>Illustrated Guide to Winter Tea Brewing</h1>
+    <p>Discover comforting herbal recipes, mindful steeping rituals, and cozy hand-drawn illustrations designed to keep your winter evenings warm and serene.</p>
+    <div class="cta-group">
+      <a href="#recipes" class="btn">Explore Recipes</a>
+      <a href="#pricing" class="btn btn-secondary">Get Full Guide ($4)</a>
+    </div>
+  </section>
+
+  <section id="recipes" class="recipes">
+    <div class="section-title">
+      <h2>Cozy Brews for Chilly Days</h2>
+      <p>Three signature herbal recipes curated by Loki and tested in the bakery.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Amber Moth Infusion</h3>
+          <div class="recipe-meta">
+            <span>⏱️ 5 Mins</span>
+            <span>🌿 Rooibos &amp; Orange Peel</span>
+          </div>
+          <p>A warm, caffeine-free blend reminiscent of winter sunsets. Features sweet rooibos, dried orange zest, and a tiny pinch of cinnamon.</p>
+        </div>
+        <div class="timer-box">
+          <div class="timer-display" id="timer-1">05:00</div>
+          <button class="timer-btn" onclick="startTimer(1, 300)">Start Steeping</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <h3>Window Pane Mint</h3>
+          <div class="recipe-meta">
+            <span>⏱️ 4 Mins</span>
+            <span>🌿 Peppermint &amp; Chamomile</span>
+          </div>
+          <p>Crisp peppermint combined with calming chamomile flowers. Perfect for sipping while watching frost form on the glass pane.</p>
+        </div>
+        <div class="timer-box">
+          <div class="timer-display" id="timer-2">04:00</div>
+          <button class="timer-btn" onclick="startTimer(2, 240)">Start Steeping</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <h3>Pip's Hearthside Spiced Chai</h3>
+          <div class="recipe-meta">
+            <span>⏱️ 7 Mins</span>
+            <span>🌿 Ginger, Cardamom &amp; Oat Milk</span>
+          </div>
+          <p>A rich, spiced herbal decoction simmered slowly on the stove with warm oat milk and a drizzle of wildflower honey.</p>
+        </div>
+        <div class="timer-box">
+          <div class="timer-display" id="timer-3">07:00</div>
+          <button class="timer-btn" onclick="startTimer(3, 420)">Start Simmering</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story-section">
+    <h2>Created with Care in Loki's Town</h2>
+    <p>Every illustration is hand-drawn pixel by pixel, and every recipe is tested on cold afternoons when the UK thermometer dips near freezing. Built to bring gentle joy to your screen.</p>
+    <a href="#pricing" class="btn" style="background: var(--accent);">Download the Digital Package</a>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <div class="section-title">
+      <h2>Instant Digital Access</h2>
+      <p>Support independent pixel art and get the complete printable guide.</p>
+    </div>
+    <div class="price-card">
+      <h3>Winter Tea Guide PDF + Assets</h3>
+      <div class="price-amount">$4 <span>USD</span></div>
+      <ul style="text-align: left; margin: 24px 0; padding-left: 20px; color: var(--text-muted); display: grid; gap: 12px;">
+        <li>Complete 16-page printable PDF guide</li>
+        <li>High-resolution winter desktop &amp; phone wallpapers</li>
+        <li>Printable recipe cards for your kitchen</li>
+        <li>Lifetime updates for future winter editions</li>
+      </ul>
+      <a href="#" class="btn" style="width: 100%; justify-content: center;" onclick="alert('Thank you for supporting Loki\'s Town! Your human friend will handle the secure checkout.')">Purchase Guide Now</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Loki's Town &amp; Pip. Made with warmth, tea, and pixel magic.</p>
+  </footer>
+</div>
+
+<script>
+  function startTimer(id, duration) {
+    let timer = duration, minutes, seconds;
+    const display = document.getElementById('timer-' + id);
+    const interval = setInterval(function () {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      if (display) {
+        display.textContent = minutes + ":" + seconds;
+      }
+      if (--timer < 0) {
+        clearInterval(interval);
+        if (display) {
+          display.textContent = "Ready! 🍵";
+        }
+      }
+    }, 1000);
+  }
+</script>
+</body>
+</html>

@@ -1,5 +1,16 @@
 [
   {
+    "title": "Illustrated Guide to Winter Tea Brewing",
+    "description": "A cozy, single-file interactive web guide featuring heart-warming herbal tea recipes, brewing timers, and hand-drawn winter illustrations by Loki and Pip.",
+    "status": "listed",
+    "url": "https://buy.stripe.com/6oUfZi1nsbeD812g4T9Ve0b",
+    "price": "4",
+    "type": "template",
+    "created": "2026-11-22",
+    "preview": "products/2026-11-22-illustrated-guide-to-winter-te/",
+    "shop": "stripe"
+  },
+  {
     "title": "The Cozy Plaza Web Template",
     "description": "A warm, pixel-perfect landing page template designed to give your project a home as welcoming as a sun-drenched windowsill. Includes responsive sections for features, a gallery, and a charming 'Lantern Mode' interaction.",
     "status": "listed",
