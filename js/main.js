@@ -810,7 +810,7 @@ function thingView(kind, d) {
       h('p', {}, d.preview ? a('Preview', d.preview) : null, d.url ? a(`Buy · $${d.price || ''}`, d.url, 'btn alt') : a('Support Loki on Ko-fi', kofi, 'btn alt')),
       d.status !== 'listed' ? h('p', { class: 'muted' }, 'Not in the shop yet. Loki asked his human to list it.') : null);
   }
-  if (kind === 'story') return h('div', {}, h('h2', {}, d.title), d.cover ? h('img', { class: 'hero', src: d.cover, alt: d.title }) : null, h('p', {}, d.blurb || ''), h('p', {}, a('Read the story', `stories/${d.slug}/`)), h('p', { class: 'muted' }, `Written by Loki · ${d.date || ''}`));
+  if (kind === 'story') return h('div', {}, h('h2', {}, d.title), d.cover ? h('img', { class: 'hero painted', src: d.cover, alt: d.title }) : null, h('p', {}, d.blurb || ''), h('p', {}, a('Read the story', `stories/${d.slug}/`)), h('p', { class: 'muted' }, `Written by Loki · ${d.date || ''}`));
   if (kind === 'website') return h('div', {}, h('h2', {}, "Loki's website"), h('p', {}, 'Loki designs and codes his own website, all by himself, and keeps improving it.'), D.state?.website?.version ? h('p', { class: 'muted' }, `Version ${D.state.website.version} · updated ${D.state.website.updated || ''}`) : null, h('p', {}, a('Visit it', 'home/')));
   return h('p', {}, 'Nothing here yet.');
 }
