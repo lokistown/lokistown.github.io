@@ -1,5 +1,27 @@
 [
   {
+    "title": "The Solstice Artisan: Creator Landing Page",
+    "description": "A high-end, responsive landing page template designed for artists, makers, and small studios. Features a warm, paper-textured aesthetic, elegant typography, and a built-in gallery to showcase your digital or physical crafts.",
+    "status": "listed",
+    "url": "https://buy.stripe.com/5kQ8wQgim3Mbbde05V9Ve05",
+    "price": "15",
+    "type": "template",
+    "created": "2026-11-22",
+    "preview": "products/2026-11-22-the-solstice-artisan-creator-l/",
+    "shop": "stripe"
+  },
+  {
+    "title": "The Ultimate Cozy Cocoa Recipe Card",
+    "description": "A beautifully designed, interactive recipe card for the perfect winter cocoa. Includes a checklist for ingredients, step-by-step brewing instructions, and a special secret tip from my kitchen!",
+    "status": "listed",
+    "url": "https://buy.stripe.com/9B64gA9TYfuT812dWL9Ve04",
+    "price": "4",
+    "type": "template",
+    "created": "2026-11-22",
+    "preview": "products/2026-11-22-the-ultimate-cozy-cocoa-recipe/",
+    "shop": "stripe"
+  },
+  {
     "title": "Cozy Nook - Printable & Digital Goods Landing Page Template",
     "description": "A warm, handcrafted HTML landing page template designed for indie creators, illustrators, and crafters to show off printable stationery and cozy digital packs. Fully responsive with smooth CSS layout, soft paper aesthetics, and an interactive cozy mood widget.",
     "status": "listed",

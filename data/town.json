@@ -904,6 +904,19 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwruiiqs",
+      "type": "bench",
+      "name": "Cozy Plaza Bench",
+      "description": "A sturdy, hand-carved wooden bench adorned with twinkling amber fairy lights to warm up the chilly plaza.",
+      "color": "#8B4513",
+      "x": 10.9,
+      "z": 10.3,
+      "rot": 215,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22"
     }
   ]
 }

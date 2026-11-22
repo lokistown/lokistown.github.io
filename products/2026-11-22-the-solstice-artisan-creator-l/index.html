@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Solstice Artisan Template</title>
+    <style>
+        :root {
+            --bg: #fdfbf7;
+            --text: #2d3436;
+            --primary: #d35400;
+            --primary-light: #e67e22;
+            --secondary: #16a085;
+            --accent: #d63031;
+            --muted: #f1f2f6;
+            --white: #ffffff;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --space-xl: 64px;
+            --radius: 12px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        h1, h2, h3 {
+            font-family: Georgia, serif;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        header {
+            padding: var(--space-m) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-m);
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-m);
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+            padding: 4px 0;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        .hero {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            background: radial-gradient(circle at top right, #fff9f0, transparent);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-m);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-l);
+            color: #636e72;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(211, 84, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            box-shadow: 0 4px 15px rgba(22, 160, 133, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: #1abc9c;
+            box-shadow: 0 6px 20px rgba(22, 160, 133, 0.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+            padding: var(--space-xl) 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: var(--space-l);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--muted);
+            transition: border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--secondary);
+        }
+
+        .feature-card svg {
+            width: 40px;
+            height: 40px;
+            margin-bottom: var(--space-s);
+            color: var(--secondary);
+        }
+
+        .feature-card h3 {
+            margin-bottom: var(--space-s);
+        }
+
+        .gallery {
+            padding: var(--space-xl) 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--space-m);
+            margin-top: var(--space-l);
+        }
+
+        .art-card {
+            aspect-ratio: 1;
+            background: #f1f2f6;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(0,0,0,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .art-card:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(22, 160, 133, 0.9);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            padding: var(--space-m);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .story-section {
+            background: var(--secondary);
+            color: var(--white);
+            padding: var(--space-xl) 0;
+            margin: var(--space-xl) 0;
+            border-radius: var(--radius);
+        }
+
+        .story-section h2 {
+            color: var(--white);
+            margin-bottom: var(--space-m);
+        }
+
+        .pricing {
+            padding: var(--space-xl) 0;
+            text-align: center;
+        }
+
+        .price-grid {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-m);
+            flex-wrap: wrap;
+            margin-top: var(--space-l);
+            align-items: stretch;
+        }
+
+        .price-card {
+            background: var(--white);
+            padding: var(--space-l);
+            border-radius: var(--radius);
+            border: 2px solid var(--muted);
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+
+        .price-card.popular {
+            border-color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .price-val {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: var(--space-s) 0;
+            color: var(--text);
+        }
+
+        footer {
+            padding: var(--space-xl) 0 var(--space-m);
+            border-top: 1px solid var(--muted);
+            margin-top: var(--space-xl);
+        }
+
+        .easter-egg {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: none;
+            cursor: help;
+            opacity: 0.4;
+            transition: opacity 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .easter-egg:hover {
+            opacity: 1;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @media (min-width: 769px) {
+            .price-card.popular {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                gap: var(--space-s);
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .hero {
+                padding: var(--space-l) 0;
+            }
+            .price-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="container">
+        <header>
+            <a href="#" class="logo">Solstice Artisan</a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#gallery">Showcase</a>
+                <a href="#pricing">Pricing</a>
+            </nav>
+        </header>
+    </div>
+
+    <main id="main-content">
+        <section class="hero">
+            <div class="container">
+                <h1>Digital crafts for the thoughtful creator.</h1>
+                <p>Every pixel tells a story. This template helps you share yours with the world using a warm, tactile design that feels like a handmade gift.</p>
+                <a href="#pricing" class="btn">Get the Template</a>
+            </div>
+        </section>
+
+        <div class="container" id="features">
+            <section class="features">
+                <div class="feature-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <h3>Indie Aesthetic</h3>
+                    <p>Move away from cold, clinical corporate designs. Give your visitors the warmth of a small-town studio with soft shadows and organic geometry.</p>
+                </div>
+                <div class="feature-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    <h3>High Performance</h3>
+                    <p>Clean, semantic HTML and optimized CSS mean your site loads faster than a cat pouncing on a laser pointer. No heavy frameworks needed.</p>
+                </div>
+                <div class="feature-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <h3>Creator Focused</h3>
+                    <p>Built specifically for artists. We include dedicated sections for galleries, process stories, and simple pricing tiers for your work.</p>
+                </div>
+            </section>
+        </div>
+
+        <section class="story-section">
+            <div class="container">
+                <div style="max-width: 700px;">
+                    <h2>Why we build small.</h2>
+                    <p>The internet has become a loud place. We believe in the quiet corners, the personal portfolios, and the niche shops. Our philosophy is rooted in the idea that a website should feel like a cozy room where you can invite friends to see what you've been working on.</p>
+                    <p style="margin-top: var(--space-s);">Crafted by Loki, a small cat with big dreams, this design combines the precision of professional development with the heart of an artisan workshop.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="container" id="gallery">
+            <section class="gallery">
+                <h2>The Showcase</h2>
+                <p>Display your latest collections. Hover over each card to see the magic.</p>
+                <div class="gallery-grid">
+                    <div class="art-card" role="img" aria-label="Winter Postcard Set"><div class="overlay">Winter Postcard Set #1</div></div>
+                    <div class="art-card" role="img" aria-label="Frosty Texture Pack"><div class="overlay">Frosty Texture Pack</div></div>
+                    <div class="art-card" role="img" aria-label="Sleepy Hedgehog Prints"><div class="overlay">Sleepy Hedgehog Prints</div></div>
+                    <div class="art-card" role="img" aria-label="Loki's Town Map"><div class="overlay">Loki's Town Map</div></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="container" id="pricing">
+            <section class="pricing">
+                <h2>Choose Your Path</h2>
+                <div class="price-grid">
+                    <div class="price-card">
+                        <h3>The Hobbyist</h3>
+                        <div class="price-val">$0</div>
+                        <p style="flex-grow: 1;">Perfect for starting your journey. Includes basic layout and single gallery.</p>
+                        <a href="#" class="btn btn-secondary" style="margin-top: var(--space-m);">Download Free</a>
+                    </div>
+                    <div class="price-card popular">
+                        <span class="popular-badge">Recommended</span>
+                        <h3>The Professional</h3>
+                        <div class="price-val">$15</div>
+                        <p style="flex-grow: 1;">The full experience. Includes all sections, interactive elements, and 1 year of updates.</p>
+                        <a href="#" class="btn" style="margin-top: var(--space-m);">Get Started</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="container">
+        <footer>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-s);">
+                <p>&copy; 2026 Solstice Artisan Template. Built with love in Loki's Town.</p>
+                <button class="easter-egg" onclick="alert('Meow! You found the secret spot. Pip says hello!')" aria-label="Secret button">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12,8L10,6.5V2H14V6.5L12,8M12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13M12,11A5,5 0 0,0 7,16A5,5 0 0,0 12,21A5,5 0 0,0 17,16A5,5 0 0,0 12,11Z" /></svg>
+                </button>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loki's Cozy Cocoa Recipe</title>
+    <style>
+        :root {
+            --cocoa-dark: #3E2723;
+            --marshmallow: #FFFBF5;
+            --cinnamon: #D2691E;
+            --mint-cream: #F1F8E9;
+            --whipped: #FFFFFF;
+            --loki-teal: #20B2AA;
+            --spacing-xs: 8px;
+            --spacing-s: 16px;
+            --spacing-m: 24px;
+            --spacing-l: 40px;
+            --radius: 12px;
+            --font-display: "Georgia", "Times New Roman", serif;
+            --font-body: system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--mint-cream);
+            color: var(--cocoa-dark);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            padding: var(--spacing-m);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: var(--marshmallow);
+            max-width: 800px;
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.1);
+            overflow: hidden;
+            border: 3px solid var(--loki-teal);
+            position: relative;
+        }
+
+        .header {
+            background-color: var(--cocoa-dark);
+            color: var(--whipped);
+            padding: var(--spacing-l);
+            text-align: center;
+            border-bottom: 4px solid var(--loki-teal);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .subtitle {
+            font-style: italic;
+            opacity: 0.9;
+            color: var(--mint-cream);
+        }
+
+        .content {
+            padding: var(--spacing-l);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--spacing-l);
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: var(--spacing-m);
+            }
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            color: var(--cinnamon);
+            margin-bottom: var(--spacing-s);
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--mint-cream);
+            padding-bottom: 4px;
+        }
+
+        .ingredients-list {
+            list-style: none;
+        }
+
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-xs);
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .ingredient-item:hover {
+            background: var(--mint-cream);
+        }
+
+        .ingredient-item input {
+            margin-right: 12px;
+            accent-color: var(--loki-teal);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .ingredient-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+        }
+
+        .step-item {
+            position: relative;
+            padding-left: 48px;
+            margin-bottom: var(--spacing-m);
+        }
+
+        .step-item::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--loki-teal);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .secret-box {
+            background: var(--mint-cream);
+            padding: var(--spacing-s);
+            border-radius: var(--radius);
+            border: 2px dashed var(--loki-teal);
+            margin-top: var(--spacing-m);
+        }
+
+        .btn-sprinkle {
+            display: block;
+            width: fit-content;
+            margin: var(--spacing-m) auto;
+            padding: 14px 28px;
+            background: var(--cinnamon);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: var(--font-display);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 0 #A0522D;
+        }
+
+        .btn-sprinkle:hover {
+            transform: translateY(-2px);
+            background: #E37E3B;
+        }
+
+        .btn-sprinkle:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        .sprinkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--spacing-m);
+            font-size: 0.9rem;
+            opacity: 0.8;
+            width: 100%;
+        }
+
+        @media print {
+            .btn-sprinkle, footer, .sprinkle {
+                display: none !important;
+            }
+            body {
+                background: white;
+                padding: 0;
+            }
+            .card {
+                box-shadow: none;
+                border: 2px solid #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <header class="header">
+            <h1>Loki's Cozy Cocoa</h1>
+            <p class="subtitle">Best enjoyed while wearing a teal scarf.</p>
+        </header>
+
+        <div class="content">
+            <aside class="ingredients">
+                <h2>Ingredients</h2>
+                <div class="ingredients-list">
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing1"><label for="ing1">2 tbsp high-quality cocoa</label>
+                    </div>
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing2"><label for="ing2">1 tbsp maple syrup</label>
+                    </div>
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing3"><label for="ing3">1 cup whole milk (or oat)</label>
+                    </div>
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing4"><label for="ing4">1/4 tsp vanilla extract</label>
+                    </div>
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing5"><label for="ing5">A tiny pinch of sea salt</label>
+                    </div>
+                    <div class="ingredient-item">
+                        <input type="checkbox" id="ing6"><label for="ing6">3 giant marshmallows</label>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="instructions">
+                <h2>Instructions</h2>
+                <div class="steps">
+                    <div class="step-item">
+                        <strong>The Paste:</strong> In your favorite mug, whisk the cocoa, maple syrup, salt, and a splash of warm milk until a smooth, shiny paste forms.
+                    </div>
+                    <div class="step-item">
+                        <strong>The Warmth:</strong> Gently heat the rest of the milk in a small pan until tiny bubbles appear around the edges. Do not let it boil!
+                    </div>
+                    <div class="step-item">
+                        <strong>The Pour:</strong> Slowly pour the hot milk into the mug, stirring constantly to keep the texture silky.
+                    </div>
+                    <div class="step-item">
+                        <strong>The Finish:</strong> Stir in the vanilla, top with marshmallows, and use a grater to add a tiny dusting of extra cocoa on top.
+                    </div>
+                </div>
+
+                <div class="secret-box">
+                    <strong>Pip's Mouse-Sized Secret:</strong> If you want it extra frothy, use a small hand-held milk frother for 10 seconds right before adding the marshmallows. It makes the cocoa light like a cloud!
+                </div>
+            </main>
+        </div>
+
+        <button class="btn-sprinkle" onclick="addSprinkles()">Add Magic Sprinkles!</button>
+    </div>
+
+    <footer>
+        Handcrafted with love in Loki's Town &bull; Print this out for your kitchen!
+    </footer>
+
+    <script>
+        function addSprinkles() {
+            const count = 25;
+            for (let i = 0; i < count; i++) {
+                const sprinkle = document.createElement('div');
+                sprinkle.className = 'sprinkle';
+                
+                // Randomize appearance
+                const size = Math.random() * 8 + 6 + 'px';
+                sprinkle.style.width = size;
+                sprinkle.style.height = size;
+                sprinkle.style.left = Math.random() * 100 + 'vw';
+                sprinkle.style.top = '-5vh';
+                sprinkle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                
+                const colors = ['#FFFFFF', '#D2691E', '#20B2AA', '#FFD700'];
+                sprinkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Randomize fall speed
+                sprinkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                sprinkle.style.animationDelay = (Math.random() * 0.5) + 's';
+                
+                document.body.appendChild(sprinkle);
+                
+                setTimeout(() => {
+                    sprinkle.remove();
+                }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
