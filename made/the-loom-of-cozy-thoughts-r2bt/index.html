@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Loom of Cozy Thoughts | Loki's Town</title>
+    <style>
+        :root {
+            --color-teal: #2D8D8D;
+            --color-orange: #FF9A42;
+            --color-cream: #FDF6E3;
+            --color-pink: #F28482;
+            --color-brown: #7B5E57;
+            --color-dark: #322F2E;
+            --radius: 20px;
+            --shadow: 0 12px 32px rgba(50, 47, 46, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-cream);
+            color: var(--color-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 24px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
+            color: var(--color-teal);
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+        }
+
+        .intro {
+            font-size: 1.2rem;
+            color: var(--color-brown);
+        }
+
+        main {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            padding: 0 24px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 4px solid white;
+            box-shadow: 0 0 0 1px #eee;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .swatch.active {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1), 0 0 0 3px var(--color-teal);
+        }
+
+        .grid-container {
+            position: relative;
+            user-select: none;
+            touch-action: none;
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        #design-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2px;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .cell {
+            background: white;
+            border-radius: 2px;
+            cursor: crosshair;
+            transition: background 0.1s;
+        }
+
+        .preview-window {
+            flex-grow: 1;
+            border-radius: var(--radius);
+            min-height: 450px;
+            background-color: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+            border: 12px solid white;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+        }
+
+        #knit-pattern-display {
+            width: 100%;
+            height: 100%;
+            background-size: 120px 120px;
+            image-rendering: pixelated;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        button {
+            font-weight: 800;
+            padding: 16px 28px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--color-teal);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f0ede9;
+            color: var(--color-brown);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        #pip-mouse {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .wiggle { animation: wiggle 0.5s ease infinite; }
+        @keyframes wiggle {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 60px 24px;
+            text-align: center;
+            color: var(--color-brown);
+        }
+
+        .label-text {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--color-teal);
+        }
+
+        .texture-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>The Loom of Cozy Thoughts</h1>
+    <p class="intro">Paint a motif and Pip will help me knit a digital blanket for you!</p>
+</header>
+
+<main>
+    <section class="card">
+        <label class="label-text">Choose your yarn</label>
+        <div class="color-picker" id="palette"></div>
+
+        <label class="label-text">Design your pattern</label>
+        <div class="grid-container" id="grid-touch-zone">
+            <div id="design-grid"></div>
+            <svg id="pip-mouse" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="30" fill="#A0A0A0" />
+                <circle cx="35" cy="35" r="12" fill="#A0A0A0" />
+                <circle cx="65" cy="35" r="12" fill="#A0A0A0" />
+                <circle cx="35" cy="35" r="6" fill="#F28482" />
+                <circle cx="65" cy="35" r="6" fill="#F28482" />
+                <circle cx="42" cy="48" r="3" fill="black" />
+                <circle cx="58" cy="48" r="3" fill="black" />
+                <path d="M50 55 L48 60 L52 60 Z" fill="#F28482" />
+            </svg>
+        </div>
+
+        <div class="controls">
+            <button class="btn-secondary" onclick="clearGrid()">Unravel All</button>
+            <button class="btn-primary" onclick="generatePattern()">Tighten Stitches</button>
+        </div>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column;">
+        <label class="label-text">The Finished Knit</label>
+        <div class="preview-window">
+            <div id="knit-pattern-display"></div>
+            <div class="texture-overlay"></div>
+        </div>
+        <p style="margin-top: 16px; font-style: italic; font-size: 0.9rem; color: var(--color-brown); text-align: center;">A warm repeat of your beautiful work.</p>
+    </section>
+</main>
+
+<footer>
+    Made with a warm heart by Loki &amp; Pip &bull; <a href="#" style="color: var(--color-teal); text-decoration: none; font-weight: bold;">lokistown.github.io</a>
+</footer>
+
+<script>
+    const GRID_SIZE = 12;
+    const colors = [
+        { hex: '#2D8D8D' }, { hex: '#FF9A42' }, { hex: '#F28482' }, 
+        { hex: '#FDF6E3' }, { hex: '#7B5E57' }, { hex: '#322F2E' }
+    ];
+
+    let currentColor = colors[0].hex;
+    let gridData = Array(GRID_SIZE * GRID_SIZE).fill('#ffffff');
+    let isDrawing = false;
+    let idleTimer;
+
+    const paletteEl = document.getElementById('palette');
+    colors.forEach((c, i) => {
+        const sw = document.createElement('div');
+        sw.className = `swatch ${i === 0 ? 'active' : ''}`;
+        sw.style.backgroundColor = c.hex;
+        sw.onclick = () => {
+            document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            sw.classList.add('active');
+            currentColor = c.hex;
+        };
+        paletteEl.appendChild(sw);
+    });
+
+    const gridEl = document.getElementById('design-grid');
+    for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.index = i;
+        gridEl.appendChild(cell);
+    }
+
+    function paintCell(index) {
+        if (index === null) return;
+        gridData[index] = currentColor;
+        gridEl.children[index].style.backgroundColor = currentColor;
+        generatePattern();
+        resetIdle();
+    }
+
+    function getIndexFromEvent(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const element = document.elementFromPoint(clientX, clientY);
+        if (element && element.classList.contains('cell')) {
+            return parseInt(element.dataset.index);
+        }
+        return null;
+    }
+
+    gridEl.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        paintCell(getIndexFromEvent(e));
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (isDrawing) paintCell(getIndexFromEvent(e));
+    });
+
+    window.addEventListener('mouseup', () => isDrawing = false);
+
+    gridEl.addEventListener('touchstart', (e) => {
+        isDrawing = true;
+        paintCell(getIndexFromEvent(e));
+        e.preventDefault();
+    }, {passive: false});
+
+    gridEl.addEventListener('touchmove', (e) => {
+        if (isDrawing) paintCell(getIndexFromEvent(e));
+        e.preventDefault();
+    }, {passive: false});
+
+    function clearGrid() {
+        gridData.fill('#ffffff');
+        Array.from(gridEl.children).forEach(c => c.style.backgroundColor = '#ffffff');
+        generatePattern();
+    }
+
+    function generatePattern() {
+        const cellSize = 10;
+        const width = GRID_SIZE * cellSize;
+        const height = GRID_SIZE * cellSize;
+        
+        let paths = '';
+        gridData.forEach((color, i) => {
+            const x = (i % GRID_SIZE) * cellSize;
+            const y = Math.floor(i / GRID_SIZE) * cellSize;
+            const stroke = color === '#ffffff' ? '#e0e0e0' : color;
+            // Creating a 'V' knit stitch shape
+            paths += `<path d="M${x+1},${y+1} L${x+cellSize/2},${y+cellSize-1} L${x+cellSize-1},${y+1}" fill="none" stroke="${stroke}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+        });
+
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${paths}</svg>`;
+        const display = document.getElementById('knit-pattern-display');
+        display.style.backgroundImage = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+    }
+
+    function resetIdle() {
+        clearTimeout(idleTimer);
+        const pip = document.getElementById('pip-mouse');
+        const display = document.getElementById('knit-pattern-display');
+        pip.style.display = 'none';
+        display.classList.remove('wiggle');
+        idleTimer = setTimeout(showPip, 15000);
+    }
+
+    function showPip() {
+        const pip = document.getElementById('pip-mouse');
+        const display = document.getElementById('knit-pattern-display');
+        const container = document.getElementById('grid-touch-zone');
+        const containerWidth = container.offsetWidth;
+        
+        pip.style.display = 'block';
+        pip.style.left = '-70px';
+        pip.style.top = (Math.random() * 60 + 20) + '%';
+        
+        let pos = -70;
+        const anim = setInterval(() => {
+            pos += 2;
+            pip.style.left = pos + 'px';
+            
+            if (pos > containerWidth / 4 && pos < containerWidth * 0.75) {
+                display.classList.add('wiggle');
+            } else {
+                display.classList.remove('wiggle');
+            }
+
+            if (pos > containerWidth + 100) {
+                clearInterval(anim);
+                pip.style.display = 'none';
+                resetIdle();
+            }
+        }, 20);
+    }
+
+    generatePattern();
+    resetIdle();
+    window.addEventListener('mousemove', resetIdle);
+    window.addEventListener('touchstart', resetIdle);
+</script>
+
+</body>
+</html>

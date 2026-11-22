@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>The Loki Scarf Pattern</title>
+    <style>
+        :root {
+            --base: #fdfaf6;
+            --soft: #e2eff1;
+            --teal: #0d6b6b; /* Darkened slightly for better contrast/accessibility */
+            --orange: #d35400; /* Darkened for accessibility */
+            --dark: #2c3e50;
+            --shadow: rgba(13, 107, 107, 0.1);
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --space-xl: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+            background-color: var(--soft);
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        header {
+            background: var(--base);
+            padding: var(--space-m) 0;
+            border-bottom: 4px solid var(--teal);
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin-top: var(--space-xs);
+        }
+
+        .hero {
+            background: var(--base);
+            padding: var(--space-xl) 0;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 10px 30px var(--shadow);
+            margin-bottom: var(--space-xl);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-l);
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: var(--space-l) 0;
+            }
+            .hero-img svg {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin: var(--space-s) 0;
+            color: var(--dark);
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--orange);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-s);
+        }
+
+        .btn {
+            background: var(--teal);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #094d4d;
+            transform: translateY(-2px);
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-m);
+            margin-bottom: var(--space-xl);
+        }
+
+        .card {
+            background: white;
+            padding: var(--space-m);
+            border-radius: 24px;
+            border: 2px solid var(--soft);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: var(--space-s);
+        }
+
+        .materials-list {
+            list-style: none;
+        }
+
+        .materials-list li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .materials-list li::before {
+            content: '🧶 ';
+        }
+
+        .surprise-box {
+            background: var(--teal);
+            color: white;
+            padding: var(--space-l);
+            border-radius: 32px;
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+
+        .surprise-box h2 {
+            color: white;
+        }
+
+        #scarf-name {
+            display: block;
+            margin: var(--space-s) 0;
+            font-style: italic;
+            font-size: 1.8rem;
+            min-height: 1.6em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            opacity: 0.7;
+        }
+
+        @media print {
+            .btn, .hero-text .btn, footer button {
+                display: none !important;
+            }
+            body {
+                background: white;
+                font-size: 12pt;
+            }
+            .hero {
+                box-shadow: none;
+                border: 1px solid #eee;
+                border-radius: 0;
+                grid-template-columns: 150px 1fr;
+            }
+            .surprise-box {
+                background: white;
+                color: black;
+                border: 2px dashed var(--teal);
+            }
+            .surprise-box h2, #scarf-name {
+                color: var(--teal);
+            }
+            .container {
+                width: 100%;
+                max-width: none;
+            }
+            .card {
+                break-inside: avoid;
+                border: 1px solid #eee;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class='container'>
+        <p>Loki's Town Winter Collection</p>
+        <h1>The Loki Scarf</h1>
+    </div>
+</header>
+
+<main class='container'>
+    <section class='hero'>
+        <div class='hero-img'>
+            <svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Illustration of a striped teal and orange scarf'>
+                <rect x='40' y='60' width='120' height='30' rx='15' fill='#0d6b6b' />
+                <rect x='40' y='80' width='120' height='30' rx='15' fill='#d35400' />
+                <rect x='40' y='100' width='120' height='30' rx='15' fill='#0d6b6b' />
+                <path d='M140 100 Q 160 140 140 180' stroke='#0d6b6b' stroke-width='10' fill='none' stroke-linecap='round' />
+                <path d='M155 100 Q 175 140 155 180' stroke='#d35400' stroke-width='10' fill='none' stroke-linecap='round' />
+            </svg>
+        </div>
+        <div class='hero-text'>
+            <span class='badge'>Difficulty: Sleepy Cat (Easy)</span>
+            <h2>Keep Your Feline Toasty</h2>
+            <p>Every cat deserves a splash of color. This pattern uses my signature teal and orange palette to create a scarf that is as warm as a sunbeam on a rug.</p>
+            <button class='btn' onclick='window.print()'>Print or Save as PDF</button>
+        </div>
+    </section>
+
+    <div class='pattern-grid'>
+        <div class='card'>
+            <h3>Materials</h3>
+            <ul class='materials-list'>
+                <li>50g DK weight yarn in 'Loki Teal'</li>
+                <li>20g DK weight yarn in 'Tangerine Dream'</li>
+                <li>4mm knitting needles</li>
+                <li>Darning needle for those messy ends</li>
+                <li>A very patient cat</li>
+            </ul>
+        </div>
+        <div class='card'>
+            <h3>Measurements</h3>
+            <p><strong>Width:</strong> 4cm (perfect for tucking under whiskers)</p>
+            <p><strong>Length:</strong> 45cm (adjustable based on neck floof)</p>
+            <p><strong>Gauge:</strong> 22 sts = 10cm in garter stitch</p>
+        </div>
+    </div>
+
+    <h2 style='margin-bottom: var(--space-m);'>The Instructions</h2>
+    <div class='pattern-grid'>
+        <div class='card'>
+            <div class='step-number'>1</div>
+            <p>Cast on 10 stitches using the Teal yarn. We use a simple long-tail cast on because it is stretchy—like a cat stretching after a nap!</p>
+        </div>
+        <div class='card'>
+            <div class='step-number'>2</div>
+            <p>Knit every row (Garter Stitch) for 10 rows. Then, switch to the Orange yarn. Don't worry about the tails yet, Pip will help watch them.</p>
+        </div>
+        <div class='card'>
+            <div class='step-number'>3</div>
+            <p>Continue alternating colors every 10 rows until the scarf reaches 40cm. Finish with a final 5cm of Teal yarn.</p>
+        </div>
+        <div class='card'>
+            <div class='step-number'>4</div>
+            <p>Cast off loosely. For the fringe: cut 10cm lengths of both colors and loop them through the ends. Trim so it looks neat!</p>
+        </div>
+    </div>
+
+    <section class='surprise-box'>
+        <h2>Need Inspiration?</h2>
+        <p>Give your scarf a grand name before you start.</p>
+        <span id='scarf-name'>The Brave Biscuit-Maker</span>
+        <button class='btn' style='background: var(--orange);' onclick='generateName()'>Generate New Name</button>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Loki's Town. Hand-knitted with code and catnip.</p>
+</footer>
+
+<script>
+    function generateName() {
+        const adjectives = ['The Frosty', 'The Majestic', 'The Sleepy', 'The Midnight', 'The Sun-Drenched', 'The Brave', 'The Teal-Tipped', 'The Wobbly', 'The Cozy', 'The Velvet'];
+        const nouns = ['Prowler', 'Napper', 'Dreamer', 'Whiskers', 'Tail-Wagger', 'Biscuit-Maker', 'Snoozer', 'Legend', 'Explorer', 'Mouser'];
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        document.getElementById('scarf-name').innerText = adj + ' ' + noun;
+    }
+    // Initial name on load
+    window.onload = generateName;
+</script>
+
+</body>
+</html>
