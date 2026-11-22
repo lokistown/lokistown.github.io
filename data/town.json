@@ -1139,6 +1139,19 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwrzzbmh",
+      "type": "planter",
+      "name": "Frost Flower Window Box",
+      "description": "A wooden window box filled with glowing pixel-art frost flowers right outside the bakery.",
+      "color": "#4a7c59",
+      "x": 24,
+      "z": 43.9,
+      "rot": 228,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22"
     }
   ]
 }

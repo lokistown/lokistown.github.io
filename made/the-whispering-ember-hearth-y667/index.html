@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Whispering Ember Hearth</title>
+  <style>
+    :root {
+      --bg-color: #0d0d1a;
+      --hearth-stone: #2c2c3e;
+      --fire-orange: #ff6d00;
+      --fire-yellow: #ffb700;
+      --fire-blue: #4cc9f0;
+      --fire-gold: #ffd700;
+      --text-color: #e0e0e0;
+      --accent-teal: #48b4a8;
+      --spacing: 16px;
+      --flame-main: var(--fire-orange);
+      --flame-bright: var(--fire-yellow);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      background-image: radial-gradient(circle at center, #1a1a2e 0%, #0d0d1a 100%);
+      color: var(--text-color);
+      /* Replaced Google Fonts with system web-safe equivalents */
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 40px var(--spacing);
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Trebuchet MS', 'Arial Black', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      color: var(--fire-yellow);
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    p.subtitle {
+      margin-bottom: 40px;
+      opacity: 0.8;
+      font-size: 1.1rem;
+    }
+
+    .hearth-area {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto 40px;
+      background: var(--hearth-stone);
+      border-radius: 150px 150px 20px 20px;
+      box-shadow: inset 0 -20px 0 #1a1a2e, 0 0 50px rgba(255, 109, 0, 0.1);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 40px;
+      border: 10px solid #3d3d5c;
+      transition: box-shadow 0.5s ease;
+      cursor: pointer;
+    }
+
+    .glow-effect {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 80%, var(--flame-main) 0%, transparent 70%);
+      opacity: 0.3;
+      mix-blend-mode: screen;
+      animation: flicker 0.15s infinite alternate;
+    }
+
+    .fire-svg {
+      width: 120px;
+      height: 150px;
+      z-index: 2;
+    }
+
+    .logs {
+      position: absolute;
+      bottom: 30px;
+      width: 140px;
+      height: 40px;
+      background: #4a2c2a;
+      border-radius: 4px;
+      z-index: 1;
+      box-shadow: 0 4px 0 #2a1817;
+    }
+
+    #pip-container {
+      position: absolute;
+      bottom: 20px;
+      right: -100px;
+      width: 80px;
+      height: 80px;
+      opacity: 0;
+      transition: all 2s ease-in-out;
+      pointer-events: none;
+    }
+
+    #pip-container.active {
+      opacity: 1;
+      right: 20px;
+    }
+
+    .input-section {
+      background: rgba(255,255,255,0.05);
+      padding: 32px;
+      border-radius: 24px;
+      border: 2px dashed rgba(255,255,255,0.1);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: #1a1a2e;
+      border: 2px solid #3d3d5c;
+      padding: 12px 20px;
+      border-radius: 12px;
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--fire-orange);
+    }
+
+    button {
+      background: var(--fire-orange);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      box-shadow: 0 4px 0 #cc5500;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      background: #ff8c00;
+    }
+
+    button:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .sound-toggle {
+      margin-top: 20px;
+      background: transparent;
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.8rem;
+    }
+
+    .sound-toggle.active {
+      background: var(--accent-teal);
+      border-color: var(--accent-teal);
+      box-shadow: 0 4px 0 #368a80;
+    }
+
+    footer {
+      margin-top: 64px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    footer a {
+      color: var(--accent-teal);
+      text-decoration: none;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.3; transform: scale(1); }
+      100% { opacity: 0.4; transform: scale(1.05); }
+    }
+
+    @keyframes flame-waver {
+      0% { transform: translateY(0) scaleX(1); }
+      50% { transform: translateY(-5px) scaleX(1.1); }
+      100% { transform: translateY(0) scaleX(0.9); }
+    }
+
+    .flame-part {
+      animation: flame-waver 0.6s infinite alternate ease-in-out;
+      fill: var(--flame-main);
+      transition: fill 0.5s;
+    }
+
+    .flame-inner {
+      fill: var(--flame-bright);
+      opacity: 0.8;
+      transition: fill 0.5s;
+    }
+
+    @media (max-width: 500px) {
+      .hearth-area {
+        width: 240px;
+        height: 240px;
+      }
+      .input-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Whispering Ember</h1>
+    <p class="subtitle">Warm your paws with kind thoughts.</p>
+
+    <div class="hearth-area" id="hearth-view">
+      <div class="glow-effect" id="glow"></div>
+      
+      <div id="pip-container">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 70 Q 40 75 60 70" stroke="#4a2c2a" stroke-width="4" fill="none"/>
+          <rect x="25" y="45" width="30" height="5" fill="#4a2c2a" />
+          <circle cx="40" cy="55" r="12" fill="#999" />
+          <circle cx="35" cy="52" r="2" fill="#333" />
+          <path d="M48 55 Q 55 55 55 45" stroke="#999" stroke-width="2" fill="none"/>
+          <rect x="35" y="58" width="15" height="8" fill="#48b4a8" rx="2" />
+          <path d="M38 58 L38 50 M47 58 L47 50" stroke="#ddd" stroke-width="1" />
+        </svg>
+      </div>
+
+      <div class="logs"></div>
+      <svg class="fire-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+        <path class="flame-part" d="M50 10 L70 50 L90 95 L50 115 L10 95 L30 50 Z" />
+        <path class="flame-part flame-inner" d="M50 40 L65 70 L75 95 L50 105 L25 95 L35 70 Z" />
+      </svg>
+    </div>
+
+    <div class="input-section">
+      <p>Happy words make the fire gold. Calm words make it blue.</p>
+      <div class="input-group">
+        <input type="text" id="thought-input" placeholder="A warm cup of tea..." maxlength="50">
+        <button id="feed-btn">Feed Fire</button>
+      </div>
+    </div>
+
+    <button class="sound-toggle" id="audio-btn">Unmute Crackle</button>
+
+    <footer>
+      Made by Loki & Pip &middot; <a href="https://lokistown.github.io">lokistown.github.io</a>
+    </footer>
+  </div>
+
+  <script>
+    const input = document.getElementById('thought-input');
+    const btn = document.getElementById('feed-btn');
+    const root = document.documentElement;
+    const glow = document.getElementById('glow');
+    const audioBtn = document.getElementById('audio-btn');
+    const pip = document.getElementById('pip-container');
+    const hearthView = document.getElementById('hearth-view');
+
+    const happyWords = ['happy', 'joy', 'love', 'excited', 'bright', 'gold', 'wonderful', 'smile', 'sun', 'warm'];
+    const calmWords = ['calm', 'peace', 'sleep', 'quiet', 'blue', 'cool', 'rest', 'soft', 'gentle', 'tea', 'rain'];
+
+    let audioCtx = null;
+    let isAudioPlaying = false;
+    let startTime = Date.now();
+
+    function checkSentiment(text) {
+      text = text.toLowerCase();
+      if (happyWords.some(w => text.includes(w))) return 'happy';
+      if (calmWords.some(w => text.includes(w))) return 'calm';
+      return 'neutral';
+    }
+
+    function feedFire() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const sentiment = checkSentiment(text);
+      
+      if (sentiment === 'happy') {
+        root.style.setProperty('--flame-main', 'var(--fire-gold)');
+        root.style.setProperty('--flame-bright', '#ffffff');
+      } else if (sentiment === 'calm') {
+        root.style.setProperty('--flame-main', 'var(--fire-blue)');
+        root.style.setProperty('--flame-bright', '#e0f7fa');
+      } else {
+        root.style.setProperty('--flame-main', 'var(--fire-orange)');
+        root.style.setProperty('--flame-bright', 'var(--fire-yellow)');
+      }
+
+      btn.style.transform = 'scale(0.9)';
+      setTimeout(() => btn.style.transform = '', 100);
+      
+      input.value = '';
+      input.placeholder = "The hearth crackles...";
+      setTimeout(() => input.placeholder = "A warm cup of tea...", 3000);
+
+      if (isAudioPlaying) playCrackle();
+    }
+
+    function initAudio() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const bufferSize = 4096;
+      const brownNoise = audioCtx.createScriptProcessor(bufferSize, 1, 1);
+      let lastOut = 0.0;
+      brownNoise.onaudioprocess = (e) => {
+        const output = e.outputBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          lastOut = (lastOut + (0.02 * white)) / 1.02;
+          output[i] = lastOut * 0.05;
+        }
+      };
+      brownNoise.connect(audioCtx.destination);
+    }
+
+    function playCrackle() {
+      if (!audioCtx || audioCtx.state === 'suspended') return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(Math.random() * 100 + 40, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    audioBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        initAudio();
+        isAudioPlaying = true;
+        audioBtn.textContent = "Mute Hearth";
+        audioBtn.classList.add('active');
+      } else if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+        isAudioPlaying = true;
+        audioBtn.textContent = "Mute Hearth";
+        audioBtn.classList.add('active');
+      } else {
+        audioCtx.suspend();
+        isAudioPlaying = false;
+        audioBtn.textContent = "Unmute Crackle";
+        audioBtn.classList.remove('active');
+      }
+    });
+
+    btn.addEventListener('click', feedFire);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') feedFire();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      const rect = hearthView.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+        glow.style.opacity = '0.6';
+      } else {
+        glow.style.opacity = '0.3';
+      }
+    });
+
+    setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed > 60000) {
+        pip.classList.add('active');
+      }
+    }, 5000);
+  </script>
+</body>
+</html>
