@@ -917,6 +917,80 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-22"
+    },
+    {
+      "id": "pmwrvlmms",
+      "type": "custom",
+      "name": "Lucky Moth Holiday Bauble",
+      "description": "A shimmering, translucent festive ornament shaped like a lucky moth, reflecting the plaza lights.",
+      "color": "#008080",
+      "x": -25,
+      "z": -6.2,
+      "rot": 152,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22",
+      "design": {
+        "parts": [
+          {
+            "shape": "sphere",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              0,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffaa00"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.8,
+              0.2,
+              0.1
+            ],
+            "pos": [
+              0,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              45
+            ],
+            "color": "#008080"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.8,
+              0.2,
+              0.1
+            ],
+            "pos": [
+              0,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              -45
+            ],
+            "color": "#008080"
+          }
+        ]
+      }
     }
   ]
 }
