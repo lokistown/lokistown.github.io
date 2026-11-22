@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Duskfall Pixel Clock & Starlight Chime</title>
+  <style>
+    :root {
+      --bg-color: #0f0c29;
+      --frame-color: #3e2723;
+      --glass-color: rgba(255, 255, 255, 0.1);
+      --accent-color: #ffd700;
+      --text-main: #ffffff;
+      --text-muted: #a0a0ff;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --border-radius: 12px;
+      
+      --sky-dawn: linear-gradient(180deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+      --sky-day: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+      --sky-dusk: linear-gradient(180deg, #f80759 0%, #bc4e9c 100%);
+      --sky-night: linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Courier New', Courier, monospace, sans-serif;
+      background-color: #121212;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: var(--spacing-lg);
+      overflow-x: hidden;
+    }
+
+    .widget-container {
+      width: 100%;
+      max-width: 500px;
+      background: #1a1a1a;
+      border-radius: 24px;
+      padding: var(--spacing-lg);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Courier New', Courier, monospace, sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: var(--spacing-md);
+      color: var(--accent-color);
+    }
+
+    .window-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--sky-night);
+      border: 12px solid var(--frame-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+      transition: background 5s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .window-muntin-v {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      background: var(--frame-color);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .window-muntin-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--frame-color);
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: twinkle var(--t) infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    #clock-display {
+      font-family: 'Courier New', Courier, monospace, sans-serif;
+      font-weight: bold;
+      font-size: 3.8rem;
+      z-index: 3;
+      text-shadow: 0 0 20px rgba(0,0,0,0.8), 2px 2px 0px var(--frame-color);
+      letter-spacing: -2px;
+    }
+
+    #date-display {
+      font-size: 0.95rem;
+      z-index: 3;
+      opacity: 0.9;
+      background: rgba(0,0,0,0.4);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-top: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .owl-container {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 60px;
+      transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+    }
+
+    .owl-container.peek {
+      top: 10px;
+    }
+
+    .pixel-owl {
+      width: 40px;
+      height: 40px;
+      background: #8d6e63;
+      position: relative;
+      border: 2px solid #3e2723;
+      image-rendering: pixelated;
+    }
+
+    .pixel-owl::before, .pixel-owl::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      top: 10px;
+    }
+
+    .pixel-owl::before { left: 8px; }
+    .pixel-owl::after { right: 8px; }
+
+    #star-fragment {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      z-index: 10;
+      cursor: pointer;
+      display: none;
+      animation: fall 3s forwards, pulse 1s infinite alternate;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(150px) rotate(360deg); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      from { filter: drop-shadow(0 0 5px gold); }
+      to { filter: drop-shadow(0 0 15px gold); }
+    }
+
+    .controls {
+      margin-top: var(--spacing-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-md);
+    }
+
+    button {
+      background: #2a2a2a;
+      border: 2px solid #333;
+      color: white;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background: #333;
+      border-color: var(--accent-color);
+    }
+
+    button.active {
+      background: var(--accent-color);
+      color: #000;
+      border-color: #fff;
+    }
+
+    .thought-bubble {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: #000;
+      padding: 15px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      max-width: 80%;
+      display: none;
+      z-index: 100;
+    }
+
+    footer {
+      margin-top: var(--spacing-lg);
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 400px) {
+      #clock-display { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="widget-container">
+    <h1>Duskfall Clock</h1>
+    
+    <div class="window-frame" id="window-pane">
+      <div class="stars" id="star-field"></div>
+      <div class="owl-container" id="owl"><div class="pixel-owl"></div></div>
+      <div class="window-muntin-v"></div>
+      <div class="window-muntin-h"></div>
+      
+      <div id="clock-display">00:00</div>
+      <div id="date-display">Loading...</div>
+
+      <div id="star-fragment" title="A fallen star fragment!"></div>
+    </div>
+
+    <div class="controls">
+      <button id="toggle-format">12h / 24h</button>
+      <button id="toggle-crickets">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        Crickets
+      </button>
+    </div>
+  </div>
+
+  <div class="thought-bubble" id="thought"></div>
+
+  <footer>
+    Made by Loki the cat · <a href="https://lokistown.github.io/?go=made:duskfall-clock">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    const clockDisplay = document.getElementById('clock-display');
+    const dateDisplay = document.getElementById('date-display');
+    const windowPane = document.getElementById('window-pane');
+    const starField = document.getElementById('star-field');
+    const owl = document.getElementById('owl');
+    const starFragment = document.getElementById('star-fragment');
+    const thoughtBubble = document.getElementById('thought');
+    
+    let is24h = true;
+    let cricketsOn = false;
+    let audioCtx = null;
+    let cricketOsc = null;
+    let cricketMod = null;
+
+    // Create stars
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      const size = Math.random() * 3 + 'px';
+      star.style.width = size;
+      star.style.height = size;
+      star.style.setProperty('--t', (Math.random() * 3 + 2) + 's');
+      starField.appendChild(star);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      let m = now.getMinutes();
+      let s = now.getSeconds();
+
+      // Sky Logic
+      if (h >= 6 && h < 10) windowPane.style.background = 'var(--sky-dawn)';
+      else if (h >= 10 && h < 17) windowPane.style.background = 'var(--sky-day)';
+      else if (h >= 17 && h < 20) windowPane.style.background = 'var(--sky-dusk)';
+      else windowPane.style.background = 'var(--sky-night)';
+
+      // Star visibility
+      starField.style.opacity = (h >= 19 || h < 7) ? '1' : '0.1';
+
+      // Owl chime trigger (on the hour)
+      if (m === 0 && s === 0) {
+        owl.classList.add('peek');
+        playChime();
+        setTimeout(() => owl.classList.remove('peek'), 5000);
+      }
+
+      // Midnight Surprise
+      if (h === 0 && m === 0 && s === 0) {
+        starFragment.style.display = 'block';
+        starFragment.style.left = Math.random() * 80 + 10 + '%';
+      }
+
+      // Formatting time
+      let displayH = h;
+      let ampm = '';
+      if (!is24h) {
+        ampm = h >= 12 ? ' PM' : ' AM';
+        displayH = h % 12 || 12;
+      }
+      
+      clockDisplay.textContent = `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}${ampm}`;
+
+      // Formatting date
+      const options = { weekday: 'short', month: 'short', day: 'numeric' };
+      dateDisplay.textContent = now.toLocaleDateString(undefined, options);
+    }
+
+    // Audio Logic
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playChime() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1);
+    }
+
+    function toggleCrickets() {
+      initAudio();
+      cricketsOn = !cricketsOn;
+      document.getElementById('toggle-crickets').classList.toggle('active');
+
+      if (cricketsOn) {
+        cricketOsc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        cricketOsc.type = 'square';
+        cricketOsc.frequency.setValueAtTime(4000, audioCtx.currentTime);
+        
+        cricketMod = audioCtx.createOscillator();
+        cricketMod.frequency.value = 2;
+        const modGain = audioCtx.createGain();
+        modGain.gain.value = 4000;
+        cricketMod.connect(modGain);
+        modGain.connect(cricketOsc.frequency);
+        
+        gain.gain.value = 0.005;
+        cricketOsc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        cricketMod.start();
+        cricketOsc.start();
+      } else {
+        if (cricketOsc) {
+          cricketOsc.stop();
+          cricketOsc.disconnect();
+        }
+        if (cricketMod) {
+          cricketMod.stop();
+          cricketMod.disconnect();
+        }
+        cricketOsc = null;
+        cricketMod = null;
+      }
+    }
+
+    // UI Events
+    document.getElementById('toggle-format').onclick = () => {
+      is24h = !is24h;
+      updateClock();
+    };
+
+    document.getElementById('toggle-crickets').onclick = toggleCrickets;
+
+    starFragment.onclick = () => {
+      const thoughts = [
+        "The moon says you're doing a great job.",
+        "Pip thinks you deserve a treat tomorrow.",
+        "Sleep well, little explorer.",
+        "The town is quiet and safe tonight.",
+        "Even the stars need to rest sometimes."
+      ];
+      thoughtBubble.textContent = thoughts[Math.floor(Math.random() * thoughts.length)];
+      thoughtBubble.style.display = 'block';
+      starFragment.style.display = 'none';
+      setTimeout(() => thoughtBubble.style.display = 'none', 4000);
+    };
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
