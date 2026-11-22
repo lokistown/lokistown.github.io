@@ -70,7 +70,13 @@
 
     const TOOLBOX = [
       { title: 'Selling on autopilot (account needed, set up later)', items: [
-        { name: 'Stripe (automatic shop)', secret: 'STRIPE_SECRET_KEY', why: 'The one that makes listing automatic: with a Stripe key Loki can create a product + payment link himself the moment he finishes something, and buyers get the download straight away. Free to open, Stripe takes a small fee per sale. (Wired up as soon as you have the key.)', get: 'https://dashboard.stripe.com/register' },
+        { name: 'Stripe (automatic shop)', secret: 'STRIPE_SECRET_KEY', why: 'Loki lists every finished product himself (product + price + payment link) and buyers get the download straight away from his mailbox. Add the same key in GitHub AND in the Cloudflare worker loki-mailbox. Free to open; Stripe takes a small fee per sale.', get: 'https://dashboard.stripe.com/register' },
+      ] },
+      { title: 'Loki posts his creations himself (account needed)', items: [
+        { name: 'Bluesky', secret: 'BLUESKY_APP_PASSWORD', why: 'Best free option. Create an account for Loki, then Settings > Privacy and security > App passwords. Add BLUESKY_HANDLE (e.g. lokistown.bsky.social) and BLUESKY_APP_PASSWORD as GitHub secrets. Loki posts his best new creation with its picture, up to 4 a day.', get: 'https://bsky.app' },
+        { name: 'Mastodon', secret: 'MASTODON_TOKEN', why: 'Make an account (e.g. on mastodon.social, tick "this is a bot"), then Preferences > Development > New application with write:statuses and write:media. Add MASTODON_URL and MASTODON_TOKEN.', get: 'https://mastodon.social/auth/sign_up' },
+        { name: 'Discord channel', secret: 'DISCORD_WEBHOOK_URL', why: 'In your Discord server: channel settings > Integrations > Webhooks > New webhook > Copy URL. Add it as DISCORD_WEBHOOK_URL. Loki posts there as "Loki".', get: 'https://discord.com/register' },
+        { name: 'Telegram channel', secret: 'TELEGRAM_BOT_TOKEN', why: 'Make a bot with @BotFather, add it as admin of your channel, then add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID (e.g. @lokistown).', get: 'https://t.me/BotFather' },
         { name: 'itch.io (games, automatic uploads)', secret: 'BUTLER_API_KEY', why: 'Loki can push new versions of his games to itch.io by himself with the butler tool once you create the page and add the key.', get: 'https://itch.io/user/settings/api-keys' },
       ] },
       { title: 'Places to sell & share (accounts you own)', items: [
@@ -181,6 +187,7 @@
                 ${t.secret ? `<a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/lokistown/loki/settings/secrets/actions/new">Add secret ${esc(t.secret)}</a>${t.get ? ` <a class="btn ghost" target="_blank" rel="noopener" href="${t.get}">Get a free key</a>` : ''}`
                 : `<input class="tin" data-name="${esc(t.name)}" data-type="${esc(t.type)}" placeholder="${esc(t.ph || 'link or details')}"><a class="btn give" data-name="${esc(t.name)}" data-type="${esc(t.type)}" target="_blank" rel="noopener">Give to Loki</a>${t.get ? ` <a class="btn ghost" target="_blank" rel="noopener" href="${t.get}">Set it up</a>` : ''}`}</div>`;
             }).join('')}</div>`).join('')}</div>
+            <h3>What Loki posted</h3>${(d.posts || []).map((x) => `<div class="item"><span class="muted">${esc(x.t.slice(0, 16).replace('T', ' '))} · ${esc((x.channels || []).join(', ') || 'no channel yet')}</span><div>${esc(x.text)}</div></div>`).join('') || '<p class="muted">Nothing yet. Add a Bluesky, Mastodon, Discord or Telegram channel above and Loki starts posting his best new things himself.</p>'}
             <h3>Already given</h3>${(d.resources || []).map((r) => `<div class="item"><b>${esc(r.name)}</b> <span class="tag">${esc(r.type)}</span> ${r.url ? `<a target="_blank" rel="noopener" href="${esc(r.url)}">${esc(r.url)}</a>` : ''} <span class="muted">${esc(r.notes || '')} · ${esc(r.date)}</span></div>`).join('') || '<p class="muted">Nothing yet.</p>'}
             <p class="muted">Tools Loki can use right now: ${(d.tools || []).map(esc).join(', ') || 'Gemini only'}</p>
           </div>
