@@ -991,6 +991,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwrxv9zz",
+      "type": "custom",
+      "name": "Lunar Moth Statue",
+      "description": "A graceful moth statue crafted from soft blues and teals, positioned to shimmer alongside the plaza fountain.",
+      "color": "#008080",
+      "x": -26.2,
+      "z": 7.9,
+      "rot": 199,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22",
+      "design": {
+        "parts": [
+          {
+            "shape": "sphere",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              0,
+              1.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#40E0D0"
+          },
+          {
+            "shape": "box",
+            "size": [
+              2,
+              0.2,
+              1
+            ],
+            "pos": [
+              0,
+              1.4,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#00CED1"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.2,
+              0.8,
+              0.2
+            ],
+            "pos": [
+              0,
+              0.8,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2F4F4F"
+          }
+        ]
+      }
     }
   ]
 }

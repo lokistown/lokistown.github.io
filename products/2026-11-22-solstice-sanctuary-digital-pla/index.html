@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solstice Sanctuary: A digital and printable planner kit for the winter season by Loki's Town.">
+    <title>Solstice Sanctuary | Digital Planner</title>
+    <style>
+        :root {
+            --bg: #0a1128;
+            --card-bg: #162244;
+            --text-main: #e0e6ed;
+            --text-dim: #a0aec0;
+            --accent-gold: #ffcc33;
+            --accent-warm: #ff7b54;
+            --white: #ffffff;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --space-xl: 64px;
+            --radius: 12px;
+            /* Pixel Border Effect */
+            --pixel-border: 
+                0 4px 0 -2px var(--card-bg), 
+                0 -4px 0 -2px var(--card-bg), 
+                4px 0 0 -2px var(--card-bg), 
+                -4px 0 0 -2px var(--card-bg);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--white);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        /* Hero Section */
+        header {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            background: radial-gradient(circle at top, #1c2a4d 0%, var(--bg) 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-s);
+            background: linear-gradient(to bottom, var(--white), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto var(--space-l);
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg);
+            padding: var(--space-s) var(--space-l);
+            border-radius: 4px; /* More 'pixel' feel than 100px */
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: transform 0.1s, background 0.2s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translate(-2px, -2px);
+            background: var(--white);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-m);
+            padding: var(--space-xl) 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: var(--space-l);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 4px 4px 0px var(--accent-gold);
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--space-s);
+            color: var(--accent-warm);
+        }
+
+        .feature-card h3 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+        }
+
+        /* Content Section */
+        .content-block {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+            padding: var(--space-xl) 0;
+            flex-wrap: wrap;
+        }
+
+        .content-text {
+            flex: 1 1 400px;
+        }
+
+        .content-image {
+            flex: 1 1 400px;
+            background: var(--card-bg);
+            height: 300px;
+            border: 4px solid var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+        }
+
+        .placeholder-art {
+            color: var(--accent-gold);
+            font-style: italic;
+            opacity: 0.8;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: rgba(255, 255, 255, 0.02);
+            padding: var(--space-xl) 0;
+            margin: var(--space-xl) 0;
+            border-top: 1px dashed var(--accent-gold);
+            border-bottom: 1px dashed var(--accent-gold);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-m);
+            margin-top: var(--space-l);
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: var(--space-s);
+            position: relative;
+        }
+
+        .author {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            text-align: center;
+            padding: var(--space-xl) 0;
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-family: 'Georgia', serif;
+            margin: var(--space-s) 0;
+            color: var(--accent-warm);
+        }
+
+        /* Surprise/Easter Egg */
+        .starlight-toggle {
+            position: fixed;
+            bottom: var(--space-m);
+            right: var(--space-m);
+            background: var(--card-bg);
+            border: 2px solid var(--accent-gold);
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 100;
+            box-shadow: 3px 3px 0px var(--accent-gold);
+        }
+
+        .starlight-toggle:active {
+            box-shadow: 0px 0px 0px;
+            transform: translate(3px, 3px);
+        }
+
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 0; /* Square for pixel feel */
+            pointer-events: none;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.5rem; }
+            .content-block { text-align: center; }
+            .content-image { height: 200px; }
+            .starlight-toggle { bottom: 10px; right: 10px; padding: 6px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="starlight-toggle" id="starBtn" onclick="addStars()" aria-label="Add magic stars to header">✨ LIGHT THE NIGHT</button>
+
+    <header id="mainHeader">
+        <div class="container">
+            <h1 class="hero-title">Solstice Sanctuary</h1>
+            <p class="hero-sub">A printable ritual for the longest night. Organize your winter thoughts, track cozy habits, and embrace the quiet magic of the solstice.</p>
+            <a href="#buy" class="btn-primary">Download the Kit</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="features">
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M2 12h20" stroke-linecap="round"/>
+                    <path d="M12 2l4 4-4 4-4-4 4-4z" fill="currentColor"/>
+                </svg>
+                <h3>Starlight Tracker</h3>
+                <p>Monitor your sleep, hydration, and reading habits under the soft glow of a 30-day lunar cycle chart.</p>
+            </div>
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                <h3>Reflection Prompts</h3>
+                <p>Guided journaling spaces designed to help you let go of the old year and plant seeds for the new one.</p>
+            </div>
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3v10l7 3"/>
+                    <circle cx="12" cy="12" r="9"/>
+                </svg>
+                <h3>Slow Feast Planner</h3>
+                <p>Coordinate your solstice dinner with specialized shopping lists and recipe cards for warm, winter meals.</p>
+            </div>
+        </section>
+
+        <section class="content-block">
+            <div class="content-image">
+                <div class="placeholder-art">[ High-Resolution Pixel Art Preview: <br> Gold-Leaf Planner Pages ]</div>
+            </div>
+            <div class="content-text">
+                <h2>Hand-Drawn Details</h2>
+                <p>Every page of the Solstice Sanctuary planner is infused with original pixel-art flourishes and delicate border designs. It isn't just a tool; it's a companion for your quietest moments of the year.</p>
+                <p style="margin-top: 1rem;">Includes 12 unique PDF templates ready for home printing or tablet use.</p>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <h2 style="text-align: center;">From the Town Square</h2>
+                <div class="testimonial-grid">
+                    <div>
+                        <p class="quote">"The habit tracker actually makes me want to drink more cocoa. It's beautiful!"</p>
+                        <p class="author">— Pip the Mouse</p>
+                    </div>
+                    <div>
+                        <p class="quote">"Finally, a way to keep my winter gardening notes organized before the frost."</p>
+                        <p class="author">— Mayor Barnaby</p>
+                    </div>
+                    <div>
+                        <p class="quote">"The prompts helped me realize I just needed more naps. Highly recommended."</p>
+                        <p class="author">— A Sleepy Neighbor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="buy" class="pricing">
+            <h2>Begin Your Sanctuary</h2>
+            <div class="price-tag">$5.00</div>
+            <p style="margin-bottom: var(--space-m); color: var(--text-dim);">One-time purchase. Lifetime access to all winter updates.</p>
+            <a href="#" class="btn-primary">Get the Solstice Kit Now</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Loki's Town Creations. Hand-coded with whiskers and ink.</p>
+        </div>
+    </footer>
+
+    <script>
+        let starsAdded = 0;
+        function addStars() {
+            if (starsAdded > 100) return;
+            const header = document.getElementById('mainHeader');
+            const colors = ['#ffffff', '#ffcc33', '#ff7b54'];
+            for(let i=0; i<20; i++) {
+                const star = document.createElement('div');
+                star.className = 'sparkle';
+                const size = (Math.random() * 4 + 2) + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                header.appendChild(star);
+                starsAdded++;
+            }
+            document.getElementById('starBtn').innerText = "✨ NIGHT IS LIT";
+        }
+    </script>
+</body>
+</html>
