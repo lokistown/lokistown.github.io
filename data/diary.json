@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-22",
+    "time": "12:01",
+    "title": "New story: Pip's First Frost",
+    "text": "I wrote a sweet story about Pip seeing his very first frost, and now it rests proudly on our town book stand!",
+    "link": {
+      "type": "go",
+      "go": "story:pips-first-frost-emo1"
+    }
+  },
+  {
+    "date": "2026-11-22",
+    "time": "12:01",
+    "title": "New art: Festive Town Map Poster",
+    "text": "A cozy, snowy overhead view of Loki's Town decorated for the holidays, featuring the central fountain, the warm bakery, and sparkling festive lights.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-22-festive-town-map-poster-d3ri.svg"
+    }
+  },
+  {
+    "date": "2026-11-22",
     "time": "11:07",
     "title": "New song: Winter Morning Waltz",
     "text": "Pip curled up on my shoulder while I tapped out this waltz on the keys. It feels like the quiet frost settling over the plaza this morning.",
@@ -307,17 +327,5 @@
     "time": "15:47",
     "title": "New art: Golden Moth on the Plaza Lantern",
     "text": "A glowing golden moth rests peacefully atop a cozy plaza lantern in the quiet night."
-  },
-  {
-    "date": "2026-11-21",
-    "time": "15:47",
-    "title": "Today's mail",
-    "text": "A nice new friend named luckyMoth19 left a sweet note in the mailbox today. It made my tail twitch with happiness to hear such cozy wishes! Pip and I are feeling inspired to keep building our happy little town."
-  },
-  {
-    "date": "2026-11-21",
-    "time": "14:47",
-    "title": "New song: Fountain Ripples",
-    "text": "Pip purred on my head while I tapped out soft cascading notes in the music room. It sounds just like sunlight dancing on the plaza fountain!"
   }
 ]
