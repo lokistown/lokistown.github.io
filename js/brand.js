@@ -1,7 +1,7 @@
 // Shop-front logos: every business in town gets a real brand (name + drawn logo + style),
 // like a high street. Loki invents brands for the places he builds.
 import * as THREE from 'three';
-import { FONT } from './toon.js';
+import { FONT, BODY } from './toon.js';
 
 export const DEFAULT_BRANDS = {
   bakery: { name: 'Purrfect Crust', tagline: 'bakery · est. 2026', style: 'badge', color: '#7a3e1d', accent: '#f6c28b', icon: 'croissant' },
@@ -150,7 +150,7 @@ export function logoTexture(brand) {
     g.fillStyle = b.color;
     fit(b.name, `700 $px Georgia, 'Times New Roman', serif`, W - 330, 96);
     g.fillText(b.name, W / 2 + 70, H / 2 - 18);
-    g.font = `600 40px ${FONT}`;
+    g.font = `800 40px ${BODY}`;
     g.fillText(b.tagline.toUpperCase(), W / 2 + 70, H / 2 + 62);
   } else if (b.style === 'banner') {
     g.fillStyle = b.color;
@@ -169,9 +169,9 @@ export function logoTexture(brand) {
     }
     icon(g, b.icon, 190, H / 2, 1.8, b.accent);
     g.fillStyle = b.accent;
-    fit(b.name, `800 $px ${FONT}`, W - 420, 104);
+    fit(b.name, `400 $px ${FONT}`, W - 420, 104);
     g.fillText(b.name, W / 2 + 60, H / 2 - 8);
-    g.font = `500 34px ${FONT}`;
+    g.font = `800 34px ${BODY}`;
     g.fillText(b.tagline, W / 2 + 60, H / 2 + 62);
   } else if (b.style === 'neon') {
     g.fillStyle = '#120a1f';
@@ -185,10 +185,10 @@ export function logoTexture(brand) {
     g.stroke();
     icon(g, b.icon, 150, H / 2, 1.7, b.accent);
     g.fillStyle = '#ffffff';
-    fit(b.name, `700 $px ${FONT}`, W - 330, 100);
+    fit(b.name, `400 $px ${FONT}`, W - 330, 100);
     g.fillText(b.name, W / 2 + 70, H / 2 - 10);
     g.fillStyle = b.accent;
-    g.font = `600 36px ${FONT}`;
+    g.font = `800 36px ${BODY}`;
     g.fillText(b.tagline.toUpperCase(), W / 2 + 70, H / 2 + 66);
     g.shadowBlur = 0;
   } else if (b.style === 'script') {
@@ -205,7 +205,7 @@ export function logoTexture(brand) {
     g.fillStyle = b.accent;
     fit(b.name, `italic 700 $px 'Brush Script MT', 'Segoe Script', cursive`, W - 330, 120);
     g.fillText(b.name, W / 2 + 70, H / 2 - 4);
-    g.font = `600 34px ${FONT}`;
+    g.font = `800 34px ${BODY}`;
     g.fillText(b.tagline.toUpperCase(), W / 2 + 70, H / 2 + 70);
   } else if (b.style === 'serif') {
     g.fillStyle = b.color;
@@ -236,10 +236,10 @@ export function logoTexture(brand) {
     }
     icon(g, b.icon, 160, H / 2, 1.6, b.accent);
     g.fillStyle = '#ffffff';
-    fit(b.name.toUpperCase(), `800 $px ${FONT}`, W - 340, 88);
+    fit(b.name.toUpperCase(), `400 $px ${FONT}`, W - 340, 88);
     g.fillText(b.name.toUpperCase(), W / 2 + 70, H / 2 - 10);
     g.fillStyle = b.accent;
-    g.font = `600 34px ${FONT}`;
+    g.font = `800 34px ${BODY}`;
     g.fillText(b.tagline.toUpperCase(), W / 2 + 70, H / 2 + 52);
   }
   const t = new THREE.CanvasTexture(c);
@@ -273,7 +273,7 @@ export function housePlaque(number = '7', names = 'Loki & Pip') {
   g.textBaseline = 'middle';
   g.font = `700 120px Georgia, serif`;
   g.fillText(`No. ${number}`, 256, 110);
-  g.font = `500 40px ${FONT}`;
+  g.font = `800 40px ${BODY}`;
   g.fillText(names, 256, 196);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;

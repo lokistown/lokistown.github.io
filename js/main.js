@@ -14,6 +14,7 @@ import { playSong, stopMusic } from './audio.js';
 import { Social } from './social.js';
 import { buildShowcase, slugOf } from './showcase.js';
 import { Weather, createStreetLife } from './life2.js';
+import { createNeighbourhood } from './town2.js';
 
 const $ = (id) => document.getElementById(id);
 document.addEventListener('gesturestart', (e) => e.preventDefault());
@@ -89,7 +90,7 @@ const weather = new Weather(scene);
 let street = null;
 
 // ---------- state ----------
-let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], stories: [], config: {} };
+let D = { state: null, town: { buildings: [] }, diary: [], gallery: [], music: [], products: [], wishes: [], games: [], stories: [], made: [], config: {} };
 let spots = {};
 let drops = [];
 let roamBounds = PLOT * 6;
@@ -190,7 +191,10 @@ function buildTown() {
     for (const r of bb.b.rooms || []) if (r.built && isNew(r.built)) newMarkers.push(label(`new room: ${r.name || r.kind}`, bb.door.x, 5.6, bb.door.z));
   }
   newMarkers.forEach((m) => townGroup.add(m));
-  colliders.push(...decorate(townGroup, new Set(town.buildings.map((b) => b.plot)), maxRing, plotInfo));
+  const hood = createNeighbourhood(townGroup, new Set(town.buildings.map((b) => b.plot)), maxRing, plotInfo);
+  colliders.push(...hood.colliders);
+  decorList.length = 0;
+  decorList.push(...hood.decor);
   street = createStreetLife(townGroup, maxRing);
   colliders.push(...street.colliders);
   if (maxRing !== landRing) {
@@ -213,7 +217,7 @@ function label(text, x, y, z) {
   c.width = 512;
   c.height = 96;
   const g = c.getContext('2d');
-  g.font = "700 46px 'Fredoka', sans-serif";
+  g.font = "400 46px 'Lilita One', sans-serif";
   const w = Math.min(500, g.measureText(text).width + 40);
   g.fillStyle = '#ffd166';
   g.strokeStyle = '#2b1a10';
@@ -242,12 +246,12 @@ function floorAt(x, z) {
 }
 
 async function load(first) {
-  const [state, town, diary, gallery, music, products, wishes, config, games, stories] = await Promise.all([
+  const [state, town, diary, gallery, music, products, wishes, config, games, stories, made] = await Promise.all([
     getJson('state.json', null), getJson('town.json', { buildings: [] }), getJson('diary.json', []), getJson('gallery.json', []),
-    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}), getJson('games.json', []), getJson('stories.json', []),
+    getJson('music.json', []), getJson('products.json', []), getJson('wishes.json', []), getJson('config.json', {}), getJson('games.json', []), getJson('stories.json', []), getJson('made.json', []),
   ]);
-  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config, games, stories });
-  const key = JSON.stringify(town) + JSON.stringify([gallery.slice(0, 3), products.map((p) => p.title + p.status), games.map((g) => g.slug), music.length, stories.map((x) => x.slug), state?.website, diary[0]?.title]);
+  Object.assign(D, { state, town, diary, gallery, music, products, wishes, config, games, stories, made });
+  const key = JSON.stringify(town) + JSON.stringify([gallery.slice(0, 3), products.map((p) => p.title + p.status), games.map((g) => g.slug), music.length, stories.map((x) => x.slug), made.map((x) => x.slug), state?.website, diary[0]?.title]);
   if (key !== townKey) {
     townKey = key;
     buildTown();
@@ -266,7 +270,7 @@ scene.add(loki.root);
 const life = new LokiLife(loki, pip);
 let colorIdx = 0;
 try {
-  colorIdx = Number(localStorage.getItem('loki.color') ?? Math.floor(Math.random() * 7));
+  colorIdx = Number(localStorage.getItem('loki.color') ?? Math.floor(Math.random() * 12));
   localStorage.setItem('loki.color', String(colorIdx));
 } catch {}
 const visitor = createVisitor(colorIdx);
@@ -646,7 +650,7 @@ function drawBigMap() {
       hx = i.x; hz = i.z; hr = 7;
     }
     const brand = b.kind === 'house' ? 'No. 7 · Loki & Pip' : (b.brand && b.brand.name) || (DEFAULT_BRANDS[b.kind] && DEFAULT_BRANDS[b.kind].name) || b.name;
-    g.font = `700 ${Math.max(11, Math.min(14, 3.2 * sc))}px Fredoka, sans-serif`;
+    g.font = `800 ${Math.max(11, Math.min(14, 3.2 * sc))}px Nunito, sans-serif`;
     const tw = g.measureText(brand).width + 14;
     g.fillStyle = 'rgba(255,248,236,0.95)';
     g.strokeStyle = lokiMade ? (fresh ? '#ef5b5b' : '#f28c28') : '#2b1a10';
@@ -656,7 +660,7 @@ function drawBigMap() {
     g.textAlign = 'center';
     g.textBaseline = 'middle';
     g.fillText(brand, X(hx), Z(hz) + 1);
-    if (fresh) { g.fillStyle = '#ef5b5b'; g.font = '700 10px Fredoka'; g.fillText('NEW', X(hx), Z(hz) - 16); }
+    if (fresh) { g.fillStyle = '#ef5b5b'; g.font = '800 10px Nunito'; g.fillText('NEW', X(hx), Z(hz) - 16); }
     mapHits.push({ x: hx, z: hz, r: hr, door: bb.door, name: b.name });
   }
   for (const p of D.town.props || []) {
@@ -668,12 +672,12 @@ function drawBigMap() {
   const l = loki.root.position, v = visitor.root.position;
   g.fillStyle = '#f28c28'; g.strokeStyle = '#2b1a10'; g.lineWidth = 3;
   g.beginPath(); g.arc(X(l.x), Z(l.z), 9, 0, Math.PI * 2); g.fill(); g.stroke();
-  g.fillStyle = '#2b1a10'; g.font = '700 11px Fredoka'; g.textAlign = 'center'; g.fillText('Loki', X(l.x), Z(l.z) - 16);
+  g.fillStyle = '#2b1a10'; g.font = '800 11px Nunito'; g.textAlign = 'center'; g.fillText('Loki', X(l.x), Z(l.z) - 16);
   for (const p of social.peers.values()) {
     const pp = p.model.root.position;
     g.fillStyle = '#4cc9f0'; g.strokeStyle = '#2b1a10'; g.lineWidth = 2;
     g.beginPath(); g.arc(X(pp.x), Z(pp.z), 6, 0, Math.PI * 2); g.fill(); g.stroke();
-    g.fillStyle = '#2b1a10'; g.font = '600 10px Fredoka'; g.textAlign = 'center'; g.fillText(p.nick, X(pp.x), Z(pp.z) - 11);
+    g.fillStyle = '#2b1a10'; g.font = '800 10px Nunito'; g.textAlign = 'center'; g.fillText(p.nick, X(pp.x), Z(pp.z) - 11);
   }
   g.fillStyle = '#3d3a6b';
   g.beginPath(); g.arc(X(v.x), Z(v.z), 7, 0, Math.PI * 2); g.fill();
@@ -682,7 +686,7 @@ function drawBigMap() {
   g.fillStyle = 'rgba(255,248,236,0.9)';
   g.beginPath(); g.roundRect(8, 8, 150, 20 + leg.length * 18, 10); g.fill();
   g.textAlign = 'left';
-  g.font = '600 12px Fredoka';
+  g.font = '800 12px Nunito';
   leg.forEach(([c, t], i) => { g.fillStyle = c; g.fillRect(16, 18 + i * 18, 12, 12); g.fillStyle = '#2b1a10'; g.fillText(t, 34, 25 + i * 18); });
   cv.onclick = (e) => {
     const r = cv.getBoundingClientRect();
@@ -764,6 +768,9 @@ function renderPanel(tab) {
   } else if (tab === 'games') {
     c = h('div', {}, h('h2', {}, "Loki's games"), h('p', { class: 'muted' }, 'Games Loki designed and coded himself. Each one also has its own GitHub repo.'),
       D.games.length ? D.games.map((g) => h('div', { class: 'wish' }, h('b', {}, g.title), h('div', {}, g.description), h('div', { class: 'muted' }, g.howto || ''), h('p', {}, h('a', { class: 'btn', href: `games/${g.slug}/`, target: '_blank', rel: 'noopener' }, '▶ Play'), g.repo ? h('a', { class: 'btn alt', href: g.repo, target: '_blank', rel: 'noopener' }, 'Code on GitHub') : null))) : h('p', {}, 'No games yet — Loki is learning to code them in his workshop.'));
+  } else if (tab === 'lab') {
+    c = h('div', {}, h('h2', {}, "Loki's Lab"), h('p', { class: 'muted' }, 'Things Loki invented all by himself: toys, tools, art machines, printables and other surprises.'),
+      D.made.length ? D.made.map((m) => h('div', { class: 'wish' }, h('b', {}, m.title), h('div', { class: 'muted' }, `${m.kind} · ${m.date}`), h('div', {}, m.pitch || ''), h('p', {}, h('a', { class: 'btn', href: `made/${m.slug}/`, target: '_blank', rel: 'noopener' }, 'Try it'), h('button', { class: 'btn alt', onclick: () => goTo(`made:${m.slug}`) }, 'Find it in town')))) : h('p', {}, 'Nothing yet. Loki is cooking up his first invention.'));
   } else if (tab === 'stories') {
     c = h('div', {}, h('h2', {}, "Loki's stories"), h('p', { class: 'muted' }, 'Little illustrated stories Loki writes about his town, Pip and his visitors.'),
       D.stories.length ? D.stories.map((st) => h('div', { class: 'wish' }, h('b', {}, st.title), h('div', {}, st.blurb || ''), h('p', {}, h('a', { class: 'btn', href: `stories/${st.slug}/`, target: '_blank', rel: 'noopener' }, 'Read'), h('button', { class: 'btn alt', onclick: () => goTo(`story:${st.slug}`) }, 'Find it in town')))) : h('p', {}, 'No stories yet. Loki is collecting ideas.'));
@@ -798,6 +805,7 @@ function renderPanel(tab) {
 function openThing(kind, data) {
   if (kind === 'music') return openPanel('music');
   if (kind === 'stories') return openPanel('stories');
+  if (kind === 'lab') return openPanel('lab');
   openPanel('thing', { kind, data });
 }
 function thingView(kind, d) {
@@ -811,6 +819,7 @@ function thingView(kind, d) {
       d.status !== 'listed' ? h('p', { class: 'muted' }, 'Not in the shop yet. Loki asked his human to list it.') : null);
   }
   if (kind === 'story') return h('div', {}, h('h2', {}, d.title), d.cover ? h('img', { class: 'hero painted', src: d.cover, alt: d.title }) : null, h('p', {}, d.blurb || ''), h('p', {}, a('Read the story', `stories/${d.slug}/`)), h('p', { class: 'muted' }, `Written by Loki · ${d.date || ''}`));
+  if (kind === 'made') return h('div', {}, h('h2', {}, d.title), h('p', { class: 'muted' }, `${d.kind} · invented by Loki · ${d.date || ''}`), h('p', {}, d.pitch || ''), h('p', {}, a('Try it', `made/${d.slug}/`)), h('p', {}, h('button', { class: 'btn alt', onclick: () => renderPanel((curTab = 'lab')) }, 'All his inventions')));
   if (kind === 'website') return h('div', {}, h('h2', {}, "Loki's website"), h('p', {}, 'Loki designs and codes his own website, all by himself, and keeps improving it.'), D.state?.website?.version ? h('p', { class: 'muted' }, `Version ${D.state.website.version} · updated ${D.state.website.updated || ''}`) : null, h('p', {}, a('Visit it', 'home/')));
   return h('p', {}, 'Nothing here yet.');
 }
@@ -844,7 +853,7 @@ function goTo(go) {
   if (kind === 'prop') return;
   if (kind === 'song') return openPanel('music');
   if (kind === 'home') return openThing('website');
-  const find = { art: () => D.gallery.find((a) => a.file === id), game: () => D.games.find((g) => g.slug === id), product: () => D.products.find((p) => slugOf.product(p) === id), story: () => D.stories.find((s) => s.slug === id) }[kind];
+  const find = { art: () => D.gallery.find((a) => a.file === id), game: () => D.games.find((g) => g.slug === id), product: () => D.products.find((p) => slugOf.product(p) === id), story: () => D.stories.find((s) => s.slug === id), made: () => D.made.find((m) => m.slug === id) }[kind];
   const thing = find?.();
   if (thing) openThing(kind, thing);
   else if (kind === 'art') openPanel('gallery');
@@ -860,6 +869,7 @@ function legacyGo(l) {
   if ((m = u.match(/^games\/([^/]+)/))) return `game:${m[1]}`;
   if ((m = u.match(/^products\/([^/]+)/))) return `product:${m[1]}`;
   if ((m = u.match(/^stories\/([^/]+)/))) return `story:${m[1]}`;
+  if ((m = u.match(/^made\/([^/]+)/))) return `made:${m[1]}`;
   if (/^home\/?$/.test(u)) return 'home';
   return null;
 }

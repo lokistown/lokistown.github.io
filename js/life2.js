@@ -1,5 +1,5 @@
 // Town atmosphere: real weather (from Loki's brain, which checks London's weather every session)
-// and street life — cars driving the ring roads, birds, butterflies by day, fireflies at night,
+// and street life — birds, butterflies by day, fireflies at night,
 // bunting over the plaza, paths to Loki's exhibits, picnic tables, bins and street signs.
 import * as THREE from 'three';
 import { block, part, signBoard } from './toon.js';
@@ -76,27 +76,6 @@ export class Weather {
       if (Math.random() < dt * 0.08) this.flash = 1;
     } else this.flash = 0;
   }
-}
-
-// ---------------------------------------------------------------- cars
-const CAR_COLS = ['#e63946', '#3a86ff', '#ffb703', '#2a9d8f', '#f4f1de', '#8338ec', '#fb8500'];
-function car(color) {
-  const g = new THREE.Group();
-  g.add(block(1.7, 0.55, 3.4, color, 0, 0.55, 0));
-  g.add(block(1.5, 0.5, 1.8, color, 0, 1.05, -0.2));
-  const glassMat = new THREE.MeshToonMaterial({ color: '#bfe3ff' });
-  g.add(block(1.52, 0.38, 0.06, '#bfe3ff', 0, 1.05, 0.71, { mat: glassMat, ink: false }), block(1.52, 0.38, 0.06, '#bfe3ff', 0, 1.05, -1.11, { mat: glassMat, ink: false }));
-  for (const sx of [-1, 1]) {
-    g.add(block(0.06, 0.34, 1.5, '#bfe3ff', sx * 0.76, 1.06, -0.2, { mat: glassMat, ink: false }));
-    for (const sz of [-1, 1]) {
-      const w = part(new THREE.CylinderGeometry(0.34, 0.34, 0.28, 14), '#2b2d42', { x: sx * 0.82, y: 0.34, z: sz * 1.1, ink: 0.01 });
-      w.rotation.z = Math.PI / 2;
-      g.add(w);
-    }
-    g.add(part(new THREE.SphereGeometry(0.11, 8, 6), '#fff6c8', { x: sx * 0.55, y: 0.62, z: 1.71, ink: 0 }));
-    g.add(part(new THREE.SphereGeometry(0.09, 8, 6), '#e63946', { x: sx * 0.6, y: 0.62, z: -1.71, ink: 0 }));
-  }
-  return g;
 }
 
 // ---------------------------------------------------------------- critters
@@ -228,27 +207,6 @@ export function createStreetLife(group, maxRing) {
     group.add(g);
     colliders.push({ x: sx * 13.9, z: sz * 13.9, hw: 0.2, hd: 0.2, h: 3 });
   });
-  // ---- parked cars along the outer roads ----
-  const ext = (maxRing + 0.5) * PLOT;
-  let n = 0;
-  for (let k = -maxRing; k <= maxRing + 1; k++) {
-    const c = (k - 0.5) * PLOT;
-    for (let s = -ext + 10; s < ext - 10; s += 23) {
-      if (Math.abs(s) < 20 && Math.abs(c) < 20) continue;
-      if ((k * 31 + Math.round(s)) % 3) continue;
-      const m = car(CAR_COLS[n++ % CAR_COLS.length]);
-      m.position.set(c + ROAD / 2 + 0.95, 0, s);
-      group.add(m);
-      colliders.push({ x: m.position.x, z: s, hw: 0.9, hd: 1.75, h: 1.4 });
-    }
-  }
-  // ---- cars that drive slowly around the plaza block (they stop for people) ----
-  const loop = PLOT / 2; // the four roads around the plaza
-  for (let i = 0; i < 3; i++) {
-    const m = car(CAR_COLS[(i * 2 + 1) % CAR_COLS.length]);
-    group.add(m);
-    movers.push({ kind: 'car', obj: m, u: i / 3, speed: 4 + i * 0.6, side: 0.95 });
-  }
   // ---- birds circling high up, butterflies and fireflies ----
   for (let i = 0; i < 6; i++) {
     const b = bird();
@@ -275,20 +233,7 @@ export function createStreetLife(group, maxRing) {
       night = nightLevel;
       ffMat.opacity = Math.max(0, (night - 0.45) * 1.8);
       for (const m of movers) {
-        if (m.kind === 'car') {
-          // drive anticlockwise around the square formed by the four roads next to the plaza
-          const pos = (u) => {
-            const L = loop * 8, d = ((u % 1) + 1) % 1 * L, q = loop * 2;
-            const side = Math.floor(d / q), f = (d % q) - loop, o = loop - m.side;
-            return [[f, -o], [o, f], [-f, o], [-o, -f]][side].map((v) => v);
-          };
-          const [x, z] = pos(m.u);
-          const blocked = people.some((p) => Math.hypot(p.x - x, p.z - z) < 4.2);
-          if (!blocked) m.u += (m.speed * dt) / (loop * 8);
-          const [nx, nz] = pos(m.u + 0.003);
-          m.obj.position.set(x, 0, z);
-          m.obj.rotation.y = Math.atan2(nx - x, nz - z);
-        } else if (m.kind === 'bird') {
+        if (m.kind === 'bird') {
           m.a += dt * m.s;
           m.obj.position.set(Math.cos(m.a) * m.r, m.h + Math.sin(t + m.r) * 0.6, Math.sin(m.a) * m.r);
           m.obj.rotation.y = -m.a;

@@ -47,10 +47,20 @@ export function loadModel(path) {
 }
 
 // A group that fills itself with the model once loaded, scaled to fit w×d (and optionally height h).
-export function model(path, w, d, { h = null, y = 0, rot = 0, stretch = false } = {}) {
+export function model(path, w, d, opts = {}) {
   const g = new THREE.Group();
   g.userData.model = path;
-  loadModel(path).then((src) => {
+  modelInto(g, path, w, d, opts);
+  return g;
+}
+// Same as model(), but resolves once the model is in the group (so it can be merged).
+export async function modelAsync(path, w, d, opts = {}) {
+  const g = new THREE.Group();
+  await modelInto(g, path, w, d, opts);
+  return g;
+}
+function modelInto(g, path, w, d, { h = null, y = 0, rot = 0, stretch = false } = {}) {
+  return loadModel(path).then((src) => {
     if (!src) return;
     const m = src.clone(true);
     const box = new THREE.Box3().setFromObject(m);
@@ -69,7 +79,6 @@ export function model(path, w, d, { h = null, y = 0, rot = 0, stretch = false } 
     pivot.rotation.y = rot;
     g.add(pivot);
   });
-  return g;
 }
 
 export function preload(paths) {

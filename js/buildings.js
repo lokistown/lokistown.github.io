@@ -10,17 +10,103 @@ import { DEFAULT_BRANDS, logoSign, housePlaque } from './brand.js';
 export const glass = new THREE.MeshToonMaterial({ color: '#bfe3ff', emissive: '#ffcf6e', emissiveIntensity: 0 });
 export const bulbs = new THREE.MeshToonMaterial({ color: '#fff3c4', emissive: '#ffd27a', emissiveIntensity: 0 });
 
+// Same palette as the Kenney Fantasy Town Kit cottages, so Loki's buildings match the town.
 const KIND = {
-  house: { wall: '#f2b880', roof: '#b5523b', icon: '' },
-  workshop: { wall: '#b98b6e', roof: '#5b4636', icon: '' },
-  bakery: { wall: '#f6dcb8', roof: '#d64545', icon: '' },
-  cafe: { wall: '#f2c6a0', roof: '#2a9d8f', icon: '' },
-  gallery: { wall: '#eef0f2', roof: '#3d6e9e', icon: '' },
-  library: { wall: '#b7a6d9', roof: '#4a3f6b', icon: '' },
-  shop: { wall: '#f6c28b', roof: '#e07a1f', icon: '' },
-  tower: { wall: '#b8a9d9', roof: '#4a3f6b', icon: '' },
-  other: { wall: '#d9b99b', roof: '#8a5a3b', icon: '' },
+  house: { wall: '#f4e3c3', roof: '#c4553f', icon: '' },
+  workshop: { wall: '#e6d3b3', roof: '#8c5a3c', icon: '' },
+  bakery: { wall: '#f7e8cf', roof: '#c4553f', icon: '' },
+  cafe: { wall: '#f1e0c4', roof: '#4e9a8f', icon: '' },
+  gallery: { wall: '#eef0f2', roof: '#4f74b8', icon: '' },
+  library: { wall: '#e9dfee', roof: '#8e5d93', icon: '' },
+  shop: { wall: '#f4e3c3', roof: '#c4553f', icon: '' },
+  tower: { wall: '#e9dfee', roof: '#5d6b7a', icon: '' },
+  other: { wall: '#efe0c6', roof: '#8c5a3c', icon: '' },
 };
+const TIMBER = '#a8683f';
+
+// Half-timbered wall: stone base, plaster, beams and cross braces (drawn once per colour).
+const timberCache = new Map();
+function timberImage(plaster) {
+  if (timberCache.has(plaster)) return timberCache.get(plaster);
+  const c = document.createElement('canvas');
+  c.width = 256;
+  c.height = 384;
+  const g = c.getContext('2d');
+  g.fillStyle = plaster;
+  g.fillRect(0, 0, 256, 384);
+  // soft plaster texture
+  for (let k = 0; k < 500; k++) {
+    g.fillStyle = `rgba(0,0,0,${Math.random() * 0.035})`;
+    g.fillRect(Math.random() * 256, Math.random() * 300, 3 + Math.random() * 8, 2 + Math.random() * 6);
+  }
+  // stone base
+  const base = 300;
+  g.fillStyle = '#9d968c';
+  g.fillRect(0, base, 256, 84);
+  const st = ['#b8b1a6', '#aaa397', '#c3bcb0', '#a39c91'];
+  for (let y = base + 3; y < 384; y += 26) for (let x = ((y / 26) % 2) * -24; x < 256; x += 50) {
+    g.fillStyle = st[Math.floor(Math.random() * st.length)];
+    g.beginPath();
+    g.roundRect(x + 2, y, 46, 22, 6);
+    g.fill();
+  }
+  // timber frame
+  g.fillStyle = '#8a5432';
+  const beam = (x, y, w, h) => {
+    g.fillRect(x, y, w, h);
+    g.fillStyle = 'rgba(255,255,255,0.12)';
+    g.fillRect(x, y, w, 3);
+    g.fillStyle = '#8a5432';
+  };
+  beam(0, 0, 256, 14);
+  beam(0, base - 14, 256, 16);
+  beam(0, 150, 256, 12);
+  beam(0, 0, 16, base);
+  beam(240, 0, 16, base);
+  g.strokeStyle = '#8a5432';
+  g.lineWidth = 12;
+  g.beginPath();
+  g.moveTo(16, 150);
+  g.lineTo(120, 14);
+  g.moveTo(240, 150);
+  g.lineTo(136, 14);
+  g.stroke();
+  timberCache.set(plaster, c);
+  return c;
+}
+function timberMat(plaster, length) {
+  const t = new THREE.CanvasTexture(timberImage(plaster));
+  t.wrapS = THREE.RepeatWrapping;
+  t.repeat.set(Math.max(1, Math.round(length / 2.6)), 1);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return new THREE.MeshToonMaterial({ map: t });
+}
+// Roof tiles in rows, like the kit's roofs.
+const tileCache = new Map();
+function tileMat(color) {
+  if (tileCache.has(color)) return tileCache.get(color);
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  const base = new THREE.Color(color);
+  g.fillStyle = `#${base.clone().multiplyScalar(0.72).getHexString()}`;
+  g.fillRect(0, 0, 128, 128);
+  for (let y = 0; y < 128; y += 16) for (let x = ((y / 16) % 2) * -12; x < 128; x += 24) {
+    const v = 0.9 + Math.random() * 0.2;
+    g.fillStyle = `#${base.clone().multiplyScalar(v).getHexString()}`;
+    g.beginPath();
+    g.roundRect(x + 1, y + 1, 22, 14, [2, 2, 8, 8]);
+    g.fill();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(0.55, 0.55);
+  t.colorSpace = THREE.SRGBColorSpace;
+  const m = new THREE.MeshToonMaterial({ map: t });
+  tileCache.set(color, m);
+  return m;
+}
 const FLOOR = ['#e9cfa6', '#dcbf95', '#e3c9a2', '#d8b88c'];
 
 function gableRoof(W, D, color, level) {
@@ -34,27 +120,27 @@ function gableRoof(W, D, color, level) {
   shape.closePath();
   const geo = new THREE.ExtrudeGeometry(shape, { depth: D + overhang * 2, bevelEnabled: false });
   geo.translate(0, 0, -(D + overhang * 2) / 2);
-  const roof = new THREE.Mesh(geo, toon(color));
+  const roof = new THREE.Mesh(geo, [toon(shade(color, -0.2)), tileMat(color)]);
   roof.castShadow = true;
   roof.receiveShadow = true;
   edges(roof);
   g.add(roof);
-  // ridge tiles
-  for (let k = -3; k <= 3; k++) {
-    const t = part(new THREE.SphereGeometry(0.22, 8, 6), shade(color, -0.1), { x: 0, y: rise, z: (k / 3) * (D / 2), ink: 0.02 });
-    g.add(t);
-  }
+  // ridge cap
+  const ridge = part(new THREE.CylinderGeometry(0.16, 0.16, D + overhang * 2, 8), shade(color, -0.25), { x: 0, y: rise - 0.02, ink: 0.01 });
+  ridge.rotation.x = Math.PI / 2;
+  g.add(ridge);
   return { group: g, rise };
 }
 
 function windowOn(wallGroup, x, y, z, rotY) {
   const w = new THREE.Group();
-  w.add(block(1.25, 1.35, 0.14, '#fff6e5', 0, 0, 0));
+  w.add(block(1.25, 1.35, 0.14, '#b87443', 0, 0, 0));
   const pane = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.1), glass);
   pane.position.z = 0.08;
   w.add(pane);
-  w.add(block(1.0, 0.06, 0.05, '#fff6e5', 0, 0, 0.1, { ink: false }), block(0.06, 1.1, 0.05, '#fff6e5', 0, 0, 0.1, { ink: false }));
-  w.add(block(1.4, 0.12, 0.35, '#fff6e5', 0, -0.72, 0.15));
+  w.add(block(1.0, 0.06, 0.05, '#8a5432', 0, 0, 0.1, { ink: false }), block(0.06, 1.1, 0.05, '#8a5432', 0, 0, 0.1, { ink: false }));
+  w.add(block(1.4, 0.12, 0.35, '#b87443', 0, -0.72, 0.15));
+  for (const sx of [-1, 1]) w.add(block(0.5, 1.3, 0.06, '#5f8f6a', sx * 0.92, 0, 0.12)); // shutters
   // flower box
   w.add(block(1.2, 0.25, 0.3, '#8d5b3c', 0, -0.9, 0.25));
   for (let k = 0; k < 5; k++) {
@@ -76,7 +162,8 @@ function enterable(b, ctx) {
   const wallGroup = new THREE.Group();
   const interior = new THREE.Group();
   root.add(wallGroup, interior);
-  const wallColor = b.color || style.wall;
+  // Loki's own colour choice tints the plaster gently, so it still fits the town
+  const wallColor = b.color ? '#' + new THREE.Color(style.wall).lerp(new THREE.Color(b.color), 0.35).getHexString() : style.wall;
   const level = Math.max(1, Math.min(5, b.level || 1));
 
   // foundation, porch, floor
@@ -92,12 +179,11 @@ function enterable(b, ctx) {
 
   // walls: exterior face painted, inside cream
   const inside = toon('#fbf1df');
-  const outside = toon(wallColor);
-  const trim = toon(shade(wallColor, -0.12));
+  const trim = toon(TIMBER);
   for (const w of lay.walls) {
     const ext = Math.abs(Math.abs(w.z) - D / 2) < 0.01 && w.d < 1 ? (w.z > 0 ? 4 : 5) : Math.abs(Math.abs(w.x) - W / 2) < 0.01 && w.w < 1 ? (w.x > 0 ? 0 : 1) : -1;
     const mats = [inside, inside, trim, inside, inside, inside];
-    if (ext >= 0) mats[ext] = outside;
+    if (ext >= 0) mats[ext] = timberMat(wallColor, Math.max(w.w, w.d));
     const m = new THREE.Mesh(new THREE.BoxGeometry(w.w, WALL_H, w.d), mats);
     m.position.set(w.x, 0.33 + WALL_H / 2, w.z);
     m.castShadow = true;
@@ -106,7 +192,7 @@ function enterable(b, ctx) {
     wallGroup.add(m);
   }
   // corner trims + top band
-  for (const [x, z] of [[-W / 2, -D / 2], [W / 2, -D / 2], [-W / 2, D / 2], [W / 2, D / 2]]) wallGroup.add(block(0.45, WALL_H + 0.1, 0.45, shade(wallColor, -0.15), x, 0.33 + WALL_H / 2, z));
+  for (const [x, z] of [[-W / 2, -D / 2], [W / 2, -D / 2], [-W / 2, D / 2], [W / 2, D / 2]]) wallGroup.add(block(0.45, WALL_H + 0.1, 0.45, '#8a5432', x, 0.33 + WALL_H / 2, z));
 
   // windows on the outside (front, back, sides)
   const wy = 0.33 + 1.9;

@@ -4,7 +4,47 @@ import { toon, block, part, shade, signBoard, paperTexture } from './toon.js';
 import { PLOT, ROAD } from './layout.js';
 import { tree, bulbs } from './buildings.js';
 import { flower } from './rooms.js';
-import { model } from './models.js';
+import { model, modelAsync } from './models.js';
+import { mergeGroup } from './town2.js';
+import { kitModel } from './kit.js';
+
+// Cobblestone texture (drawn once): rounded stones in warm greys with darker joints.
+let cobbleCanvas = null;
+function cobbleImage() {
+  if (cobbleCanvas) return cobbleCanvas;
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#8f8576';
+  g.fillRect(0, 0, 256, 256);
+  const r = rng('cobble');
+  const tones = ['#cfc3ae', '#c4b79f', '#d8cdb9', '#bcae96', '#c9bda6', '#b5a891'];
+  const row = 32;
+  for (let y = 0; y < 256 + row; y += row) {
+    const shift = (y / row) % 2 ? row / 2 : 0;
+    for (let x = -row; x < 256 + row; x += row) {
+      const w = row - 4 + r() * 3, h = row - 5 + r() * 3;
+      g.fillStyle = tones[Math.floor(r() * tones.length)];
+      g.beginPath();
+      g.roundRect(x + shift + 2, y + 2, w, h, 9);
+      g.fill();
+      g.fillStyle = 'rgba(255,255,255,0.18)';
+      g.beginPath();
+      g.roundRect(x + shift + 5, y + 4, w * 0.6, h * 0.35, 6);
+      g.fill();
+    }
+  }
+  cobbleCanvas = c;
+  return c;
+}
+export function cobble(repeatX, repeatY, tint = '#ffffff') {
+  const t = new THREE.CanvasTexture(cobbleImage());
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(repeatX, repeatY);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return new THREE.MeshToonMaterial({ map: t, color: tint });
+}
 
 export function rng(seed) {
   let h = 2166136261;
@@ -44,14 +84,14 @@ export function createLand(scene, maxRing = 1) {
   // forest ring, rocks and bushes outside town
   const r = rng('forest');
   const g = new THREE.Group();
-  for (let k = 0; k < 220; k++) {
+  const forest = [];
+  for (let k = 0; k < 170; k++) {
     const a = r() * Math.PI * 2;
     const d = PLOT * (maxRing + 5.2 + r() * 3);
-    const t = tree(1.1 + r() * 1.3, r());
+    const sz = 1.1 + r() * 1.3;
+    const path = ['nature/tree_oak', 'nature/tree_default', 'nature/tree_detailed', 'nature/tree_fat', 'nature/tree_cone', 'nature/tree_pineRoundA'][Math.floor(r() * 6)];
     const hgt = d > PLOT * (maxRing + 5) ? (d - PLOT * (maxRing + 5)) * 0.12 : 0;
-    t.position.set(Math.cos(a) * d, hgt - 0.2, Math.sin(a) * d);
-    t.rotation.y = r() * 6;
-    g.add(t);
+    forest.push({ path, sz, x: Math.cos(a) * d, y: hgt - 0.2, z: Math.sin(a) * d, ry: r() * 6 });
   }
   for (let k = 0; k < 40; k++) {
     const a = r() * Math.PI * 2, d = PLOT * (maxRing + 2.6 + r() * 2.2);
@@ -62,6 +102,19 @@ export function createLand(scene, maxRing = 1) {
   g.name = 'land';
   ground.name = 'land';
   scene.add(g);
+  // build the forest, then merge it into a handful of meshes
+  (async () => {
+    const f = new THREE.Group();
+    for (const t of forest) {
+      const m = await modelAsync(t.path, 2.6 * t.sz, 2.6 * t.sz, { h: 5 * t.sz });
+      m.position.set(t.x, t.y, t.z);
+      m.rotation.y = t.ry;
+      f.add(m);
+    }
+    const merged = mergeGroup(f);
+    merged.name = 'land';
+    scene.add(merged);
+  })().catch((e) => console.warn('forest failed', e));
 }
 
 export function createRoads(group, maxRing) {
@@ -71,7 +124,7 @@ export function createRoads(group, maxRing) {
   for (let k = -maxRing; k <= maxRing + 1; k++) {
     const c = (k - 0.5) * PLOT;
     for (const [w, d, x, z] of [[ROAD, ext * 2 + ROAD, c, 0], [ext * 2 + ROAD, ROAD, 0, c]]) {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), roadMat);
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), cobble(w / 1.6, d / 1.6));
       m.position.set(x, 0.05, z);
       m.receiveShadow = true;
       group.add(m);
@@ -83,7 +136,7 @@ export function createRoads(group, maxRing) {
   }
   // short paths from the plaza to the main roads
   for (const [x, z, w, d] of [[0, PLOT / 4 + 2, ROAD, PLOT / 2 - 4], [0, -PLOT / 4 - 2, ROAD, PLOT / 2 - 4], [PLOT / 4 + 2, 0, PLOT / 2 - 4, ROAD], [-PLOT / 4 - 2, 0, PLOT / 2 - 4, ROAD]]) {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), roadMat);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, d), cobble(w / 1.6, d / 1.6));
     m.position.set(x, 0.05, z);
     m.receiveShadow = true;
     group.add(m);
@@ -95,22 +148,27 @@ export function createPlaza(group, { diary, whatsOn }) {
   const colliders = [];
   const items = [];
   const places = [];
-  const paving = part(new THREE.CylinderGeometry(10, 10, 0.14, 40), '#ecdcbc', { y: 0.07, ink: 0, shadow: false });
-  const ring = part(new THREE.CylinderGeometry(6, 6, 0.16, 40), '#e2cda6', { y: 0.08, ink: 0, shadow: false });
-  const center = part(new THREE.CylinderGeometry(2, 2, 0.18, 30), '#d6b98a', { y: 0.09, ink: 0, shadow: false });
-  group.add(paving, ring, center);
-  // pattern stones
-  for (let k = 0; k < 24; k++) {
-    const a = (k / 24) * Math.PI * 2;
-    group.add(block(0.6, 0.04, 0.6, '#d3bd93', Math.cos(a) * 8, 0.16, Math.sin(a) * 8, { ink: false, cast: false }));
+  const SQ = PLOT - ROAD - 0.4; // the whole central block is one cobbled town square
+  const paving = new THREE.Mesh(new THREE.BoxGeometry(SQ, 0.12, SQ), cobble(SQ / 1.3, SQ / 1.3, '#f3e7d2'));
+  paving.position.y = 0.06;
+  paving.receiveShadow = true;
+  const ring = new THREE.Mesh(new THREE.CylinderGeometry(9.5, 9.5, 0.14, 48), cobble(9, 9, '#e6cfa8'));
+  ring.position.y = 0.07;
+  ring.receiveShadow = true;
+  const border = part(new THREE.TorusGeometry(9.5, 0.18, 6, 64), '#9c8b74', { y: 0.12, ink: 0, shadow: false });
+  border.rotation.x = Math.PI / 2;
+  group.add(paving, ring, border);
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+    const kerb = block(SQ, 0.18, 0.35, '#a99a84', 0, 0.1, sz * SQ / 2, { ink: false, cast: false });
+    const kerb2 = block(0.35, 0.18, SQ, '#a99a84', sx * SQ / 2, 0.1, 0, { ink: false, cast: false });
+    group.add(kerb, kerb2);
   }
   const lamps = [];
   for (let k = 0; k < 4; k++) {
     const a = Math.PI / 4 + (k * Math.PI) / 2;
     const lp = new THREE.Group();
-    lp.add(part(new THREE.CylinderGeometry(0.09, 0.14, 3.6, 8), '#3b3b45', { y: 1.8, ink: 0.02 }));
-    lp.add(part(new THREE.CylinderGeometry(0.32, 0.22, 0.5, 8), '#3b3b45', { y: 3.8, ink: 0.02 }));
-    lp.add(part(new THREE.SphereGeometry(0.25, 12, 8), '#fff', { y: 3.75, mat: bulbs, ink: 0 }));
+    kitModel('lantern', { scale: 2.5 }).then((m) => lp.add(m));
+    lp.add(part(new THREE.SphereGeometry(0.16, 10, 8), '#fff', { y: 3.62, mat: bulbs, ink: 0, shadow: false }));
     const light = new THREE.PointLight('#ffcf80', 0, 16, 1.6);
     light.position.y = 3.6;
     lp.add(light);
@@ -119,18 +177,25 @@ export function createPlaza(group, { diary, whatsOn }) {
     group.add(lp);
     colliders.push({ x: lp.position.x, z: lp.position.z, hw: 0.25, hd: 0.25, h: 4 });
   }
-  // planters
-  for (let k = 0; k < 4; k++) {
-    const a = (k * Math.PI) / 2;
-    const x = Math.cos(a) * 4.2, z = Math.sin(a) * 4.2;
-    if (k === 3) continue; // north side holds the boards
-    group.add(part(new THREE.CylinderGeometry(0.9, 0.8, 0.6, 12), '#c96f4a', { x, y: 0.3, z }));
-    for (let f = 0; f < 9; f++) {
-      const fl = flower(['#ef476f', '#ffd166', '#c77dff'][f % 3], 0.32);
-      fl.position.set(x + Math.cos(f * 0.7) * (0.25 + (f % 3) * 0.2), 0.58, z + Math.sin(f * 0.7) * (0.25 + (f % 3) * 0.2));
-      group.add(fl);
-    }
-    colliders.push({ x, z, hw: 0.9, hd: 0.9, h: 1 });
+  // the town fountain in the middle of the square (Kenney Fantasy Town Kit)
+  const fountain = new THREE.Group();
+  kitModel('fountain-round-detail', { scale: 2.7 }).then((m) => fountain.add(m));
+  kitModel('fountain-center', { scale: 2.7 }).then((m) => fountain.add(m));
+  const water = new THREE.Mesh(new THREE.CircleGeometry(2.35, 40), new THREE.MeshToonMaterial({ color: '#7cc8f0', transparent: true, opacity: 0.85 }));
+  water.rotation.x = -Math.PI / 2;
+  water.position.y = 0.62;
+  fountain.add(water);
+  group.add(fountain);
+  colliders.push({ x: 0, z: 0, hw: 2.4, hd: 2.4, h: 1.5 });
+  places.push({ id: 'plaza:fountain', building: 'plaza', act: 'admire', label: 'watching the fountain sparkle', where: 'the town square', x: 0, z: 3.4, face: Math.PI, inside: false });
+  // market stalls on the south side of the square
+  for (const [x, v] of [[-4.6, 'stall-red'], [4.6, 'stall-green']]) {
+    const st = new THREE.Group();
+    kitModel(v, { scale: 2.6 }).then((m) => st.add(m));
+    st.position.set(x, 0, 7.2);
+    st.rotation.y = Math.PI;
+    group.add(st);
+    colliders.push({ x, z: 7.2, hw: 1.3, hd: 1.3, h: 2.5 });
   }
   // diary board (north)
   const board = new THREE.Group();

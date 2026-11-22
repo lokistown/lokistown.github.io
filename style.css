@@ -1,4 +1,16 @@
 @font-face {
+  font-family: 'Lilita One';
+  src: url('vendor/fonts/lilita-one-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('vendor/fonts/nunito-latin.woff2') format('woff2');
+  font-weight: 200 1000;
+  font-display: swap;
+}
+@font-face {
   font-family: 'Fredoka';
   src: url('vendor/fonts/fredoka-latin.woff2') format('woff2');
   font-weight: 300 700;
@@ -18,7 +30,7 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: #9fd8f5; }
-body { font: 15px/1.45 'Fredoka', ui-rounded, system-ui, sans-serif; color: var(--ink); -webkit-tap-highlight-color: transparent; user-select: none; }
+body { font: 600 15px/1.45 'Nunito', ui-rounded, system-ui, sans-serif; color: var(--ink); -webkit-tap-highlight-color: transparent; user-select: none; }
 canvas#world { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; touch-action: none; outline: none; }
 button { font: inherit; color: inherit; }
 
@@ -199,3 +211,8 @@ html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
   .peer-menu { bottom: 150px; }
   .toasts { top: 150px; }
 }
+
+/* typography: Lilita One for headings and signs, Nunito for reading */
+h1, h2, h3, .tag, .chip, #tabs button, .prompt, .loading h1, .bubble { font-family: 'Lilita One', 'Nunito', sans-serif; font-weight: 400; letter-spacing: 0.2px; }
+.pill, .btn, button { font-family: 'Nunito', sans-serif; font-weight: 800; }
+.panel-body p, .panel-body li, .feed, .thought, .quote { font-family: 'Nunito', sans-serif; }

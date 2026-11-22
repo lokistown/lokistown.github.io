@@ -7,10 +7,11 @@
   <title>Loki Control Centre</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
   <style>
-    @font-face { font-family: 'Fredoka'; src: url('../vendor/fonts/fredoka-latin.woff2') format('woff2'); font-weight: 300 700; }
+    @font-face { font-family: 'Lilita One'; src: url('../vendor/fonts/lilita-one-latin.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: 'Nunito'; src: url('../vendor/fonts/nunito-latin.woff2') format('woff2'); font-weight: 200 1000; }
     :root { --ink: #3b2416; --paper: #fff8ec; --line: #ead9c3; --accent: #e07a1f; --teal: #2a9d8f; --muted: #8a6f5c; --bg: #2b2d42; }
     * { box-sizing: border-box; }
-    body { margin: 0; font: 15px/1.5 'Fredoka', system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+    body { margin: 0; font: 600 15px/1.5 'Nunito', system-ui, sans-serif; background: var(--bg); color: var(--ink); }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
     h1 { color: #fff; margin: 6px 0 16px; font-size: 1.7rem; }
     h1 small { color: #ffd166; font-size: 0.9rem; margin-left: 8px; }
@@ -20,7 +21,8 @@
     .stat { background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 8px 12px; }
     .stat b { display: block; font-size: 1.5rem; color: var(--accent); }
     .stat span { font-size: 0.8rem; color: var(--muted); }
-    h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    h1, h2, h3, .stat b { font-family: 'Lilita One', 'Nunito', sans-serif; font-weight: 400; letter-spacing: 0.2px; }
+    h2 { margin: 0 0 8px; font-size: 1.15rem; }
     .item { border-bottom: 1.5px dashed var(--line); padding: 7px 0; }
     .item:last-child { border: 0; }
     .muted { color: var(--muted); font-size: 0.85em; }

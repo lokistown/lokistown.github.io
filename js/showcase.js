@@ -7,8 +7,9 @@ import * as THREE from 'three';
 import { block, part, toon, signBoard, paperTexture } from './toon.js';
 import { artTexture } from './rooms.js';
 import { bulbs } from './buildings.js';
+import { kitModel } from './kit.js';
 
-const FONT = "'Fredoka', sans-serif";
+const FONT = "'Lilita One', 'Nunito', sans-serif";
 const R = 11.4; // distance of each corner from the plaza centre (along x and z)
 
 export const slugOf = {
@@ -34,7 +35,7 @@ function screenTexture(title, sub, { bg = '#1d1b3a', fg = '#ffd166', accent = '#
   g.textAlign = 'center';
   g.fillStyle = fg;
   let size = 58;
-  g.font = `700 ${size}px ${FONT}`;
+  g.font = `400 ${size}px ${FONT}`;
   const words = String(title).split(/\s+/);
   const lines = [];
   let line = '';
@@ -49,7 +50,7 @@ function screenTexture(title, sub, { bg = '#1d1b3a', fg = '#ffd166', accent = '#
   const top = h / 2 - (lines.length - 1) * 32 - 20;
   lines.slice(0, 3).forEach((l, i) => g.fillText(l, w / 2, top + i * 64));
   g.fillStyle = accent;
-  g.font = `600 34px ${FONT}`;
+  g.font = `400 34px ${FONT}`;
   g.fillText(sub, w / 2, h - 44);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
@@ -97,7 +98,7 @@ export function buildShowcase(group, D, isNew) {
       have.text = `NEW: ${have.parts.join(', ')}`;
       return;
     }
-    const top = { art: 5.0, arcade: 4.0, shop: 4.3, music: 4.3 }[g.userData.kind] || 4.5;
+    const top = { art: 5.0, arcade: 4.0, shop: 4.3, music: 4.3, lab: 4.1 }[g.userData.kind] || 4.5;
     const p = place(g, 0, 0.2);
     markers.push({ g, parts: [text], text: `NEW: ${text}`, x: p.x, y: top, z: p.z });
   };
@@ -286,6 +287,29 @@ export function buildShowcase(group, D, isNew) {
     g.add(s, block(0.12, 1.3, 0.12, '#3b3b45', -1.4, 2.6, -0.4), block(0.12, 1.3, 0.12, '#3b3b45', 1.4, 2.6, -0.4));
     places.push({ id: 'show:music', building: 'plaza', act: 'listen', label: 'listening to his songs on the jukebox', where: 'the Songs & Stories corner', ...js, inside: false });
     add(g, 4.8, 1);
+  }
+  // ---------- Loki's Lab (east side of the square): his own inventions ----------
+  {
+    const g = new THREE.Group();
+    g.userData.kind = 'lab';
+    g.position.set(11.6, 0, -4.2);
+    g.rotation.y = -Math.PI / 2; // faces the fountain
+    kitModel('stall-green', { scale: 2.8 }).then((m) => g.add(m));
+    const made = (D.made || []).slice(0, 3);
+    const scr = glow(screenTexture(made[0]?.title || 'Inventing…', made[0] ? made[0].kind : 'something new soon', { bg: '#20124d', fg: '#ffd166', accent: '#7ef7c7' }), 1.9, 1.2);
+    scr.position.set(0, 2.15, 0.05);
+    g.add(scr, block(2.05, 1.35, 0.1, '#3b2a5e', 0, 2.15, -0.02));
+    const s = signBoard("Loki's Lab", 2.6, { color: '#5b3f8c' });
+    s.position.set(0, 3.25, 0);
+    g.add(s);
+    group.add(g);
+    colliders.push({ x: g.position.x, z: g.position.z, hw: 1.5, hd: 1.5, h: 3 });
+    const spot = front(g, 0, 2.3);
+    spots['made:*'] = spot;
+    for (const m of D.made || []) spots[`made:${m.slug}`] = spot;
+    items.push({ type: 'thing', kind: made.length ? 'made' : 'lab', data: made[0], x: spot.x, z: spot.z, r: 1.2, label: made.length ? `Try "${made[0].title}"` : "Loki's Lab" });
+    if (made[0] && isNew(made[0].date)) newTag(g, 'invention', 0, 4);
+    places.push({ id: 'show:lab', building: 'plaza', act: 'work', label: 'tinkering with a new invention in his lab', where: "Loki's Lab", ...spot, inside: false });
   }
   return { colliders, items, places, spots, markers };
 }

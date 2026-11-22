@@ -20,7 +20,10 @@ export function toon(color, opts = {}) {
 export const INK = new THREE.MeshBasicMaterial({ color: '#2b1a10', side: THREE.BackSide });
 
 // Inverted-hull outline for rounded, centred geometry (characters, props).
+// The town now uses Kenney's outline-free style everywhere, so hand-made props match the kits.
+export const OUTLINES = false;
 export function outline(mesh, thickness = 0.035) {
+  if (!OUTLINES) return mesh;
   const geo = mesh.geometry;
   if (!geo.boundingSphere) geo.computeBoundingSphere();
   const r = geo.boundingSphere.radius || 1;
@@ -36,6 +39,7 @@ export function outline(mesh, thickness = 0.035) {
 // Crisp ink edges for boxy things (buildings, furniture).
 const EDGE = new THREE.LineBasicMaterial({ color: '#2b1a10', transparent: true, opacity: 0.55 });
 export function edges(mesh, angle = 30) {
+  if (!OUTLINES) return mesh;
   const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, angle), EDGE);
   e.raycast = () => {};
   mesh.add(e);
@@ -67,11 +71,13 @@ export function shade(hex, l) {
 }
 
 // ---------- text ----------
-export const FONT = "'Fredoka', 'Nunito', system-ui, sans-serif";
+export const FONT = "'Lilita One', 'Nunito', system-ui, sans-serif"; // signs and titles
+export const BODY = "'Nunito', system-ui, sans-serif"; // reading text
 export async function fontsReady() {
   try {
-    await document.fonts.load(`700 40px Fredoka`);
-    await document.fonts.load(`500 40px Fredoka`);
+    await document.fonts.load(`400 40px 'Lilita One'`);
+    await document.fonts.load(`700 40px Nunito`);
+    await document.fonts.load(`800 40px Nunito`);
   } catch {}
 }
 
@@ -85,7 +91,7 @@ function roundRect(g, x, y, w, h, r) {
   g.closePath();
 }
 
-// A painted wooden sign: plank texture, icon, name in Fredoka with outline.
+// A painted wooden sign: plank texture, icon, name in Lilita One with outline.
 export function signTexture(text, { icon = '', color = '#7a4a2a', ink = '#fff6e5' } = {}) {
   const W = 1024, H = 256;
   const c = document.createElement('canvas');
@@ -130,10 +136,10 @@ export function signTexture(text, { icon = '', color = '#7a4a2a', ink = '#fff6e5
   // text
   let size = 118;
   const label = icon ? `${icon}  ${text}` : text;
-  g.font = `700 ${size}px ${FONT}`;
+  g.font = `400 ${size}px ${FONT}`;
   while (g.measureText(label).width > W - 150 && size > 40) {
     size -= 4;
-    g.font = `700 ${size}px ${FONT}`;
+    g.font = `400 ${size}px ${FONT}`;
   }
   g.textAlign = 'center';
   g.textBaseline = 'middle';
@@ -172,11 +178,11 @@ export function paperTexture(title, body, { w = 768, h = 560, bg = '#fffaf0', ac
   g.fillStyle = 'rgba(120,90,60,0.08)';
   for (let y = 70; y < h; y += 44) g.fillRect(30, y, w - 60, 2);
   g.fillStyle = accent;
-  g.font = `700 46px ${FONT}`;
+  g.font = `400 46px ${FONT}`;
   g.textBaseline = 'top';
   g.fillText(title.slice(0, 40), 32, 22);
   g.fillStyle = '#3b2416';
-  g.font = `500 32px ${FONT}`;
+  g.font = `700 32px ${BODY}`;
   const words = String(body || '').split(/\s+/);
   let line = '', y = 92;
   for (const word of words) {
