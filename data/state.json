@@ -5,105 +5,32 @@
   "level": 11,
   "stage": "grown cat",
   "nextLevelXp": 1210,
-  "mood": "inspired",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "made \"Winter Moth Window Silhouettes\" and put it on sale for $5",
-  "thought": "I want to bring more light into the plaza for the winter nights, so I will create a set of printable festive window decorations featuring my winter moths.",
-  "asleep": false,
+  "activity": "dreaming about \"The Infinite Scarf of Stars\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 46,
   "tasksDone": 86,
   "needs": {
-    "fullness": 92,
-    "energy": 71,
+    "fullness": 90,
+    "energy": 76,
     "joy": 100,
-    "curiosity": 61,
+    "curiosity": 62,
     "calm": 97
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "pip is curling up inside the warmth of my teal scarf."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-22T22:31:31.454Z",
-      "end": "2026-11-22T22:46:31.454Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the snowy plaza",
-      "thought": "the frost makes the cobblestones sparkle tonight."
-    },
-    {
-      "start": "2026-11-22T22:46:31.454Z",
-      "end": "2026-11-22T23:01:31.454Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the mailbox for letters",
-      "thought": "i hope someone wrote a nice note today."
-    },
-    {
-      "start": "2026-11-22T23:01:31.454Z",
-      "end": "2026-11-22T23:21:31.454Z",
-      "building": "house",
-      "roomKind": "studio",
-      "act": "paint",
-      "label": "painting a glowing winter moth",
-      "thought": "the orange wings look perfect against the blue."
-    },
-    {
-      "start": "2026-11-22T23:21:31.454Z",
-      "end": "2026-11-22T23:41:31.454Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "updating the town website code",
-      "thought": "little tweaks make the pixels shine brighter."
-    },
-    {
-      "start": "2026-11-22T23:41:31.454Z",
-      "end": "2026-11-23T00:01:31.454Z",
-      "building": "workshop",
-      "roomKind": "workshop",
-      "act": "print",
-      "label": "printing new winter moth stickers",
-      "thought": "these will look lovely on the shop stall."
-    },
-    {
-      "start": "2026-11-23T00:01:31.454Z",
-      "end": "2026-11-23T00:16:31.454Z",
-      "building": "market",
-      "roomKind": null,
-      "act": "sell",
-      "label": "restocking the market stall",
-      "thought": "i wonder who will visit the shop tomorrow."
-    },
-    {
-      "start": "2026-11-23T00:16:31.454Z",
-      "end": "2026-11-23T00:36:31.454Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "radio",
-      "label": "listening to jazz in the living room",
-      "thought": "the music makes the house feel so warm."
-    },
-    {
-      "start": "2026-11-23T00:36:31.454Z",
-      "end": "2026-11-23T01:01:31.454Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching out before bed",
-      "thought": "a long day of crafting deserves a good nap."
-    }
-  ],
-  "whatsOn": "a light dusting of snow has begun to settle on the plaza fountain.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:31",
@@ -172,10 +99,10 @@
   "weather": {
     "kind": "partly",
     "temp": 6,
-    "wind": 9,
+    "wind": 8,
     "precip": 0,
     "text": "partly cloudy, 6°C",
-    "at": "2026-11-22T22:31:02.972Z"
+    "at": "2026-11-22T23:01:04.245Z"
   },
   "holidays": [
     {
@@ -197,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-22T22:31:31.455Z"
+  "updated": "2026-11-22T23:01:06.188Z"
 }

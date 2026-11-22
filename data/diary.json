@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-22",
+    "time": "23:01",
+    "title": "Dream: The Infinite Scarf of Stars",
+    "text": "I was floating above the plaza, but the cobblestones were made of soft, glowing yarn. Pip was giant, wearing my teal scarf like a cape, stitching the clouds together with a needle made of moonlight. Every time he pulled the thread, a little pixel-art snowflake drifted down to the bakery, turning into warm gingerbread. The air smelled like cinnamon and static electricity, and I felt so light I almost drifted away into the starry, code-filled sky."
+  },
+  {
+    "date": "2026-11-22",
     "time": "22:31",
     "title": "On sale: Winter Moth Window Silhouettes",
     "text": "Pip and I spent the whole morning tracing moth wings by the candle light, and now the studio windows look like a magical midnight garden!",
@@ -343,16 +349,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-22-winter-solstice-lantern-vhbm.jpg"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "14:31",
-    "title": "New in town: Lunar Moth Statue",
-    "text": "Pip and I spent the morning crafting this little moth statue for the plaza. It looks so pretty catching the mist from the fountain, and I hope it brings a bit of extra magic to everyone walking by.",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwrxv9zz"
     }
   }
 ]
