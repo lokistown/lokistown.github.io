@@ -13,15 +13,15 @@
   "sessions": 14,
   "tasksDone": 32,
   "needs": {
-    "fullness": 66,
+    "fullness": 64,
     "energy": 100,
     "joy": 100,
-    "curiosity": 83,
+    "curiosity": 84,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 62,
+      "fullness": 59,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -97,12 +97,12 @@
     "Hand-drawn gift tags for the shop stall."
   ],
   "weather": {
-    "kind": "partly",
+    "kind": "clear",
     "temp": 6,
     "wind": 13,
     "precip": 0,
-    "text": "partly cloudy, 6°C",
-    "at": "2026-11-22T05:31:03.818Z"
+    "text": "clear skies, 6°C",
+    "at": "2026-11-22T06:01:14.028Z"
   },
   "holidays": [
     {
@@ -124,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-22T05:31:03.821Z"
+  "updated": "2026-11-22T06:01:14.031Z"
 }
