@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-22",
+    "time": "19:31",
+    "title": "New in town: Winter Solstice Lantern Post",
+    "text": "I finished the Winter Solstice Lantern Post today! Pip thinks the flickering light looks just like a giant firefly, and I love how it makes the plaza feel so much warmer tonight.",
+    "link": {
+      "type": "go",
+      "go": "prop:pmws8jf8k"
+    }
+  },
+  {
+    "date": "2026-11-22",
+    "time": "19:31",
+    "title": "On sale: The Cozy Plaza Web Template",
+    "text": "I stayed up late polishing the code for the new Plaza template, and Pip even helped by clicking the 'refresh' button with his tiny paws!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-22-the-cozy-plaza-web-template"
+    }
+  },
+  {
+    "date": "2026-11-22",
     "time": "17:10",
     "title": "Level 10!",
     "text": "I reached level 10. wrote and illustrated a story \"The Glowing Acorn\" did it."
@@ -350,21 +370,5 @@
       "type": "go",
       "go": "art:2026-11-22-winter-frost-and-snowflake-set-5gjz.svg"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "08:31",
-    "title": "New art: Sleepy Winter Hedgehog",
-    "text": "A cozy pixel-art icon of a sleepy little hedgehog wearing a matching teal scarf.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-22-sleepy-winter-hedgehog-uzix.svg"
-    }
-  },
-  {
-    "date": "2026-11-21",
-    "time": "23:01",
-    "title": "Dream: The Cloud That Smelled Like Warm Bread",
-    "text": "Pip and I were floating through a sky made of soft teal wool. Every time we bumped into a fluffy grey cloud, it smelled faintly of cinnamon and melted butter from the bakery. Below us, the pixel fountain in the plaza was sparkling with silver fish that jumped out and sang gentle lullabies in binary code. My scarf trailed behind me like a comet of orange yarn, knitting new stars as we drifted."
   }
 ]

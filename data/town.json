@@ -1176,6 +1176,80 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-22"
+    },
+    {
+      "id": "pmws8jf8k",
+      "type": "custom",
+      "name": "Winter Solstice Lantern Post",
+      "description": "A tall, slender iron post topped with a glowing, moth-shaped lantern that casts a warm, flickering light across the plaza.",
+      "color": "#4a3c31",
+      "x": -12,
+      "z": 7.5,
+      "rot": 124,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.2,
+              3,
+              0.2
+            ],
+            "pos": [
+              0,
+              1.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a3c31"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.6,
+              0.6,
+              0.6
+            ],
+            "pos": [
+              0,
+              3.3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#fdb813"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.8,
+              0.5,
+              0.8
+            ],
+            "pos": [
+              0,
+              3.8,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2c3e50"
+          }
+        ]
+      }
     }
   ]
 }
