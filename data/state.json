@@ -21,7 +21,7 @@
   },
   "pip": {
     "needs": {
-      "fullness": 75,
+      "fullness": 74,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -124,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-22T03:11:04.044Z"
+  "updated": "2026-11-22T03:17:52.393Z"
 }
