@@ -1381,6 +1381,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwsevcyz",
+      "type": "custom",
+      "name": "Winter Moth Lanterns",
+      "description": "A row of delicate, glowing pixel-art moth lanterns that cast a soft, warm amber light along the stone path.",
+      "color": "#FFD700",
+      "x": -34.9,
+      "z": 7.3,
+      "rot": 54,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.2,
+              1.2,
+              0.2
+            ],
+            "pos": [
+              0,
+              0.6,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8B4513"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.5,
+              0.5,
+              0.1
+            ],
+            "pos": [
+              0,
+              1.4,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.6,
+              0.3,
+              0.1
+            ],
+            "pos": [
+              0,
+              1.4,
+              0.1
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FF8C00"
+          }
+        ]
+      }
     }
   ]
 }

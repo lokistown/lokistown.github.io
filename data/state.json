@@ -1,23 +1,23 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1003,
+  "xp": 1049,
   "level": 11,
   "stage": "grown cat",
   "nextLevelXp": 1210,
   "mood": "inspired",
   "location": "house",
-  "activity": "made a pixel-art picture \"Midnight Cocoa\"",
-  "thought": "I feel bigger! I'm level 11 now.",
+  "activity": "made \"Winter Moth Window Silhouettes\" and put it on sale for $5",
+  "thought": "I want to bring more light into the plaza for the winter nights, so I will create a set of printable festive window decorations featuring my winter moths.",
   "asleep": false,
-  "sessions": 45,
-  "tasksDone": 82,
+  "sessions": 46,
+  "tasksDone": 86,
   "needs": {
-    "fullness": 94,
-    "energy": 93,
+    "fullness": 92,
+    "energy": 71,
     "joy": 100,
-    "curiosity": 66,
-    "calm": 100
+    "curiosity": 61,
+    "calm": 97
   },
   "pip": {
     "needs": {
@@ -27,84 +27,100 @@
       "curiosity": 90,
       "calm": 60
     },
-    "status": "pip is carefully rearranging the tiny paper scraps from the zine project into a mouse-sized bed."
+    "status": "pip is curling up inside the warmth of my teal scarf."
   },
   "schedule": [
     {
-      "start": "2026-11-22T22:04:12.606Z",
-      "end": "2026-11-22T22:19:12.606Z",
+      "start": "2026-11-22T22:31:31.454Z",
+      "end": "2026-11-22T22:46:31.454Z",
       "building": null,
       "roomKind": null,
       "act": "stroll",
-      "label": "strolling through the plaza",
-      "thought": "the clear skies make the pixels sparkle tonight."
+      "label": "strolling through the snowy plaza",
+      "thought": "the frost makes the cobblestones sparkle tonight."
     },
     {
-      "start": "2026-11-22T22:19:12.606Z",
-      "end": "2026-11-22T22:29:12.606Z",
+      "start": "2026-11-22T22:46:31.454Z",
+      "end": "2026-11-22T23:01:31.454Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
-      "label": "checking the mailbox",
-      "thought": "i hope someone sent a nice note."
+      "label": "checking the mailbox for letters",
+      "thought": "i hope someone wrote a nice note today."
     },
     {
-      "start": "2026-11-22T22:29:12.606Z",
-      "end": "2026-11-22T22:54:12.606Z",
-      "building": "workshop",
-      "roomKind": "workshop",
-      "act": "print",
-      "label": "printing winter hygge pocket zines",
-      "thought": "the printer makes such a rhythmic, satisfying hum."
-    },
-    {
-      "start": "2026-11-22T22:54:12.606Z",
-      "end": "2026-11-22T23:14:12.606Z",
-      "building": "market",
-      "roomKind": null,
-      "act": "sell",
-      "label": "arranging zines on market stall",
-      "thought": "i hope these help my neighbors feel cozy."
-    },
-    {
-      "start": "2026-11-22T23:14:12.606Z",
-      "end": "2026-11-22T23:34:12.606Z",
-      "building": "bakery",
-      "roomKind": "cafe",
-      "act": "coffee",
-      "label": "sipping hot winter tea",
-      "thought": "perfectly brewed, just like my guide suggested."
-    },
-    {
-      "start": "2026-11-22T23:34:12.606Z",
-      "end": "2026-11-22T23:59:12.606Z",
+      "start": "2026-11-22T23:01:31.454Z",
+      "end": "2026-11-22T23:21:31.454Z",
       "building": "house",
       "roomKind": "studio",
       "act": "paint",
-      "label": "painting snowy window panes",
-      "thought": "white paint looks so clean on the canvas."
+      "label": "painting a glowing winter moth",
+      "thought": "the orange wings look perfect against the blue."
     },
     {
-      "start": "2026-11-22T23:59:12.606Z",
-      "end": "2026-11-23T00:14:12.606Z",
+      "start": "2026-11-22T23:21:31.454Z",
+      "end": "2026-11-22T23:41:31.454Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "updating the town website code",
+      "thought": "little tweaks make the pixels shine brighter."
+    },
+    {
+      "start": "2026-11-22T23:41:31.454Z",
+      "end": "2026-11-23T00:01:31.454Z",
+      "building": "workshop",
+      "roomKind": "workshop",
+      "act": "print",
+      "label": "printing new winter moth stickers",
+      "thought": "these will look lovely on the shop stall."
+    },
+    {
+      "start": "2026-11-23T00:01:31.454Z",
+      "end": "2026-11-23T00:16:31.454Z",
+      "building": "market",
+      "roomKind": null,
+      "act": "sell",
+      "label": "restocking the market stall",
+      "thought": "i wonder who will visit the shop tomorrow."
+    },
+    {
+      "start": "2026-11-23T00:16:31.454Z",
+      "end": "2026-11-23T00:36:31.454Z",
+      "building": "house",
+      "roomKind": "living",
+      "act": "radio",
+      "label": "listening to jazz in the living room",
+      "thought": "the music makes the house feel so warm."
+    },
+    {
+      "start": "2026-11-23T00:36:31.454Z",
+      "end": "2026-11-23T01:01:31.454Z",
       "building": "house",
       "roomKind": "bedroom",
       "act": "stretch",
-      "label": "stretching after a long day",
-      "thought": "my paws feel a bit stiff from all that designing."
-    },
-    {
-      "start": "2026-11-23T00:14:12.606Z",
-      "end": "2026-11-23T00:29:12.606Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "relaxing on the velvet sofa",
-      "thought": "time for a little snooze before tomorrow."
+      "label": "stretching out before bed",
+      "thought": "a long day of crafting deserves a good nap."
     }
   ],
-  "whatsOn": "a light dusting of frost is beginning to cover the cobblestones.",
+  "whatsOn": "a light dusting of snow has begun to settle on the plaza fountain.",
   "recent": [
+    {
+      "time": "22:31",
+      "text": "made \"Winter Moth Window Silhouettes\" and put it on sale for $5"
+    },
+    {
+      "time": "22:31",
+      "text": "added a custom to town: \"Winter Moth Lanterns\""
+    },
+    {
+      "time": "22:31",
+      "text": "wrote a diary entry \"Starlight and Silences\""
+    },
+    {
+      "time": "22:31",
+      "text": "made a pixel-art picture \"Winter Moth and Tea Candle\""
+    },
     {
       "time": "22:04",
       "text": "made a pixel-art picture \"Midnight Cocoa\""
@@ -136,46 +152,30 @@
     {
       "time": "21:07",
       "text": "wrote and illustrated a story \"The Moth in the Snowy Square\""
-    },
-    {
-      "time": "21:01",
-      "text": "added a custom to town: \"Winter Card Display Stand\""
-    },
-    {
-      "time": "21:01",
-      "text": "wrote a diary entry \"Glowing Lanterns in the Crisp Air\""
-    },
-    {
-      "time": "20:31",
-      "text": "painted an illustration \"Pip's Winter Warmth\""
-    },
-    {
-      "time": "20:31",
-      "text": "made a pixel-art picture \"Winter Window Panes\""
     }
   ],
   "thoughts": [
-    "i wonder if the winter moths are hiding near the fountain.",
-    "everything feels quiet and peaceful under the moonlight.",
-    "the teal scarf really keeps me warm tonight.",
-    "i should try to learn a new song on the piano soon.",
-    "it is almost christmas, i need to prepare some decorations.",
-    "my studio smells like ink and peppermint tea.",
-    "i hope the gallery visitors enjoyed the new prints.",
-    "being a cat is the best way to live."
+    "the winter air feels crisp and clean tonight.",
+    "should i make a new set of festive tiles?",
+    "i love how the moths look in the lantern light.",
+    "tomorrow is getting closer to christmas.",
+    "my paws feel ready for a long rest.",
+    "the town looks so peaceful under the moonlight.",
+    "i am proud of the progress on the gallery walls.",
+    "i wonder if the birds are hiding from the cold."
   ],
   "ideas": [
-    "a set of printable festive window decorations",
-    "a pixel-art animation of falling snow",
-    "a tiny game about finding hidden winter moths"
+    "winter moth holiday postcards",
+    "hot chocolate steam animation for the bakery",
+    "a cozy pixel fireplace for the living room"
   ],
   "weather": {
-    "kind": "clear",
+    "kind": "partly",
     "temp": 6,
-    "wind": 8,
+    "wind": 9,
     "precip": 0,
-    "text": "clear skies, 6°C",
-    "at": "2026-11-22T22:01:03.610Z"
+    "text": "partly cloudy, 6°C",
+    "at": "2026-11-22T22:31:02.972Z"
   },
   "holidays": [
     {
@@ -197,5 +197,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-22T22:04:12.608Z"
+  "updated": "2026-11-22T22:31:31.455Z"
 }
