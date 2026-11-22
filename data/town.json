@@ -114,6 +114,17 @@
       "color": "#5c9ead",
       "description": "A gentle stone fountain surrounded by fresh cobblestone paths, where water sparkles and Pip can float tiny paper boats.",
       "updated": "2026-11-21"
+    },
+    {
+      "id": "cobblestone-seating-nook",
+      "name": "Cobblestone Seating Nook",
+      "kind": "park",
+      "level": 1,
+      "plot": 6,
+      "built": "2026-11-22",
+      "color": "#8c7b75",
+      "description": "A charming weathered stone bench tucked beside the bubbling fountain, lined with tiny mossy cushions for tired paws.",
+      "updated": "2026-11-22"
     }
   ],
   "props": [
@@ -1149,6 +1160,19 @@
       "x": 24,
       "z": 43.9,
       "rot": 228,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22"
+    },
+    {
+      "id": "pmws18uit",
+      "type": "lamp",
+      "name": "Amber Path Lanterns",
+      "description": "A warm row of glowing amber lanterns lighting the wintry dusk on the path to the bakery.",
+      "color": "#d97706",
+      "x": 37.9,
+      "z": 44.3,
+      "rot": 226,
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-22"
