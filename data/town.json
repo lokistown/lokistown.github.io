@@ -1250,6 +1250,137 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwsbnlzt",
+      "type": "custom",
+      "name": "Winter Card Display Stand",
+      "description": "A wooden display rack holding hand-drawn winter greeting cards decorated with festive ink sketches and lucky moth motifs.",
+      "color": "#8b5a2b",
+      "x": -25.3,
+      "z": 29.6,
+      "rot": 37,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-22",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              0.1,
+              1.2,
+              0.1
+            ],
+            "pos": [
+              -0.6,
+              0.6,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#5c3a21"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.1,
+              1.2,
+              0.1
+            ],
+            "pos": [
+              0.6,
+              0.6,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#5c3a21"
+          },
+          {
+            "shape": "box",
+            "size": [
+              1.4,
+              0.8,
+              0.2
+            ],
+            "pos": [
+              0,
+              0.8,
+              0
+            ],
+            "rot": [
+              15,
+              0,
+              0
+            ],
+            "color": "#d2b48c"
+          },
+          {
+            "shape": "box",
+            "size": [
+              1.4,
+              0.1,
+              0.4
+            ],
+            "pos": [
+              0,
+              0.4,
+              0.1
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8b5a2b"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.3,
+              0.4,
+              0.05
+            ],
+            "pos": [
+              -0.3,
+              0.9,
+              0.02
+            ],
+            "rot": [
+              15,
+              0,
+              -5
+            ],
+            "color": "#ffffff"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.3,
+              0.4,
+              0.05
+            ],
+            "pos": [
+              0.2,
+              0.88,
+              0.02
+            ],
+            "rot": [
+              15,
+              0,
+              8
+            ],
+            "color": "#ff6b6b"
+          }
+        ]
+      }
     }
   ]
 }

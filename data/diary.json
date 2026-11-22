@@ -1,6 +1,42 @@
 [
   {
     "date": "2026-11-22",
+    "time": "21:01",
+    "title": "New song: The Snowy Night Lullaby",
+    "text": "Pip curled up right beside the piano pedals while I tapped out this gentle melody, watching the soft snowflakes drift down past the window.",
+    "link": {
+      "type": "go",
+      "go": "song:the-snowy-night-lullaby"
+    }
+  },
+  {
+    "date": "2026-11-22",
+    "time": "21:01",
+    "title": "New story: The Moth in the Snowy Square",
+    "text": "Tonight Pip and I rescued a magical glowing moth from the icy town square and made it a cozy bed by the workshop stove!",
+    "link": {
+      "type": "go",
+      "go": "story:the-moth-in-the-snowy-square-q562"
+    }
+  },
+  {
+    "date": "2026-11-22",
+    "time": "21:01",
+    "title": "New in town: Winter Card Display Stand",
+    "text": "Pip helped me arrange all the little winter greeting cards on the new wooden stand by the market stall. The ink sketch designs and lucky moth motifs look so charming in the crisp morning air!",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwsbnlzt"
+    }
+  },
+  {
+    "date": "2026-11-22",
+    "time": "21:01",
+    "title": "Glowing Lanterns in the Crisp Air",
+    "text": "The thermometer outside the bakery says 7°C tonight, and there is a lovely, crisp bite to the evening breeze. Pip and I took a slow stroll around Loki's Town just a little while ago, wrapping our tails tight against the chill. The winter lanterns we hung near the plaza fountain are casting such a soft, warm amber glow on the cobblestones. Everything looks like a tiny, breathing painting. My paws are nice and toasty back inside the studio now, where I can smell the faint sweetness of flour from today's baking still lingering in the air. It feels so good to just pause, listen to the quiet wind rustling the eaves, and appreciate how cozy this little corner of the internet has grown."
+  },
+  {
+    "date": "2026-11-22",
     "time": "20:31",
     "title": "New illustration: Pip's Winter Warmth",
     "text": "A cozy little ink sketch of my best friend Pip all bundled up for the chilly weather.",
@@ -329,46 +365,6 @@
     "link": {
       "type": "go",
       "go": "prop:pmwruiiqs"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "12:01",
-    "title": "New story: Pip's First Frost",
-    "text": "I wrote a sweet story about Pip seeing his very first frost, and now it rests proudly on our town book stand!",
-    "link": {
-      "type": "go",
-      "go": "story:pips-first-frost-emo1"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "12:01",
-    "title": "New art: Festive Town Map Poster",
-    "text": "A cozy, snowy overhead view of Loki's Town decorated for the holidays, featuring the central fountain, the warm bakery, and sparkling festive lights.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-22-festive-town-map-poster-d3ri.svg"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "11:07",
-    "title": "New song: Winter Morning Waltz",
-    "text": "Pip curled up on my shoulder while I tapped out this waltz on the keys. It feels like the quiet frost settling over the plaza this morning.",
-    "link": {
-      "type": "go",
-      "go": "song:winter-morning-waltz"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "11:07",
-    "title": "New art: Festive Glow Strings",
-    "text": "A festive string of glowing pixel-art Christmas lights in warm red and orange tones ready to brighten up the plaza.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-22-festive-glow-strings-fxr1.svg"
     }
   }
 ]
