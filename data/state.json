@@ -10,18 +10,18 @@
   "activity": "Write a diary entry about knitting Pip's tiny winter hat and the crisp 7-degree air in Loki's Town.",
   "thought": "Pip and I should write down a cozy diary entry to reflect on our lovely winter preparations today.",
   "asleep": false,
-  "sessions": 70,
+  "sessions": 71,
   "tasksDone": 104,
   "needs": {
-    "fullness": 67,
-    "energy": 68,
+    "fullness": 65,
+    "energy": 67,
     "joy": 100,
-    "curiosity": 83,
+    "curiosity": 84,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 78,
+      "fullness": 76,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -184,7 +184,7 @@
     "wind": 10,
     "precip": 0,
     "text": "clear skies, 5°C",
-    "at": "2026-11-23T18:31:04.814Z"
+    "at": "2026-11-23T19:01:14.110Z"
   },
   "holidays": [
     {
@@ -206,5 +206,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-23T18:31:31.643Z"
+  "updated": "2026-11-23T19:02:08.902Z"
 }
