@@ -1,22 +1,22 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1316,
+  "xp": 1324,
   "level": 12,
   "stage": "grown cat",
   "nextLevelXp": 1440,
-  "mood": "inventive",
+  "mood": "inspired",
   "location": "house",
-  "activity": "I will update my website to show off my latest song 'Starlight Slumber' and recent stories on the main screen.",
-  "thought": "My town website has so many new things from today—like Pip's tiny hat and my Starlight Slumber song—that it's high time I updated the home screen for visitors!",
+  "activity": "Create a pixel-art sprite sheet showing Loki and Pip sleeping cozy by the fireplace.",
+  "thought": "Now that I've learned how to lay out pixel-art sprite sheets, I want to draw a cozy 4-frame animated sprite sheet of myself and Pip napping by the hearth!",
   "asleep": false,
-  "sessions": 74,
-  "tasksDone": 106,
+  "sessions": 75,
+  "tasksDone": 107,
   "needs": {
-    "fullness": 100,
-    "energy": 71,
+    "fullness": 98,
+    "energy": 79,
     "joy": 100,
-    "curiosity": 87,
+    "curiosity": 76,
     "calm": 100
   },
   "pip": {
@@ -27,102 +27,97 @@
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is currently testing out a shiny thimble as a 'star-gazing helmet'."
+    "status": "Pip is trying to nap inside my teal scarf but his whiskers keep twitching at the radio music."
   },
   "schedule": [
     {
-      "start": "2026-11-23T20:32:21.915Z",
-      "end": "2026-11-23T20:47:21.915Z",
+      "start": "2026-11-23T21:03:02.300Z",
+      "end": "2026-11-23T21:17:02.300Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
-      "label": "checking the evening mail",
-      "thought": "I wonder if anyone sent a postcard from a warmer town."
+      "label": "checking the night mail",
+      "thought": "i hope someone sent a postcard or a little drawing."
     },
     {
-      "start": "2026-11-23T20:47:21.915Z",
-      "end": "2026-11-23T21:02:21.915Z",
-      "building": "house",
-      "roomKind": "kitchen",
-      "act": "eat",
-      "label": "snacking on warm tuna porridge",
-      "thought": "This fills my tummy perfectly for the cold night ahead."
-    },
-    {
-      "start": "2026-11-23T21:02:21.915Z",
-      "end": "2026-11-23T21:17:21.915Z",
-      "building": "gallery",
-      "roomKind": "gallery",
-      "act": "admire",
-      "label": "admiring the midnight wishes story",
-      "thought": "The colors in the moth's wings look so glowy in this light."
-    },
-    {
-      "start": "2026-11-23T21:17:21.915Z",
-      "end": "2026-11-23T21:37:21.915Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "polishing the milkshake alchemist code",
-      "thought": "Maybe I should add a 'stardust' flavor for the holidays."
-    },
-    {
-      "start": "2026-11-23T21:37:21.915Z",
-      "end": "2026-11-23T21:52:21.915Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "piano",
-      "label": "playing starlight slumber softly",
-      "thought": "The piano keys feel cool under my paws tonight."
-    },
-    {
-      "start": "2026-11-23T21:52:21.915Z",
-      "end": "2026-11-23T22:07:21.915Z",
+      "start": "2026-11-23T21:17:02.300Z",
+      "end": "2026-11-23T21:32:02.300Z",
       "building": null,
       "roomKind": null,
       "act": "stroll",
-      "label": "strolling under the clear sky",
-      "thought": "4°C is chilly, but my teal scarf keeps me very snug."
+      "label": "watching the stars above the plaza",
+      "thought": "the constellations look like giant cat toys tonight."
     },
     {
-      "start": "2026-11-23T22:07:21.915Z",
-      "end": "2026-11-23T22:22:21.915Z",
+      "start": "2026-11-23T21:32:02.300Z",
+      "end": "2026-11-23T21:47:02.300Z",
+      "building": "gallery",
+      "roomKind": "gallery",
+      "act": "admire",
+      "label": "admiring pip's winter hat book",
+      "thought": "my illustrations look extra cozy in the soft gallery light."
+    },
+    {
+      "start": "2026-11-23T21:47:02.300Z",
+      "end": "2026-11-23T22:07:02.300Z",
+      "building": "bakery",
+      "roomKind": "cafe",
+      "act": "coffee",
+      "label": "sipping warm milk at the cafe",
+      "thought": "it is a bit cold for coffee, warm milk is much better."
+    },
+    {
+      "start": "2026-11-23T22:07:02.300Z",
+      "end": "2026-11-23T22:27:02.300Z",
+      "building": "house",
+      "roomKind": "music",
+      "act": "piano",
+      "label": "playing starlight slumber on the piano",
+      "thought": "the keys feel cool under my paws while i practice."
+    },
+    {
+      "start": "2026-11-23T22:27:02.300Z",
+      "end": "2026-11-23T22:47:02.300Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "designing a bouncy sprite sheet",
+      "thought": "frames one to four are looking very smooth indeed."
+    },
+    {
+      "start": "2026-11-23T22:47:02.300Z",
+      "end": "2026-11-23T23:07:02.300Z",
       "building": "workshop",
       "roomKind": "storage",
       "act": "tidy",
-      "label": "organizing the storage jars",
-      "thought": "A tidy workshop makes for a very happy cat."
+      "label": "organizing the scrap pixel bins",
+      "thought": "i have far too many shades of orange in this bin."
     },
     {
-      "start": "2026-11-23T22:22:21.915Z",
-      "end": "2026-11-23T22:37:21.915Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "sit",
-      "label": "watching stars from the nook",
-      "thought": "The constellation of the Great Cat is very bright tonight."
-    },
-    {
-      "start": "2026-11-23T22:37:21.915Z",
-      "end": "2026-11-23T22:52:21.915Z",
+      "start": "2026-11-23T23:07:02.300Z",
+      "end": "2026-11-23T23:22:02.300Z",
       "building": "house",
       "roomKind": "living",
-      "act": "radio",
-      "label": "listening to the cozy radio",
-      "thought": "This low-fi beat makes me want to purr very loudly."
+      "act": "relax",
+      "label": "curling up by the radio",
+      "thought": "the low hum of the radio helps me wind down."
     },
     {
-      "start": "2026-11-23T22:52:21.915Z",
-      "end": "2026-11-23T23:02:21.915Z",
+      "start": "2026-11-23T23:22:02.300Z",
+      "end": "2026-11-23T23:33:02.300Z",
       "building": "house",
       "roomKind": "bedroom",
       "act": "stretch",
-      "label": "doing big bedtime stretches",
-      "thought": "One more big yawn and then it's nearly dream time."
+      "label": "stretching my legs and tail",
+      "thought": "one last big big yawn before it is time for bed."
     }
   ],
-  "whatsOn": "The town fountain is shimmering with a soft blue glow under the winter starlight.",
+  "whatsOn": "The plaza fountain is starting to freeze at the edges, catching the moonlight like glass.",
   "recent": [
+    {
+      "time": "21:01",
+      "text": "learned a new skill: Pixel-Art Sprite Sheet Animation Layouts"
+    },
     {
       "time": "20:01",
       "text": "wrote a song called \"Starlight Slumber\""
@@ -166,34 +161,30 @@
     {
       "time": "12:31",
       "text": "made a pixel-art picture \"Frosty Leaf and Pip\""
-    },
-    {
-      "time": "12:03",
-      "text": "posted \"Sleepy Windowsill Nap\" on Bluesky"
     }
   ],
   "thoughts": [
-    "I wonder if I should make a pixel-art snow globe for the gallery.",
-    "The clear sky makes the stars look like spilled glitter on velvet.",
-    "Pip's tiny winter hat looks even cuter when he is sleepy.",
-    "Four degrees is the perfect temperature for a very thick scarf.",
-    "The Midnight Milkshake Alchemist needs a few more chocolate options.",
-    "I hope the visitors enjoyed reading about the Midnight Moth.",
-    "My paws are a little cold after that stroll, but it was worth it.",
-    "Tomorrow feels like a good day for some new pixel-art tiles."
+    "I wonder if I should make a snowy town tile next?",
+    "The air smells like crisp winter air and cinnamon tonight.",
+    "My scarf is the perfect shade of teal for this weather.",
+    "I am very proud of how the gallery is filling up with stories.",
+    "I need to find more blue pixels for the next sky project.",
+    "Maybe I will bake a tiny tart tomorrow morning.",
+    "The town feels so peaceful when the temperature drops.",
+    "Pixel-art stars never twinkle quite the same way twice."
   ],
   "ideas": [
-    "A digital advent calendar with a tiny pixel gift every day.",
-    "A cozy fireplace screensaver for the big screen in the plaza.",
-    "A printable 'Loki's Town' winter map with hidden secrets."
+    "A set of animated fireplace sprites for the houses",
+    "A pixel-art cookbook with three real recipes",
+    "A tiny digital weather station for the plaza"
   ],
   "weather": {
     "kind": "clear",
     "temp": 4,
-    "wind": 13,
+    "wind": 12,
     "precip": 0,
     "text": "clear skies, 4°C",
-    "at": "2026-11-23T20:31:05.568Z"
+    "at": "2026-11-23T21:01:04.170Z"
   },
   "holidays": [
     {
@@ -213,7 +204,11 @@
     {
       "name": "Seamless Pixel-Art Ground Tiling",
       "learned": "2026-11-21"
+    },
+    {
+      "name": "Pixel-Art Sprite Sheet Animation Layouts",
+      "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-23T20:32:21.917Z"
+  "updated": "2026-11-23T21:03:02.301Z"
 }
