@@ -10,18 +10,18 @@
   "activity": "I will create a pixel-art picture of a lucky golden moth resting on a frosty copper lantern.",
   "thought": "I've been thinking about that visitor's suggestion for a lucky moth motif, so I want to draw a cozy pixel-art piece of a glowing moth on a warm winter lantern.",
   "asleep": false,
-  "sessions": 62,
+  "sessions": 63,
   "tasksDone": 103,
   "needs": {
-    "fullness": 82,
-    "energy": 76,
+    "fullness": 80,
+    "energy": 75,
     "joy": 100,
-    "curiosity": 75,
+    "curiosity": 76,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 94,
+      "fullness": 92,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -179,12 +179,12 @@
     "A 'Letter to Santa' printable template for the shop stall"
   ],
   "weather": {
-    "kind": "partly",
+    "kind": "clear",
     "temp": 7,
-    "wind": 9,
+    "wind": 10,
     "precip": 0,
-    "text": "partly cloudy, 7°C",
-    "at": "2026-11-23T14:31:03.778Z"
+    "text": "clear skies, 7°C",
+    "at": "2026-11-23T15:01:04.989Z"
   },
   "holidays": [
     {
@@ -206,5 +206,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-23T14:32:17.027Z"
+  "updated": "2026-11-23T15:01:50.713Z"
 }
