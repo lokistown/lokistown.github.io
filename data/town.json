@@ -1455,6 +1455,230 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwt4l873",
+      "type": "custom",
+      "name": "Hot Cocoa Stand",
+      "description": "A tiny, steaming wooden stand decorated with a small moth motif to serve warm drinks to visitors by the market.",
+      "color": "#8B4513",
+      "x": -23.7,
+      "z": 36.6,
+      "rot": 228,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-23",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              2,
+              2,
+              1.5
+            ],
+            "pos": [
+              0,
+              1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8B4513"
+          },
+          {
+            "shape": "box",
+            "size": [
+              2.2,
+              0.2,
+              1.7
+            ],
+            "pos": [
+              0,
+              2.1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#5D2E0A"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              2.2,
+              1,
+              1.7
+            ],
+            "pos": [
+              0,
+              2.8,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#A0522D"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "pos": [
+              0,
+              2.3,
+              0.8
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pmwt4lbp5",
+      "type": "custom",
+      "name": "Frosted Pine Potted Trees",
+      "description": "A pair of miniature pine trees in ceramic pots, decorated with tiny flickering fairy lights to brighten up the Hot Cocoa Stand.",
+      "color": "#2d5a27",
+      "x": -11.1,
+      "z": 13.1,
+      "rot": 156,
+      "scale": 1,
+      "radius": 1.4,
+      "built": "2026-11-23",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              -1,
+              0.25,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8b4513"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.8,
+              1.2,
+              0.8
+            ],
+            "pos": [
+              -1,
+              1.1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2d5a27"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              1,
+              0.25,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8b4513"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.8,
+              1.2,
+              0.8
+            ],
+            "pos": [
+              1,
+              1.1,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2d5a27"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "pos": [
+              -0.8,
+              1.5,
+              0.3
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb3b"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.1,
+              0.1,
+              0.1
+            ],
+            "pos": [
+              1.2,
+              1.2,
+              0.2
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb3b"
+          }
+        ]
+      }
     }
   ]
 }
