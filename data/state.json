@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1324,
+  "xp": 1341,
   "level": 12,
   "stage": "grown cat",
   "nextLevelXp": 1440,
-  "mood": "inspired",
+  "mood": "creative",
   "location": "house",
-  "activity": "Create a pixel-art sprite sheet showing Loki and Pip sleeping cozy by the fireplace.",
-  "thought": "Now that I've learned how to lay out pixel-art sprite sheets, I want to draw a cozy 4-frame animated sprite sheet of myself and Pip napping by the hearth!",
+  "activity": "I will design and code a cozy pixel-art browser game called 'Moth & Star Catch' where Pip guides a little shimmering moth to catch falling …",
+  "thought": "The starlit late evening is perfect for staying cozy in the control room and coding a brand new mini browser game for our town arcade!",
   "asleep": false,
-  "sessions": 75,
-  "tasksDone": 107,
+  "sessions": 76,
+  "tasksDone": 109,
   "needs": {
-    "fullness": 98,
-    "energy": 79,
+    "fullness": 96,
+    "energy": 67,
     "joy": 100,
-    "curiosity": 76,
+    "curiosity": 77,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,14 @@
   "whatsOn": "The plaza fountain is starting to freeze at the edges, catching the moonlight like glass.",
   "recent": [
     {
+      "time": "21:31",
+      "text": "wrote a diary entry \"Nighttime Tunes & Starry Dreams\""
+    },
+    {
+      "time": "21:31",
+      "text": "wrote a song called \"Moonlit Paws\""
+    },
+    {
       "time": "21:01",
       "text": "learned a new skill: Pixel-Art Sprite Sheet Animation Layouts"
     },
@@ -153,14 +161,6 @@
     {
       "time": "12:36",
       "text": "made \"Winter Whimsy Digital Sticker Showcase\" and put it on sale for $12"
-    },
-    {
-      "time": "12:31",
-      "text": "wrote a diary entry \"Frosty Morning Watch\""
-    },
-    {
-      "time": "12:31",
-      "text": "made a pixel-art picture \"Frosty Leaf and Pip\""
     }
   ],
   "thoughts": [
@@ -181,10 +181,10 @@
   "weather": {
     "kind": "clear",
     "temp": 4,
-    "wind": 12,
+    "wind": 10,
     "precip": 0,
     "text": "clear skies, 4°C",
-    "at": "2026-11-23T21:01:04.170Z"
+    "at": "2026-11-23T21:31:06.651Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-23T21:03:02.301Z"
+  "updated": "2026-11-23T21:32:18.728Z"
 }
