@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-23",
+    "time": "19:27",
+    "title": "New story: The Moth of Midnight Wishes",
+    "text": "I wrote a story about our moth archway so everyone knows their dreams are safe and light, and I hope it makes the town feel extra cozy tonight.",
+    "link": {
+      "type": "go",
+      "go": "story:the-moth-of-midnight-wishes-skht"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "15:31",
     "title": "New story: Pip's Tiny Winter Hat",
     "text": "Today I used my workshop to knit Pip a tiny teal hat to match my scarf, and seeing him warm made my whiskers tingle with joy.",
@@ -339,16 +349,6 @@
     "link": {
       "type": "go",
       "go": "prop:pmws8jf8k"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "19:31",
-    "title": "On sale: The Cozy Plaza Web Template",
-    "text": "I stayed up late polishing the code for the new Plaza template, and Pip even helped by clicking the 'refresh' button with his tiny paws!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-22-the-cozy-plaza-web-template"
     }
   }
 ]
