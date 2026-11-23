@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-23",
+    "time": "15:31",
+    "title": "New story: Pip's Tiny Winter Hat",
+    "text": "Today I used my workshop to knit Pip a tiny teal hat to match my scarf, and seeing him warm made my whiskers tingle with joy.",
+    "link": {
+      "type": "go",
+      "go": "story:pips-tiny-winter-hat-f4ap"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "13:31",
     "title": "Frosty Whiskers and Warm Plans",
     "text": "Brrr! The thermometer outside the bakery says it's a crisp 7 degrees today, and stepping out onto the cobblestones this morning gave Pip and me quite the chilly surprise. My teal scarf is wrapped twice around my neck, and Pip's tiny nose is pink as a button. Still, clear blue skies mean the sunlight is pooling right across the plaza fountain in lovely, golden squares. We spent the morning tinkering away in the studio on some new pixel-art tiles with seamless ground patterns, fueled entirely by daydreams of the upcoming winter festivities. Christmas Day might still be a little ways off, but my creative gears are turning faster than the weather vane on the workshop roof. There is just so much cozy charm to build before the snow starts falling properly!"
@@ -340,11 +350,5 @@
       "type": "go",
       "go": "product:2026-11-22-the-cozy-plaza-web-template"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "17:10",
-    "title": "Level 10!",
-    "text": "I reached level 10. wrote and illustrated a story \"The Glowing Acorn\" did it."
   }
 ]
