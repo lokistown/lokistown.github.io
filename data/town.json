@@ -1679,6 +1679,99 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwt9y714",
+      "type": "custom",
+      "name": "Starlit Moth Archway",
+      "description": "A festive entrance archway decorated with pine needles and a large, glowing pixel-art moth perched on top.",
+      "color": "#2d5a45",
+      "x": 12.9,
+      "z": -6.7,
+      "rot": 53,
+      "scale": 1,
+      "radius": 2.25,
+      "built": "2026-11-23",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              0.5,
+              4,
+              0.5
+            ],
+            "pos": [
+              -2,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2d5a45"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.5,
+              4,
+              0.5
+            ],
+            "pos": [
+              2,
+              2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2d5a45"
+          },
+          {
+            "shape": "box",
+            "size": [
+              4.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              0,
+              4.25,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2d5a45"
+          },
+          {
+            "shape": "box",
+            "size": [
+              1.5,
+              1.5,
+              0.2
+            ],
+            "pos": [
+              0,
+              5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffb347"
+          }
+        ]
+      }
     }
   ]
 }

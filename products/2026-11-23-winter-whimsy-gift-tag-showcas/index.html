@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Whimsy Showcase</title>
+    <style>
+        :root {
+            --bg-color: #fdfcf0;
+            --navy: #1a2a6c;
+            --red: #b21f1f;
+            --gold: #daa520;
+            --text-main: #2c3e50;
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-40: 40px;
+            --space-64: 64px;
+            --radius: 12px;
+            --font-serif: "Georgia", "Times New Roman", serif;
+            --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            color: var(--navy);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-24);
+        }
+
+        header {
+            padding: var(--space-40) 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-64) 0;
+            background: linear-gradient(180deg, #eef2f3 0%, var(--bg-color) 100%);
+            border-radius: var(--radius);
+            margin-bottom: var(--space-64);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-24);
+            background: linear-gradient(45deg, var(--navy), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin-bottom: var(--space-40);
+            color: #546e7a;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--red);
+            color: white;
+            padding: var(--space-16) var(--space-40);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn:hover, .btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(178, 31, 31, 0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-40);
+            margin-bottom: var(--space-64);
+        }
+
+        .card {
+            background: white;
+            padding: var(--space-40);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--gold);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-bottom: var(--space-16);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-16);
+            margin-top: var(--space-40);
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background-color: #f0f4f8;
+            background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e2e8f0;
+            color: var(--navy);
+            font-weight: 600;
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .pricing {
+            text-align: center;
+            padding: var(--space-64) var(--space-24);
+            background: var(--navy);
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: var(--space-64);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing h2 {
+            color: white;
+            margin-bottom: var(--space-24);
+            font-size: 2.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-64) 0;
+            border-top: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .snow-active {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snow" class="snow-canvas"></canvas>
+
+    <header class="container">
+        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Loki's Town Logo">
+            <rect x="20" y="40" width="60" height="40" rx="4" fill="#b21f1f"/>
+            <path d="M15 45L50 15L85 45" stroke="#1a2a6c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="35" r="5" fill="#1a2a6c"/>
+            <circle cx="60" cy="35" r="5" fill="#1a2a6c"/>
+        </svg>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Winter Whimsy Gift Tags</h1>
+            <p>Make your holiday presents unforgettable with a touch of pixel-art magic. Hand-crafted with whiskers for your warmest winter moments.</p>
+            <button class="btn" onclick="toggleSnow()" id="snowBtn">Shake the Snowglobe</button>
+        </section>
+
+        <section class="grid">
+            <div class="card">
+                <h3>Printable & Easy</h3>
+                <p>High-resolution PDF files ready for your home printer. Just cut, punch a hole, and add some twine.</p>
+            </div>
+            <div class="card">
+                <h3>Pixel Perfect</h3>
+                <p>Every design is built pixel-by-pixel to ensure that cozy, retro feeling that makes gifts feel personal.</p>
+            </div>
+            <div class="card">
+                <h3>Eco Friendly</h3>
+                <p>Digital downloads mean zero shipping emissions and you only print exactly what you need.</p>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <h2 style="text-align: center;">Sneak Peeks</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><span>Frosty Leaf Design</span></div>
+                <div class="gallery-item"><span>Sleepy Windowsill</span></div>
+                <div class="gallery-item"><span>Mini Bird Feeder</span></div>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <h2>Ready to add some sparkle?</h2>
+            <p style="margin-bottom: var(--space-40); font-size: 1.2rem;">Get the full set of 12 unique tag designs for just $5.</p>
+            <a href="#" class="btn" style="background-color: var(--gold); color: var(--navy);">Download Digital Pack</a>
+        </section>
+    </main>
+
+    <footer class="container">
+        <p>&copy; <span id="year"></span> Loki's Town. Created with whiskers and code.</p>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const canvas = document.getElementById('snow');
+        const ctx = canvas.getContext('2d');
+        let width, height, flakes = [];
+        let active = false;
+        let animationFrameId = null;
+
+        function init() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function createFlakes() {
+            flakes = [];
+            for (let i = 0; i < 150; i++) {
+                flakes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 3 + 1,
+                    d: Math.random() * 1 + 0.2,
+                    o: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < flakes.length; i++) {
+                let f = flakes[i];
+                ctx.fillStyle = `rgba(255, 255, 255, ${f.o})`;
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+                ctx.fill();
+            }
+            move();
+        }
+
+        function move() {
+            for (let i = 0; i < flakes.length; i++) {
+                let f = flakes[i];
+                f.y += Math.pow(f.d, 2) + 0.5;
+                f.x += Math.sin(f.y / 30) * 0.5;
+                if (f.y > height) {
+                    flakes[i].y = -10;
+                    flakes[i].x = Math.random() * width;
+                }
+            }
+        }
+
+        function animate() {
+            if (!active) return;
+            draw();
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function toggleSnow() {
+            active = !active;
+            const btn = document.getElementById('snowBtn');
+            if (active) {
+                btn.textContent = "Stop the Snow";
+                canvas.classList.add('snow-active');
+                init();
+                createFlakes();
+                animate();
+            } else {
+                btn.textContent = "Shake the Snowglobe";
+                canvas.classList.remove('snow-active');
+                setTimeout(() => {
+                    if (!active) {
+                        ctx.clearRect(0, 0, width, height);
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                }, 1000);
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (active) init();
+        });
+    </script>
+</body>
+</html>

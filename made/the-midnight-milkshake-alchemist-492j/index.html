@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Midnight Milkshake Alchemist</title>
+    <style>
+        :root {
+            --bg: #0d0b1e;
+            --shelf: #1a1635;
+            --accent: #ffb703;
+            --text-light: #f8f9fa;
+            --text-muted: #a09abc;
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --white: #ffffff;
+            --radius: 16px;
+            --spacing: 24px;
+            /* Fallback font stack that feels modern and readable */
+            --font-display: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes subtleDrift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.02) rotate(0.5deg); }
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(114, 9, 183, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(72, 149, 239, 0.1) 0%, transparent 40%);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        body.zero-gravity {
+            animation: subtleDrift 8s infinite ease-in-out;
+        }
+
+        header {
+            text-align: center;
+            padding: 64px 20px 40px;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2.2rem, 8vw, 3.5rem);
+            color: var(--accent);
+            margin-bottom: 16px;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(255, 183, 3, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 850px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .alchemist-station {
+            background: var(--shelf);
+            border-radius: var(--radius);
+            padding: var(--spacing);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ingredient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .ingredient-btn {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .ingredient-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .ingredient-btn:active {
+            transform: scale(0.95);
+        }
+
+        .ingredient-btn svg {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .ingredient-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .blender-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            position: sticky;
+            top: 40px;
+        }
+
+        .glass {
+            width: 180px;
+            height: 280px;
+            border: 4px solid var(--glass-border);
+            border-top: none;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            transition: height 0.6s cubic-bezier(0.23, 1, 0.32, 1), background 0.5s ease;
+            background: linear-gradient(180deg, var(--white) 0%, rgba(255,255,255,0.5) 100%);
+        }
+
+        .swirl-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            opacity: 0.4;
+            mix-blend-mode: overlay;
+            animation: rotate 8s linear infinite;
+            display: none;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-family: var(--font-display);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 183, 3, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-primary:not(:disabled):hover {
+            transform: scale(1.05);
+            background: #ffcf33;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: var(--text-light);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        #forecast-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: white;
+            color: #1a1635;
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 100px rgba(0,0,0,0.8);
+        }
+
+        #forecast-card.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .card-visual {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 90;
+            display: none;
+        }
+
+        footer {
+            padding: 64px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .pips-note {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 8px 16px;
+            border-radius: 20px 20px 0 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: float 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Midnight Milkshake Alchemist</h1>
+        <p class="subtitle">Pour your night into a glass. Add the stars, whisk the clouds, and discover where your dreams will take you tonight.</p>
+    </header>
+
+    <main>
+        <section class="alchemist-station">
+            <h2 style="font-family: var(--font-display); color: var(--text-muted); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">The Shelf</h2>
+            <div class="ingredient-grid" id="ingredient-grid"></div>
+        </section>
+
+        <section class="blender-container">
+            <div class="glass" id="glass">
+                <div class="swirl-layer" id="swirl"></div>
+                <div class="liquid" id="liquid"></div>
+            </div>
+            
+            <div class="controls">
+                <button id="whisk-btn" class="btn-primary" disabled>Add 3 Ingredients</button>
+                <button id="reset-btn" class="btn-outline">Empty Glass</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="forecast-card">
+        <div class="card-visual" id="card-icon">✨</div>
+        <h3 class="card-title">Your Dream Forecast</h3>
+        <p id="forecast-text" style="margin-bottom: 24px;">You will wander through a valley of glowing neon ferns.</p>
+        <button class="btn-primary" onclick="closeCard()">Sweet Dreams</button>
+    </div>
+
+    <div class="pips-note">Pip says: Try the Star-Berries! 🐁</div>
+
+    <footer>
+        Made by Loki the cat &middot; <a href="https://lokistown.github.io/?go=made:the-midnight-milkshake-alchemist-492j">lokistown.github.io</a>
+    </footer>
+
+    <script>
+        const ingredients = [
+            { id: 'moonlight', name: 'Condensed Moonlight', color: '#e0e1dd', icon: 'M12 3a9 9 0 1 0 9 9 9 9 0 0 0-9-9zm0 16a7 7 0 1 1 7-7 7 7 0 0 1-7 7z', forecast: 'You will sail across a sea of liquid silver under a velvet sky.', emoji: '🌙' },
+            { id: 'cloud', name: 'Churned Cloud Foam', color: '#ffffff', icon: 'M17.5 19c.7 0 1.3-.1 1.9-.4 2.1-1 3.1-3.4 2.3-5.6-.6-1.5-2.1-2.4-3.7-2.4h-.2c-.3-2.1-1.9-3.7-4-4.1-2.4-.4-4.7 1-5.6 3.2-.2 0-.4-.1-.7-.1-2.5 0-4.5 2-4.5 4.5S4.5 18.6 7 18.6h10.5', forecast: 'Tonight, you will have giant, bouncy marshmallows for shoes.', emoji: '☁️' },
+            { id: 'comet', name: 'Sparkling Comet Dust', color: '#ffb703', icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', forecast: 'A friendly constellation will lead you to a hidden celestial library.', emoji: '⭐' },
+            { id: 'mint', name: 'Midnight Mint', color: '#2ec4b6', icon: 'M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z', forecast: 'You will find a quiet garden where the flowers hum jazz tunes.', emoji: '🌿' },
+            { id: 'nectar', name: 'Neon Nectar', color: '#ff006e', icon: 'M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z', forecast: 'You are going to host a disco for a group of very polite fireflies.', emoji: '🌺' },
+            { id: 'starberry', name: 'Crushed Star-Berry', color: '#3a86ff', icon: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z', forecast: 'Gravity will become a suggestion as you float through a candy nebula.', emoji: '🫐' }
+        ];
+
+        let currentMix = [];
+        const maxIngredients = 3;
+
+        const grid = document.getElementById('ingredient-grid');
+        const liquid = document.getElementById('liquid');
+        const swirl = document.getElementById('swirl');
+        const whiskBtn = document.getElementById('whisk-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const forecastCard = document.getElementById('forecast-card');
+        const overlay = document.getElementById('overlay');
+
+        function init() {
+            ingredients.forEach(ing => {
+                const btn = document.createElement('button');
+                btn.className = 'ingredient-btn';
+                btn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="${ing.color}" xmlns="http://www.w3.org/2000/svg"><path d="${ing.icon}"/></svg>
+                    <span class="ingredient-name">${ing.name}</span>
+                `;
+                btn.onclick = () => addIngredient(ing);
+                grid.appendChild(btn);
+            });
+        }
+
+        function addIngredient(ing) {
+            if (currentMix.length < maxIngredients) {
+                currentMix.push(ing);
+                updateGlass();
+                if (ing.id === 'starberry') document.body.classList.add('zero-gravity');
+            }
+        }
+
+        function updateGlass() {
+            const fillPercent = (currentMix.length / maxIngredients) * 90;
+            liquid.style.height = `${fillPercent}%`;
+            if (currentMix.length > 0) {
+                const lastIng = currentMix[currentMix.length - 1];
+                liquid.style.background = `linear-gradient(to top, ${lastIng.color}, #fff)`;
+            }
+            if (currentMix.length === maxIngredients) {
+                whiskBtn.disabled = false;
+                whiskBtn.textContent = "Whisk the Dream";
+            } else {
+                whiskBtn.disabled = true;
+                whiskBtn.textContent = `Add ${maxIngredients - currentMix.length} More`;
+            }
+        }
+
+        function reset() {
+            currentMix = [];
+            liquid.style.height = '0%';
+            swirl.style.display = 'none';
+            document.body.classList.remove('zero-gravity');
+            updateGlass();
+        }
+
+        function showForecast() {
+            swirl.style.display = 'block';
+            swirl.style.background = `radial-gradient(circle, ${currentMix[0].color}, ${currentMix[1].color}, ${currentMix[2].color})`;
+            setTimeout(() => {
+                const randomIng = currentMix[Math.floor(Math.random() * currentMix.length)];
+                document.getElementById('card-icon').textContent = randomIng.emoji;
+                document.getElementById('forecast-text').textContent = randomIng.forecast;
+                overlay.style.display = 'block';
+                forecastCard.classList.add('active');
+            }, 1000);
+        }
+
+        function closeCard() {
+            overlay.style.display = 'none';
+            forecastCard.classList.remove('active');
+            reset();
+        }
+
+        whiskBtn.onclick = showForecast;
+        resetBtn.onclick = reset;
+        init();
+    </script>
+</body>
+</html>
