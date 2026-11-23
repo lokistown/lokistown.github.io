@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Pixel Skygazer: Cozy Plaza Weather Telegraph</title>
+  <style>
+    :root {
+      --bg-dark: #12131c;
+      --panel-bg: #1e2030;
+      --panel-border: #343b58;
+      --brass-base: #b8860b;
+      --brass-light: #f3ca65;
+      --brass-shadow: #5c4008;
+      --accent-coral: #ff7a5c;
+      --accent-cyan: #7dcfff;
+      --text-main: #e0af68;
+      --text-body: #c0caf5;
+      --text-dim: #7a88cf;
+      --font-heading: 'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+      --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .station-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      background: var(--panel-bg);
+      border: 4px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (min-width: 768px) {
+      .station-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .window-frame {
+      position: relative;
+      background: #000;
+      border: 6px solid var(--brass-base);
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.9), 0 4px 15px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .sky-viewport {
+      position: absolute;
+      inset: 0;
+      transition: background 2s ease-in-out;
+      background: linear-gradient(to bottom, #101428 0%, #2b3252 60%, #4a5580 100%);
+    }
+
+    .stars-layer {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 15% 15%, #fff, transparent),
+        radial-gradient(1px 1px at 45% 25%, #fff, transparent),
+        radial-gradient(2px 2px at 85% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 30% 60%, #fff, transparent),
+        radial-gradient(2px 2px at 70% 50%, #fff, transparent);
+      opacity: 0.8;
+    }
+
+    .pixel-cloud {
+      position: absolute;
+      background: #ffffff;
+      opacity: 0.7;
+      border-radius: 1px;
+      animation: floatCloud linear infinite;
+    }
+
+    .cloud-1 {
+      width: 50px; height: 10px;
+      top: 20%; left: -60px;
+      animation-duration: 25s;
+    }
+    .cloud-1::before { content:''; position:absolute; width: 30px; height: 10px; top: -8px; left: 10px; background: inherit; }
+
+    .cloud-2 {
+      width: 70px; height: 14px;
+      top: 40%; left: -80px;
+      animation-duration: 40s;
+      animation-delay: -15s;
+      opacity: 0.4;
+    }
+    .cloud-2::before { content:''; position:absolute; width: 40px; height: 12px; top: -10px; left: 15px; background: inherit; }
+
+    @keyframes floatCloud {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100% + 600px)); }
+    }
+
+    .town-silhouette {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 70px;
+      background-color: #0b0d17;
+      clip-path: polygon(
+        0% 100%, 0% 45%, 5% 45%, 5% 30%, 12% 15%, 19% 30%, 19% 45%,
+        35% 45%, 40% 35%, 50% 35%, 55% 55%, 65% 55%, 70% 25%, 80% 25%,
+        82% 40%, 90% 40%, 94% 20%, 100% 35%, 100% 100%
+      );
+    }
+
+    .window-glow {
+      position: absolute;
+      z-index: 3;
+      bottom: 15px;
+      left: 12%;
+      width: 6px; height: 6px;
+      background: #ffdb6d;
+      box-shadow: 60px -10px 0 #ffdb6d, 140px 12px 0 #ffdb6d, 210px -5px 0 #ffdb6d;
+      animation: pulseGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    .glass-shine {
+      position: absolute;
+      inset: 0; z-index: 4;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 50%);
+      pointer-events: none;
+    }
+
+    .controls-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+
+    .reading-card {
+      background: rgba(18, 19, 28, 0.7);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .temp-large {
+      font-family: var(--font-heading);
+      font-size: 3.2rem;
+      line-height: 1;
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+    }
+
+    .temp-unit { font-size: 1.2rem; color: var(--accent-cyan); margin-left: 4px; align-self: flex-start; margin-top: 6px; }
+
+    .weather-meta { text-align: right; }
+    .condition-tag {
+      display: inline-block;
+      background: var(--brass-base);
+      color: #12131c;
+      font-weight: 800; font-size: 0.75rem;
+      padding: 3px 10px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+
+    .meta-sub { font-size: 0.85rem; color: var(--text-dim); font-weight: 600; }
+
+    .barometer-section {
+      text-align: center;
+      background: linear-gradient(180deg, #181a26 0%, #12131c 100%);
+      border: 2px solid var(--brass-shadow);
+      border-radius: 12px; padding: 16px;
+    }
+
+    .barometer-dial {
+      width: 130px; height: 130px;
+      margin: 12px auto;
+      position: relative;
+      background: radial-gradient(circle, #f7ebc6 0%, #d4b568 85%, #8c6a2b 100%);
+      border-radius: 50%; border: 6px solid var(--brass-base);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset 0 2px 5px rgba(0,0,0,0.4);
+      cursor: pointer; transition: transform 0.1s;
+    }
+    .barometer-dial:active { transform: scale(0.96); }
+
+    .dial-face {
+      position: absolute; inset: 8px; border-radius: 50%;
+      border: 1px dashed rgba(61, 42, 6, 0.4);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #3d2a06; font-weight: 800; font-size: 0.6rem; text-transform: uppercase;
+    }
+
+    .needle {
+      position: absolute; bottom: 50%; left: calc(50% - 2px);
+      width: 4px; height: 48px; background: #a81c1c;
+      transform-origin: bottom center;
+      transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 2px 2px 0 0;
+    }
+    .needle::after {
+      content: ''; position: absolute; bottom: -4px; left: -3px;
+      width: 10px; height: 10px; background: #3d2a06; border-radius: 50%;
+    }
+
+    .chime-hint { font-size: 0.75rem; color: var(--brass-light); font-weight: 700; margin-bottom: 4px; }
+
+    .pip-corner {
+      background: #2a1f33; border: 2px dashed var(--accent-coral);
+      border-radius: 12px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .pip-avatar { width: 40px; height: 40px; background: #523f66; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pip-text { font-size: 0.85rem; color: #e2d5ed; }
+    .pip-text strong { color: var(--accent-coral); }
+
+    .btn {
+      background: var(--panel-border); color: var(--text-body);
+      border: none; padding: 10px 18px; border-radius: 8px;
+      font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; transition: 0.2s;
+    }
+    .btn:hover { background: #414868; color: #fff; transform: translateY(-1px); }
+
+    footer { margin-top: 32px; text-align: center; font-size: 0.85rem; color: var(--text-dim); }
+    footer a { color: var(--text-main); text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>The Pixel Skygazer</h1>
+      <div class="subtitle">Cozy Plaza Weather Telegraph</div>
+    </header>
+
+    <main class="station-grid">
+      <section class="window-frame" aria-label="Pixel Sky View">
+        <div class="sky-viewport" id="skyViewport"></div>
+        <div class="stars-layer" id="starsLayer"></div>
+        <div class="pixel-cloud cloud-1"></div>
+        <div class="pixel-cloud cloud-2"></div>
+        <div class="town-silhouette"></div>
+        <div class="window-glow"></div>
+        <div class="glass-shine"></div>
+      </section>
+
+      <section class="controls-panel">
+        <div class="reading-card">
+          <div>
+            <div class="temp-large" id="tempDisplay">--<span class="temp-unit">°C</span></div>
+            <div class="meta-sub">Loki's Town (UK)</div>
+          </div>
+          <div class="weather-meta">
+            <div class="condition-tag" id="conditionTag">Tuning...</div>
+            <div class="meta-sub" id="humidityDisplay">Humidity: --%</div>
+            <div class="meta-sub" id="windDisplay">Wind: -- km/h</div>
+          </div>
+        </div>
+
+        <div class="barometer-section">
+          <div class="chime-hint">✦ Tap Dial for Telegraph Chime ✦</div>
+          <div class="barometer-dial" id="barometerDial" role="button" tabindex="0">
+            <div class="dial-face">
+              <span>Barometer</span>
+              <span style="opacity: 0.5; font-size: 0.5rem;">Atmospheric Tension</span>
+            </div>
+            <div class="needle" id="dialNeedle"></div>
+          </div>
+        </div>
+
+        <div class="pip-corner">
+          <div class="pip-avatar">
+            <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="6" width="3" height="3" fill="#a9a9a9"/>
+              <rect x="10" y="6" width="3" height="3" fill="#a9a9a9"/>
+              <rect x="4" y="8" width="8" height="6" fill="#a9a9a9"/>
+              <rect x="5" y="10" width="1" height="1" fill="#111"/>
+              <rect x="10" y="10" width="1" height="1" fill="#111"/>
+              <rect x="7" y="11" width="2" height="1" fill="#ffb6c1"/>
+              <rect x="4" y="5" width="8" height="2" fill="#e74c3c"/>
+              <rect x="5" y="3" width="6" height="2" fill="#c0392b"/>
+            </svg>
+          </div>
+          <div class="pip-text"><strong>Pip says:</strong> <span id="pipQuote">"Looking at the clouds!"</span></div>
+        </div>
+
+        <button class="btn" id="refreshBtn" style="width: 100%;">⚡ Refresh Sky Data</button>
+      </section>
+    </main>
+
+    <footer>
+      Made by Loki the cat · <a href="https://lokistown.github.io">lokistown.github.io</a>
+    </footer>
+  </div>
+
+  <script>
+    let audioCtx = null;
+    let currentTemp = 5;
+
+    function playChime(temp) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const freq = Math.min(Math.max(300 + (temp * 10), 200), 700);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.8, audioCtx.currentTime + 0.3);
+
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+    }
+
+    async function updateWeather() {
+      const btn = document.getElementById('refreshBtn');
+      btn.innerText = '⌛ Tuning...';
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=51.5074&longitude=-0.1278&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m');
+        const data = await res.json();
+        const c = data.current;
+        currentTemp = c.temperature_2m;
+
+        document.getElementById('tempDisplay').innerHTML = `${currentTemp.toFixed(1)}<span class="temp-unit">°C</span>`;
+        document.getElementById('humidityDisplay').innerText = `Humidity: ${c.relative_humidity_2m}%`;
+        document.getElementById('windDisplay').innerText = `Wind: ${c.wind_speed_10m} km/h`;
+
+        let desc = 'Clear Skies';
+        if (c.weather_code >= 1 && c.weather_code <= 3) desc = 'Partly Cloudy';
+        if (c.weather_code >= 45) desc = 'Foggy Plaza';
+        if (c.weather_code >= 51) desc = 'Rainy Day';
+        if (c.weather_code >= 71) desc = 'Snowy Town';
+        document.getElementById('conditionTag').innerText = desc;
+
+        const angle = Math.min(Math.max((currentTemp - 10) * 4, -80), 80);
+        document.getElementById('dialNeedle').style.transform = `rotate(${angle}deg)`;
+
+        const sky = document.getElementById('skyViewport');
+        if (currentTemp < 5) {
+          sky.style.background = 'linear-gradient(to bottom, #0f172a 0%, #1e293b 100%)';
+          document.getElementById('pipQuote').innerText = `"Brrr! It's ${currentTemp}°C, time for my microscopic beanie!"`;
+        } else {
+          sky.style.background = 'linear-gradient(to bottom, #1e1b4b 0%, #4338ca 100%)';
+          document.getElementById('pipQuote').innerText = `"A pleasant ${currentTemp}°C! Perfect for a plaza stroll."`;
+        }
+      } catch (e) {
+        document.getElementById('conditionTag').innerText = 'Offline';
+      } finally {
+        btn.innerText = '⚡ Refresh Sky Data';
+      }
+    }
+
+    document.getElementById('barometerDial').onclick = () => playChime(currentTemp);
+    document.getElementById('refreshBtn').onclick = updateWeather;
+    updateWeather();
+  </script>
+</body>
+</html>

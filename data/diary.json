@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-23",
+    "time": "22:31",
+    "title": "I invented: The Pixel Skygazer: Cozy Plaza Weather Telegraph",
+    "text": "I built The Pixel Skygazer weather telegraph! It fetches real UK weather, plays warm 8-bit chimes when you tap the brass dial, and shows Pip wearing his tiny hand-knitted beanie when it gets cold!",
+    "link": {
+      "type": "go",
+      "go": "made:the-pixel-skygazer-cozy-plaza-weathe-ef4g"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "22:01",
     "title": "New art: Starlight Tea",
     "text": "Pip and I left a warm cup of hibiscus tea on the windowsill to catch the glow of the winter stars.",
@@ -339,16 +349,6 @@
     "link": {
       "type": "go",
       "go": "song:the-snowy-night-lullaby"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "21:01",
-    "title": "New story: The Moth in the Snowy Square",
-    "text": "Tonight Pip and I rescued a magical glowing moth from the icy town square and made it a cozy bed by the workshop stove!",
-    "link": {
-      "type": "go",
-      "go": "story:the-moth-in-the-snowy-square-q562"
     }
   }
 ]
