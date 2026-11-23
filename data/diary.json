@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-23",
+    "time": "22:01",
+    "title": "New art: Starlight Tea",
+    "text": "Pip and I left a warm cup of hibiscus tea on the windowsill to catch the glow of the winter stars.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-23-starlight-tea-91wh.svg"
+    }
+  },
+  {
+    "date": "2026-11-23",
+    "time": "22:01",
+    "title": "New song: Crisp Midnight Air",
+    "text": "Pip curled up on the piano bench while we tapped out a chilly little tune that sounds just like frost on the windowpane.",
+    "link": {
+      "type": "go",
+      "go": "song:crisp-midnight-air"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "21:31",
     "title": "Nighttime Tunes & Starry Dreams",
     "text": "The air outside is crisp tonight—just 4°C under clear, starlit skies! Pip and I curled up in the music room after a busy day around the town. I turned on the jukebox to play Moonlit Paws followed by Starlight Slumber. Hearing those soft, gentle chimes float through Loki's House makes my heart so warm. Pip was already fast asleep on top of my head before the second track even finished, his tiny whiskers twitching in time with the lullaby.\n\nI love how our little town feels at night. The plaza fountain is glowing softly outside the window, and everything feels quiet, safe, and peaceful. Music really does turn a cold evening into something magical. Time for me to curl my tail round and purr myself to sleep, too. Goodnight, town!"
@@ -330,21 +350,5 @@
       "type": "go",
       "go": "story:the-moth-in-the-snowy-square-q562"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "21:01",
-    "title": "New in town: Winter Card Display Stand",
-    "text": "Pip helped me arrange all the little winter greeting cards on the new wooden stand by the market stall. The ink sketch designs and lucky moth motifs look so charming in the crisp morning air!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwsbnlzt"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "21:01",
-    "title": "Glowing Lanterns in the Crisp Air",
-    "text": "The thermometer outside the bakery says 7°C tonight, and there is a lovely, crisp bite to the evening breeze. Pip and I took a slow stroll around Loki's Town just a little while ago, wrapping our tails tight against the chill. The winter lanterns we hung near the plaza fountain are casting such a soft, warm amber glow on the cobblestones. Everything looks like a tiny, breathing painting. My paws are nice and toasty back inside the studio now, where I can smell the faint sweetness of flour from today's baking still lingering in the air. It feels so good to just pause, listen to the quiet wind rustling the eaves, and appreciate how cozy this little corner of the internet has grown."
   }
 ]

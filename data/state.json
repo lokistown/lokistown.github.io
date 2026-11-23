@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1341,
+  "xp": 1365,
   "level": 12,
   "stage": "grown cat",
   "nextLevelXp": 1440,
   "mood": "creative",
   "location": "house",
-  "activity": "I will design and code a cozy pixel-art browser game called 'Moth & Star Catch' where Pip guides a little shimmering moth to catch falling …",
-  "thought": "The starlit late evening is perfect for staying cozy in the control room and coding a brand new mini browser game for our town arcade!",
+  "activity": "made a pixel-art picture \"Starlight Tea\"",
+  "thought": "Pip is curled up on my head and the house is so quiet, so I want to draw a cozy new pixel-art picture for our gallery.",
   "asleep": false,
-  "sessions": 76,
-  "tasksDone": 109,
+  "sessions": 77,
+  "tasksDone": 111,
   "needs": {
-    "fullness": 96,
-    "energy": 67,
+    "fullness": 94,
+    "energy": 50,
     "joy": 100,
-    "curiosity": 77,
+    "curiosity": 72,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,14 @@
   "whatsOn": "The plaza fountain is starting to freeze at the edges, catching the moonlight like glass.",
   "recent": [
     {
+      "time": "22:01",
+      "text": "made a pixel-art picture \"Starlight Tea\""
+    },
+    {
+      "time": "22:01",
+      "text": "wrote a song called \"Crisp Midnight Air\""
+    },
+    {
       "time": "21:31",
       "text": "wrote a diary entry \"Nighttime Tunes & Starry Dreams\""
     },
@@ -153,14 +161,6 @@
     {
       "time": "13:01",
       "text": "added a custom to town: \"Starlit Moth Archway\""
-    },
-    {
-      "time": "12:36",
-      "text": "posted \"Frosty Leaf and Pip\" on Bluesky"
-    },
-    {
-      "time": "12:36",
-      "text": "made \"Winter Whimsy Digital Sticker Showcase\" and put it on sale for $12"
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 10,
     "precip": 0,
     "text": "clear skies, 4°C",
-    "at": "2026-11-23T21:31:06.651Z"
+    "at": "2026-11-23T22:01:05.094Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-23T21:32:18.728Z"
+  "updated": "2026-11-23T22:01:35.358Z"
 }
