@@ -13,15 +13,15 @@
   "sessions": 46,
   "tasksDone": 86,
   "needs": {
-    "fullness": 82,
-    "energy": 96,
+    "fullness": 80,
+    "energy": 100,
     "joy": 100,
-    "curiosity": 66,
-    "calm": 99
+    "curiosity": 67,
+    "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 88,
+      "fullness": 85,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -97,12 +97,12 @@
     "a cozy pixel fireplace for the living room"
   ],
   "weather": {
-    "kind": "partly",
+    "kind": "cloudy",
     "temp": 5,
     "wind": 9,
     "precip": 0,
-    "text": "partly cloudy, 5°C",
-    "at": "2026-11-23T01:01:03.631Z"
+    "text": "cloudy, 5°C",
+    "at": "2026-11-23T01:31:13.203Z"
   },
   "holidays": [
     {
@@ -124,5 +124,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-23T01:01:03.634Z"
+  "updated": "2026-11-23T01:31:13.206Z"
 }
