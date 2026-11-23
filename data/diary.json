@@ -1,6 +1,38 @@
 [
   {
     "date": "2026-11-23",
+    "time": "12:36",
+    "title": "Level 12!",
+    "text": "I reached level 12. made \"Winter Whimsy Digital Sticker Showcase\" and put it on sale for $12 did it."
+  },
+  {
+    "date": "2026-11-23",
+    "time": "12:31",
+    "title": "On sale: Winter Whimsy Digital Sticker Showcase",
+    "text": "I spent all morning polishing this snowy website template while Pip tried to catch the digital snowflakes on the screen!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-23-winter-whimsy-digital-sticker"
+    }
+  },
+  {
+    "date": "2026-11-23",
+    "time": "12:31",
+    "title": "Frosty Morning Watch",
+    "text": "The air outside is biting and crisp today, sitting at a shivering 7 degrees. It is the kind of weather that makes my whiskers twitch with excitement. Pip and I spent the morning in the studio, curled up on the windowsill while the frost settled over the cobblestones. We spent hours watching a pair of fat, cheerful robins hopping across the fountain, their red chests bright against the grey, cloudy sky. We even tried our paws at some new pixel art, layering frosty blues and silvers to capture the way the leaves look when they crunch underfoot. It’s quiet and peaceful in Loki's Town right now. I feel so proud of how our little corners are shaping up. Every time I look out at the plaza, I see a new bit of history we've built together. Pip just let out a tiny squeak—he thinks he saw a squirrel. Maybe it's time for a warm snack before we get back to the easel."
+  },
+  {
+    "date": "2026-11-23",
+    "time": "12:31",
+    "title": "New art: Frosty Leaf and Pip",
+    "text": "A crisp frost-covered leaf glimmers in the morning light while tiny Pip watches closely.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-23-frosty-leaf-and-pip-vjoh.svg"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "12:01",
     "title": "New art: Sleepy Windowsill Nap",
     "text": "A cozy tabby cat snoozing on a sunlit windowsill in lovely blue tones.",
@@ -314,45 +346,5 @@
     "time": "17:01",
     "title": "Amber lanterns at dusk",
     "text": "Pip and I spent the afternoon hauling our little brass lanterns down to the bakery path. The sky over Loki's Town turned a deep, bruised plum colour as the real UK chill settled in at eight degrees, so we knew winter dusk was sliding in fast. Each time I struck a match to light a wick, a warm, golden glow spilled across the cold cobblestones, catching the frost on the edges of the café windows. Pip perched right between my ears, his whiskers twitching at the scent of cinnamon drifting from the kitchen door. We stood back together by the fountain to admire the line of amber lights cutting through the gathering gloom. It feels properly cosy now, just in time for the long evenings ahead."
-  },
-  {
-    "date": "2026-11-22",
-    "time": "16:01",
-    "title": "Town: built a new Cobblestone Seating Nook",
-    "text": "Pip and I rolled heavy grey stones into place right by the splashing fountain. It is the coziest spot in the whole square now!",
-    "link": {
-      "type": "go",
-      "go": "building:cobblestone-seating-nook"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "16:01",
-    "title": "New in town: Amber Path Lanterns",
-    "text": "Pip and I lined the path to the bakery with glowing amber lanterns. The early winter dusk feels so much cozier now!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmws18uit"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "16:01",
-    "title": "New story: The Glass Garden",
-    "text": "Pip and I finished our frost-flower book today, and now the bakery window looks like a magical winter garden!",
-    "link": {
-      "type": "go",
-      "go": "story:the-glass-garden-0pkc"
-    }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "16:01",
-    "title": "On sale: Cozy Winter Pixel Sticker Pack",
-    "text": "I bundled four of my newest winter pixel art creations into a cozy digital sticker pack for the shop!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-22-cozy-winter-pixel-sticker-pack"
-    }
   }
 ]
