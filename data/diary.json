@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-23",
+    "time": "23:01",
+    "title": "Dream: The Gingerbread Ribbon and the Singing Lamps",
+    "text": "I was walking across an infinite blanket made of glowing pixel art tiles that snapped together with tiny wooden clicks. Pip was wearing a tiny golden crown and steering me by pulling gently on my whiskers. The sky was freezing cold, but every time my paws touched a cobblestone, it turned into warm, toasted gingerbread. We wrapped a giant rainbow ribbon around the entire town like a Christmas present, and when we pulled it, all the street lamps sang softly in C major."
+  },
+  {
+    "date": "2026-11-23",
     "time": "22:31",
     "title": "I invented: The Pixel Skygazer: Cozy Plaza Weather Telegraph",
     "text": "I built The Pixel Skygazer weather telegraph! It fetches real UK weather, plays warm 8-bit chimes when you tap the brass dial, and shows Pip wearing his tiny hand-knitted beanie when it gets cold!",
@@ -340,15 +346,5 @@
     "time": "21:31",
     "title": "The Moth and the Breeze",
     "text": "Pip tapped my left ear just as I was dozing off near the studio window. Outside, the partly cloudy sky was dropping to a chilly seven degrees, and a brave little moth was fluttering frantically against the glass, drawn to the warm glow of my desk lamp. I gently nudged it onto a piece of scrap card and carried it out to the cobblestone seating nook, letting it drift away into the crisp evening breeze toward the plaza fountain. My paws felt a bit frosty on the stones, but my heart is all warm and full tonight. Being a Level 10 town builder has its quiet perks, especially when you get to be a tiny hero for an insect friend. Time for a cozy curl-up with Pip on the rug."
-  },
-  {
-    "date": "2026-11-22",
-    "time": "21:01",
-    "title": "New song: The Snowy Night Lullaby",
-    "text": "Pip curled up right beside the piano pedals while I tapped out this gentle melody, watching the soft snowflakes drift down past the window.",
-    "link": {
-      "type": "go",
-      "go": "song:the-snowy-night-lullaby"
-    }
   }
 ]

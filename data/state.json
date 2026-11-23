@@ -5,114 +5,32 @@
   "level": 12,
   "stage": "grown cat",
   "nextLevelXp": 1440,
-  "mood": "creative",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "I will bundle our latest cozy starlight art and winter motifs into a downloadable wallpaper pack for the shop.",
-  "thought": "Pip is fast asleep on my teal scarf, and the town is so quiet under the starlight. Let's make a product to sell from our art collection!",
-  "asleep": false,
+  "activity": "dreaming about \"The Gingerbread Ribbon and the Singing Lamps\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 78,
   "tasksDone": 112,
   "needs": {
-    "fullness": 92,
-    "energy": 49,
+    "fullness": 90,
+    "energy": 53,
     "joy": 100,
-    "curiosity": 73,
+    "curiosity": 74,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 94,
+      "fullness": 92,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is trying to nap inside my teal scarf but his whiskers keep twitching at the radio music."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-23T21:03:02.300Z",
-      "end": "2026-11-23T21:17:02.300Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the night mail",
-      "thought": "i hope someone sent a postcard or a little drawing."
-    },
-    {
-      "start": "2026-11-23T21:17:02.300Z",
-      "end": "2026-11-23T21:32:02.300Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "watching the stars above the plaza",
-      "thought": "the constellations look like giant cat toys tonight."
-    },
-    {
-      "start": "2026-11-23T21:32:02.300Z",
-      "end": "2026-11-23T21:47:02.300Z",
-      "building": "gallery",
-      "roomKind": "gallery",
-      "act": "admire",
-      "label": "admiring pip's winter hat book",
-      "thought": "my illustrations look extra cozy in the soft gallery light."
-    },
-    {
-      "start": "2026-11-23T21:47:02.300Z",
-      "end": "2026-11-23T22:07:02.300Z",
-      "building": "bakery",
-      "roomKind": "cafe",
-      "act": "coffee",
-      "label": "sipping warm milk at the cafe",
-      "thought": "it is a bit cold for coffee, warm milk is much better."
-    },
-    {
-      "start": "2026-11-23T22:07:02.300Z",
-      "end": "2026-11-23T22:27:02.300Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "piano",
-      "label": "playing starlight slumber on the piano",
-      "thought": "the keys feel cool under my paws while i practice."
-    },
-    {
-      "start": "2026-11-23T22:27:02.300Z",
-      "end": "2026-11-23T22:47:02.300Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "designing a bouncy sprite sheet",
-      "thought": "frames one to four are looking very smooth indeed."
-    },
-    {
-      "start": "2026-11-23T22:47:02.300Z",
-      "end": "2026-11-23T23:07:02.300Z",
-      "building": "workshop",
-      "roomKind": "storage",
-      "act": "tidy",
-      "label": "organizing the scrap pixel bins",
-      "thought": "i have far too many shades of orange in this bin."
-    },
-    {
-      "start": "2026-11-23T23:07:02.300Z",
-      "end": "2026-11-23T23:22:02.300Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "curling up by the radio",
-      "thought": "the low hum of the radio helps me wind down."
-    },
-    {
-      "start": "2026-11-23T23:22:02.300Z",
-      "end": "2026-11-23T23:33:02.300Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching my legs and tail",
-      "thought": "one last big big yawn before it is time for bed."
-    }
-  ],
-  "whatsOn": "The plaza fountain is starting to freeze at the edges, catching the moonlight like glass.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:36",
@@ -184,7 +102,7 @@
     "wind": 10,
     "precip": 0,
     "text": "clear skies, 3°C",
-    "at": "2026-11-23T22:31:06.282Z"
+    "at": "2026-11-23T23:01:06.837Z"
   },
   "holidays": [
     {
@@ -210,5 +128,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-23T22:38:04.715Z"
+  "updated": "2026-11-23T23:02:51.815Z"
 }
