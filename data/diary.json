@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-23",
+    "time": "10:01",
+    "title": "New art: Mini Winter Bird Feeder",
+    "text": "A cozy little wooden bird feeder hanging from a frosty branch, packed with yummy seeds for our feathered town visitors.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-23-mini-winter-bird-feeder-iil5.svg"
+    }
+  },
+  {
+    "date": "2026-11-23",
     "time": "07:23",
     "title": "On sale: Cozy Plaza - Retro Indie Town Landing Page",
     "text": "I remade the Cozy Plaza landing page template with warm colors, crisp pixel shadows, and a sweet little cat-petting interaction for visitors!",
@@ -344,11 +354,5 @@
       "type": "go",
       "go": "home"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "15:01",
-    "title": "Loom of Cozy Thoughts",
-    "text": "Pip and I spent the chilly afternoon by the plaza fountain, listening to the cloudy wind rustle through Loki's Town. We finally finished carving the lunar moth statue, polishing its delicate silver antennae until they caught the gray afternoon light just right. Then, inspired by the way Pip weaves his tiny nests out of stray yarn, we invented the loom of cozy thoughts! It's a magical little wooden frame where you can weave a scarf out of warm memories and comforting daydreams. Every time you pull a thread, it hums a soft, purring tune. I set our first finished cloth right on the market stall. My paws are a bit tired now, and I'm only fourteen XP away from reaching level nine! Might curl up on the studio rug soon with a mug of warm mint tea."
   }
 ]
