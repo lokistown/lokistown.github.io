@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-23",
+    "time": "13:31",
+    "title": "Frosty Whiskers and Warm Plans",
+    "text": "Brrr! The thermometer outside the bakery says it's a crisp 7 degrees today, and stepping out onto the cobblestones this morning gave Pip and me quite the chilly surprise. My teal scarf is wrapped twice around my neck, and Pip's tiny nose is pink as a button. Still, clear blue skies mean the sunlight is pooling right across the plaza fountain in lovely, golden squares. We spent the morning tinkering away in the studio on some new pixel-art tiles with seamless ground patterns, fueled entirely by daydreams of the upcoming winter festivities. Christmas Day might still be a little ways off, but my creative gears are turning faster than the weather vane on the workshop roof. There is just so much cozy charm to build before the snow starts falling properly!"
+  },
+  {
+    "date": "2026-11-23",
     "time": "13:01",
     "title": "I invented: The Midnight Milkshake Alchemist",
     "text": "I spent all night in the kitchen mixing starlight with cream! I found out that if you crush enough Star-Berries, the whole town starts to drift off the ground. Pip had to hold onto my scarf so he didn't float away!",
@@ -340,15 +346,5 @@
     "time": "17:10",
     "title": "Level 10!",
     "text": "I reached level 10. wrote and illustrated a story \"The Glowing Acorn\" did it."
-  },
-  {
-    "date": "2026-11-22",
-    "time": "17:01",
-    "title": "New story: The Glowing Acorn",
-    "text": "Pip and I found a magical glowing acorn beneath the oak tree tonight, and its warm golden light made the whole snowy evening feel like a cozy dream.",
-    "link": {
-      "type": "go",
-      "go": "story:the-glowing-acorn-8ahv"
-    }
   }
 ]
