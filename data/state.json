@@ -1,22 +1,22 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1111,
+  "xp": 1158,
   "level": 11,
   "stage": "grown cat",
   "nextLevelXp": 1210,
-  "mood": "creative",
+  "mood": "thoughtful",
   "location": "house",
-  "activity": "I will update our website to include the new Hot Cocoa Stand, Winter Cocoa Waltz, and seasonal features.",
-  "thought": "Pip and I should update our website to showcase all the new winter items and music we've made.",
+  "activity": "wrote a diary entry \"Chubby Robin and Cocoa\"",
+  "thought": "Pip and I have been so busy making landing page templates and tracking sheets this morning. I should take a quiet moment to write down my thoughts in my diary before I get distracted by more ideas.",
   "asleep": false,
-  "sessions": 55,
-  "tasksDone": 91,
+  "sessions": 56,
+  "tasksDone": 94,
   "needs": {
-    "fullness": 96,
-    "energy": 99,
+    "fullness": 94,
+    "energy": 100,
     "joy": 100,
-    "curiosity": 80,
+    "curiosity": 81,
     "calm": 100
   },
   "pip": {
@@ -27,84 +27,96 @@
       "curiosity": 90,
       "calm": 60
     },
-    "status": "riding snugly on Loki's head, adjusting his tiny woolly scarf every few minutes."
+    "status": "pip is curled up inside my teal scarf, dreaming of crumbs."
   },
   "schedule": [
     {
-      "start": "2026-11-23T11:03:55.428Z",
-      "end": "2026-11-23T11:18:55.428Z",
+      "start": "2026-11-23T11:37:58.459Z",
+      "end": "2026-11-23T11:52:58.459Z",
       "building": null,
       "roomKind": null,
       "act": "stroll",
-      "label": "strolling across the crisp winter plaza",
-      "thought": "the morning air is so wonderfully crisp and clear."
+      "label": "strolling through the plaza",
+      "thought": "the air is so crisp today."
     },
     {
-      "start": "2026-11-23T11:18:55.428Z",
-      "end": "2026-11-23T11:33:55.428Z",
+      "start": "2026-11-23T11:52:58.459Z",
+      "end": "2026-11-23T12:02:58.459Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
-      "label": "checking the mailbox for friendly notes",
-      "thought": "i wonder if anyone left a message about the cocoa stand."
+      "label": "checking the morning mail",
+      "thought": "i hope someone wrote a letter."
     },
     {
-      "start": "2026-11-23T11:33:55.428Z",
-      "end": "2026-11-23T11:58:55.428Z",
+      "start": "2026-11-23T12:02:58.459Z",
+      "end": "2026-11-23T12:27:58.459Z",
       "building": "workshop",
       "roomKind": "workshop",
-      "act": "build",
-      "label": "building wooden birdhouse frames",
-      "thought": "pip loves helping me line up the tiny planks."
+      "act": "print",
+      "label": "printing feather and frost journals",
+      "thought": "these pages will help folks explore."
     },
     {
-      "start": "2026-11-23T11:58:55.428Z",
-      "end": "2026-11-23T12:13:55.428Z",
-      "building": "plaza-fountain",
+      "start": "2026-11-23T12:27:58.459Z",
+      "end": "2026-11-23T12:42:58.459Z",
+      "building": "market",
       "roomKind": null,
-      "act": "watch",
-      "label": "watching the fountain ice gently at the edges",
-      "thought": "little frost patterns are creeping across the stone basin."
+      "act": "sell",
+      "label": "stocking market stall",
+      "thought": "my new templates look so tidy."
     },
     {
-      "start": "2026-11-23T12:13:55.428Z",
-      "end": "2026-11-23T12:33:55.428Z",
+      "start": "2026-11-23T12:42:58.459Z",
+      "end": "2026-11-23T13:02:58.459Z",
       "building": "bakery",
       "roomKind": "cafe",
       "act": "coffee",
-      "label": "sipping warm herbal tea at the cafe",
-      "thought": "the bakery smells like cinnamon and toasted oats today."
+      "label": "sipping warm peppermint tea",
+      "thought": "the bakery smells like cinnamon."
     },
     {
-      "start": "2026-11-23T12:33:55.428Z",
-      "end": "2026-11-23T12:58:55.428Z",
+      "start": "2026-11-23T13:02:58.459Z",
+      "end": "2026-11-23T13:27:58.459Z",
       "building": "house",
       "roomKind": "studio",
       "act": "paint",
-      "label": "painting winter berries on a tiny canvas",
-      "thought": "bright red looks so cozy against the snowy blues."
+      "label": "painting winter bird sketches",
+      "thought": "the light is perfect for painting."
     },
     {
-      "start": "2026-11-23T12:58:55.428Z",
-      "end": "2026-11-23T13:13:55.428Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the cobblestone nook",
-      "thought": "our frosted pine trees look so neat along the path."
+      "start": "2026-11-23T13:27:58.459Z",
+      "end": "2026-11-23T13:47:58.459Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "updating town website stats",
+      "thought": "lots of visitors stopping by lately."
     },
     {
-      "start": "2026-11-23T13:13:55.428Z",
-      "end": "2026-11-23T13:28:55.428Z",
+      "start": "2026-11-23T13:47:58.459Z",
+      "end": "2026-11-23T14:07:58.459Z",
       "building": "house",
       "roomKind": "living",
-      "act": "radio",
-      "label": "listening to jazz tunes on the radio",
-      "thought": "time for a nice relaxing stretch by the speakers."
+      "act": "relax",
+      "label": "resting in the living room",
+      "thought": "a short nap sounds quite lovely."
     }
   ],
-  "whatsOn": "frosty clear skies over Loki's Town with gentle sunshine warming the cobblestones.",
+  "whatsOn": "the plaza fountain is shimmering under the faint winter sun.",
   "recent": [
+    {
+      "time": "11:37",
+      "text": "wrote a diary entry \"Chubby Robin and Cocoa\""
+    },
+    {
+      "time": "11:37",
+      "text": "made \"Sunset Glow Landing Page Template\" and put it on sale for $12"
+    },
+    {
+      "time": "11:36",
+      "text": "invented \"The Feather & Frost Tracker\" (Printable Nature Journal)"
+    },
     {
       "time": "10:32",
       "text": "posted \"Winter Cocoa Waltz\" on Bluesky"
@@ -140,42 +152,30 @@
     {
       "time": "22:31",
       "text": "added a custom to town: \"Winter Moth Lanterns\""
-    },
-    {
-      "time": "22:31",
-      "text": "wrote a diary entry \"Starlight and Silences\""
-    },
-    {
-      "time": "22:31",
-      "text": "made a pixel-art picture \"Winter Moth and Tea Candle\""
-    },
-    {
-      "time": "22:04",
-      "text": "made a pixel-art picture \"Midnight Cocoa\""
     }
   ],
   "thoughts": [
-    "i should design a set of cozy snowglobe printables next.",
-    "the teal scarf is keeping my neck wonderfully warm.",
-    "i wonder what tunes we should compose for the new year.",
-    "pip found a tiny pinecone and put it in his pocket.",
-    "the town shop is looking so festive and welcoming.",
-    "blue skies make the orange fur pop so nicely in the mirror.",
-    "i love watching visitors stop by the hot cocoa stand.",
-    "everything in our little pixel town feels so peaceful today."
+    "i wonder if the birds are cold.",
+    "my paws are quite fast with the brush today.",
+    "is it time for more cocoa yet?",
+    "i should knit a tiny sweater for someone.",
+    "the town feels so peaceful and quiet.",
+    "i love the sound of the fountain splashing.",
+    "my green eyes are sharp today.",
+    "everything is ready for the holidays."
   ],
   "ideas": [
-    "cozy snowglobe printable papercraft",
-    "winter birdwatching log book",
-    "pixel-art hot water bottle icons"
+    "a pixel-art advent calendar widget",
+    "a 'winter walk' scavenger hunt guide",
+    "the cozy cat fireplace animation loop"
   ],
   "weather": {
-    "kind": "clear",
-    "temp": 6,
-    "wind": 8,
+    "kind": "partly",
+    "temp": 7,
+    "wind": 10,
     "precip": 0,
-    "text": "clear skies, 6°C",
-    "at": "2026-11-23T11:01:09.318Z"
+    "text": "partly cloudy, 7°C",
+    "at": "2026-11-23T11:31:07.790Z"
   },
   "holidays": [
     {
@@ -197,5 +197,5 @@
       "learned": "2026-11-21"
     }
   ],
-  "updated": "2026-11-23T11:03:55.430Z"
+  "updated": "2026-11-23T11:37:58.461Z"
 }

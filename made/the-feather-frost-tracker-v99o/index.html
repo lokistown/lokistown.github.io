@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Feather & Frost Tracker</title>
+  <style>
+    :root {
+      --charcoal: #2d3436;
+      --teal: #008080;
+      --sky: #f0f7f7;
+      --frost: #e0ecec;
+      --paper: #ffffff;
+      --accent: #ff7675;
+      --muted: #bdc3c7;
+      --space-xs: 8px;
+      --space-s: 16px;
+      --space-m: 24px;
+      --space-l: 40px;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--sky);
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 900;
+    }
+
+    .ui-container {
+      max-width: 900px;
+      margin: var(--space-l) auto;
+      padding: var(--space-m);
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .btn-print {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+      margin: var(--space-s) 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-print:hover {
+      background: #006666;
+      transform: translateY(-2px);
+    } 
+
+    .instructions {
+      text-align: left;
+      background: var(--frost);
+      padding: var(--space-m);
+      border-radius: var(--radius);
+      margin-top: var(--space-m);
+    }
+
+    .zine-preview-scroll {
+      width: 100%;
+      overflow-x: auto;
+      padding: 40px 0;
+      margin-top: 20px;
+      background: #eee;
+      border-radius: var(--radius);
+      display: flex;
+      justify-content: center;
+    }
+
+    .zine-sheet {
+      width: 297mm;
+      height: 210mm;
+      background: white;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      padding: 8mm;
+      border: 0.2mm dashed #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    .page.upside-down {
+      transform: rotate(180deg);
+    }
+
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--teal);
+      margin: 4px auto;
+      border-radius: 4px;
+    }
+
+    .sketch-grid {
+      width: 100%;
+      height: 45px;
+      background-image: 
+        linear-gradient(var(--frost) 1px, transparent 1px),
+        linear-gradient(90deg, var(--frost) 1px, transparent 1px);
+      background-size: 6px 6px;
+      border: 1px solid var(--frost);
+      margin-top: 4px;
+    }
+
+    .field-label {
+      font-size: 0.6rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-top: 6px;
+      display: block;
+    }
+
+    .field-input {
+      width: 100%;
+      border-bottom: 1px solid var(--muted);
+      height: 12px;
+    }
+
+    .footer-tag {
+      position: absolute;
+      bottom: 4mm;
+      font-size: 0.5rem;
+      opacity: 0.7;
+      width: 100%;
+      left: 0;
+    }
+
+    @media screen and (max-width: 1150px) {
+      .zine-sheet { transform: scale(0.75); transform-origin: center; }
+      .zine-preview-scroll { height: 500px; align-items: center; }
+    }
+
+    @media screen and (max-width: 850px) {
+      .zine-sheet { transform: scale(0.5); }
+      .zine-preview-scroll { height: 350px; }
+    }
+
+    @media screen and (max-width: 580px) {
+      .zine-sheet { transform: scale(0.3); }
+      .zine-preview-scroll { height: 220px; }
+    }
+
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+      body { background: white; }
+      .ui-container, .zine-preview-scroll {
+        display: block;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        background: none;
+      }
+      .ui-container header, .ui-container .btn-print, .ui-container .instructions, .ui-container footer {
+        display: none;
+      }
+      .zine-sheet {
+        transform: none !important;
+        box-shadow: none;
+        border: none;
+        margin: 0;
+      }
+      .page {
+        border: 0.1mm solid #eee;
+      }
+    }
+
+    .surprise-area {
+      border: 1.5px dashed var(--accent);
+      padding: 4px;
+      margin-top: 4px;
+      background: #fffafa;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ui-container">
+    <header>
+      <h1>The Feather & Frost Tracker</h1>
+      <p>A printable winter birding journal. Vol 01 &bull; 2026</p>
+    </header>
+
+    <button class="btn-print" onclick="window.print()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print My Journal
+    </button>
+
+    <div class="zine-preview-scroll">
+      <div class="zine-sheet">
+        
+        <!-- TOP ROW (Upside Down) - [8] [1] [2] [3] -->
+        <div class="page upside-down">
+           <p style="font-size: 0.6rem; margin-top: 15px;">Keep your heart warm and eyes on the sky.</p>
+           <div style="margin-top: 10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#008080"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+           </div>
+           <div class="footer-tag">
+             Loki's Town Press<br>
+             lokistown.github.io
+           </div>
+        </div>
+
+        <div class="page upside-down">
+          <div style="border: 3px solid var(--teal); padding: 8px; width: 100%;">
+            <h2 style="font-size: 0.9rem;">Feather & Frost</h2>
+            <p style="font-size: 0.6rem; margin: 2px 0;">Winter Tracker</p>
+          </div>
+          <p style="font-size: 0.5rem; margin-top: 10px;">Property of:</p>
+          <div class="field-input"></div>
+        </div>
+
+        <div class="page upside-down">
+          <h3>The Blackbird</h3>
+          <svg viewBox="0 0 16 16" width="28" fill="#2d3436"><path d="M2 8s1-1 4-1 4 1 6 3 2 4 2 4H2V8z M12 6s-1-2-3-2-3 2-3 2"/></svg>
+          <div class="check-box"></div>
+          <span class="field-label">Fav Snack:</span>
+          <div class="field-input"></div>
+          <p style="font-size: 0.5rem;">Clear winter whistles.</p>
+        </div>
+
+        <div class="page upside-down">
+          <h3>The Blue Tit</h3>
+          <svg viewBox="0 0 16 16" width="28" fill="#008080"><path d="M3 9s1-2 4-2 4 2 6 2 3 3 3 3H3V9z M10 4s-1-1-3-1-3 1-3 1"/></svg>
+          <div class="check-box"></div>
+          <span class="field-label">Acrobatics:</span>
+          <div class="field-input"></div>
+          <p style="font-size: 0.5rem;">They love fat balls!</p>
+        </div>
+
+        <!-- BOTTOM ROW (Right Side Up) - [7] [6] [5] [4] -->
+        <div class="page">
+          <h3>Field Notes</h3>
+          <span class="field-label">Temp & Sky:</span>
+          <div class="field-input"></div>
+          <div class="sketch-grid"></div>
+          <p style="font-size: 0.5rem; margin-top: 4px;">Sketch the clouds.</p>
+        </div>
+
+        <div class="page">
+          <h3>Guest of Honor</h3>
+          <p style="font-size: 0.5rem;">For the rarest bird seen.</p>
+          <div class="surprise-area">
+             <span class="field-label" style="color: var(--accent);">Species:</span>
+             <div class="field-input"></div>
+             <div class="sketch-grid" style="height: 30px;"></div>
+          </div>
+          <p style="font-size: 0.45rem; margin-top: 4px;">Remember to say hello to Magpies!</p>
+        </div>
+
+        <div class="page">
+          <h3>Rare Finds</h3>
+          <p style="font-size: 0.5rem;">Goldfinch? Woodpecker?</p>
+          <div class="field-input" style="margin-top: 4px;"></div>
+          <div class="field-input" style="margin-top: 4px;"></div>
+          <div class="sketch-grid" style="height: 35px;"></div>
+        </div>
+
+        <div class="page">
+          <h3>The Robin</h3>
+          <svg viewBox="0 0 16 16" width="28" fill="#ff7675"><path d="M4 10s1-3 4-3 4 3 6 3 2 3 2 3H4V10z M8 4s-1-1-3-1-3 1-3 1"/></svg>
+          <div class="check-box"></div>
+          <span class="field-label">Spotted at:</span>
+          <div class="field-input"></div>
+          <p style="font-size: 0.5rem;">Our brave garden friend.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>How to build:</h3>
+      <ol>
+        <li>Print this page (<strong>Landscape</strong> orientation).</li>
+        <li>Fold in half lengthwise, then fold into 8 panels.</li>
+        <li>Unfold to a half-fold and cut the center slit (between the middle 4 panels).</li>
+        <li>Push the ends together to form your tiny 8-page book!</li>
+      </ol>
+    </div>
+    
+    <footer style="margin-top: 40px; font-size: 0.9rem; opacity: 0.8;">
+      Made with whiskers by Loki the cat
+    </footer>
+  </div>
+</body>
+</html>
