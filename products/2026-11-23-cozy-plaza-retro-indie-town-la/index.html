@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozy Plaza - Indie Studio Template</title>
+  <style>
+    :root {
+      --bg: #FDF9F3;
+      --surface: #FFFFFF;
+      --surface-card: #FFFDF9;
+      --text-main: #2C221E;
+      --text-muted: #6B5E57;
+      --primary: #E06D53;
+      --primary-hover: #C8583E;
+      --secondary: #588B8B;
+      --accent: #F4A261;
+      --highlight: #E9C46A;
+      --border-dark: #2C221E;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-pixel: 4px 4px 0px var(--border-dark);
+      --shadow-pixel-lg: 6px 6px 0px var(--border-dark);
+      --transition-fast: 0.15s ease;
+      --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --font-pixel: 'Courier New', Courier, Monaco, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .pixel-text {
+      font-family: var(--font-pixel);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 16px 0;
+      border-bottom: 3px solid var(--border-dark);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border: 2px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0 var(--border-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-family: var(--font-pixel);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-main);
+      background: var(--accent);
+      border: 3px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-pixel);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px var(--border-dark);
+      background: var(--highlight);
+    }
+
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px var(--border-dark);
+    }
+
+    .btn-secondary { background: var(--surface); }
+    .btn-secondary:hover { background: var(--bg); }
+
+    .hero {
+      padding: 80px 0 60px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #E8F1F1;
+      color: var(--secondary);
+      border: 2px solid var(--border-dark);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      box-shadow: 2px 2px 0 var(--border-dark);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 3px solid var(--border-dark);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-pixel-lg);
+      text-align: center;
+      position: relative;
+    }
+
+    .cat-avatar {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 16px;
+      background: var(--accent);
+      border: 3px solid var(--border-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cat-avatar:hover {
+      transform: scale(1.08) rotate(-3deg);
+      background: var(--highlight);
+    }
+
+    .cat-avatar:active { transform: scale(0.95); }
+
+    .purr-counter {
+      font-family: var(--font-pixel);
+      font-size: 0.85rem;
+      background: var(--highlight);
+      border: 2px solid var(--border-dark);
+      padding: 4px 12px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-top: 12px;
+    }
+
+    .features { padding: 64px 0; }
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title h2 { font-size: 2rem; margin-bottom: 12px; }
+    .section-title p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--surface-card);
+      border: 3px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      box-shadow: var(--shadow-pixel);
+      transition: transform 0.2s ease;
+    }
+
+    .feature-card:hover { transform: translateY(-4px); }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--secondary);
+      border: 2px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 3px 3px 0 var(--border-dark);
+    }
+
+    .showcase {
+      padding: 64px 0;
+      background: var(--surface);
+      border-top: 3px solid var(--border-dark);
+      border-bottom: 3px solid var(--border-dark);
+    }
+
+    .showcase-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .showcase-box {
+      background: var(--bg);
+      border: 3px solid var(--border-dark);
+      border-radius: var(--radius-md);
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-pixel);
+      position: relative;
+    }
+
+    .pricing { padding: 80px 0; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 32px;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--surface);
+      border: 3px solid var(--border-dark);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: var(--shadow-pixel-lg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .price-card.featured { background: #FFFBF2; }
+
+    .price-badge {
+      position: absolute;
+      top: -16px;
+      right: 24px;
+      background: var(--primary);
+      color: #FFF;
+      font-family: var(--font-pixel);
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+    }
+
+    .price-amount {
+      font-family: var(--font-pixel);
+      font-size: 2.2rem;
+      margin: 20px 0;
+    }
+
+    .price-amount span {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      background: var(--border-dark);
+      color: var(--bg);
+      padding: 48px 0 32px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      border-bottom: 2px dashed #4A3A3D;
+      padding-bottom: 32px;
+      margin-bottom: 24px;
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: #D0C5C0;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid, .showcase-item { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .nav-links { width: 100%; justify-content: center; gap: 12px; font-size: 0.8rem; }
+      header { padding: 12px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C221E" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </div>
+        <span class="pixel-text">COZY PLAZA</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#showcase">Tour</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+      <a href="#pricing" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.7rem;">Adopt</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Handcrafted for Indie Creators
+        </div>
+        <h1>Build your cozy corner of the web.</h1>
+        <p>A warm, responsive pixel-art template designed for game developers, indie artists, and digital crafters. Standard HTML & CSS, zero complex build tools.</p>
+        <div class="hero-buttons">
+          <a href="#pricing" class="btn">Adopt Template</a>
+          <a href="#showcase" class="btn btn-secondary">Explore Plaza</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="cat-avatar" id="catAvatar" title="Pet Loki!">
+          <svg width="70" height="70" viewBox="0 0 24 24" fill="#2C221E">
+            <path d="M12 2c.5 0 1 .5 1.5 1.5L15 6h-6l1.5-2.5C11 2.5 11.5 2 12 2zm-5 6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2H7zm2 4.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm6 0c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM12 17c-1.5 0-2-.5-2-1h4c0 .5-.5 1-2 1z"/>
+          </svg>
+        </div>
+        <h3>Loki the Town Cat</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Click Loki to pet him!</p>
+        <div class="purr-counter" id="purrDisplay">Purrs: 0</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Everything You Need</h2>
+        <p>Built with warmth, accessibility, and high performance right out of the box.</p>
+      </div>
+      <div class="grid-3">
+        <div class="feature-card">
+          <div class="feature-icon" style="background: var(--accent);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2C221E" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+          </div>
+          <h3>Pixel-Perfect CSS</h3>
+          <p>Tactile pixel borders, clean CSS variables, and zero heavy Javascript frameworks to slow down your visitors.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background: var(--secondary);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2C221E" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h3>Fully Responsive</h3>
+          <p>Adapts flawlessly from widescreen desktop displays to modern smartphones with touch-friendly spacing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background: var(--highlight);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2C221E" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </div>
+          <h3>Indie Charm</h3>
+          <p>Includes handmade vector icons, cozy color palettes, and delightful touches like interactive easter eggs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="showcase" id="showcase">
+    <div class="container">
+      <div class="section-title">
+        <h2>Town Showcase</h2>
+        <p>A quick look at how your products, stories, or games will shine.</p>
+      </div>
+      <div class="showcase-item">
+        <div class="showcase-box">
+          <div class="pixel-text" style="font-size: 1.1rem; background: var(--surface); padding: 12px 20px; border: 2px solid var(--border-dark); border-radius: 8px; box-shadow: 2px 2px 0 var(--border-dark);">
+            🎨 Your Art Here
+          </div>
+        </div>
+        <div>
+          <h3>Display Your Creations</h3>
+          <p>Showcase artwork, printables, or dev logs with clear typography, structured grids, and cozy framed boundaries.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Simple Ownership</h2>
+        <p>Pay once, use on unlimited cozy projects. No subscriptions.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Plaza Starter</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">For personal sites & small hobby blogs.</p>
+          <div class="price-amount">$5 <span>/ forever</span></div>
+          <ul class="feature-list">
+            <li>✓ Full HTML5 Template file</li>
+            <li>✓ Embedded SVG icons</li>
+            <li>✓ Responsive layout code</li>
+            <li>✓ Clean CSS variables</li>
+          </ul>
+          <a href="#" class="btn btn-secondary" style="text-align: center; width: 100%;">Get Starter</a>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">BEST VALUE</div>
+          <h3>Town Architect</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">For commercial shops and indie studios.</p>
+          <div class="price-amount">$15 <span>/ forever</span></div>
+          <ul class="feature-list">
+            <li>✓ Everything in Starter</li>
+            <li>✓ Commercial License</li>
+            <li>✓ 5 Color Theme Variations</li>
+            <li>✓ Figma Design File included</li>
+          </ul>
+          <a href="#" class="btn" style="text-align: center; width: 100%;">Get Architect Pack</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C221E" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+          </div>
+          <span class="pixel-text" style="color: #FFF;">COZY PLAZA</span>
+        </div>
+        <p style="font-size: 0.9rem; max-width: 400px; color: #D0C5C0;">
+          Handcrafted with care by Loki. Powered by warm tea and cozy pixels.
+        </p>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Cozy Plaza Template. Built with love and zero trackers.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let purrs = 0;
+    const cat = document.getElementById('catAvatar');
+    const display = document.getElementById('purrDisplay');
+    cat.addEventListener('click', () => {
+      purrs++;
+      display.textContent = 'Purrs: ' + purrs + ' 🐾';
+      if (purrs === 10) {
+        alert('🐾 Loki says: Thank you for all the warm pets! Your site will be extra cozy now.');
+      }
+    });
+  </script>
+</body>
+</html>
