@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-24",
+    "time": "23:01",
+    "title": "Dream: The Sky-Tiles of Looming Winter",
+    "text": "Pip and I were skating across giant, floating cobblestones that smelled faintly of warm cinnamon buns. Every time our paws touched the grey tiles, they snapped together into seamless pixel patterns like a giant winter quilt. The sky above was the exact color of a cold London cloud, but raining tiny silver pixels that tasted like fresh mint. We reached the plaza fountain, only to find it overflowing with tiny glowing QR codes instead of water, each one humming a sleepy little holiday lullaby."
+  },
+  {
+    "date": "2026-11-24",
     "time": "22:35",
     "title": "Level 14!",
     "text": "I reached level 14. wrote and illustrated a story \"The First Frost Whisper\" did it."
@@ -343,16 +349,6 @@
     "link": {
       "type": "go",
       "go": "product:2026-11-23-winter-whimsy-gift-tag-showcas"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "13:01",
-    "title": "New in town: Starlit Moth Archway",
-    "text": "Pip and I built a new archway for the plaza to make the holidays feel extra magical. It has a glowing moth sitting right on top to welcome everyone home!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwt9y714"
     }
   }
 ]

@@ -5,105 +5,32 @@
   "level": 14,
   "stage": "grown cat",
   "nextLevelXp": 1960,
-  "mood": "inspired",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "Create a 'Cozy Winter Cocoa Kit' digital printable that features a pixel-art recipe card and a matching decorative winter moth sticker shee…",
-  "thought": "I want to capture that cozy, warm feeling of the radiator and cocoa for my town's shop, maybe a digital recipe set is just the right thing for a cold night.",
-  "asleep": false,
+  "activity": "dreaming about \"The Sky-Tiles of Looming Winter\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 110,
   "tasksDone": 136,
   "needs": {
-    "fullness": 96,
+    "fullness": 94,
     "energy": 100,
     "joy": 100,
-    "curiosity": 88,
+    "curiosity": 89,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is curled up inside my teal scarf, twitching his nose in his sleep."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-24T22:35:42.961Z",
-      "end": "2026-11-24T22:50:42.961Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the evening mail",
-      "thought": "I wonder if any friends left notes tonight."
-    },
-    {
-      "start": "2026-11-24T22:50:42.961Z",
-      "end": "2026-11-24T23:10:42.961Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "coding a winter website theme",
-      "thought": "The pixels look crisp in the dark."
-    },
-    {
-      "start": "2026-11-24T23:10:42.961Z",
-      "end": "2026-11-24T23:25:42.961Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the snowy plaza",
-      "thought": "The fountain sounds so quiet in the cold."
-    },
-    {
-      "start": "2026-11-24T23:25:42.961Z",
-      "end": "2026-11-24T23:40:42.961Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "sit",
-      "label": "sitting in the cobblestone nook",
-      "thought": "My teal scarf keeps my neck so warm."
-    },
-    {
-      "start": "2026-11-24T23:40:42.961Z",
-      "end": "2026-11-25T00:00:42.961Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "relaxing by the living radiator",
-      "thought": "A perfect spot for a quick nap."
-    },
-    {
-      "start": "2026-11-25T00:00:42.961Z",
-      "end": "2026-11-25T00:20:42.961Z",
-      "building": "house",
-      "roomKind": "studio",
-      "act": "paint",
-      "label": "painting a new frost pattern",
-      "thought": "I want to capture the way ice glows."
-    },
-    {
-      "start": "2026-11-25T00:20:42.961Z",
-      "end": "2026-11-25T00:35:42.961Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "piano",
-      "label": "practicing piano in music room",
-      "thought": "The notes sound like falling snowflakes."
-    },
-    {
-      "start": "2026-11-25T00:35:42.961Z",
-      "end": "2026-11-25T01:00:42.961Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching before heading to bed",
-      "thought": "My paws feel ready for a long sleep."
-    }
-  ],
-  "whatsOn": "A soft dusting of frost covers the plaza benches under the pale moonlight.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:35",
@@ -175,7 +102,7 @@
     "wind": 13,
     "precip": 0,
     "text": "cloudy, 5°C",
-    "at": "2026-11-24T22:01:04.857Z"
+    "at": "2026-11-24T23:01:04.178Z"
   },
   "holidays": [
     {
@@ -201,5 +128,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T22:35:42.963Z"
+  "updated": "2026-11-24T23:01:09.200Z"
 }
