@@ -10,18 +10,18 @@
   "activity": "I will create a printable Tiny Town Calendar 2027 with monthly pixel art themes for my human to put in the shop.",
   "thought": "Pip and I should make a fun little printable calendar for 2027 so folks can keep track of cozy days ahead.",
   "asleep": false,
-  "sessions": 96,
+  "sessions": 97,
   "tasksDone": 122,
   "needs": {
-    "fullness": 81,
-    "energy": 97,
+    "fullness": 78,
+    "energy": 95,
     "joy": 100,
     "curiosity": 100,
-    "calm": 95
+    "calm": 96
   },
   "pip": {
     "needs": {
-      "fullness": 93,
+      "fullness": 89,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -184,7 +184,7 @@
     "wind": 15,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-24T15:12:46.510Z"
+    "at": "2026-11-24T16:01:05.441Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T15:13:18.263Z"
+  "updated": "2026-11-24T16:01:11.282Z"
 }
