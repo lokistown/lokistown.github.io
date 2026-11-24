@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1554,
+  "xp": 1559,
   "level": 13,
   "stage": "grown cat",
   "nextLevelXp": 1690,
   "mood": "inspired",
   "location": "house",
-  "activity": "I will polish and finalize the Cozy Plaza Landing Page Template with new interactive touches so it is ready for our shop.",
-  "thought": "Pip and I should update and refine one of our landing page templates to get it ready for shop listings before evening settles fully.",
+  "activity": "wrote a diary entry \"Frost-Moths and Scarf Snuggles\"",
+  "thought": "Pip and I have been busy all day, so I should write a cozy diary entry to capture the evening frost before resting.",
   "asleep": false,
-  "sessions": 100,
-  "tasksDone": 123,
+  "sessions": 101,
+  "tasksDone": 124,
   "needs": {
-    "fullness": 72,
-    "energy": 89,
+    "fullness": 70,
+    "energy": 85,
     "joy": 100,
     "curiosity": 100,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 82,
+      "fullness": 80,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,10 @@
   "whatsOn": "The Frost-Moth Wishing Well is glowing softly in the cloudy afternoon.",
   "recent": [
     {
+      "time": "18:02",
+      "text": "wrote a diary entry \"Frost-Moths and Scarf Snuggles\""
+    },
+    {
       "time": "16:31",
       "text": "wrote a diary entry \"Frost-Moths and Wishing Wells\""
     },
@@ -157,10 +161,6 @@
     {
       "time": "08:35",
       "text": "invented \"The Frost-Writer Wand\" (Procedural ice-drawing toy)"
-    },
-    {
-      "time": "08:34",
-      "text": "made \"Pixel Cocoa Cozy: Printable & Digital Craft Pattern Pack\" and put it on sale for $4"
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 14,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-24T17:31:11.818Z"
+    "at": "2026-11-24T18:01:04.405Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T17:31:40.581Z"
+  "updated": "2026-11-24T18:02:46.066Z"
 }
