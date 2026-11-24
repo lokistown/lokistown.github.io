@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Loki's Winter Hearth Kit</title>
+    <style>
+        :root {
+            --bg-cream: #FFF9F2;
+            --soft-marshmallow: #F5E1DA;
+            --cocoa-brown: #5D3A1A;
+            --berry-red: #E63946;
+            --frost-teal: #A8DADC;
+            --text-dark: #2D1B0E;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --space-xl: 64px;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Segoe UI Black', 'Arial Black', sans-serif;
+            color: var(--cocoa-brown);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        header {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            background: linear-gradient(180deg, var(--soft-marshmallow) 0%, var(--bg-cream) 100%);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-s);
+            line-height: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--berry-red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-s);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-l);
+            padding: var(--space-xl) 0;
+        }
+
+        .card {
+            background: white;
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 0 var(--soft-marshmallow);
+            border: 3px solid var(--cocoa-brown);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-section {
+            background: var(--cocoa-brown);
+            color: var(--bg-cream);
+            padding: var(--space-xl) var(--space-m);
+            border-radius: var(--radius);
+            margin: var(--space-xl) 0;
+        }
+
+        .recipe-section h2 {
+            color: var(--soft-marshmallow);
+            margin-bottom: var(--space-m);
+        }
+
+        .ingredient-list {
+            list-style: none;
+            margin-bottom: var(--space-m);
+        }
+
+        .ingredient-list li::before {
+            content: '🐾';
+            margin-right: 10px;
+        }
+
+        .sticker-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-s);
+            justify-content: center;
+            padding: var(--space-m);
+        }
+
+        .sticker-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--frost-teal);
+            border-radius: 50%;
+            border: 3px dashed white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-align: center;
+            color: var(--cocoa-brown);
+        }
+
+        .btn {
+            background-color: var(--berry-red);
+            color: white;
+            border: none;
+            padding: var(--space-s) var(--space-l);
+            font-family: 'Segoe UI Black', 'Arial Black', sans-serif;
+            font-size: 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b22222;
+            transition: all 0.1s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:active {
+            box-shadow: 0 2px 0 #b22222;
+            transform: translateY(4px);
+        }
+
+        .sprinkle-zone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .sprinkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--frost-teal);
+            border-radius: 3px;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-xl);
+            border-top: 2px dashed var(--soft-marshmallow);
+            margin-top: var(--space-xl);
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class='sprinkle-zone' id='sprinkleZone'></div>
+
+    <header>
+        <div class='container'>
+            <span class='badge'>Loki's Winter Specials</span>
+            <h1 class='hero-title'>The Hearthside<br>Cocoa Kit</h1>
+            <p style='font-size: 1.2rem; max-width: 600px; margin: 0 auto var(--space-m); font-weight: 600;'>A downloadable bundle of warmth, featuring my personal recipe and printable stickers for your favorite mug.</p>
+            <button class='btn' onclick='addSprinkles()'>Add Marshmallow Sprinkles!</button>
+        </div>
+    </header>
+
+    <main class='container'>
+        <section class='grid'>
+            <div class='card'>
+                <h3>Triple Chocolate Secret</h3>
+                <p>Most cats don't share their secrets, but this whisking technique makes the foam extra fluffy. Pip says it's like drinking a cloud.</p>
+            </div>
+            <div class='card'>
+                <h3>8 Pixel Stickers</h3>
+                <p>Printable sheets designed for standard sticker paper. Includes 'Stay Toasty', 'Mug Life', and my favorite: 'The Nap King'.</p>
+            </div>
+            <div class='card'>
+                <h3>Cozy Checklist</h3>
+                <p>A little bonus guide to building the perfect blanket fort while your cocoa cools to the perfect sipping temperature.</p>
+            </div>
+        </section>
+
+        <section class='recipe-section'>
+            <h2>The Recipe: Loki's "Meowmellow" Cocoa</h2>
+            <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-m);'>
+                <div>
+                    <h4 style='margin-bottom: var(--space-s); color: var(--frost-teal); font-family: "Segoe UI Black", sans-serif;'>Ingredients</h4>
+                    <ul class='ingredient-list'>
+                        <li>2 cups whole milk (or oat milk!)</li>
+                        <li>50g dark chocolate, chopped small</li>
+                        <li>1 tbsp high-quality cocoa powder</li>
+                        <li>A pinch of flaky sea salt</li>
+                        <li>1/4 tsp cinnamon (the secret!)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style='margin-bottom: var(--space-s); color: var(--frost-teal); font-family: "Segoe UI Black", sans-serif;'>Instructions</h4>
+                    <p>1. Heat milk in a small pot until tiny bubbles appear.<br>
+                    2. Whisk in cocoa powder and cinnamon until smooth.<br>
+                    3. Add chocolate chunks and stir until melted and glossy.<br>
+                    4. Pour into your favorite mug, add salt, and top with far too many marshmallows.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style='text-align: center; padding: var(--space-l) 0;'>
+            <h2>Printable Sticker Preview</h2>
+            <div class='sticker-preview'>
+                <div class='sticker-circle' style='background: var(--berry-red); color: white;'>STAY<br>TOASTY</div>
+                <div class='sticker-circle'>COCOA<br>CLUB</div>
+                <div class='sticker-circle' style='background: var(--cocoa-brown); color: white;'>MUG<br>HUG</div>
+                <div class='sticker-circle'>LOKI'S<br>PICK</div>
+            </div>
+            <p style='margin-top: var(--space-m);'><i>"The stickers look great on my tiny cheese-cracker box!" — Pip the Mouse</i></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Loki's Town Workshop. Created with whiskers and warmth.</p>
+        <p style='font-size: 0.8rem; margin-top: var(--space-s); opacity: 0.8;'>No real cats were given chocolate during the making of this template (it's not good for us, but humans love it!).</p>
+    </footer>
+
+    <script>
+        function addSprinkles() {
+            const zone = document.getElementById('sprinkleZone');
+            const colors = ['#FFF', '#F5E1DA', '#A8DADC'];
+            for(let i=0; i<20; i++) {
+                const s = document.createElement('div');
+                s.className = 'sprinkle';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                s.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                s.style.opacity = Math.random() * 0.5 + 0.5;
+                zone.appendChild(s);
+                setTimeout(() => s.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>

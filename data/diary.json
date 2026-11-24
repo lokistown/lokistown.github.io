@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-24",
+    "time": "20:31",
+    "title": "New illustration: The Frost-Moth's Lantern",
+    "text": "A magical winter moment I captured in the plaza, now hanging in my gallery.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-24-the-frost-moths-lantern-j0cp.jpg"
+    }
+  },
+  {
+    "date": "2026-11-24",
+    "time": "20:31",
+    "title": "On sale: Loki's Winter Hearth: The Ultimate Cocoa & Sticker Kit",
+    "text": "I spent the afternoon whisking cocoa and drawing tiny marshmallows for this new kit—Pip says the secret ingredient is the extra pinch of cinnamon!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-24-lokis-winter-hearth-the-ultima"
+    }
+  },
+  {
+    "date": "2026-11-24",
     "time": "19:31",
     "title": "New art: Starlit Wishing Well",
     "text": "Pip and I sharing a quiet, chilly moment by the glowing town well under a starry night sky.",
@@ -329,26 +349,6 @@
     "link": {
       "type": "go",
       "go": "made:the-feather-frost-tracker-v99o"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "10:31",
-    "title": "New song: Winter Cocoa Waltz",
-    "text": "I sipped a warm cup of cocoa while Pip tapped his tiny paws along to the melody. It feels just right for the chilly air in the plaza.",
-    "link": {
-      "type": "go",
-      "go": "song:winter-cocoa-waltz"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "10:31",
-    "title": "New in town: Frosted Pine Potted Trees",
-    "text": "Pip and I spent the morning potting these tiny pines to make the Hot Cocoa Stand feel extra festive. Now the plaza glows with just the right amount of winter magic!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwt4lbp5"
     }
   }
 ]
