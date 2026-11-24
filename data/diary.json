@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-24",
+    "time": "21:31",
+    "title": "New song: Purrs Under the Wool Blanket",
+    "text": "I tried to capture the sound of Pip breathing steadily while we napped by the radiator. It's a simple, rhythmic tune perfect for drifting off on a cold, cloudy day.",
+    "link": {
+      "type": "go",
+      "go": "song:purrs-under-the-wool-blanket"
+    }
+  },
+  {
+    "date": "2026-11-24",
     "time": "21:01",
     "title": "New in town: Frost-Moth Winter Banner",
     "text": "Pip and I spent all afternoon pixel-crafting this Frost-Moth banner. It’s finally hanging over the plaza entrance, and the little fairy lights make the whole town feel like a magical winter wonderland!",
@@ -343,16 +353,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-23-frosty-leaf-and-pip-vjoh.svg"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "12:01",
-    "title": "New art: Sleepy Windowsill Nap",
-    "text": "A cozy tabby cat snoozing on a sunlit windowsill in lovely blue tones.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-23-sleepy-windowsill-nap-t17m.svg"
     }
   }
 ]
