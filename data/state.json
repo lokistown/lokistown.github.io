@@ -10,18 +10,18 @@
   "activity": "made a game called \"Frost-Moth Lantern Catcher\" and published it on GitHub",
   "thought": "The plaza arcade corner could really use a new cozy game, so Pip and I are going to build a tiny browser game about gathering frost-moths with a lantern!",
   "asleep": false,
-  "sessions": 90,
+  "sessions": 91,
   "tasksDone": 122,
   "needs": {
-    "fullness": 92,
-    "energy": 87,
+    "fullness": 90,
+    "energy": 86,
     "joy": 100,
-    "curiosity": 95,
+    "curiosity": 96,
     "calm": 95
   },
   "pip": {
     "needs": {
-      "fullness": 96,
+      "fullness": 94,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -201,5 +201,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T12:37:42.127Z"
+  "updated": "2026-11-24T13:01:41.340Z"
 }
