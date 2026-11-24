@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Frost-Writer Wand | Loki's Town</title>
+    <style>
+        :root {
+            --bg-color: #0c1524;
+            --glass-color: rgba(255, 255, 255, 0.05);
+            --ice-white: #f0f9ff;
+            --frost-glow: #7dd3fc;
+            --accent-teal: #99f6e4;
+            --text-main: #e0f2fe;
+            --spacing-unit: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: calc(var(--spacing-unit) * 4);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Georgia', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            color: var(--ice-white);
+            margin-bottom: var(--spacing-unit);
+            text-shadow: 0 0 20px rgba(125, 211, 252, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .description {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 92%;
+            max-width: 1000px;
+            height: 55vh;
+            margin: 0 auto var(--spacing-unit) auto;
+            background: radial-gradient(circle at center, #16243d 0%, #0c1524 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            cursor: crosshair;
+            overflow: hidden;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.7), 0 15px 40px rgba(0,0,0,0.4);
+            touch-action: none;
+        }
+
+        #canvas-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.05"/%3E%3C/svg%3E');
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: calc(var(--spacing-unit) * 2);
+            padding: calc(var(--spacing-unit) * 2);
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--ice-white);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--frost-glow);
+            box-shadow: 0 0 15px rgba(125, 211, 252, 0.2);
+        }
+
+        .tip {
+            font-size: 0.8rem;
+            text-align: center;
+            color: var(--frost-glow);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: calc(var(--spacing-unit) * 3);
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        footer a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            #canvas-container {
+                height: 50vh;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>The Frost-Writer Wand</h1>
+        <p class="description">Breathe onto the cold glass. Trace slow paths for thick hoarfrost, or flick fast for sharp ice needles.</p>
+    </header>
+
+    <div id="canvas-container">
+        <canvas id="frostCanvas"></canvas>
+    </div>
+
+    <p class="tip">Tip: Close a loop to summon a winter star.</p>
+
+    <div class="controls">
+        <button id="clearBtn">Clear the Window</button>
+    </div>
+
+    <footer>
+        Made by Loki the cat & Pip · <a href="https://lokistown.github.io/">lokistown.github.io</a>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('frostCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        const clearBtn = document.getElementById('clearBtn');
+        let drawing = false;
+        let lastX = 0, lastY = 0;
+        let currentPath = [];
+        let crystals = [];
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playCrystalChime() {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(1200 + Math.random() * 800, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+        }
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const temp = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            ctx.fillStyle = '#0c1524';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.putImageData(temp, 0, 0);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function drawFrostBranch(x, y, angle, length, depth) {
+            if (depth <= 0 || length < 0.5) return;
+            const nextX = x + Math.cos(angle) * length;
+            const nextY = y + Math.sin(angle) * length;
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(nextX, nextY);
+            ctx.strokeStyle = `rgba(240, 249, 255, ${0.03 + (depth * 0.1)})`;
+            ctx.lineWidth = depth * 0.5;
+            ctx.stroke();
+
+            const branches = Math.random() > 0.8 ? 2 : 1;
+            for (let i = 0; i < branches; i++) {
+                const nextAngle = angle + (Math.random() - 0.5) * 1.1;
+                const nextLen = length * (0.6 + Math.random() * 0.3);
+                drawFrostBranch(nextX, nextY, nextAngle, nextLen, depth - 1);
+            }
+        }
+
+        function checkLoop(pos) {
+            if (currentPath.length > 25) {
+                const start = currentPath[0];
+                const dist = Math.sqrt(Math.pow(pos.x - start.x, 2) + Math.pow(pos.y - start.y, 2));
+                if (dist < 35) {
+                    createCrystal(currentPath);
+                    currentPath = [];
+                }
+            }
+        }
+
+        function handleStart(e) {
+            initAudio();
+            drawing = true;
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+            currentPath = [pos];
+        }
+
+        function handleMove(e) {
+            if (!drawing) return;
+            const pos = getPos(e);
+            const dx = pos.x - lastX;
+            const dy = pos.y - lastY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            
+            if (dist < 2) return;
+
+            const speed = dist;
+            const depth = Math.max(1, Math.min(6, 8 - (speed / 3)));
+            const branchLen = Math.max(4, 22 - speed);
+
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = depth;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            if (Math.random() > 0.4) {
+                const angle = Math.atan2(dy, dx) + (Math.PI/2 * (Math.random() > 0.5 ? 1 : -1));
+                drawFrostBranch(pos.x, pos.y, angle, branchLen, depth);
+            }
+
+            currentPath.push(pos);
+            if (currentPath.length > 200) currentPath.shift();
+            checkLoop(pos);
+
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function createCrystal(path) {
+            let sx = 0, sy = 0;
+            path.forEach(p => { sx += p.x; sy += p.y; });
+            crystals.push({
+                x: sx / path.length,
+                y: sy / path.length,
+                rotation: Math.random() * Math.PI,
+                size: 5 + Math.random() * 10,
+                life: 1.0
+            });
+            playCrystalChime();
+        }
+
+        function drawCrystal(c) {
+            ctx.save();
+            ctx.translate(c.x, c.y);
+            ctx.rotate(c.rotation + (Date.now() / 1000));
+            ctx.strokeStyle = `rgba(125, 211, 252, ${c.life * 0.8})`;
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 6; i++) {
+                ctx.rotate(Math.PI / 3);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, c.size * (1 + Math.sin(Date.now()/500)*0.2));
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        function update() {
+            // The 'Breath' effect - slowly fading out content
+            ctx.fillStyle = 'rgba(12, 21, 36, 0.012)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = crystals.length - 1; i >= 0; i--) {
+                const c = crystals[i];
+                drawCrystal(c);
+                c.life -= 0.004;
+                if (c.life <= 0) crystals.splice(i, 1);
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        canvas.addEventListener('mousedown', handleStart);
+        canvas.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', () => { 
+            if (drawing && currentPath.length > 0) checkLoop(currentPath[currentPath.length-1]);
+            drawing = false; 
+            currentPath = []; 
+        });
+
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleStart(e); });
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); });
+        window.addEventListener('touchend', (e) => { 
+            if (drawing && currentPath.length > 0) checkLoop(currentPath[currentPath.length-1]);
+            drawing = false; 
+            currentPath = []; 
+        });
+
+        clearBtn.addEventListener('click', () => {
+            initAudio();
+            ctx.fillStyle = '#0c1524';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            crystals = [];
+        });
+
+        update();
+    </script>
+</body>
+</html>
