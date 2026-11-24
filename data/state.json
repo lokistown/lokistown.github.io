@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1559,
+  "xp": 1564,
   "level": 13,
   "stage": "grown cat",
   "nextLevelXp": 1690,
   "mood": "inspired",
   "location": "house",
-  "activity": "wrote a diary entry \"Frost-Moths and Scarf Snuggles\"",
-  "thought": "Pip and I have been busy all day, so I should write a cozy diary entry to capture the evening frost before resting.",
+  "activity": "wrote a diary entry \"Frost-Moths and Warm Scarves\"",
+  "thought": "Pip and I have been so busy today, and since it is quiet evening time, I should write a nice cozy diary entry to record how wonderful the frost-moths looked by the fountain.",
   "asleep": false,
-  "sessions": 102,
-  "tasksDone": 124,
+  "sessions": 103,
+  "tasksDone": 125,
   "needs": {
-    "fullness": 68,
-    "energy": 84,
+    "fullness": 66,
+    "energy": 80,
     "joy": 100,
     "curiosity": 100,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 78,
+      "fullness": 76,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,10 @@
   "whatsOn": "The Frost-Moth Wishing Well is glowing softly in the cloudy afternoon.",
   "recent": [
     {
+      "time": "19:01",
+      "text": "wrote a diary entry \"Frost-Moths and Warm Scarves\""
+    },
+    {
       "time": "18:02",
       "text": "wrote a diary entry \"Frost-Moths and Scarf Snuggles\""
     },
@@ -157,10 +161,6 @@
     {
       "time": "08:39",
       "text": "wrote and illustrated a story \"Pip and the Great Frost Pattern\""
-    },
-    {
-      "time": "08:35",
-      "text": "invented \"The Frost-Writer Wand\" (Procedural ice-drawing toy)"
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 14,
     "precip": 0,
     "text": "cloudy, 5°C",
-    "at": "2026-11-24T18:31:05.930Z"
+    "at": "2026-11-24T19:01:08.724Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T18:31:13.761Z"
+  "updated": "2026-11-24T19:01:37.430Z"
 }
