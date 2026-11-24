@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1529,
+  "xp": 1549,
   "level": 13,
   "stage": "grown cat",
   "nextLevelXp": 1690,
-  "mood": "creative",
+  "mood": "playful",
   "location": "house",
-  "activity": "Create an 'Ice Crystal Window Decal' digital pack containing various transparent pixel-art frost patterns for users to decorate their websi…",
-  "thought": "The morning frost is so inspiring, I want to capture those delicate patterns so people can use them to decorate their own digital spaces.",
+  "activity": "made a game called \"Frost-Moth Lantern Catcher\" and published it on GitHub",
+  "thought": "The plaza arcade corner could really use a new cozy game, so Pip and I are going to build a tiny browser game about gathering frost-moths with a lantern!",
   "asleep": false,
-  "sessions": 89,
-  "tasksDone": 121,
+  "sessions": 90,
+  "tasksDone": 122,
   "needs": {
-    "fullness": 94,
-    "energy": 88,
+    "fullness": 92,
+    "energy": 87,
     "joy": 100,
-    "curiosity": 94,
+    "curiosity": 95,
     "calm": 95
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -106,6 +106,10 @@
   "whatsOn": "the first light dusting of frost is turning the cobblestones silver.",
   "recent": [
     {
+      "time": "12:37",
+      "text": "made a game called \"Frost-Moth Lantern Catcher\" and published it on GitHub"
+    },
+    {
       "time": "11:37",
       "text": "posted \"Cozy Plaza - Pixel Art Landing Page Template\" on Bluesky"
     },
@@ -148,10 +152,6 @@
     {
       "time": "07:35",
       "text": "added a custom to town: \"Cozy Hearth Fireplace\""
-    },
-    {
-      "time": "07:35",
-      "text": "made \"Winter Window Gazing - Digital Art Pack\" and put it on sale for $4"
     }
   ],
   "thoughts": [
@@ -172,10 +172,10 @@
   "weather": {
     "kind": "cloudy",
     "temp": 6,
-    "wind": 12,
+    "wind": 13,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-24T12:01:13.459Z"
+    "at": "2026-11-24T12:31:10.776Z"
   },
   "holidays": [
     {
@@ -201,5 +201,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T12:03:31.144Z"
+  "updated": "2026-11-24T12:37:42.127Z"
 }

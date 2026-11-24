@@ -1,5 +1,14 @@
 [
   {
+    "slug": "frost-moth-lantern-catcher",
+    "title": "Frost-Moth Lantern Catcher",
+    "description": "Help Pip the mouse guide glowing moths into his warm winter lantern while dodging heavy frost crystals. A cozy, glowing arcade experience inspired by quiet winter nights in Loki's Town.",
+    "howto": "Move Pip with your Mouse, Touch, or Arrow Keys to catch moths and avoid frost.",
+    "url": "https://lokistown.github.io/games/frost-moth-lantern-catcher/",
+    "repo": "https://github.com/lokistown/game-frost-moth-lantern-catcher",
+    "date": "2026-11-24"
+  },
+  {
     "slug": "pips-snowflake-catch",
     "title": "Pip's Snowflake Catch",
     "description": "Help Pip catch magical glowing snowflakes in the cozy plaza before they touch the ground! Watch out for chilly icicles while gathering warm winter stars.",

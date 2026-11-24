@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Frost-Moth: Pip's Winter Quest</title>
+    <style>
+        :root {
+            --bg: #050a18;
+            --accent: #ffc300;
+            --frost: #90e0ef;
+            --text: #fdf0d5;
+            --ui-bg: rgba(5, 10, 24, 0.95);
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 700px;
+            background: linear-gradient(to bottom, #0a1128, #1c2541);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: var(--ui-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin: 0 0 0.5rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 0 rgba(0,0,0,0.3);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 280px;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 195, 0, 0.3);
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        .hidden { opacity: 0; pointer-events: none; }
+
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 25px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            pointer-events: none;
+            z-index: 5;
+            color: var(--accent);
+        }
+
+        .damage-flash {
+            position: absolute;
+            inset: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0.5; }
+            100% { opacity: 0; }
+        }
+
+        .shake { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="damage-layer" class="damage-flash"></div>
+        <div id="hud">
+            <span>GLOW: <span id="score">0</span></span>
+            <span>OIL: <span id="lives">3</span></span>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="start-screen" class="overlay">
+            <h1>Frost-Moth</h1>
+            <p>Pip needs your help! Guide the mouse to catch glowing moths for the lantern. Watch out for freezing ice!</p>
+            <button id="start-btn">START JOURNEY</button>
+        </div>
+
+        <div id="game-over" class="overlay hidden">
+            <h1>Flicker Out</h1>
+            <p>The night is cold, but the light you gathered will guide the town home.</p>
+            <p id="final-score-label" style="font-size: 3rem; color: var(--accent); margin: 0;">0</p>
+            <button id="restart-btn" style="margin-top: 20px;">TRY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const livesEl = document.getElementById('lives');
+        const container = document.getElementById('game-container');
+        const damageLayer = document.getElementById('damage-layer');
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over');
+
+        let gameActive = false, score = 0, lives = 3, frame = 0, difficulty = 1;
+        let pip = { x: 200, targetX: 200, y: 550, width: 40 };
+        let entities = [];
+
+        function initCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+
+        function startGame() {
+            score = 0; lives = 3; entities = []; frame = 0; difficulty = 1;
+            gameActive = true;
+            scoreEl.innerText = '0';
+            livesEl.innerText = '3';
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            requestAnimationFrame(update);
+        }
+
+        function triggerDamage() {
+            lives--;
+            livesEl.innerText = lives;
+            damageLayer.style.animation = 'none';
+            damageLayer.offsetHeight; // trigger reflow
+            damageLayer.style.animation = 'flash 0.3s ease-out';
+            container.classList.add('shake');
+            setTimeout(() => container.classList.remove('shake'), 300);
+            if (lives <= 0) endGame();
+        }
+
+        function spawn() {
+            difficulty = 1 + (score / 500);
+            if (frame % Math.max(15, Math.floor(40 / difficulty)) === 0) {
+                entities.push({ type: 'moth', x: 30 + Math.random() * 340, y: -20, speed: (2 + Math.random() * 2) * difficulty });
+            }
+            if (frame % Math.max(30, Math.floor(80 / difficulty)) === 0) {
+                entities.push({ type: 'frost', x: 30 + Math.random() * 340, y: -20, speed: (3 + Math.random() * 2) * difficulty });
+            }
+        }
+
+        function update() {
+            if (!gameActive) return;
+            frame++;
+            const w = canvas.width / (window.devicePixelRatio || 1);
+            const h = canvas.height / (window.devicePixelRatio || 1);
+            
+            ctx.clearRect(0, 0, w, h);
+            spawn();
+
+            // Smooth Pip movement
+            pip.x += (pip.targetX - pip.x) * 0.2;
+
+            // Stars/Snow background
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            for(let i=0; i<15; i++) {
+                let sx = (Math.sin(i * 1.5 + frame * 0.005) * w/2) + w/2;
+                let sy = (i * 50 + frame * 2) % h;
+                ctx.beginPath();
+                ctx.arc(sx, sy, 1, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            for (let i = entities.length - 1; i >= 0; i--) {
+                let en = entities[i];
+                en.y += en.speed;
+
+                if (en.type === 'moth') {
+                    en.x += Math.sin(frame * 0.05 + en.y * 0.05) * 2;
+                    const pulse = Math.sin(frame * 0.1) * 5;
+                    ctx.shadowBlur = 10 + pulse;
+                    ctx.shadowColor = '#ffc300';
+                    ctx.fillStyle = '#ffc300';
+                    ctx.beginPath();
+                    ctx.arc(en.x, en.y, 5, 0, Math.PI*2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    // Collision with lantern (above Pip)
+                    if (Math.hypot(en.x - pip.x, en.y - (pip.y - 45)) < 30) {
+                        entities.splice(i, 1);
+                        score += 10;
+                        scoreEl.innerText = score;
+                        continue;
+                    }
+                } else {
+                    ctx.fillStyle = '#90e0ef';
+                    ctx.beginPath();
+                    for(let j=0; j<6; j++) {
+                        let a = j * Math.PI / 3;
+                        let r = 10;
+                        ctx.lineTo(en.x + Math.cos(a)*r, en.y + Math.sin(a)*r);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Collision with Pip body
+                    if (Math.hypot(en.x - pip.x, en.y - pip.y) < 25) {
+                        entities.splice(i, 1);
+                        triggerDamage();
+                        continue;
+                    }
+                }
+                if (en.y > h + 20) entities.splice(i, 1);
+            }
+
+            // Draw Pip (Mouse)
+            ctx.save();
+            ctx.translate(pip.x, pip.y);
+            
+            // Body
+            ctx.fillStyle = '#8d99ae';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 18, 14, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // Ears
+            ctx.beginPath();
+            ctx.arc(-12, -12, 8, 0, Math.PI*2);
+            ctx.arc(12, -12, 8, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#ffb3c1';
+            ctx.beginPath();
+            ctx.arc(-12, -12, 4, 0, Math.PI*2);
+            ctx.arc(12, -12, 4, 0, Math.PI*2);
+            ctx.fill();
+
+            // Face
+            ctx.fillStyle = '#111';
+            ctx.beginPath();
+            ctx.arc(-6, -2, 2, 0, Math.PI*2);
+            ctx.arc(6, -2, 2, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#ffb3c1';
+            ctx.beginPath();
+            ctx.arc(0, 2, 2, 0, Math.PI*2);
+            ctx.fill();
+
+            // Scarf (Green like Loki's Town colors)
+            ctx.strokeStyle = '#20c997';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(-15, 8); ctx.lineTo(15, 8);
+            ctx.stroke();
+
+            // Lantern Stick
+            ctx.strokeStyle = '#5c4033';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, -5); ctx.lineTo(0, -40);
+            ctx.stroke();
+
+            // Lantern Glow
+            const glowSize = 10 + Math.sin(frame * 0.1) * 3;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#ffc300';
+            ctx.fillStyle = '#ffc300';
+            ctx.beginPath();
+            ctx.arc(0, -45, glowSize, 0, Math.PI*2);
+            ctx.fill();
+            
+            ctx.restore();
+
+            requestAnimationFrame(update);
+        }
+
+        function endGame() {
+            gameActive = false;
+            document.getElementById('final-score-label').innerText = score;
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        function handleInput(clientX) {
+            const rect = canvas.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const w = rect.width;
+            pip.targetX = Math.max(30, Math.min(370, (x / w) * 400));
+        }
+
+        window.addEventListener('mousemove', e => handleInput(e.clientX));
+        window.addEventListener('touchmove', e => {
+            handleInput(e.touches[0].clientX);
+            e.preventDefault();
+        }, { passive: false });
+
+        window.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') pip.targetX = Math.max(30, pip.targetX - 40);
+            if (e.key === 'ArrowRight') pip.targetX = Math.min(370, pip.targetX + 40);
+        });
+
+        document.getElementById('start-btn').onclick = startGame;
+        document.getElementById('restart-btn').onclick = startGame;
+    </script>
+</body>
+</html>

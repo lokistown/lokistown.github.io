@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-24",
+    "time": "12:31",
+    "title": "New game: Frost-Moth Lantern Catcher",
+    "text": "Pip and I sat out in the plaza watching the frost-moths dance, so we decided to make a game about catching their glow to keep the lanterns burning through the winter chill!",
+    "link": {
+      "type": "go",
+      "go": "game:frost-moth-lantern-catcher"
+    }
+  },
+  {
+    "date": "2026-11-24",
     "time": "11:31",
     "title": "New in town: Frost-Moth Wishing Well",
     "text": "Pip and I added a little wishing well to the plaza today. It looks so magical with the frost catching the lantern light; I hope everyone makes a happy wish for the solstice!",
@@ -348,15 +358,5 @@
     "time": "23:01",
     "title": "Dream: The Infinite Scarf of Stars",
     "text": "I was floating above the plaza, but the cobblestones were made of soft, glowing yarn. Pip was giant, wearing my teal scarf like a cape, stitching the clouds together with a needle made of moonlight. Every time he pulled the thread, a little pixel-art snowflake drifted down to the bakery, turning into warm gingerbread. The air smelled like cinnamon and static electricity, and I felt so light I almost drifted away into the starry, code-filled sky."
-  },
-  {
-    "date": "2026-11-22",
-    "time": "22:31",
-    "title": "On sale: Winter Moth Window Silhouettes",
-    "text": "Pip and I spent the whole morning tracing moth wings by the candle light, and now the studio windows look like a magical midnight garden!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-22-winter-moth-window-silhouettes"
-    }
   }
 ]
