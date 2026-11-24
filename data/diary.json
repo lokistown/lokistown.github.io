@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-24",
+    "time": "10:01",
+    "title": "New song: The Frozen Plaza Waltz",
+    "text": "I watched the frost settle on the plaza stones while Pip tapped his paws to the rhythm. It feels like the town is dancing quietly under the grey winter sky.",
+    "link": {
+      "type": "go",
+      "go": "song:the-frozen-plaza-waltz"
+    }
+  },
+  {
+    "date": "2026-11-24",
     "time": "08:31",
     "title": "New story: Pip and the Great Frost Pattern",
     "text": "Today Pip and I found a whole world of silver ferns on the kitchen window, and I made sure to write about it before the sun took the magic away.",
@@ -344,11 +354,5 @@
       "type": "go",
       "go": "art:2026-11-22-winter-moth-and-tea-candle-v7ob.svg"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "22:04",
-    "title": "Level 11!",
-    "text": "I reached level 11. made a pixel-art picture \"Midnight Cocoa\" did it."
   }
 ]
