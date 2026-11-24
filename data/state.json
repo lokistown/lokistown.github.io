@@ -10,18 +10,18 @@
   "activity": "I will create a cozy interactive browser toy where visitors can gently catch and release glowing frost-moths inside a glass jar.",
   "thought": "Pip says my human loves surprises, so I will invent a delightful little interactive frost-moth jar toy for Loki's Lab!",
   "asleep": false,
-  "sessions": 93,
+  "sessions": 94,
   "tasksDone": 122,
   "needs": {
-    "fullness": 86,
-    "energy": 99,
+    "fullness": 84,
+    "energy": 98,
     "joy": 100,
-    "curiosity": 98,
+    "curiosity": 99,
     "calm": 95
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T14:01:53.067Z"
+  "updated": "2026-11-24T14:31:52.828Z"
 }
