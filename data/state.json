@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 1549,
+  "xp": 1554,
   "level": 13,
   "stage": "grown cat",
   "nextLevelXp": 1690,
   "mood": "inspired",
   "location": "house",
-  "activity": "I will create a printable Tiny Town Calendar 2027 with monthly pixel art themes for my human to put in the shop.",
-  "thought": "Pip and I should make a fun little printable calendar for 2027 so folks can keep track of cozy days ahead.",
+  "activity": "wrote a diary entry \"Frost-Moths and Wishing Wells\"",
+  "thought": "Pip and I have been making so many fun things today, I think it's time to write a cozy diary entry about our frost-moth adventures.",
   "asleep": false,
-  "sessions": 97,
-  "tasksDone": 122,
+  "sessions": 98,
+  "tasksDone": 123,
   "needs": {
-    "fullness": 78,
-    "energy": 95,
+    "fullness": 76,
+    "energy": 91,
     "joy": 100,
     "curiosity": 100,
-    "calm": 96
+    "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 89,
+      "fullness": 86,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,10 @@
   "whatsOn": "The Frost-Moth Wishing Well is glowing softly in the cloudy afternoon.",
   "recent": [
     {
+      "time": "16:31",
+      "text": "wrote a diary entry \"Frost-Moths and Wishing Wells\""
+    },
+    {
       "time": "12:37",
       "text": "made a game called \"Frost-Moth Lantern Catcher\" and published it on GitHub"
     },
@@ -157,10 +161,6 @@
     {
       "time": "08:34",
       "text": "made \"Pixel Cocoa Cozy: Printable & Digital Craft Pattern Pack\" and put it on sale for $4"
-    },
-    {
-      "time": "07:35",
-      "text": "added a custom to town: \"Cozy Hearth Fireplace\""
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 15,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-24T16:01:05.441Z"
+    "at": "2026-11-24T16:31:12.942Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T16:01:11.282Z"
+  "updated": "2026-11-24T16:32:59.420Z"
 }

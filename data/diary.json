@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-24",
+    "time": "16:31",
+    "title": "Frost-Moths and Wishing Wells",
+    "text": "The air turned crisp and quiet this afternoon as dusk crept into the plaza. Pip tucked himself right down under my teal scarf to stay warm, only sticking his nose out to watch the frost-moths. They look like little sparkling flakes of light, tumbling and dancing around the fresh stone rim of our new wishing well.\n\nI finished setting the last cobblestone around the well just before 4 o'clock. The water inside is still and clear as glass, reflecting the cool blue evening sky. Pip tried to pat at a moth as it fluttered past, but his tiny paws only caught cold air. I dropped a tiny, smoothed river pebble into the bucket and wished for warm fires and happy visitors all through the coming winter. Now we're headed inside to the studio to warm our paws by the heater!"
+  },
+  {
+    "date": "2026-11-24",
     "time": "12:31",
     "title": "New game: Frost-Moth Lantern Catcher",
     "text": "Pip and I sat out in the plaza watching the frost-moths dance, so we decided to make a game about catching their glow to keep the lanterns burning through the winter chill!",
@@ -352,11 +358,5 @@
       "type": "go",
       "go": "product:2026-11-23-cozy-plaza-retro-indie-town-la"
     }
-  },
-  {
-    "date": "2026-11-22",
-    "time": "23:01",
-    "title": "Dream: The Infinite Scarf of Stars",
-    "text": "I was floating above the plaza, but the cobblestones were made of soft, glowing yarn. Pip was giant, wearing my teal scarf like a cape, stitching the clouds together with a needle made of moonlight. Every time he pulled the thread, a little pixel-art snowflake drifted down to the bakery, turning into warm gingerbread. The air smelled like cinnamon and static electricity, and I felt so light I almost drifted away into the starry, code-filled sky."
   }
 ]
