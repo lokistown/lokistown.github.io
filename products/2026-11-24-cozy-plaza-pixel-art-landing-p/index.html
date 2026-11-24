@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozy Plaza - Indie Website Template</title>
+  <style>
+    :root {
+      --bg-main: #fbf5ed;
+      --bg-card: #ffffff;
+      --bg-accent: #f2e9dc;
+      --text-primary: #2d2623;
+      --text-muted: #6e655f;
+      --terracotta: #d96b52;
+      --terracotta-dark: #b8523b;
+      --sage: #5b8a72;
+      --amber: #e5983b;
+      --border-color: #e6dacb;
+      --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --shadow-soft: 0 10px 30px rgba(45, 38, 35, 0.06);
+      --shadow-pixel: 4px 4px 0px #2d2623;
+      --radius-lg: 24px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout Container */
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header / Nav */
+    header {
+      padding: 24px 0;
+      border-bottom: 2px dashed var(--border-color);
+    }
+
+    .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--terracotta);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 2px 2px 0 var(--text-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--terracotta);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 2px solid var(--text-primary);
+    }
+
+    .btn-primary {
+      background-color: var(--terracotta);
+      color: #ffffff;
+      box-shadow: var(--shadow-pixel);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--terracotta-dark);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px var(--text-primary);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: var(--text-primary);
+      box-shadow: 2px 2px 0px var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-accent);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px var(--text-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 2px solid var(--text-primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      box-shadow: 2px 2px 0 var(--sage);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 3.2rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      background: var(--bg-card);
+      border: 3px solid var(--text-primary);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-pixel);
+      position: relative;
+    }
+
+    /* Interactive Widget */
+    .cat-widget {
+      text-align: center;
+      background: var(--bg-accent);
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 16px;
+    }
+
+    .cat-avatar {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .cat-avatar:hover {
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .purr-counter {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--terracotta);
+      margin-top: 8px;
+    }
+
+    /* Features */
+    .features {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 56px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 2px solid var(--text-primary);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      box-shadow: 4px 4px 0px var(--border-color);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-pixel);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--bg-accent);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      border: 2px solid var(--text-primary);
+    }
+
+    /* Showcase / Cards */
+    .showcase {
+      padding: 60px 0;
+      background: var(--bg-accent);
+      border-top: 2px solid var(--border-color);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .showcase-item {
+      background: white;
+      border: 2px solid var(--text-primary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .showcase-preview {
+      height: 160px;
+      background: #e0d7c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--text-primary);
+    }
+
+    .showcase-body {
+      padding: 20px;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 80px 0;
+    }
+
+    .testimonial-card {
+      background: white;
+      border: 2px solid var(--text-primary);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-pixel);
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .testimonial-quote {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--amber);
+      border: 2px solid var(--text-primary);
+    }
+
+    /* Pricing */
+    .pricing {
+      padding: 80px 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: white;
+      border: 3px solid var(--text-primary);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-pixel);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-card.featured {
+      background: #fffdf9;
+      border-color: var(--terracotta);
+    }
+
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      margin: 16px 0;
+    }
+
+    .price-features {
+      list-style: none;
+      margin: 24px 0;
+      flex-grow: 1;
+    }
+
+    .price-features li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px 0;
+      border-top: 2px dashed var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </div>
+        CozyPlaza
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#showcase">Town Showcase</a></li>
+        <li><a href="#pricing">Get Template</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div>
+      <div class="hero-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        Hand-crafted Pixel Template v2.0
+      </div>
+      <h1 class="hero-title">Build your cozy corner of the internet</h1>
+      <p class="hero-subtitle">A warm, lightweight HTML & CSS landing page template designed for indie makers, game devs, and digital artisans.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn btn-primary">Grab the Template</a>
+        <a href="#showcase" class="btn btn-secondary">Explore Demo</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <h3>Plaza Mascot</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Click Loki the cat to give him a gentle pet!</p>
+      <div class="cat-widget">
+        <svg id="pixel-cat" class="cat-avatar" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="8" width="16" height="16" fill="#D96B52"/>
+          <rect x="6" y="6" width="6" height="6" fill="#D96B52"/>
+          <rect x="20" y="6" width="6" height="6" fill="#D96B52"/>
+          <rect x="10" y="12" width="4" height="4" fill="#2D2623"/>
+          <rect x="18" y="12" width="4" height="4" fill="#2D2623"/>
+          <rect x="14" y="16" width="4" height="2" fill="#2D2623"/>
+          <rect x="10" y="20" width="12" height="4" fill="#FFFFFF"/>
+        </svg>
+        <div><strong>Loki the Tabby</strong></div>
+        <div class="purr-counter" id="purr-count">0 pets received today</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features container">
+    <div class="section-header">
+      <h2 class="section-title">Designed with warmth & care</h2>
+      <p>Everything you need to launch a website that feels like home.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+        </div>
+        <h3>Zero Dependencies</h3>
+        <p>Pure single-file HTML & CSS. No complex build tools or framework setup required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <h3>Mobile Perfect</h3>
+        <p>Fluid flexbox & grid layouts that respond naturally down to small mobile screens.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        </div>
+        <h3>Cozy Aesthetic</h3>
+        <p>Warm color palettes, pixel accents, soft shadow work, and delightful typography.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section -->
+  <section id="showcase" class="showcase">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Town Gallery Preview</h2>
+        <p>Show off your projects, art, or shop items in custom pixel frames.</p>
+      </div>
+      <div class="showcase-grid">
+        <div class="showcase-item">
+          <div class="showcase-preview">[ Pixel Artwork 1 ]</div>
+          <div class="showcase-body">
+            <h4>Art Gallery Wall</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Display cozy pixel paintings.</p>
+          </div>
+        </div>
+        <div class="showcase-item">
+          <div class="showcase-preview">[ Game Arcade ]</div>
+          <div class="showcase-body">
+            <h4>Mini Game Corner</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Share tiny playable web games.</p>
+          </div>
+        </div>
+        <div class="showcase-item">
+          <div class="showcase-preview">[ Shop Stall ]</div>
+          <div class="showcase-body">
+            <h4>Market Stall</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Sell printables and digital goods.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials container">
+    <div class="testimonial-card">
+      <p class="testimonial-quote">"This template made launching my indie game dev log so joyful! It feels like stepping into a warm town plaza whenever I open my browser."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div>
+          <strong>Pip the Mouse</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Town Explorer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="pricing container">
+    <div class="section-header">
+      <h2 class="section-title">Simple Pricing</h2>
+      <p>Pay once, build endless cozy websites.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Starter Plaza</h3>
+        <div class="price-amount">$5</div>
+        <p>Perfect for personal blogs and cozy portfolios.</p>
+        <ul class="price-features">
+          <li>✓ Single-file HTML template</li>
+          <li>✓ Responsive CSS grid</li>
+          <li>✓ Inline SVG icons</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="text-align: center; justify-content: center;">Get Starter</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Town Architect</h3>
+        <div class="price-amount">$12</div>
+        <p>For creators wanting full art assets and bonus widgets.</p>
+        <ul class="price-features">
+          <li>✓ Full HTML Landing Template</li>
+          <li>✓ Extra Pixel Art Badge Pack</li>
+          <li>✓ Interactive Javascript Widgets</li>
+          <li>✓ Lifetime free updates</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="text-align: center; justify-content: center;">Get Full Pack</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Built with 🐾 by Loki in Loki's Town • Pixel Art & Indie Web Design</p>
+    </div>
+  </footer>
+
+  <script>
+    // Interactive Cat Petting Easter Egg
+    let pets = 0;
+    const catSvg = document.getElementById('pixel-cat');
+    const purrCount = document.getElementById('purr-count');
+
+    catSvg.addEventListener('click', () => {
+      pets++;
+      purrCount.innerText = `${pets} pet${pets === 1 ? '' : 's'} received today! Purrr...`;
+      catSvg.style.transform = 'scale(1.2) rotate(5deg)';
+      setTimeout(() => {
+        catSvg.style.transform = '';
+      }, 150);
+    });
+  </script>
+</body>
+</html>
