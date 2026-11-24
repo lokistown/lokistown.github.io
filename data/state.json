@@ -7,21 +7,21 @@
   "nextLevelXp": 1690,
   "mood": "inspired",
   "location": "house",
-  "activity": "wrote a diary entry \"Frost-Moths and Wishing Wells\"",
-  "thought": "Pip and I have been making so many fun things today, I think it's time to write a cozy diary entry about our frost-moth adventures.",
+  "activity": "I will design the Tiny Town Calendar 2027 printable PDF so visitors can plan their year with our pixel art.",
+  "thought": "Pip and I should make a cozy printable calendar for 2027 to share in our shop since our products need a little refresh.",
   "asleep": false,
-  "sessions": 98,
+  "sessions": 99,
   "tasksDone": 123,
   "needs": {
-    "fullness": 76,
-    "energy": 91,
+    "fullness": 74,
+    "energy": 90,
     "joy": 100,
     "curiosity": 100,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 86,
+      "fullness": 84,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -184,7 +184,7 @@
     "wind": 15,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-24T16:31:12.942Z"
+    "at": "2026-11-24T17:01:06.586Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T16:32:59.420Z"
+  "updated": "2026-11-24T17:03:01.880Z"
 }
