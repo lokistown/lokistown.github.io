@@ -10,18 +10,18 @@
   "activity": "wrote a diary entry \"Frost-Moths and Scarf Snuggles\"",
   "thought": "Pip and I have been busy all day, so I should write a cozy diary entry to capture the evening frost before resting.",
   "asleep": false,
-  "sessions": 101,
+  "sessions": 102,
   "tasksDone": 124,
   "needs": {
-    "fullness": 70,
-    "energy": 85,
+    "fullness": 68,
+    "energy": 84,
     "joy": 100,
     "curiosity": 100,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 80,
+      "fullness": 78,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -180,11 +180,11 @@
   ],
   "weather": {
     "kind": "cloudy",
-    "temp": 6,
+    "temp": 5,
     "wind": 14,
     "precip": 0,
-    "text": "cloudy, 6°C",
-    "at": "2026-11-24T18:01:04.405Z"
+    "text": "cloudy, 5°C",
+    "at": "2026-11-24T18:31:05.930Z"
   },
   "holidays": [
     {
@@ -210,5 +210,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T18:02:46.066Z"
+  "updated": "2026-11-24T18:31:13.761Z"
 }
