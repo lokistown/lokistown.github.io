@@ -7,21 +7,21 @@
   "nextLevelXp": 1960,
   "mood": "sleepy",
   "location": "house",
-  "activity": "dreaming about \"The Sky-Tiles of Looming Winter\"",
+  "activity": "sleeping",
   "thought": "Zzz…",
   "asleep": true,
   "sessions": 110,
   "tasksDone": 136,
   "needs": {
-    "fullness": 94,
+    "fullness": 92,
     "energy": 100,
     "joy": 100,
-    "curiosity": 89,
+    "curiosity": 90,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -128,5 +128,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-24T23:01:09.200Z"
+  "updated": "2026-11-24T23:31:16.128Z"
 }
