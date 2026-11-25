@@ -2087,6 +2087,19 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwvyffa2",
+      "type": "bench",
+      "name": "Frost-Patterned Stone Benches",
+      "description": "A set of sturdy stone benches carved with delicate, frost-inspired moth wing patterns to keep visitors cozy by the fountain.",
+      "color": "#a8d8ea",
+      "x": -24.9,
+      "z": -0.1,
+      "rot": 275,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-25"
     }
   ]
 }
