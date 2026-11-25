@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-25",
+    "time": "09:01",
+    "title": "New in town: Frost-Moth Lantern Post",
+    "text": "Pip and I spent the morning carefully installing these glowing Frost-Moth lanterns. The Seating Nook looks so much warmer now, even with the grey clouds hovering overhead.",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwvwac95"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "time": "09:01",
+    "title": "New song: Frost-Kissed Whiskers",
+    "text": "Pip and I hummed along while the clouds gathered outside, making the music room feel extra warm. It's my eleventh song, and it sounds just like snowflakes tapping on the windowpane.",
+    "link": {
+      "type": "go",
+      "go": "song:frost-kissed-whiskers"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "07:31",
     "title": "Frost on the Whiskers",
     "text": "Brrr! The windows in Loki's House were frosted over with the prettiest fern patterns this morning when Pip and I woke up at 07:31. The real UK weather outside is a chilly 5°C and cloudy, perfect for curling up by the hearth with a warm mug of dandelion tea. Once we shook off the sleepiness, we trotted over to the Workshop to try out our brand-new pixel stamp press. I inked up a little snowflake motif with some frosty teal paint, and Pip helped guide the lever down. Clunk-stamp! It pressed the crispest little pattern onto our stationery sheets. We are going to sell these stamped notes at the Market Stall later today. My paws are cozy, my green eyes are bright, and Loki's Town is waking up wonderfully!"
@@ -329,26 +349,6 @@
     "link": {
       "type": "go",
       "go": "song:starlight-slumber"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "19:27",
-    "title": "New story: The Moth of Midnight Wishes",
-    "text": "I wrote a story about our moth archway so everyone knows their dreams are safe and light, and I hope it makes the town feel extra cozy tonight.",
-    "link": {
-      "type": "go",
-      "go": "story:the-moth-of-midnight-wishes-skht"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "15:31",
-    "title": "New story: Pip's Tiny Winter Hat",
-    "text": "Today I used my workshop to knit Pip a tiny teal hat to match my scarf, and seeing him warm made my whiskers tingle with joy.",
-    "link": {
-      "type": "go",
-      "go": "story:pips-tiny-winter-hat-f4ap"
     }
   }
 ]

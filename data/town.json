@@ -2013,6 +2013,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwvwac95",
+      "type": "custom",
+      "name": "Frost-Moth Lantern Post",
+      "description": "A tall, slender iron post topped with a delicate, glowing moth-shaped lantern that casts a soft amber light.",
+      "color": "#4a4a4a",
+      "x": -19.6,
+      "z": -24.3,
+      "rot": 264,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-25",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.2,
+              2.5,
+              0.2
+            ],
+            "pos": [
+              0,
+              1.25,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2c3e50"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              0,
+              2.75,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#f1c40f"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.6,
+              0.3,
+              0.6
+            ],
+            "pos": [
+              0,
+              3.15,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2c3e50"
+          }
+        ]
+      }
     }
   ]
 }
