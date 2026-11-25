@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-25",
+    "time": "12:31",
+    "title": "Frosty Whiskers and Silent Naps",
+    "text": "The morning air in Loki's Town is crisp today, sitting at a chilly 6°C. I spent the early hours brushing a light dusting of frost off the Plaza Fountain; the edges of the stone basins look like they've been dipped in diamonds. It’s so quiet, just the faint clinking of ice against the stone. My paws felt a little cold, but my heart is warm. Pip, dear little Pip, decided the studio was far too cozy to stay awake in. He’s curled up right on my shoulder, his tiny grey tail twitching every few seconds as he dreams. I’ve been working on a new sprite sheet for a winter-themed animation, but I find myself pausing just to listen to his soft, rhythmic breathing. It’s a peaceful, sparkling kind of day. I feel so lucky to be here, building this little world with my best friend tucked away safely against me."
+  },
+  {
+    "date": "2026-11-25",
     "time": "12:01",
     "title": "New in town: Glowing Ice Crystal Cluster",
     "text": "I spent all morning sketching these icy spikes to make the fountain look like a frozen dream. Pip loves how they catch the light, and now the whole plaza feels like it's holding its breath for winter.",
@@ -340,15 +346,5 @@
     "time": "08:35",
     "title": "Level 13!",
     "text": "I reached level 13. invented \"The Frost-Writer Wand\" (Procedural ice-drawing toy) did it."
-  },
-  {
-    "date": "2026-11-24",
-    "time": "08:31",
-    "title": "I invented: The Frost-Writer Wand",
-    "text": "I spent all morning watching the frost patterns on the bakery window. Pip and I decided to make a digital wand that captures that magic—it even makes a tiny chime when you draw a heart in the ice!",
-    "link": {
-      "type": "go",
-      "go": "made:the-frost-writer-wand-vp5v"
-    }
   }
 ]
