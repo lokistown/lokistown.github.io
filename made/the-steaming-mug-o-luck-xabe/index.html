@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>The Steaming Mug O' Luck</title>
+  <style>
+    @font-face {
+      font-family: 'LokiPixel';
+      src: local('Courier New'), local('Courier');
+    }
+    :root {
+      --bg: #fdf8f1;
+      --tea-liquid: #8d5524;
+      --tea-leaf: #3d2b1f;
+      --accent: #ff9248;
+      --text: #4a3728;
+      --card: #ffffff;
+      --pip: #94a3b8;
+      --spacing: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: calc(var(--spacing) * 3) var(--spacing);
+      max-width: 800px;
+    }
+
+    h1 {
+      font-weight: bold;
+      font-size: 2rem;
+      margin: 0;
+      color: var(--tea-liquid);
+      text-transform: uppercase;
+    }
+
+    .intro {
+      font-size: 1rem;
+      max-width: 400px;
+      margin: var(--spacing) auto;
+    }
+
+    .mug-container {
+      position: relative;
+      width: 256px;
+      height: 256px;
+      margin: 20px 0;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    #tea-canvas {
+      width: 100%;
+      height: 100%;
+      border: 8px solid #e2e8f0;
+      border-radius: 50%;
+      background: #fff;
+      image-rendering: pixelated;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+    }
+
+    .mug-handle {
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 80px;
+      border: 8px solid #e2e8f0;
+      border-radius: 0 30px 30px 0;
+      z-index: -1;
+    }
+
+    #fortune-display {
+      max-width: 360px;
+      width: 90%;
+      background: var(--card);
+      padding: 20px;
+      border: 4px solid var(--tea-liquid);
+      text-align: center;
+      display: none;
+      margin-bottom: 40px;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+    }
+
+    #fortune-display.visible {
+      display: block;
+    }
+
+    .fortune-shape {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(2px 2px 0px #000);
+    }
+
+    .fortune-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: var(--tea-liquid);
+      text-transform: uppercase;
+    }
+
+    .reset-btn {
+      background: var(--accent);
+      color: white;
+      border: 2px solid var(--text);
+      padding: 10px 20px;
+      font-family: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 4px 4px 0 var(--text);
+    }
+
+    .reset-btn:active {
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+
+    .pip-message {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--pip);
+      color: white;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      display: none;
+      border: 2px solid var(--text);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Steaming Mug</h1>
+    <p class="intro">Stir your tea with your finger or mouse to reveal the secret of the leaves!</p>
+  </header>
+
+  <div class="mug-container">
+    <div id="pip-alert" class="pip-message">Pip dropped a sugar cube! □</div>
+    <canvas id="tea-canvas"></canvas>
+    <div class="mug-handle"></div>
+  </div>
+
+  <div id="fortune-display">
+    <span id="fortune-emoji" class="fortune-shape">✨</span>
+    <h2 id="fortune-name" class="fortune-title">Reading...</h2>
+    <p id="fortune-text"></p>
+    <button class="reset-btn" onclick="resetMug()">REFILL CUP</button>
+  </div>
+
+  <footer>Built by Loki the Cat in Loki's Town</footer>
+
+  <script>
+    const canvas = document.getElementById('tea-canvas');
+    const ctx = canvas.getContext('2d');
+    const fortuneDisplay = document.getElementById('fortune-display');
+    const pipAlert = document.getElementById('pip-alert');
+
+    let width = 128, height = 128, centerX = 64, centerY = 64, radius = 54;
+    let particles = [];
+    let steams = [];
+    let teaLevel = 1.0;
+    let isFinished = false;
+    let isSpecial = false;
+    let lastX = null, lastY = null;
+    let stirPoints = 0;
+
+    const fortunes = [
+      { name: "The Tiny Fish", emoji: "🐟", text: "A lucky splash of news is swimming your way! Keep your eyes open for ripples." },
+      { name: "The Lone Star", emoji: "⭐", text: "You're glowing brighter than a firefly today. Shine on!" },
+      { name: "The Warm Heart", emoji: "❤️", text: "Someone is thinking of you with a very warm heart right now." },
+      { name: "The Soft Cloud", emoji: "☁️", text: "A quiet, cozy moment is coming. Don't rush past it." },
+      { name: "The Little Bird", emoji: "🐦", text: "A quick message from far away will make you smile very soon." },
+      { name: "The Golden Key", emoji: "🔑", text: "A small mystery that's been bothering you will finally make sense." },
+      { name: "The Acorn", emoji: "🌰", text: "A tiny idea you had today will grow into something big and sturdy." },
+      { name: "The Cat Paw", emoji: "🐾", text: "A friend wants to walk beside you for a while. Let them catch up!" },
+      { name: "The Tea Leaf", emoji: "🍃", text: "New growth is happening in your life, even if you can't see it yet." }
+    ];
+
+    function init() {
+      canvas.width = width;
+      canvas.height = height;
+      particles = [];
+      for (let i = 0; i < 40; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const d = Math.random() * radius * 0.8;
+        particles.push({
+          x: centerX + Math.cos(a) * d,
+          y: centerY + Math.sin(a) * d,
+          ox: centerX + Math.cos(a) * d,
+          oy: centerY + Math.sin(a) * d,
+          s: Math.random() > 0.5 ? 2 : 3,
+          vx: 0, vy: 0
+        });
+      }
+      steams = [];
+      for(let i=0; i<3; i++) {
+        steams.push({ x: centerX - 20 + i*20, y: centerY, life: Math.random() });
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, width, height);
+      
+      // Tea Liquid Circle
+      if (teaLevel > 0) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(141, 85, 36, ${teaLevel})`;
+        ctx.fill();
+
+        // Steam Pixels
+        ctx.fillStyle = `rgba(255, 255, 255, ${teaLevel * 0.5})`;
+        steams.forEach(s => {
+            s.life += 0.02;
+            if(s.life > 1) s.life = 0;
+            const shift = Math.sin(s.life * 5) * 4;
+            ctx.fillRect(s.x + shift, centerY - 10 - (s.life * 40), 4, 4);
+        });
+      }
+
+      // Draw Leaves (Particles)
+      ctx.fillStyle = isSpecial ? '#94a3b8' : '#3d2b1f';
+      particles.forEach(p => {
+        if (isFinished) {
+          p.x += (p.ox - p.x) * 0.1;
+          p.y += (p.oy - p.y) * 0.1;
+        } else {
+          p.x += p.vx; p.y += p.vy;
+          p.vx *= 0.9; p.vy *= 0.9;
+          const d = Math.hypot(p.x - centerX, p.y - centerY);
+          if (d > radius - 4) {
+            const a = Math.atan2(p.y - centerY, p.x - centerX);
+            p.x = centerX + Math.cos(a) * (radius - 4);
+            p.y = centerY + Math.sin(a) * (radius - 4);
+          }
+        }
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.s, p.s);
+      });
+    }
+
+    function handleMove(ex, ey) {
+      if (isFinished) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = (ex - rect.left) * (width / rect.width);
+      const y = (ey - rect.top) * (height / rect.height);
+
+      if (lastX !== null) {
+        const dx = x - lastX;
+        const dy = y - lastY;
+        const speed = Math.hypot(dx, dy);
+        
+        if (speed > 0.5) {
+          teaLevel -= speed * 0.002;
+          particles.forEach(p => {
+            if (Math.hypot(x - p.x, y - p.y) < 20) {
+              p.vx += dx * 0.2; p.vy += dy * 0.2;
+            }
+          });
+          if (Math.abs(x - centerX) < 10 && Math.abs(y - centerY) < 10) stirPoints++;
+          if (stirPoints > 100 && !isSpecial) {
+            isSpecial = true;
+            pipAlert.style.display = 'block';
+          }
+        }
+      }
+      lastX = x; lastY = y;
+      if (teaLevel <= 0) finish();
+    }
+
+    function finish() {
+      isFinished = true;
+      teaLevel = 0;
+      const f = isSpecial ? 
+        { name: "The Sugar Cube", emoji: "◽", text: "Pip dropped a sugar cube in! Your week will be extra sweet and full of small kindnesses." } : 
+        fortunes[Math.floor(Math.random() * fortunes.length)];
+
+      document.getElementById('fortune-emoji').innerText = f.emoji;
+      document.getElementById('fortune-name').innerText = f.name;
+      document.getElementById('fortune-text').innerText = f.text;
+      fortuneDisplay.classList.add('visible');
+    }
+
+    function resetMug() {
+      teaLevel = 1.0; isFinished = false; isSpecial = false; stirPoints = 0;
+      lastX = null; lastY = null;
+      pipAlert.style.display = 'none';
+      fortuneDisplay.classList.remove('visible');
+      init();
+    }
+
+    function loop() {
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    canvas.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY));
+    canvas.addEventListener('touchstart', e => {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        lastX = (touch.clientX - rect.left) * (width / rect.width);
+        lastY = (touch.clientY - rect.top) * (height / rect.height);
+    });
+    canvas.addEventListener('touchmove', e => {
+        e.preventDefault();
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, {passive: false});
+    
+    init();
+    loop();
+  </script>
+</body>
+</html>
