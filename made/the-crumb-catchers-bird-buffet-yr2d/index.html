@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Crumb-Catcher's Bird Buffet</title>
+  <style>
+    :root {
+      --cream: #FDF6E3;
+      --wood: #8D6E63;
+      --wood-dark: #5D4037;
+      --accent: #FF8C42;
+      --sky: #A9D6E5;
+      --leaf: #4A7C59;
+      --text: #2C3E50;
+      --shadow: rgba(0,0,0,0.1);
+      --sp-8: 8px; --sp-16: 16px; --sp-24: 24px; --sp-40: 40px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--cream);
+      color: var(--text);
+      display: flex; flex-direction: column; align-items: center;
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: var(--sp-24);
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 2.5rem;
+      color: var(--wood-dark);
+      margin-bottom: var(--sp-8);
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+      margin-bottom: var(--sp-40);
+      color: var(--wood);
+      max-width: 600px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    .window-container {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      background: linear-gradient(to bottom, var(--sky), #E1F5FE);
+      border: 12px solid var(--wood-dark);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px var(--shadow);
+      margin-bottom: var(--sp-24);
+    }
+
+    .cloud { position: absolute; background: white; border-radius: 50%; opacity: 0.8; animation: drift 20s linear infinite; }
+    @keyframes drift { from { left: -100px; } to { left: 100%; } }
+
+    .sill {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background-color: var(--wood);
+      border-top: 4px solid var(--wood-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .bird-space {
+      position: absolute;
+      bottom: 80px;
+      width: 100%;
+      height: 120px;
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(200px) scale(0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .bird-space.active {
+      transform: translateY(0) scale(1);
+    }
+
+    .controls {
+      background: white;
+      padding: var(--sp-24);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--sp-16);
+      margin-bottom: var(--sp-40);
+    }
+
+    .snack-btn {
+      background: #fdfdfd;
+      border: 2px solid #eee;
+      padding: var(--sp-16);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 700;
+      color: var(--text);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+
+    .snack-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .snack-btn.selected {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .action-btn {
+      grid-column: 1 / -1;
+      background: var(--wood-dark);
+      color: white;
+      border: none;
+      padding: var(--sp-16);
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      text-transform: uppercase;
+    }
+
+    .action-btn:hover { background: var(--accent); transform: scale(1.02); }
+    .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .field-guide {
+      text-align: left;
+      background: #fff;
+      padding: var(--sp-24);
+      border-radius: 16px;
+      border: 2px dashed var(--wood);
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--sp-16);
+      margin-top: var(--sp-16);
+    }
+
+    .bird-entry {
+      padding: 10px;
+      border-radius: 8px;
+      background: #f9f9f9;
+      font-size: 0.9rem;
+      opacity: 0.4;
+      filter: grayscale(1);
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .bird-entry.unlocked {
+      opacity: 1;
+      filter: grayscale(0);
+      border: 2px solid var(--accent);
+      background: white;
+    }
+
+    .stardust {
+      position: absolute;
+      pointer-events: none;
+      width: 6px; height: 6px;
+      background: gold;
+      border-radius: 50%;
+      box-shadow: 0 0 10px gold;
+      z-index: 100;
+      animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateY(-40px) rotate(180deg); }
+    }
+
+    #weather-tag {
+      position: absolute;
+      top: 15px; right: 15px;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(5px);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 20;
+    }
+
+    .footer { margin: var(--sp-40) 0; font-size: 0.8rem; opacity: 0.7; }
+    .footer a { color: var(--wood-dark); text-decoration: none; font-weight: bold; }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 1.8rem; }
+      .window-container { height: 280px; }
+      .controls { padding: 12px; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>The Crumb-Catcher</h1>
+    <p class="intro">Pip and I put out a wooden sill! Pick some snacks to scatter, then let's wait and see who flies by Loki's Town today.</p>
+  </header>
+
+  <div class="window-container" id="window">
+    <div id="weather-tag">Partly Cloudy • 6°C</div>
+    <div class="cloud" style="top: 15%; width: 60px; height: 30px; animation-duration: 25s;"></div>
+    <div class="cloud" style="top: 35%; width: 80px; height: 40px; animation-delay: -5s; animation-duration: 18s;"></div>
+    <div class="bird-space" id="bird-actor"></div>
+    <div class="sill" id="sill-area"></div>
+  </div>
+
+  <div class="controls">
+    <button class="snack-btn" id="btn-seeds" onclick="toggleSnack('seeds')">
+      <span style="font-size: 28px">🌻</span> Seeds
+    </button>
+    <button class="snack-btn" id="btn-berries" onclick="toggleSnack('berries')">
+      <span style="font-size: 28px">🍒</span> Berries
+    </button>
+    <button class="snack-btn" id="btn-cheese" onclick="toggleSnack('cheese')">
+      <span style="font-size: 28px">🧀</span> Cheese
+    </button>
+    <button class="action-btn" id="scatter-btn" onclick="scatter()">SCATTER CRUMBS!</button>
+  </div>
+
+  <div class="field-guide">
+    <h2 style="margin-top: 0; font-size: 1.2rem; color: var(--wood-dark);">Loki's Field Guide</h2>
+    <div class="guide-grid" id="guide-grid"></div>
+  </div>
+
+  <footer class="footer">
+    Made with a twitchy tail by Loki & Pip • <a href="https://lokistown.github.io/">lokistown.github.io</a>
+  </footer>
+</div>
+
+<script>
+  const birds = [
+    { id: 'sparrow', name: 'Plaza Sparrow', snacks: ['seeds'], icon: '🐦' },
+    { id: 'robin', name: 'Winter Robin', snacks: ['cheese'], icon: '🐥' },
+    { id: 'finch', name: 'Gem-Finch', snacks: ['berries'], icon: '🐦‍⬛' },
+    { id: 'owl', name: 'The Glow-Owl', snacks: ['seeds', 'berries', 'cheese'], icon: '🦉' }
+  ];
+
+  let selectedSnacks = [];
+  let discovered = JSON.parse(localStorage.getItem('loki-birds') || '[]');
+
+  function initGuide() {
+    const grid = document.getElementById('guide-grid');
+    grid.innerHTML = '';
+    birds.forEach(b => {
+      const isFound = discovered.includes(b.id);
+      grid.innerHTML += `
+        <div class="bird-entry ${isFound ? 'unlocked' : ''}">
+          <div style="font-size: 32px">${isFound ? b.icon : '❓'}</div>
+          <strong>${isFound ? b.name : 'Unknown Bird'}</strong><br>
+          <small>${isFound ? 'Loves ' + b.snacks.join(', ') : '???'}</small>
+        </div>
+      `;
+    });
+  }
+
+  function toggleSnack(type) {
+    const btn = document.getElementById('btn-' + type);
+    if (selectedSnacks.includes(type)) {
+      selectedSnacks = selectedSnacks.filter(s => s !== type);
+      btn.classList.remove('selected');
+    } else {
+      selectedSnacks.push(type);
+      btn.classList.add('selected');
+    }
+  }
+
+  function scatter() {
+    if (selectedSnacks.length === 0) return alert("Pip says we need at least one snack to attract birds!");
+
+    const btn = document.getElementById('scatter-btn');
+    const sill = document.getElementById('sill-area');
+    const actor = document.getElementById('bird-actor');
+    
+    btn.disabled = true;
+    actor.classList.remove('active');
+    sill.innerHTML = '';
+
+    selectedSnacks.forEach(s => {
+      const dot = document.createElement('span');
+      dot.innerText = s === 'seeds' ? '..' : (s === 'berries' ? '●' : '▪');
+      dot.style.margin = '0 10px';
+      dot.style.fontSize = '28px';
+      dot.style.color = 'white';
+      dot.style.textShadow = '0 2px 4px rgba(0,0,0,0.2)';
+      sill.appendChild(dot);
+    });
+
+    setTimeout(() => {
+      let foundBird = birds[0];
+      if (selectedSnacks.length === 3) foundBird = birds[3];
+      else if (selectedSnacks.includes('cheese')) foundBird = birds[1];
+      else if (selectedSnacks.includes('berries')) foundBird = birds[2];
+
+      displayBird(foundBird);
+      
+      if (!discovered.includes(foundBird.id)) {
+        discovered.push(foundBird.id);
+        localStorage.setItem('loki-birds', JSON.stringify(discovered));
+        initGuide();
+      }
+
+      // Clear selections for next turn
+      selectedSnacks = [];
+      document.querySelectorAll('.snack-btn').forEach(b => b.classList.remove('selected'));
+      btn.disabled = false;
+    }, 1200);
+  }
+
+  function displayBird(bird) {
+    const actor = document.getElementById('bird-actor');
+    actor.innerHTML = `<div style="font-size: 80px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3))">${bird.icon}</div>`;
+    actor.classList.add('active');
+
+    if (bird.id === 'owl') spawnStardust(25);
+  }
+
+  function spawnStardust(amt) {
+    const win = document.getElementById('window');
+    for (let i = 0; i < amt; i++) {
+      setTimeout(() => {
+        const dot = document.createElement('div');
+        dot.className = 'stardust';
+        dot.style.left = (Math.random() * 80 + 10) + '%';
+        dot.style.top = (Math.random() * 50 + 10) + '%';
+        win.appendChild(dot);
+        setTimeout(() => dot.remove(), 1000);
+      }, i * 40);
+    }
+  }
+
+  initGuide();
+</script>
+</body>
+</html>
