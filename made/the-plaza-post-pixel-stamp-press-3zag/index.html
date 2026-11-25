@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Plaza Post: Pixel Stamp Press</title>
+    <style>
+        :root {
+            --paper: #fdfaf5;
+            --ink-acorn: #5d4037;
+            --ink-spruce: #385a56;
+            --ink-cinnamon: #b55d21;
+            --ink-berry: #8d3a3a;
+            --accent: #edae49;
+            --text: #2d2d2d;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            /* System Font Stack */
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-fancy: "Georgia", serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f4eee8;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: var(--font-fancy);
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            color: var(--ink-acorn);
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #777;
+            font-style: italic;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+            background: white;
+            padding: clamp(16px, 4vw, 24px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 0;
+            background: #f0f0f0;
+            aspect-ratio: 1/1;
+            border: 6px solid var(--ink-acorn);
+            border-radius: 4px;
+            cursor: crosshair;
+            user-select: none;
+            touch-action: none;
+            image-rendering: pixelated;
+        }
+
+        .pixel {
+            background: white;
+            border: 0.1px solid rgba(0,0,0,0.05);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .color-swatch {
+            height: 44px;
+            border-radius: 8px;
+            border: 3px solid #eee;
+            cursor: pointer;
+            transition: transform 0.1s, border-color 0.2s;
+        }
+
+        .color-swatch.active {
+            border-color: var(--accent);
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .btn {
+            background: var(--ink-acorn);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: var(--radius);
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover { background: var(--ink-spruce); transform: translateY(-2px); }
+        .btn-secondary { background: #eee; color: var(--text); }
+
+        .preview-area {
+            margin-top: 30px;
+            background: var(--paper);
+            border: 2px dashed #d1c7bc;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            min-height: 250px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 20px;
+            background-image: radial-gradient(#d1c7bc 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+        }
+
+        .stamp-wrapper {
+            position: relative;
+            padding: 8px;
+            background: white;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.15));
+            display: inline-block;
+            animation: stampIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            /* Perforated edge effect using mask */
+            -webkit-mask-image: radial-gradient(circle, transparent 4px, black 4.5px);
+            -webkit-mask-size: 12px 12px;
+            -webkit-mask-position: -6px -6px;
+        }
+
+        .stamp-result {
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+            display: block;
+        }
+
+        @keyframes stampIn {
+            from { transform: scale(2.5) rotate(15deg); opacity: 0; }
+            to { transform: scale(1) rotate(var(--rot)); opacity: 1; }
+        }
+
+        #pip-mouse {
+            position: absolute;
+            bottom: -5px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .pip-note {
+            position: absolute;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            bottom: 50px;
+            right: 40px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 140px;
+            font-style: italic;
+            border: 1px solid #eee;
+            z-index: 101;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+            .container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>The Plaza Post</h1>
+        <p class="subtitle">Pixel Stamp Press &bull; Design your own mail artifacts</p>
+    </header>
+
+    <div class="editor-layout">
+        <div class="pixel-grid" id="pixel-grid"></div>
+        
+        <div class="controls">
+            <div>
+                <p style="margin-bottom: 10px; font-weight: bold; color: var(--ink-acorn); font-size: 0.9rem;">INK WELL</p>
+                <div class="palette" id="palette"></div>
+            </div>
+
+            <button class="btn" id="press-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3L7 3C5.89543 3 5 3.89543 5 5L5 19C5 20.1046 5.89543 21 7 21L17 21C18.1046 21 19 20.1046 19 19L19 5C19 3.89543 18.1046 3 17 3Z"/><path d="M12 7V17"/><path d="M8 12H16"/></svg>
+                PRESS STAMP
+            </button>
+
+            <button class="btn btn-secondary" id="clear-btn">WASH BLOCK</button>
+            
+            <div style="font-size: 0.8rem; color: #666; background: #faf7f2; padding: 12px; border-radius: var(--radius); border: 1px solid #eee; line-height: 1.4;">
+                <strong>Loki's Tip:</strong> Use the white 'Paper' ink to carve out highlights. Click and drag to draw!
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-area" id="preview-area">
+        <div class="pip-note" id="pip-note">"Squeak! This one's a masterpiece!"</div>
+        <svg id="pip-mouse" viewBox="0 0 20 20">
+            <circle cx="10" cy="12" r="6" fill="#999" />
+            <circle cx="6" cy="7" r="3" fill="#999" />
+            <circle cx="14" cy="7" r="3" fill="#999" />
+            <circle cx="10" cy="11" r="1" fill="#333" />
+            <circle cx="7" cy="10" r="1" fill="#fff" />
+            <circle cx="13" cy="10" r="1" fill="#fff" />
+            <path d="M8 15 Q 10 17 12 15" stroke="#333" fill="none" stroke-width="1" />
+        </svg>
+    </div>
+</div>
+
+<footer>
+    Made with purrs by Loki &bull; <a href="https://lokistown.github.io" style="color: var(--ink-acorn); text-decoration: none;">Visit Loki's Town</a>
+</footer>
+
+<script>
+    const grid = document.getElementById('pixel-grid');
+    const paletteContainer = document.getElementById('palette');
+    const pressBtn = document.getElementById('press-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const previewArea = document.getElementById('preview-area');
+    const pip = document.getElementById('pip-mouse');
+    const pipNote = document.getElementById('pip-note');
+
+    const colors = [
+        { name: 'Acorn', hex: '#5d4037' },
+        { name: 'Spruce', hex: '#385a56' },
+        { name: 'Cinnamon', hex: '#b55d21' },
+        { name: 'Berry', hex: '#8d3a3a' },
+        { name: 'Paper', hex: '#ffffff' },
+        { name: 'Midnight', hex: '#1a1a1a' }
+    ];
+
+    let activeColor = colors[0].hex;
+    let isDrawing = false;
+    let stampCount = 0;
+
+    // Create 16x16 Grid
+    for (let i = 0; i < 256; i++) {
+        const pixel = document.createElement('div');
+        pixel.className = 'pixel';
+        pixel.addEventListener('mousedown', (e) => { isDrawing = true; paint(pixel); });
+        pixel.addEventListener('mouseenter', () => { if (isDrawing) paint(pixel); });
+        grid.appendChild(pixel);
+    }
+
+    // Touch Support for Grid
+    grid.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDrawing = true;
+        handleTouch(e);
+    }, {passive: false});
+    
+    grid.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        handleTouch(e);
+    }, {passive: false});
+
+    function handleTouch(e) {
+        const touch = e.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (target && target.classList.contains('pixel')) {
+            paint(target);
+        }
+    }
+
+    window.addEventListener('mouseup', () => isDrawing = false);
+    window.addEventListener('touchend', () => isDrawing = false);
+
+    function paint(el) {
+        el.style.backgroundColor = activeColor;
+    }
+
+    // Palette Setup
+    colors.forEach(c => {
+        const swatch = document.createElement('div');
+        swatch.className = 'color-swatch' + (c.hex === activeColor ? ' active' : '');
+        swatch.style.backgroundColor = c.hex;
+        swatch.title = c.name;
+        swatch.addEventListener('click', () => {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+            activeColor = c.hex;
+        });
+        paletteContainer.appendChild(swatch);
+    });
+
+    clearBtn.addEventListener('click', () => {
+        document.querySelectorAll('.pixel').forEach(p => p.style.backgroundColor = 'white');
+    });
+
+    pressBtn.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 16;
+        canvas.height = 16;
+        const ctx = canvas.getContext('2d');
+        const pixels = document.querySelectorAll('.pixel');
+
+        pixels.forEach((p, i) => {
+            ctx.fillStyle = p.style.backgroundColor || '#ffffff';
+            ctx.fillRect(i % 16, Math.floor(i / 16), 1, 1);
+        });
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'stamp-wrapper';
+        const rot = (Math.random() * 8 - 4) + 'deg';
+        wrapper.style.setProperty('--rot', rot);
+
+        const img = new Image();
+        img.src = canvas.toDataURL();
+        img.className = 'stamp-result';
+        
+        wrapper.appendChild(img);
+        previewArea.appendChild(wrapper);
+        stampCount++;
+
+        if (stampCount % 3 === 0) {
+            triggerPip();
+        }
+    });
+
+    function triggerPip() {
+        pip.style.transform = 'translateY(-60px) rotate(-10deg)';
+        setTimeout(() => {
+            pipNote.style.opacity = '1';
+        }, 400);
+        setTimeout(() => {
+            pipNote.style.opacity = '0';
+            pip.style.transform = 'translateY(0)';
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>

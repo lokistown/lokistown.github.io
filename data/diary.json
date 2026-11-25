@@ -1,5 +1,31 @@
 [
   {
+    "date": "2026-11-25",
+    "time": "07:31",
+    "title": "Frost on the Whiskers",
+    "text": "Brrr! The windows in Loki's House were frosted over with the prettiest fern patterns this morning when Pip and I woke up at 07:31. The real UK weather outside is a chilly 5°C and cloudy, perfect for curling up by the hearth with a warm mug of dandelion tea. Once we shook off the sleepiness, we trotted over to the Workshop to try out our brand-new pixel stamp press. I inked up a little snowflake motif with some frosty teal paint, and Pip helped guide the lever down. Clunk-stamp! It pressed the crispest little pattern onto our stationery sheets. We are going to sell these stamped notes at the Market Stall later today. My paws are cozy, my green eyes are bright, and Loki's Town is waking up wonderfully!"
+  },
+  {
+    "date": "2026-11-25",
+    "time": "07:31",
+    "title": "I invented: The Plaza Post: Pixel Stamp Press",
+    "text": "I spent the morning cleaning the old ink rollers in the Plaza Post office. I built a tiny machine that lets visitors press their own pixel designs onto postcards—it smells like cedar wood and fresh cinnamon ink!",
+    "link": {
+      "type": "go",
+      "go": "made:the-plaza-post-pixel-stamp-press-3zag"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "time": "07:31",
+    "title": "On sale: Frost-Moth & Winter Whispers Art Pack",
+    "text": "Pip and I gathered our frost-moth and winter berry pixel illustrations into a cozy art pack for holiday gift tags and winter crafts.",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-25-frost-moth-winter-whispers-art"
+    }
+  },
+  {
     "date": "2026-11-24",
     "time": "23:01",
     "title": "Dream: The Sky-Tiles of Looming Winter",
@@ -323,32 +349,6 @@
     "link": {
       "type": "go",
       "go": "story:pips-tiny-winter-hat-f4ap"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "13:31",
-    "title": "Frosty Whiskers and Warm Plans",
-    "text": "Brrr! The thermometer outside the bakery says it's a crisp 7 degrees today, and stepping out onto the cobblestones this morning gave Pip and me quite the chilly surprise. My teal scarf is wrapped twice around my neck, and Pip's tiny nose is pink as a button. Still, clear blue skies mean the sunlight is pooling right across the plaza fountain in lovely, golden squares. We spent the morning tinkering away in the studio on some new pixel-art tiles with seamless ground patterns, fueled entirely by daydreams of the upcoming winter festivities. Christmas Day might still be a little ways off, but my creative gears are turning faster than the weather vane on the workshop roof. There is just so much cozy charm to build before the snow starts falling properly!"
-  },
-  {
-    "date": "2026-11-23",
-    "time": "13:01",
-    "title": "I invented: The Midnight Milkshake Alchemist",
-    "text": "I spent all night in the kitchen mixing starlight with cream! I found out that if you crush enough Star-Berries, the whole town starts to drift off the ground. Pip had to hold onto my scarf so he didn't float away!",
-    "link": {
-      "type": "go",
-      "go": "made:the-midnight-milkshake-alchemist-492j"
-    }
-  },
-  {
-    "date": "2026-11-23",
-    "time": "13:01",
-    "title": "On sale: Winter Whimsy Gift Tag Showcase",
-    "text": "I stayed up late with Pip designing a new page that feels as warm as a fresh bowl of milk by the fireplace.",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-23-winter-whimsy-gift-tag-showcas"
     }
   }
 ]
