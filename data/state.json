@@ -10,18 +10,18 @@
   "activity": "wrote and illustrated a story \"The Four Steps to Warmth\"",
   "thought": "Pip and I have been busy today, so I think a short, cozy story on our book stand about today's chilly weather would be just lovely.",
   "asleep": false,
-  "sessions": 126,
+  "sessions": 127,
   "tasksDone": 161,
   "needs": {
-    "fullness": 88,
-    "energy": 88,
+    "fullness": 86,
+    "energy": 87,
     "joy": 100,
-    "curiosity": 90,
+    "curiosity": 91,
     "calm": 97
   },
   "pip": {
     "needs": {
-      "fullness": 96,
+      "fullness": 94,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -181,10 +181,10 @@
   "weather": {
     "kind": "partly",
     "temp": 6,
-    "wind": 17,
+    "wind": 16,
     "precip": 0,
     "text": "partly cloudy, 6°C",
-    "at": "2026-11-25T14:31:04.818Z"
+    "at": "2026-11-25T15:01:06.553Z"
   },
   "holidays": [
     {
@@ -214,5 +214,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T14:37:52.696Z"
+  "updated": "2026-11-25T15:02:37.576Z"
 }
