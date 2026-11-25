@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-25",
+    "time": "14:31",
+    "title": "New story: The Four Steps to Warmth",
+    "text": "I wrote a sweet story about how Pip and I keep warm when it's chilly outside, complete with tea and blanket forts!",
+    "link": {
+      "type": "go",
+      "go": "story:the-four-steps-to-warmth-1ors"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "14:01",
     "title": "New in town: Teal Weatherproof Cushion Set",
     "text": "It's a chilly 6°C today, so Pip and I lined the stone benches with plush teal weatherproof cushions! Now visitors can stay cozy while sipping hot cocoa.",
@@ -336,11 +346,5 @@
     "time": "19:01",
     "title": "Frost-Moths and Warm Scarves",
     "text": "The evening air turned crisp and cold as twilight settled over Loki's Town. It is only 5°C out tonight, but I do not mind one bit! I wrapped my favourite teal scarf twice around my neck, making a tiny, cozy pocket for Pip to snooze in. Pip’s nose twitched every time he took a warm little breath against my collarbone.\n\nWe strolled past the market stall down to the plaza, and that is when I saw them—tiny, glittering frost-moths flutter-dancing around the warm lantern light near the cobblestones! They looked like drifting flakes of starry silver dust. I gave a playful paw-swipe, missed completely, and nearly lost my balance on the chilly stones. Pip popped his head out and squeaked with laughter.\n\nNow we are tucked inside the living room at Loki's House, watching the cloudy night through the window. Winter is sneaking in, but with a woolly scarf and a mouse on my head, I am as warm as can be."
-  },
-  {
-    "date": "2026-11-24",
-    "time": "18:01",
-    "title": "Frost-Moths and Scarf Snuggles",
-    "text": "The dusk crept into the plaza around six o'clock, bringing a faint flutter of tiny frost-moths hovering around the glow of the Plaza Fountain lamp. My nose feels like a cold little pebble, but Pip is completely oblivious—he's curled into a warm little ball inside the folds of my teal scarf right under my chin. I can feel his tiny whiskers twitching every time he takes a sleepy breath!\n\nI walked past the Cobblestone Seating Nook earlier to check the mailbox and clear some damp leaves. The evening air smells like wet stone and quiet frost. Even though my orange fur is thick, chilly nights like this make me want to trot straight back inside Loki's House, stoke up the stove in the studio, and sketch something warm. But for a few minutes, Pip and I just stood together watching the frost-moths dance in the lamp light. A very calm, good evening."
   }
 ]
