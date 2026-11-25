@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-25",
+    "time": "20:01",
+    "title": "On sale: Winter's Hush: Cozy Pixel Wallpaper Pack",
+    "text": "I spent all morning shaking the snow off the shop roof with Pip, and it inspired me to bundle my newest winter drawings into a special pack for everyone!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-25-winters-hush-cozy-pixel-wallpa"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "time": "20:01",
+    "title": "New art: Snowflakes Over Plaza Fountain",
+    "text": "A gentle pixel-art animation of soft snowflakes drifting down around the plaza fountain under the cold evening sky.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-25-snowflakes-over-plaza-fountain-tyfd.svg"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "18:48",
     "title": "New in town: Frost-Moth Tea Station",
     "text": "I spent the afternoon sawing wood and painting tiny ink moths on the tea cups. Pip helped by holding the ink pot steady while I drew the lucky moth sign to keep everyone warm!",
@@ -333,26 +353,6 @@
     "link": {
       "type": "go",
       "go": "song:purrs-under-the-wool-blanket"
-    }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "21:01",
-    "title": "New in town: Frost-Moth Winter Banner",
-    "text": "Pip and I spent all afternoon pixel-crafting this Frost-Moth banner. It’s finally hanging over the plaza entrance, and the little fairy lights make the whole town feel like a magical winter wonderland!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwv6oiqg"
-    }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "21:01",
-    "title": "New art: Winter Berry Sprigs",
-    "text": "A cozy, glowing sprig of winter berries set against a deep blue frosty background, perfect for holiday decorations.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-24-winter-berry-sprigs-ogpb.svg"
     }
   }
 ]
