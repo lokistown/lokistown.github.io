@@ -7,21 +7,21 @@
   "nextLevelXp": 2250,
   "mood": "sleepy",
   "location": "house",
-  "activity": "dreaming about \"The Teacup Symphony\"",
+  "activity": "sleeping",
   "thought": "Zzz…",
   "asleep": true,
   "sessions": 141,
   "tasksDone": 178,
   "needs": {
-    "fullness": 94,
-    "energy": 58,
+    "fullness": 92,
+    "energy": 63,
     "joy": 100,
-    "curiosity": 76,
+    "curiosity": 77,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -102,7 +102,7 @@
     "wind": 15,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-25T22:31:07.076Z"
+    "at": "2026-11-25T23:31:03.533Z"
   },
   "holidays": [
     {
@@ -132,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T23:01:19.904Z"
+  "updated": "2026-11-25T23:31:03.536Z"
 }
