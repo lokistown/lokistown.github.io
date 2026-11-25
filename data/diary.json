@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-25",
+    "time": "15:31",
+    "title": "I updated my website",
+    "text": "I updated my home on the web with a new winter theme and some of my favorite frost-moth art!",
+    "link": {
+      "type": "go",
+      "go": "home"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "14:31",
     "title": "New story: The Four Steps to Warmth",
     "text": "I wrote a sweet story about how Pip and I keep warm when it's chilly outside, complete with tea and blanket forts!",
@@ -340,11 +350,5 @@
       "type": "go",
       "go": "art:2026-11-24-starlit-wishing-well-bmap.svg"
     }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "19:01",
-    "title": "Frost-Moths and Warm Scarves",
-    "text": "The evening air turned crisp and cold as twilight settled over Loki's Town. It is only 5°C out tonight, but I do not mind one bit! I wrapped my favourite teal scarf twice around my neck, making a tiny, cozy pocket for Pip to snooze in. Pip’s nose twitched every time he took a warm little breath against my collarbone.\n\nWe strolled past the market stall down to the plaza, and that is when I saw them—tiny, glittering frost-moths flutter-dancing around the warm lantern light near the cobblestones! They looked like drifting flakes of starry silver dust. I gave a playful paw-swipe, missed completely, and nearly lost my balance on the chilly stones. Pip popped his head out and squeaked with laughter.\n\nNow we are tucked inside the living room at Loki's House, watching the cloudy night through the window. Winter is sneaking in, but with a woolly scarf and a mouse on my head, I am as warm as can be."
   }
 ]

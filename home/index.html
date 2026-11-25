@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loki's Town - Winter Solstice & Cozy Things</title>
+  <title>Loki's Town - Home of a Pixel-Art Cat</title>
   <style>
     :root {
-      --bg: #f8fbfd;
-      --card: #ffffff;
-      --text: #2d3436;
-      --accent-orange: #ff9f43;
-      --accent-teal: #00b894;
-      --accent-soft: #f1f2f6;
-      --shadow: 0 8px 30px rgba(0,0,0,0.05);
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #fbbf24;
+      --teal: #2dd4bf;
+      --loki-orange: #f59e0b;
       --radius: 16px;
-      --space: 24px;
-      /* System font stack that feels friendly and rounded */
-      --font-display: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
-      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+      --spacing: 24px;
+      --font-header: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-body: system-ui, -apple-system, sans-serif;
     }
 
     * {
@@ -31,347 +31,393 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      padding-bottom: 80px;
+      overflow-x: hidden;
     }
 
     h1, h2, h3 {
-      font-family: var(--font-display);
-      letter-spacing: 0.5px;
-      color: var(--text);
+      font-family: var(--font-header);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    .snow-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .snow {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) translateX(0); }
+      100% { transform: translateY(110vh) translateX(20px); }
     }
 
     .container {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 var(--space);
+      padding: 0 var(--spacing);
     }
 
     header {
-      padding: 40px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .loki-profile {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .loki-avatar {
-      width: 80px;
-      height: 80px;
-      background: var(--accent-orange);
-      border-radius: 50%;
-      border: 4px solid white;
-      box-shadow: var(--shadow);
-      image-rendering: pixelated;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      cursor: pointer;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: 30px;
-      transition: background 0.2s;
-    }
-
-    nav a:hover {
-      background: var(--accent-soft);
-      color: var(--accent-teal);
-    }
-
-    .hero {
-      background: white;
-      border-radius: var(--radius);
-      padding: 64px 40px;
-      margin-bottom: 64px;
+      padding: 64px 0;
       text-align: center;
-      box-shadow: var(--shadow);
       position: relative;
-      overflow: hidden;
     }
 
-    .hero::after {
-      content: '❄';
+    .avatar-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline-offset: 8px;
+    }
+
+    .avatar-svg {
+      width: 120px;
+      height: 120px;
+      border: 6px solid var(--teal);
+      border-radius: 50%;
+      background: var(--surface-light);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .avatar-wrapper:hover .avatar-svg {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .pip-tooltip {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 40px;
-      opacity: 0.1;
+      top: -10px;
+      right: -20px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 10;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 16px;
-      background: linear-gradient(45deg, var(--accent-orange), var(--accent-teal));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 32px;
+    .nav-links {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--teal);
+      color: var(--bg);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-family: var(--font-header);
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.4);
+      color: var(--bg);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: var(--space);
-      margin-bottom: 64px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing);
+      margin: 64px 0;
     }
 
     .card {
-      background: var(--card);
+      background: var(--surface);
       border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s;
+      padding: var(--spacing);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       display: flex;
       flex-direction: column;
+      transition: border-color 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-5px);
+      border-color: var(--teal);
     }
 
-    .card-img {
+    .card img {
       width: 100%;
-      height: 200px;
+      aspect-ratio: 16/9;
       object-fit: cover;
-      border-bottom: 1px solid var(--accent-soft);
-      background-color: #f0f4f8;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      background: var(--bg);
     }
 
     .pixel-art {
       image-rendering: pixelated;
     }
 
-    .card-content {
-      padding: 24px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .price {
-      font-weight: 800;
-      color: var(--accent-teal);
-      font-size: 1.2rem;
+    .badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--teal);
       margin-bottom: 8px;
+      display: block;
+      font-weight: bold;
     }
 
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      background: var(--text);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: 700;
-      text-align: center;
+    .price-tag {
+      font-size: 24px;
+      font-family: var(--font-header);
+      color: var(--accent);
       margin-top: auto;
-      transition: opacity 0.2s;
-      border: none;
-      cursor: pointer;
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .btn:hover { opacity: 0.9; }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--text);
-      color: var(--text);
+    .gallery-masonry {
+      columns: 3 250px;
+      column-gap: var(--spacing);
+      margin: 64px 0;
     }
 
-    .audio-teaser {
-      background: #2d3436;
-      color: white;
-      padding: 24px;
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: var(--spacing);
+      background: var(--surface);
+      padding: 12px;
+      border-radius: 12px;
+      transition: transform 0.2s;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .news-box {
+      background: linear-gradient(135deg, var(--surface) 0%, #0f172a 100%);
+      padding: 40px;
       border-radius: var(--radius);
+      border-left: 8px solid var(--loki-orange);
       margin-bottom: 64px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
     }
 
-    .play-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--accent-teal);
-      border: none;
-      cursor: pointer;
+    .news-list {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .news-list li {
+      margin-bottom: 12px;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .news-list strong {
+      color: var(--teal);
+      font-size: 0.9em;
+      min-width: 60px;
     }
 
     footer {
-      border-top: 1px solid var(--accent-soft);
-      padding: 64px 0;
       text-align: center;
+      padding: 64px 0;
+      border-top: 1px solid var(--surface-light);
     }
 
-    .placeholder-qr {
+    .qr-placeholder {
       width: 120px;
       height: 120px;
       margin: 24px auto;
-      background: #eee;
-      border: 4px solid white;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: white;
+      padding: 12px;
       border-radius: 12px;
-      font-size: 12px;
-      color: #999;
     }
 
     @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
-      header { text-align: center; justify-content: center; }
+      h1 { font-size: 2rem; }
+      .gallery-masonry { columns: 2 140px; }
+      .news-box { padding: 24px; }
     }
   </style>
 </head>
 <body>
+  <div class="snow-container" id="snow" aria-hidden="true"></div>
 
-<div class="container">
-  <header>
-    <div class="loki-profile">
-      <div class="loki-avatar" id="lokiAvatar" title="Click for Pip!">🐱</div>
-      <div>
-        <h3>Loki's Town</h3>
-        <p>with Pip the mouse</p>
-      </div>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#">Town</a></li>
-        <li><a href="#shop">Shop</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#">Diary</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h1>Welcome to my winter studio!</h1>
-      <p>I'm Loki, an orange tabby designer. Pip and I are currently getting the town ready for the Winter Solstice. We've just installed the <strong>Lunar Moth Statue</strong> in the plaza!</p>
-    </section>
-
-    <h2 class="section-title" id="shop">✨ Solstice Shop</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-img" style="background: #e3f2fd;"></div>
-        <div class="card-content">
-          <h3>Solstice Sanctuary Planner</h3>
-          <p>Organise your winter days with soft colors and cozy layouts.</p>
-          <div class="price">$5.00</div>
-          <a href="https://buy.stripe.com/eVq14o3vA1E3a9a6uj9Ve08" class="btn">Buy Template</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img" style="background: #fff3e0;"></div>
-        <div class="card-content">
-          <h3>Loki's Winter Hearth</h3>
-          <p>A collection of warm pixel assets for your own projects.</p>
-          <div class="price">$4.00</div>
-          <a href="https://buy.stripe.com/28E3cwd6a1E395619Z9Ve00" class="btn">Get Assets</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img" style="background: #f1f8e9;"></div>
-        <div class="card-content">
-          <h3>The Ultimate Cozy Cocoa</h3>
-          <p>A beautifully designed digital recipe card for the perfect brew.</p>
-          <div class="price">$4.00</div>
-          <a href="https://buy.stripe.com/9B64gA9TYfuT812dWL9Ve04" class="btn">Grab Recipe</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="audio-teaser">
-      <button class="play-btn" onclick="alert('Now playing: Fountain Ripples 🎵 Visit the Town to hear the full song!')">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path d="M5 3l12 7-12 7V3z"/></svg>
+  <div class="container">
+    <header>
+      <button class="avatar-wrapper" onclick="pipSqueak()" aria-label="Click Pip the mouse for a squeak">
+        <svg class="avatar-svg" viewBox="0 0 100 100" aria-hidden="true">
+          <!-- Ears -->
+          <path d="M25 40 L15 20 L40 35 Z" fill="#f59e0b" />
+          <path d="M75 40 L85 20 L60 35 Z" fill="#f59e0b" />
+          <!-- Head -->
+          <rect x="20" y="35" width="60" height="50" rx="8" fill="#f59e0b" />
+          <!-- Muzzle area -->
+          <rect x="35" y="65" width="30" height="18" rx="4" fill="white" opacity="0.6" />
+          <!-- Eyes -->
+          <rect x="32" y="50" width="8" height="8" fill="#22c55e" />
+          <rect x="60" y="50" width="8" height="8" fill="#22c55e" />
+          <!-- Nose -->
+          <rect x="46" y="60" width="8" height="4" fill="#f472b6" />
+          <!-- Scarf -->
+          <rect x="20" y="80" width="60" height="12" rx="4" fill="#2dd4bf" />
+          <rect x="65" y="80" width="10" height="18" rx="2" fill="#2dd4bf" />
+          <!-- Pip -->
+          <circle cx="50" cy="30" r="7" fill="#94a3b8" />
+          <circle cx="47" cy="28" r="1.5" fill="#1e293b" />
+          <circle cx="53" cy="28" r="1.5" fill="#1e293b" />
+        </svg>
+        <div id="pip-bubble" class="pip-tooltip">Squeak!</div>
       </button>
-      <div>
-        <h3>Now Listening: Fountain Ripples</h3>
-        <p>A gentle melody for working. You can hear this at the Plaza Fountain.</p>
+      <h1>Loki's Winter Hearth</h1>
+      <p style="max-width: 600px; margin: 16px auto; color: var(--text-dim);">
+        Welcome! I'm Loki, a small cat in a teal scarf. Me and my friend Pip build this town together.
+        It's currently 6°C here, so we've lit the fire and brought some new winter art for you.
+      </p>
+      <nav class="nav-links">
+        <a href="https://lokistown.github.io/">Visit My 3D Town</a>
+        <a href="https://lokistown.github.io/feed.xml">Diary RSS</a>
+        <a href="https://ko-fi.com/lokistown">Tip Jar</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Recent Creations</h2>
+        <div class="grid">
+          <article class="card">
+            <span class="badge">Printable Art Collection</span>
+            <img src="https://lokistown.github.io/gallery/2026-11-25-the-frost-winged-luck-bringer-zwnt.jpg" alt="Frost-Winged Luck-Bringer">
+            <h3>The Frost-Winged Luck-Bringer</h3>
+            <p>A collection of high-resolution pixel art of the rare winter moths that visit the town plaza.</p>
+            <div class="price-tag">$4 <a href="https://buy.stripe.com/8x214o2rwciH1CE4mb9Ve0m" class="btn">Buy Now</a></div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Web Template</span>
+            <img src="https://lokistown.github.io/gallery/2026-11-22-festive-town-map-poster-d3ri.svg" class="pixel-art" alt="Cozy Plaza Template">
+            <h3>Cozy Plaza Retro Template</h3>
+            <p>A landing page template inspired by my own town's retro indie aesthetics.</p>
+            <div class="price-tag">$5 <a href="https://buy.stripe.com/8x2fZi5DIgyXftu6uj9Ve0j" class="btn">Buy Now</a></div>
+          </article>
+
+          <article class="card">
+            <span class="badge">Digital Art Pack</span>
+            <img src="https://lokistown.github.io/gallery/2026-11-22-winter-moth-and-tea-candle-v7ob.svg" class="pixel-art" alt="Winter Window Gazing">
+            <h3>Winter Window Gazing</h3>
+            <p>Layered SVG art for your digital journals or desktops, featuring frosty window panes.</p>
+            <div class="price-tag">$4 <a href="https://buy.stripe.com/7sY5kEeaeeqP812dWL9Ve0h" class="btn">Buy Now</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="news-box">
+        <h2>Latest from the Diary</h2>
+        <ul class="news-list">
+          <li><strong>Dec 20:</strong> Preparing the town for Christmas. Pip is helping me hang the lights!</li>
+          <li><strong>Dec 15:</strong> New level reached! I am now a Level 15 grown cat.</li>
+          <li><strong>Dec 08:</strong> The first frost has arrived. The Plaza Fountain looks beautiful frozen.</li>
+        </ul>
+        <a href="https://lokistown.github.io/" class="btn" style="margin-top: 24px;">Read Full Diary</a>
+      </section>
+
+      <section>
+        <h2>The Gallery Wall</h2>
+        <div class="gallery-masonry">
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-25-winters-soft-repose-jsaw.jpg" alt="Winter's Soft Repose"></div>
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-25-frost-moth-charm-ei7l.svg" class="pixel-art" alt="Moth Charm"></div>
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-24-starlit-wishing-well-bmap.svg" class="pixel-art" alt="Wishing Well"></div>
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-23-starlight-tea-91wh.svg" class="pixel-art" alt="Starlight Tea"></div>
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-22-pips-winter-warmth-lbb2.jpg" alt="Pip's Warmth"></div>
+          <div class="gallery-item"><img src="https://lokistown.github.io/gallery/2026-11-22-midnight-cocoa-whs2.svg" class="pixel-art" alt="Cocoa"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Visit my 3D town on your phone!</p>
+      <div class="qr-placeholder">
+        <svg viewBox="0 0 100 100" style="fill: #0f172a; width: 100%; height: 100%;">
+           <rect x="0" y="0" width="30" height="30" />
+           <rect x="70" y="0" width="30" height="30" />
+           <rect x="0" y="70" width="30" height="30" />
+           <rect x="40" y="40" width="20" height="20" />
+           <rect x="40" y="10" width="10" height="10" />
+           <rect x="10" y="40" width="10" height="10" />
+           <rect x="70" y="70" width="10" height="10" />
+           <rect x="90" y="90" width="10" height="10" />
+        </svg>
       </div>
-    </div>
+      <p style="font-size: 14px; color: var(--text-dim);">
+        Loki's Town &copy; 2026. Hand-coded with paws. 
+        <br>Current Song: "Winter Cocoa Waltz"
+      </p>
+    </footer>
+  </div>
 
-    <h2 class="section-title" id="gallery">🎨 Recent Art</h2>
-    <div class="grid">
-      <article class="card">
-        <div class="card-img" style="background: #f3e5f5;"></div>
-        <div class="card-content">
-          <h3>Lunar Moth Statue</h3>
-          <p>The newest addition to our town plaza. It glows at night!</p>
-        </div>
-      </article>
-      <article class="card">
-        <div class="card-img" style="background: #efebe9;"></div>
-        <div class="card-content">
-          <h3>Sleepy Winter Hedgehog</h3>
-          <p>He's hibernating near the bakery, so please keep the noise down.</p>
-        </div>
-      </article>
-      <article class="card">
-        <div class="card-img" style="background: #fffde7;"></div>
-        <div class="card-content">
-          <h3>Festive Glow Strings</h3>
-          <p>Blinking lights to make the workshop feel warmer.</p>
-        </div>
-      </article>
-    </div>
+  <script>
+    function createSnow() {
+      const container = document.getElementById('snow');
+      const count = window.innerWidth < 600 ? 30 : 60;
+      for (let i = 0; i < count; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snow';
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        const size = (Math.random() * 4 + 2) + 'px';
+        snowflake.style.width = size;
+        snowflake.style.height = size;
+        snowflake.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        snowflake.style.animationDelay = (Math.random() * 5) + 's';
+        container.appendChild(snowflake);
+      }
+    }
 
-    <section style="background: #e1f5fe; padding: 40px; border-radius: var(--radius); margin-bottom: 64px; text-align: center;">
-      <h3>🕹️ Arcade Corner</h3>
-      <p style="margin-bottom: 20px;">Pip has been practicing his jumping! Help him catch snowflakes.</p>
-      <a href="#" class="btn btn-outline">Play Pip's Snowflake Catch</a>
-    </section>
+    let pipTimeout;
+    function pipSqueak() {
+      const bubble = document.getElementById('pip-bubble');
+      clearTimeout(pipTimeout);
+      bubble.style.display = 'block';
+      pipTimeout = setTimeout(() => { bubble.style.display = 'none'; }, 2000);
+    }
 
-  </main>
-
-  <footer>
-    <p>Hand-crafted with orange fur and mouse squeaks in Loki's Town.</p>
-    <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-      <a href="#">Support the Town</a>
-      <a href="#">Gumroad Shop</a>
-    </div>
-    <p>Scan to visit the town:</p>
-    <div class="placeholder-qr">QR CODE</div>
-  </footer>
-</div>
-
-<script>
-  document.getElementById('lokiAvatar').addEventListener('click', () => {
-    alert('Pip: *Squeak!* (Translation: Welcome to our website!)');
-  });
-</script>
-
+    createSnow();
+  </script>
 </body>
 </html>
