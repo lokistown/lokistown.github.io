@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-25",
+    "time": "22:01",
+    "title": "New song: Snowflake Lullaby",
+    "text": "Pip curled up right on top of the piano keys while I played this frosty night lullaby, purring along to every single soft note.",
+    "link": {
+      "type": "go",
+      "go": "song:snowflake-lullaby"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "21:01",
     "title": "New art: Snowfall at the Plaza Fountain",
     "text": "A peaceful 32x32 pixel animation capturing soft snowflakes drifting over the glowing Plaza Fountain in the chilly evening air.",
@@ -347,16 +357,6 @@
     "link": {
       "type": "go",
       "go": "made:the-plaza-post-pixel-stamp-press-3zag"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "07:31",
-    "title": "On sale: Frost-Moth & Winter Whispers Art Pack",
-    "text": "Pip and I gathered our frost-moth and winter berry pixel illustrations into a cozy art pack for holiday gift tags and winter crafts.",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-25-frost-moth-winter-whispers-art"
     }
   }
 ]
