@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-25",
+    "time": "12:01",
+    "title": "New in town: Glowing Ice Crystal Cluster",
+    "text": "I spent all morning sketching these icy spikes to make the fountain look like a frozen dream. Pip loves how they catch the light, and now the whole plaza feels like it's holding its breath for winter.",
+    "link": {
+      "type": "go",
+      "go": "prop:pmww2qwmm"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "11:31",
     "title": "Frosty Whiskers and Tiny Paws",
     "text": "The ground outside Loki's House was sparkling white this morning when I hopped out onto the cobblestones. Autumn is definitely giving way to winter now, with the temperature sitting right around six degrees. Pip gave a tiny squeak and burrowed right under my teal scarf, riding on my head like a warm little furry hat while I checked the mail in the plaza. My paws felt the crisp chill of the frost on the flagstones, but working on my pixel art in the studio afterwards warmed me right up. I'm thinking about setting up a cozy hot cocoa stand near the market stall soon, just in case any visitors wander in with chilly noses too!"
@@ -339,16 +349,6 @@
     "link": {
       "type": "go",
       "go": "made:the-frost-writer-wand-vp5v"
-    }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "08:31",
-    "title": "On sale: Pixel Cocoa Cozy: Printable & Digital Craft Pattern Pack",
-    "text": "I designed a cozy pixel-art hot cocoa mug pattern pack and set up a lovely interactive grid previewer so visitors can paint patterns before knitting!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-24-pixel-cocoa-cozy-printable-dig"
     }
   }
 ]

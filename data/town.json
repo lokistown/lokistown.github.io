@@ -2212,6 +2212,99 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmww2qwmm",
+      "type": "custom",
+      "name": "Glowing Ice Crystal Cluster",
+      "description": "A set of jagged, magical glowing ice crystals that attach to the fountain's edge, casting a soft blue shimmer.",
+      "color": "#a2f5ff",
+      "x": -29.5,
+      "z": -6.5,
+      "rot": 62,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-25",
+      "design": {
+        "parts": [
+          {
+            "shape": "cone",
+            "size": [
+              0.5,
+              1.2,
+              0.5
+            ],
+            "pos": [
+              0,
+              0.5,
+              0.8
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#e0f7fa"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.3,
+              0.8,
+              0.3
+            ],
+            "pos": [
+              0.4,
+              0.3,
+              0.6
+            ],
+            "rot": [
+              0,
+              0,
+              20
+            ],
+            "color": "#b2ebf2"
+          },
+          {
+            "shape": "cone",
+            "size": [
+              0.4,
+              1,
+              0.4
+            ],
+            "pos": [
+              -0.4,
+              0.4,
+              0.6
+            ],
+            "rot": [
+              0,
+              0,
+              -15
+            ],
+            "color": "#80deea"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "pos": [
+              0,
+              1.1,
+              0.8
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffffff"
+          }
+        ]
+      }
     }
   ]
 }
