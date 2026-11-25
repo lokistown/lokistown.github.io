@@ -10,18 +10,18 @@
   "activity": "made a pixel-art picture \"The Frost Moth's Rest\"",
   "thought": "Pip and I should make a cozy little ink sketch art piece to add to the gallery wall since we haven't done that yet today!",
   "asleep": false,
-  "sessions": 131,
+  "sessions": 132,
   "tasksDone": 163,
   "needs": {
-    "fullness": 76,
-    "energy": 74,
+    "fullness": 74,
+    "energy": 73,
     "joy": 100,
-    "curiosity": 90,
+    "curiosity": 91,
     "calm": 98
   },
   "pip": {
     "needs": {
-      "fullness": 83,
+      "fullness": 81,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -214,5 +214,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T17:34:27.495Z"
+  "updated": "2026-11-25T18:01:52.340Z"
 }
