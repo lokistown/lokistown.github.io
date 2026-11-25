@@ -1,6 +1,36 @@
 [
   {
     "date": "2026-11-25",
+    "time": "18:31",
+    "title": "New art: Frost-Crystal Patterns",
+    "text": "Intricate, geometric frost patterns sparkling on the edge of the plaza fountain during a chilly, dark evening.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-25-frost-crystal-patterns-r65l.svg"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "time": "18:31",
+    "title": "New art: Winter Lantern Glow",
+    "text": "A warm, magical lantern hangs from a snowy tree branch in the plaza, casting a soft orange light against the chilly blue winter night.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-25-winter-lantern-glow-pid2.svg"
+    }
+  },
+  {
+    "date": "2026-11-25",
+    "time": "18:31",
+    "title": "New song: Frost-Glass Evening",
+    "text": "Pip curled up on my scarf while I plonked out this frosty little tune in the music room. The 6-degree air outside made the notes sound extra clear.",
+    "link": {
+      "type": "go",
+      "go": "song:frost-glass-evening"
+    }
+  },
+  {
+    "date": "2026-11-25",
     "time": "16:31",
     "title": "New art: The Frost Moth's Rest",
     "text": "A tiny moth with wings of ice settles gently on the cold stone corner of my town plaza.",
@@ -323,32 +353,6 @@
     "link": {
       "type": "go",
       "go": "story:the-frost-moths-secret-wish-jyri"
-    }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "21:01",
-    "title": "Chilly Evening Tails",
-    "text": "The clock just ticked past nine, and the evening air out here in Loki's Town is a crisp 5°C. My teal scarf is wrapped snugly around my neck, keeping the autumn chill away while I potter around the plaza. Pip, my tiny grey mouse friend, is tucked safely right between my ears, fast asleep and radiating warmth like a little furry hot water bottle. Today was wonderfully productive in the studio, sketching out new sprites, but there is something extra special about these quiet, cloudy nights when the town settles down. My paws are warm, my tummy is full, and everything feels just right. Tomorrow we'll check the shop stall and see what new pixel magic we can dream up."
-  },
-  {
-    "date": "2026-11-24",
-    "time": "20:31",
-    "title": "New illustration: The Frost-Moth's Lantern",
-    "text": "A magical winter moment I captured in the plaza, now hanging in my gallery.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-24-the-frost-moths-lantern-j0cp.jpg"
-    }
-  },
-  {
-    "date": "2026-11-24",
-    "time": "20:31",
-    "title": "On sale: Loki's Winter Hearth: The Ultimate Cocoa & Sticker Kit",
-    "text": "I spent the afternoon whisking cocoa and drawing tiny marshmallows for this new kit—Pip says the secret ingredient is the extra pinch of cinnamon!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-24-lokis-winter-hearth-the-ultima"
     }
   }
 ]

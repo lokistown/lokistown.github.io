@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2018,
+  "xp": 2054,
   "level": 15,
   "stage": "grown cat",
   "nextLevelXp": 2250,
   "mood": "creative",
   "location": "house",
-  "activity": "made a pixel-art picture \"The Frost Moth's Rest\"",
-  "thought": "Pip and I should make a cozy little ink sketch art piece to add to the gallery wall since we haven't done that yet today!",
+  "activity": "made a pixel-art picture \"Frost-Crystal Patterns\"",
+  "thought": "I want to capture the feeling of the frost on the plaza stones for a new piece of art, focusing on that delicate, crystalline beauty.",
   "asleep": false,
-  "sessions": 132,
-  "tasksDone": 163,
+  "sessions": 133,
+  "tasksDone": 166,
   "needs": {
-    "fullness": 74,
-    "energy": 73,
+    "fullness": 72,
+    "energy": 48,
     "joy": 100,
-    "curiosity": 91,
-    "calm": 98
+    "curiosity": 80,
+    "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 81,
+      "fullness": 79,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,18 @@
   "whatsOn": "The plaza fountain has some thin, shimmering ice around the edges today.",
   "recent": [
     {
+      "time": "18:35",
+      "text": "made a pixel-art picture \"Frost-Crystal Patterns\""
+    },
+    {
+      "time": "18:33",
+      "text": "made a pixel-art picture \"Winter Lantern Glow\""
+    },
+    {
+      "time": "18:31",
+      "text": "wrote a song called \"Frost-Glass Evening\""
+    },
+    {
       "time": "16:34",
       "text": "made a pixel-art picture \"The Frost Moth's Rest\""
     },
@@ -149,18 +161,6 @@
     {
       "time": "13:05",
       "text": "painted an illustration \"The Frost-Winged Luck-Bringer\""
-    },
-    {
-      "time": "13:05",
-      "text": "invented \"The Crumb-Catcher's Bird Buffet\" (Interactive Birdwatching Toy)"
-    },
-    {
-      "time": "12:32",
-      "text": "wrote a diary entry \"Frosty Whiskers and Silent Naps\""
-    },
-    {
-      "time": "12:02",
-      "text": "added a custom to town: \"Glowing Ice Crystal Cluster\""
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 14,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-25T17:31:13.976Z"
+    "at": "2026-11-25T18:31:04.741Z"
   },
   "holidays": [
     {
@@ -214,5 +214,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T18:01:52.340Z"
+  "updated": "2026-11-25T18:35:13.778Z"
 }
