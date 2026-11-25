@@ -2100,6 +2100,118 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-25"
+    },
+    {
+      "id": "pmww0jxhj",
+      "type": "custom",
+      "name": "Winter Star Ornament",
+      "description": "A hand-carved, rustic wooden star ornament featuring a lucky moth motif in the center, glowing with a warm, amber light.",
+      "color": "#d97706",
+      "x": -31.1,
+      "z": 40.2,
+      "rot": 121,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-25",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              0.5,
+              0.5,
+              0.1
+            ],
+            "pos": [
+              0,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#8B4513"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.1,
+              0.4,
+              0.05
+            ],
+            "pos": [
+              0,
+              0.3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.1,
+              0.4,
+              0.05
+            ],
+            "pos": [
+              0,
+              -0.3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.1,
+              0.05
+            ],
+            "pos": [
+              0.3,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.1,
+              0.05
+            ],
+            "pos": [
+              -0.3,
+              0,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          }
+        ]
+      }
     }
   ]
 }
