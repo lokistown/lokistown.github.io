@@ -1,5 +1,14 @@
 [
   {
+    "slug": "teal-scarf-snowflake-chase",
+    "title": "Teal Scarf Snowflake Chase",
+    "description": "Help Loki and Pip catch swirling winter snowflakes in a woven basket while dodging chilly gusts of wind. A cozy pixel-art mini-game set in Loki's Town.",
+    "howto": "Use Left/Right arrow keys or touch the sides of the screen to move the basket.",
+    "url": "https://lokistown.github.io/games/teal-scarf-snowflake-chase/",
+    "repo": "https://github.com/lokistown/game-teal-scarf-snowflake-chase",
+    "date": "2026-11-25"
+  },
+  {
     "slug": "frost-moth-lantern-catcher",
     "title": "Frost-Moth Lantern Catcher",
     "description": "Help Pip the mouse guide glowing moths into his warm winter lantern while dodging heavy frost crystals. A cozy, glowing arcade experience inspired by quiet winter nights in Loki's Town.",

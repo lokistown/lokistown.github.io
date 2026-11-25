@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teal Scarf Snowflake Chase - Loki's Town</title>
+<style>
+  :root {
+    --bg: #121824;
+    --panel: #1e293b;
+    --teal: #0d9488;
+    --orange: #f97316;
+    --cream: #f8fafc;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 16px;
+  }
+  .game-container {
+    background: var(--panel);
+    border: 4px solid var(--teal);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    position: relative;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  p {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  canvas {
+    background: #090d16;
+    border-radius: 8px;
+    border: 2px solid #334155;
+    display: block;
+    touch-action: none;
+    cursor: pointer;
+  }
+  .ui-overlay {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0 8px;
+  }
+  .btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: #0f766e; }
+  .controls-hint {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="game-container">
+  <header>
+    <h1>Teal Scarf Snowflake Chase</h1>
+    <p>Help Loki & Pip catch winter magic!</p>
+  </header>
+  <canvas id="gameCanvas" width="400" height="450"></canvas>
+  <div class="ui-overlay">
+    <span id="scoreDisplay">Score: 0</span>
+    <span id="livesDisplay">Lives: 3</span>
+  </div>
+  <div class="controls-hint">Arrows / Touch left & right to move</div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const livesDisplay = document.getElementById('livesDisplay');
+
+let state = 'START'; // START, PLAYING, GAMEOVER
+let score = 0;
+let lives = 3;
+
+// Basket / Player
+let basket = {
+  x: 175,
+  y: 400,
+  w: 50,
+  h: 24,
+  speed: 6,
+  dx: 0
+};
+
+let snowflakes = [];
+let gusts = [];
+
+let keys = { ArrowLeft: false, ArrowRight: false };
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a') keys.ArrowLeft = true;
+  if (e.key === 'ArrowRight' || e.key === 'd') keys.ArrowRight = true;
+  if (state === 'START' || state === 'GAMEOVER') {
+    if (e.key === ' ' || e.key === 'Enter') startGame();
+  }
+});
+
+window.addEventListener('keyup', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a') keys.ArrowLeft = false;
+  if (e.key === 'ArrowRight' || e.key === 'd') keys.ArrowRight = false;
+});
+
+canvas.addEventListener('pointerdown', e => {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  if (state === 'START' || state === 'GAMEOVER') {
+    startGame();
+  } else {
+    if (x < canvas.width / 2) {
+      basket.dx = -basket.speed;
+    } else {
+      basket.dx = basket.speed;
+    }
+  }
+});
+
+canvas.addEventListener('pointerup', () => {
+  basket.dx = 0;
+});
+
+function startGame() {
+  score = 0;
+  lives = 3;
+  snowflakes = [];
+  gusts = [];
+  basket.x = 175;
+  state = 'PLAYING';
+}
+
+function spawnObjects() {
+  if (Math.random() < 0.04) {
+    snowflakes.push({
+      x: Math.random() * (canvas.width - 20) + 10,
+      y: -10,
+      radius: Math.random() * 4 + 5,
+      speed: Math.random() * 1.5 + 1.5,
+      type: Math.random() < 0.15 ? 'golden' : 'normal'
+    });
+  }
+  if (Math.random() < 0.008 && score > 5) {
+    gusts.push({
+      x: Math.random() < 0.5 ? 0 : canvas.width,
+      y: Math.random() * 200 + 50,
+      w: 40,
+      h: 20,
+      vx: Math.random() < 0.5 ? 1.5 : -1.5
+    });
+  }
+}
+
+function update() {
+  if (state !== 'PLAYING') return;
+
+  // Handle keyboard movement
+  if (keys.ArrowLeft) basket.x -= basket.speed;
+  if (keys.ArrowRight) basket.x += basket.speed;
+
+  // Handle pointer touch movement
+  basket.x += basket.dx;
+
+  // Boundaries
+  if (basket.x < 0) basket.x = 0;
+  if (basket.x + basket.w > canvas.width) basket.x = canvas.width - basket.w;
+
+  spawnObjects();
+
+  // Update snowflakes
+  for (let i = snowflakes.length - 1; i >= 0; i--) {
+    let sf = snowflakes[i];
+    sf.y += sf.speed;
+
+    // Check collision with basket
+    if (
+      sf.x > basket.x &&
+      sf.x < basket.x + basket.w &&
+      sf.y > basket.y &&
+      sf.y < basket.y + basket.h
+    ) {
+      score += sf.type === 'golden' ? 5 : 1;
+      snowflakes.splice(i, 1);
+      continue;
+    }
+
+    // Missed
+    if (sf.y > canvas.height) {
+      snowflakes.splice(i, 1);
+      if (sf.type === 'normal') {
+        lives--;
+        if (lives <= 0) state = 'GAMEOVER';
+      }
+    }
+  }
+
+  // Update gusts
+  for (let i = gusts.length - 1; i >= 0; i--) {
+    let g = gusts[i];
+    g.x += g.vx;
+    // collision with basket pushes player
+    if (
+      g.x < basket.x + basket.w &&
+      g.x + g.w > basket.x &&
+      g.y < basket.y + basket.h &&
+      g.y + g.h > basket.y
+    ) {
+      basket.x += g.vx * 3;
+    }
+    if (g.x < -60 || g.x > canvas.width + 60) {
+      gusts.splice(i, 1);
+    }
+  }
+
+  scoreDisplay.innerText = `Score: ${score}`;
+  livesDisplay.innerText = `Lives: ${lives}`;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw cozy background town lights/stars
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(20, 380, 60, 70);
+  ctx.fillStyle = '#f97316';
+  ctx.fillRect(35, 400, 15, 20);
+
+  // Draw Snowflakes
+  for (let sf of snowflakes) {
+    ctx.fillStyle = sf.type === 'golden' ? '#fbbf24' : '#e2e8f0';
+    ctx.beginPath();
+    ctx.arc(sf.x, sf.y, sf.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Draw Gusts
+  for (let g of gusts) {
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
+    ctx.fillRect(g.x, g.y, g.w, g.h);
+  }
+
+  // Draw Basket with Loki & Pip
+  ctx.fillStyle = '#d97706';
+  ctx.fillRect(basket.x, basket.y + 8, basket.w, basket.h - 8);
+  ctx.strokeStyle = '#b45309';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(basket.x, basket.y + 8, basket.w, basket.h - 8);
+
+  // Loki ears & head peering behind basket
+  ctx.fillStyle = '#f97316';
+  ctx.fillRect(basket.x + 12, basket.y - 12, 26, 16);
+  // Ears
+  ctx.beginPath();
+  ctx.moveTo(basket.x + 12, basket.y - 12);
+  ctx.lineTo(basket.x + 8, basket.y - 22);
+  ctx.lineTo(basket.x + 18, basket.y - 12);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(basket.x + 28, basket.y - 12);
+  ctx.lineTo(basket.x + 38, basket.y - 22);
+  ctx.lineTo(basket.x + 34, basket.y - 12);
+  ctx.fill();
+
+  // Teal scarf
+  ctx.fillStyle = '#0d9488';
+  ctx.fillRect(basket.x + 10, basket.y - 2, 30, 6);
+
+  // Pip on head
+  ctx.fillStyle = '#94a3b8';
+  ctx.beginPath();
+  ctx.arc(basket.x + 25, basket.y - 18, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Overlay States
+  if (state === 'START') {
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 20px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Teal Scarf Snowflake Chase', canvas.width / 2, canvas.height / 2 - 20);
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '14px system-ui';
+    ctx.fillText('Click or Press Enter to Play', canvas.width / 2, canvas.height / 2 + 20);
+  } else if (state === 'GAMEOVER') {
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = 'bold 22px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 30);
+    ctx.fillStyle = '#f97316';
+    ctx.font = '16px system-ui';
+    ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 5);
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '14px system-ui';
+    ctx.fillText('Click or Press Enter to Restart', canvas.width / 2, canvas.height / 2 + 45);
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
