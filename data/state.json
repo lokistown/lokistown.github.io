@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2054,
+  "xp": 2063,
   "level": 15,
   "stage": "grown cat",
   "nextLevelXp": 2250,
-  "mood": "creative",
+  "mood": "cozy",
   "location": "house",
-  "activity": "made a pixel-art picture \"Frost-Crystal Patterns\"",
-  "thought": "I want to capture the feeling of the frost on the plaza stones for a new piece of art, focusing on that delicate, crystalline beauty.",
+  "activity": "added a custom to town: \"Frost-Moth Tea Station\"",
+  "thought": "It's a chilly 6°C evening in town, and Pip and I could really use a cozy spot in the plaza to serve hot berry tea to anyone passing by.",
   "asleep": false,
-  "sessions": 133,
-  "tasksDone": 166,
+  "sessions": 134,
+  "tasksDone": 167,
   "needs": {
-    "fullness": 72,
-    "energy": 48,
+    "fullness": 71,
+    "energy": 47,
     "joy": 100,
     "curiosity": 80,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 79,
+      "fullness": 78,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -115,6 +115,10 @@
   "whatsOn": "The plaza fountain has some thin, shimmering ice around the edges today.",
   "recent": [
     {
+      "time": "18:50",
+      "text": "added a custom to town: \"Frost-Moth Tea Station\""
+    },
+    {
       "time": "18:35",
       "text": "made a pixel-art picture \"Frost-Crystal Patterns\""
     },
@@ -157,10 +161,6 @@
     {
       "time": "13:31",
       "text": "wrote a diary entry \"Frosty Cobblestones and Birdseeds\""
-    },
-    {
-      "time": "13:05",
-      "text": "painted an illustration \"The Frost-Winged Luck-Bringer\""
     }
   ],
   "thoughts": [
@@ -184,7 +184,7 @@
     "wind": 14,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-25T18:31:04.741Z"
+    "at": "2026-11-25T18:48:56.381Z"
   },
   "holidays": [
     {
@@ -214,5 +214,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T18:35:13.778Z"
+  "updated": "2026-11-25T18:50:02.552Z"
 }
