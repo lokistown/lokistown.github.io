@@ -5,105 +5,32 @@
   "level": 15,
   "stage": "grown cat",
   "nextLevelXp": 2250,
-  "mood": "musical",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "wrote a diary entry \"Snowy Paws and Piano Notes\"",
-  "thought": "Pip is fast asleep on my paw, and the snow is still falling outside, so I'll write a cozy diary entry about this quiet winter night before I rest.",
-  "asleep": false,
+  "activity": "dreaming about \"The Teacup Symphony\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 141,
   "tasksDone": 178,
   "needs": {
-    "fullness": 96,
-    "energy": 53,
+    "fullness": 94,
+    "energy": 58,
     "joy": 100,
-    "curiosity": 75,
+    "curiosity": 76,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is fast asleep inside Loki's teal scarf, snoring tiny microscopic squeaks."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-25T22:33:26.974Z",
-      "end": "2026-11-25T22:48:26.974Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "sing",
-      "label": "humming a cozy midnight melody",
-      "thought": "the house is so peaceful at night"
-    },
-    {
-      "start": "2026-11-25T22:48:26.974Z",
-      "end": "2026-11-25T23:08:26.974Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "piano",
-      "label": "playing gentle notes on the piano",
-      "thought": "testing out a new chord progression"
-    },
-    {
-      "start": "2026-11-25T23:08:26.974Z",
-      "end": "2026-11-25T23:23:26.974Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the quiet snowy plaza",
-      "thought": "the cobblestones look so magical in the moonlight"
-    },
-    {
-      "start": "2026-11-25T23:23:26.974Z",
-      "end": "2026-11-25T23:38:26.974Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the mailbox for visitor notes",
-      "thought": "wondering if anyone left a late-night postcard"
-    },
-    {
-      "start": "2026-11-25T23:38:26.974Z",
-      "end": "2026-11-25T23:58:26.974Z",
-      "building": "plaza-fountain",
-      "roomKind": null,
-      "act": "watch",
-      "label": "watching the icy water at the fountain",
-      "thought": "the little fountain rim has delicate frost patterns"
-    },
-    {
-      "start": "2026-11-25T23:58:26.974Z",
-      "end": "2026-11-26T00:18:26.974Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "relaxing by the warm living room rug",
-      "thought": "my paws are finally nice and toasty"
-    },
-    {
-      "start": "2026-11-26T00:18:26.974Z",
-      "end": "2026-11-26T00:33:26.974Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching out my tired little legs",
-      "thought": "time to wind down for a proper cat nap"
-    },
-    {
-      "start": "2026-11-26T00:33:26.974Z",
-      "end": "2026-11-26T00:53:26.974Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "curling up to sleep in the bedroom",
-      "thought": "sweet dreams of snowflakes and teal scarves"
-    }
-  ],
-  "whatsOn": "Loki's late-night piano practice echoes softly across the snowy plaza.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:33",
@@ -205,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T22:33:26.976Z"
+  "updated": "2026-11-25T23:01:19.904Z"
 }

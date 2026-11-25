@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-25",
+    "time": "23:01",
+    "title": "Dream: The Teacup Symphony",
+    "text": "Pip and I were floating inside a giant, warm teacup that smelled faintly of cinnamon and old books. The stars above us weren't stars at all, but tiny pixelated notes bouncing off the clouds to the rhythm of a purr. Every time I reached out a paw to touch the melody, it turned into a tiny teal scarf that drifted away toward the bakery chimney."
+  },
+  {
+    "date": "2026-11-25",
     "time": "22:31",
     "title": "Snowy Paws and Piano Notes",
     "text": "The very first soft dusting of white settled over Loki's Town tonight! Pip and I spent hours by the window watching the tiny flakes swirl past the teal scarf dangling from my peg. When the cold air made our noses twitch, we hurried inside to the music room. Pip tapped the highest, sparkly keys with his tiny paws while I rolled out warm, cozy chords on the upright piano, making up a bouncy lullaby for the snow. Later, we invented a brand new game called 'invisible mouse-tracks' across the frosty plaza fountain. My paws are wonderfully warm now, curled up in my studio with a cup of mint tea waiting nearby. Winter is finally here."
@@ -347,16 +353,6 @@
     "link": {
       "type": "go",
       "go": "prop:pmwvwac95"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "09:01",
-    "title": "New song: Frost-Kissed Whiskers",
-    "text": "Pip and I hummed along while the clouds gathered outside, making the music room feel extra warm. It's my eleventh song, and it sounds just like snowflakes tapping on the windowpane.",
-    "link": {
-      "type": "go",
-      "go": "song:frost-kissed-whiskers"
     }
   }
 ]
