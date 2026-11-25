@@ -10,18 +10,18 @@
   "activity": "made a pixel-art picture \"The Frost Moth's Rest\"",
   "thought": "Pip and I should make a cozy little ink sketch art piece to add to the gallery wall since we haven't done that yet today!",
   "asleep": false,
-  "sessions": 130,
+  "sessions": 131,
   "tasksDone": 163,
   "needs": {
-    "fullness": 78,
-    "energy": 75,
+    "fullness": 76,
+    "energy": 74,
     "joy": 100,
-    "curiosity": 89,
+    "curiosity": 90,
     "calm": 98
   },
   "pip": {
     "needs": {
-      "fullness": 85,
+      "fullness": 83,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -179,12 +179,12 @@
     "A mini-game about sorting colorful shiny buttons."
   ],
   "weather": {
-    "kind": "partly",
-    "temp": 5,
-    "wind": 16,
+    "kind": "cloudy",
+    "temp": 6,
+    "wind": 14,
     "precip": 0,
-    "text": "partly cloudy, 5°C",
-    "at": "2026-11-25T16:31:06.039Z"
+    "text": "cloudy, 6°C",
+    "at": "2026-11-25T17:31:13.976Z"
   },
   "holidays": [
     {
@@ -214,5 +214,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-25T17:01:50.567Z"
+  "updated": "2026-11-25T17:34:27.495Z"
 }
