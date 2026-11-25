@@ -13,7 +13,7 @@
   "sessions": 110,
   "tasksDone": 136,
   "needs": {
-    "fullness": 66,
+    "fullness": 64,
     "energy": 100,
     "joy": 100,
     "curiosity": 100,
@@ -21,7 +21,7 @@
   },
   "pip": {
     "needs": {
-      "fullness": 64,
+      "fullness": 62,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -128,5 +128,5 @@
       "learned": "2026-11-23"
     }
   ],
-  "updated": "2026-11-25T06:01:24.487Z"
+  "updated": "2026-11-25T06:31:15.880Z"
 }
