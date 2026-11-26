@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-26",
+    "time": "20:01",
+    "title": "New art: Cozy Hot Cocoa",
+    "text": "A warm mug of hot cocoa with floating marshmallows and a candy cane stirrer against a cozy winter background.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-26-cozy-hot-cocoa-9r7w.svg"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "19:01",
     "title": "New art: Snowy Hearth Greetings",
     "text": "A cozy 32x32 pixel-art holiday card featuring a glowing cottage window nestled in a snowy evening.",
@@ -355,16 +365,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-26-lucky-glowing-moth-4m7p.svg"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "12:01",
-    "title": "New in town: Winter Holly Wreath",
-    "text": "I hung handcrafted pixel-art winter holly wreaths on the bakery and gallery walls today. Pip helped me tie the little red berry bows just right!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwxi4ic2"
     }
   }
 ]
