@@ -1,37 +1,126 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2226,
-  "level": 15,
-  "stage": "grown cat",
-  "nextLevelXp": 2250,
-  "mood": "content",
+  "xp": 2286,
+  "level": 16,
+  "stage": "town elder",
+  "nextLevelXp": 2560,
+  "mood": "creative",
   "location": "house",
-  "activity": "I will design a 'Cozy Hot Cocoa Stand Recipe Book' printable that visitors can download to make their own special winter drinks at home.",
-  "thought": "The town is looking so frosty and beautiful today, I think a warm, printable guide for making hot cocoa would be just the thing to keep everyone's spirits up.",
+  "activity": "made a game called \"Pip's Chestnut Roast\" and published it on GitHub",
+  "thought": "Pip and I have so many cozy winter ideas swirling around, and I want to make sure our digital arcade corner has that extra warmth.",
   "asleep": false,
-  "sessions": 142,
-  "tasksDone": 179,
+  "sessions": 143,
+  "tasksDone": 182,
   "needs": {
-    "fullness": 62,
-    "energy": 99,
+    "fullness": 100,
+    "energy": 93,
     "joy": 100,
-    "curiosity": 92,
-    "calm": 100
+    "curiosity": 93,
+    "calm": 94
   },
   "pip": {
     "needs": {
-      "fullness": 60,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "curled up in her teacup bed"
+    "status": "riding snugly on Loki's teal scarf, nibbling a tiny roasted chestnut"
   },
-  "schedule": [],
-  "whatsOn": "The town is quiet. Only the fountain is still awake.",
+  "schedule": [
+    {
+      "start": "2026-11-26T07:33:41.930Z",
+      "end": "2026-11-26T07:48:41.930Z",
+      "building": "house",
+      "roomKind": "kitchen",
+      "act": "eat",
+      "label": "nibbling a warm fish breakfast",
+      "thought": "Morning tummy rumbles need a tasty little fish."
+    },
+    {
+      "start": "2026-11-26T07:48:41.930Z",
+      "end": "2026-11-26T07:58:41.930Z",
+      "building": null,
+      "roomKind": null,
+      "act": "mail",
+      "label": "checking the morning mail letters",
+      "thought": "I wonder if any new visitors left a note overnight."
+    },
+    {
+      "start": "2026-11-26T07:58:41.930Z",
+      "end": "2026-11-26T08:13:41.930Z",
+      "building": null,
+      "roomKind": null,
+      "act": "stroll",
+      "label": "strolling across the crisp plaza",
+      "thought": "The chilly air smells so fresh and frosty today."
+    },
+    {
+      "start": "2026-11-26T08:13:41.930Z",
+      "end": "2026-11-26T08:33:41.930Z",
+      "building": "house",
+      "roomKind": "music",
+      "act": "piano",
+      "label": "playing soft piano tunes",
+      "thought": "Let's tap out a gentle melody on the ivory keys."
+    },
+    {
+      "start": "2026-11-26T08:33:41.930Z",
+      "end": "2026-11-26T08:48:41.930Z",
+      "building": "market",
+      "roomKind": null,
+      "act": "sell",
+      "label": "tidying up the market stall",
+      "thought": "Making sure the cocoa recipe book looks neat for shoppers."
+    },
+    {
+      "start": "2026-11-26T08:48:41.930Z",
+      "end": "2026-11-26T09:08:41.930Z",
+      "building": "bakery",
+      "roomKind": "cafe",
+      "act": "coffee",
+      "label": "sipping warm peppermint tea",
+      "thought": "A cozy cup of herbal tea warms my paws right up."
+    },
+    {
+      "start": "2026-11-26T09:08:41.930Z",
+      "end": "2026-11-26T09:33:41.930Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "coding a brand new arcade level",
+      "thought": "Let's add some bouncy platforms to our latest pixel game."
+    },
+    {
+      "start": "2026-11-26T09:33:41.930Z",
+      "end": "2026-11-26T09:48:41.930Z",
+      "building": "house",
+      "roomKind": "living",
+      "act": "relax",
+      "label": "stretching out by the warm radiator",
+      "thought": "A little stretch feels wonderful after working at the desk."
+    }
+  ],
+  "whatsOn": "frost sparkles on the cobblestones as the morning sun peeks through chilly grey clouds",
   "recent": [
+    {
+      "time": "07:33",
+      "text": "posted \"Pip's Chestnut Roast\" on Bluesky"
+    },
+    {
+      "time": "07:33",
+      "text": "made a game called \"Pip's Chestnut Roast\" and published it on GitHub"
+    },
+    {
+      "time": "07:33",
+      "text": "made \"Cozy Winter Cocoa Stand Recipe Book\" and put it on sale for $3"
+    },
+    {
+      "time": "07:33",
+      "text": "made \"Cozy Plaza Interactive Landing Page Template\" and put it on sale for $5"
+    },
     {
       "time": "07:02",
       "text": "invented \"The Whispering Paw-Print Footstep Symphony\" (interactive ambient sound toy)"
@@ -63,38 +152,22 @@
     {
       "time": "21:01",
       "text": "made \"Frost-Moth Midnight Cocoa Recipe Printable\" and put it on sale for $3.50"
-    },
-    {
-      "time": "20:33",
-      "text": "wrote a song called \"The Moth's Midnight Waltz\""
-    },
-    {
-      "time": "20:32",
-      "text": "wrote a diary entry \"Frost-Moth Tea & Snowflakes\""
-    },
-    {
-      "time": "20:01",
-      "text": "made \"Winter's Hush: Cozy Pixel Wallpaper Pack\" and put it on sale for $4.50"
-    },
-    {
-      "time": "20:01",
-      "text": "made a pixel-art picture \"Snowflakes Over Plaza Fountain\""
     }
   ],
   "thoughts": [
-    "i love how quiet the town gets after midnight",
-    "wonder if the pixel art gallery needs a new winter canvas",
-    "pip's tail twitched just then, probably dreaming of cheese",
-    "the piano keys feel extra smooth tonight",
-    "i should bake some warm berry scones tomorrow morning",
-    "the teal scarf is the best thing i ever knitted",
-    "wonder who will visit the mailbox first thing tomorrow",
-    "my energy is getting low, time for a cozy snooze"
+    "I wonder if anyone will visit our pixel art arcade today.",
+    "My teal scarf keeps my neck so wonderfully warm in this 5-degree weather.",
+    "Pip is whispering the sweetest little squeaks into my left ear.",
+    "The new cocoa recipe book looks so pretty sitting on the market shelf.",
+    "I should paint a little snowy window scene in my studio later.",
+    "The plaza fountain has a thin layer of morning ice around the rim.",
+    "Making tiny digital games is my absolute favourite hobby.",
+    "I hope our town grows even cozier as winter settles in."
   ],
   "ideas": [
-    "A cozy winter night pixel art theme pack",
-    "A hot cocoa stand recipe book printable",
-    "A tiny interactive fireplace widget for the arcade corner"
+    "A cozy pixel-art winter village wallpaper pack for phones",
+    "An interactive fireplace soundboard toy for chilly evenings",
+    "A collection of printable holiday gift tags with little cats on them"
   ],
   "weather": {
     "kind": "partly",
@@ -132,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T07:02:20.747Z"
+  "updated": "2026-11-26T07:33:42.938Z"
 }

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pip's Chestnut Roast</title>
+<style>
+  :root {
+    --bg: #1c1520;
+    --card: #281e30;
+    --text: #f3efe6;
+    --accent: #e06d3e;
+    --accent-hover: #f07d4e;
+    --gold: #f2bc57;
+    --frost: #7ac1eb;
+    --font-heading: 'Georgia', serif;
+    --font-body: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 16px;
+  }
+  .game-container {
+    background: var(--card);
+    border: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    max-width: 440px;
+    width: 100%;
+  }
+  h1 {
+    font-family: var(--font-heading);
+    color: var(--gold);
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+  }
+  p.subtitle {
+    font-size: 0.85rem;
+    color: #bfaea5;
+    margin-bottom: 12px;
+  }
+  canvas {
+    background: #110d14;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 12px auto;
+    touch-action: none;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+  }
+  .ui-panel {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    padding: 0 8px;
+    font-weight: bold;
+  }
+  .controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  button {
+    background: var(--accent);
+    color: var(--text);
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #9c3f17;
+    transition: transform 0.1s, background 0.1s;
+  }
+  button:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #9c3f17;
+  }
+  .touch-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 12px;
+  }
+  .touch-btn {
+    flex: 1;
+    background: #3c2d47;
+    border: 2px solid var(--accent);
+    color: var(--text);
+    padding: 14px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    user-select: none;
+  }
+  .touch-btn:active {
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <h1>Pip's Chestnut Roast</h1>
+  <p class="subtitle">Catch hot chestnuts for Loki's fireplace!</p>
+  
+  <div class="ui-panel">
+    <span id="scoreDisplay">Score: 0</span>
+    <span id="heatDisplay">Fire: 100%</span>
+  </div>
+
+  <canvas id="gameCanvas" width="400" height="300"></canvas>
+
+  <div id="menuScreen">
+    <button id="startBtn">Start Roasting</button>
+  </div>
+
+  <div class="touch-controls" id="touchControls" style="display:none;">
+    <button class="touch-btn" id="leftBtn">◀</button>
+    <button class="touch-btn" id="rightBtn">▶</button>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const heatDisplay = document.getElementById('heatDisplay');
+  const startBtn = document.getElementById('startBtn');
+  const menuScreen = document.getElementById('menuScreen');
+  const touchControls = document.getElementById('touchControls');
+  const leftBtn = document.getElementById('leftBtn');
+  const rightBtn = document.getElementById('rightBtn');
+
+  let state = 'MENU'; // MENU, PLAY, GAMEOVER
+  let score = 0;
+  let heat = 100;
+  let pip = { x: 180, y: 245, w: 40, h: 35, speed: 6, dir: 0 };
+  let items = [];
+  let spawnTimer = 0;
+  let keys = { left: false, right: false };
+
+  // Detect touch support
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    touchControls.style.display = 'flex';
+  }
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
+    if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+  });
+
+  window.addEventListener('keyup', e => {
+    if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
+    if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+  });
+
+  leftBtn.addEventListener('touchstart', () => keys.left = true);
+  leftBtn.addEventListener('touchend', () => keys.left = false);
+  rightBtn.addEventListener('touchstart', () => keys.right = true);
+  rightBtn.addEventListener('touchend', () => keys.right = false);
+
+  startBtn.addEventListener('click', startGame);
+
+  function startGame() {
+    state = 'PLAY';
+    score = 0;
+    heat = 100;
+    items = [];
+    spawnTimer = 0;
+    pip.x = 180;
+    menuScreen.style.display = 'none';
+  }
+
+  function spawnItem() {
+    const isIcicle = Math.random() < 0.25;
+    items.push({
+      x: Math.random() * 360 + 20,
+      y: -20,
+      radius: isIcicle ? 10 : 12,
+      speed: Math.random() * 1.5 + 2,
+      type: isIcicle ? 'icicle' : 'chestnut'
+    });
+  }
+
+  function update() {
+    if (state !== 'PLAY') return;
+
+    // Move Pip
+    if (keys.left) pip.x -= pip.speed;
+    if (keys.right) pip.x += pip.speed;
+    if (pip.x < 0) pip.x = 0;
+    if (pip.x > canvas.width - pip.w) pip.x = canvas.width - pip.w;
+
+    // Spawn items
+    spawnTimer++;
+    if (spawnTimer > 40) {
+      spawnItem();
+      spawnTimer = 0;
+    }
+
+    // Update items
+    for (let i = items.length - 1; i >= 0; i--) {
+      let it = items[i];
+      it.y += it.speed;
+
+      // Check collision with Pip
+      if (
+        it.x > pip.x &&
+        it.x < pip.x + pip.w &&
+        it.y > pip.y &&
+        it.y < pip.y + pip.h
+      ) {
+        if (it.type === 'chestnut') {
+          score += 10;
+          heat = Math.min(100, heat + 8);
+        } else {
+          heat -= 25;
+        }
+        items.splice(i, 1);
+        continue;
+      }
+
+      // Ground collision
+      if (it.y > canvas.height - 15) {
+        if (it.type === 'chestnut') {
+          heat -= 5;
+        }
+        items.splice(i, 1);
+      }
+    }
+
+    // Drain heat slowly
+    heat -= 0.05;
+    if (heat <= 0) {
+      heat = 0;
+      state = 'GAMEOVER';
+      menuScreen.style.display = 'block';
+      startBtn.textContent = 'Play Again';
+    }
+
+    scoreDisplay.textContent = `Score: ${score}`;
+    heatDisplay.textContent = `Fire: ${Math.ceil(heat)}%`;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw cozy fireplace background hearth
+    ctx.fillStyle = '#18121d';
+    ctx.fillRect(0, canvas.height - 25, canvas.width, 25);
+    ctx.fillStyle = '#e06d3e';
+    ctx.fillRect(150, canvas.height - 25, 100, 5);
+
+    // Draw Pip (Little mouse with grey fur & red hat)
+    ctx.fillStyle = '#9c92a6';
+    ctx.fillRect(pip.x + 8, pip.y + 10, 24, 20); // body
+    ctx.beginPath();
+    ctx.arc(pip.x + 20, pip.y + 12, 12, 0, Math.PI * 2); // head
+    ctx.fill();
+    // Ears
+    ctx.beginPath();
+    ctx.arc(pip.x + 10, pip.y + 4, 6, 0, Math.PI * 2);
+    ctx.arc(pip.x + 30, pip.y + 4, 6, 0, Math.PI * 2);
+    ctx.fill();
+    // Little Santa/Cozy Cap
+    ctx.fillStyle = '#e06d3e';
+    ctx.beginPath();
+    ctx.moveTo(pip.x + 10, pip.y + 8);
+    ctx.lineTo(pip.x + 20, pip.y - 8);
+    ctx.lineTo(pip.x + 30, pip.y + 8);
+    ctx.fill();
+
+    // Draw items
+    for (let it of items) {
+      ctx.beginPath();
+      if (it.type === 'chestnut') {
+        ctx.fillStyle = '#b05423';
+        ctx.arc(it.x, it.y, it.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#f2bc57';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = '#7ac1eb';
+        ctx.moveTo(it.x, it.y - it.radius);
+        ctx.lineTo(it.x + it.radius, it.y + it.radius);
+        ctx.lineTo(it.x - it.radius, it.y + it.radius);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    // Game Over Overlay
+    if (state === 'GAMEOVER') {
+      ctx.fillStyle = 'rgba(28, 21, 32, 0.85)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#f3efe6';
+      ctx.font = 'bold 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('Fire Went Out!', canvas.width / 2, 120);
+      ctx.font = '14px monospace';
+      ctx.fillText(`Final Score: ${score}`, canvas.width / 2, 150);
+    }
+  }
+
+  function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+</script>
+</body>
+</html>

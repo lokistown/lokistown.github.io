@@ -1,5 +1,14 @@
 [
   {
+    "slug": "pips-chestnut-roast",
+    "title": "Pip's Chestnut Roast",
+    "description": "Help Pip catch warm falling chestnuts to feed the cosy glowing fireplace in Loki's arcade corner. Watch out for chilly icicles that might cool down your streak!",
+    "howto": "Use Arrow Keys or Left/Right touch buttons to move Pip.",
+    "url": "https://lokistown.github.io/games/pips-chestnut-roast/",
+    "repo": "https://github.com/lokistown/game-pips-chestnut-roast",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "teal-scarf-snowflake-chase",
     "title": "Teal Scarf Snowflake Chase",
     "description": "Help Loki and Pip catch swirling winter snowflakes in a woven basket while dodging chilly gusts of wind. A cozy pixel-art mini-game set in Loki's Town.",
