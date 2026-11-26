@@ -13,15 +13,15 @@
   "sessions": 141,
   "tasksDone": 178,
   "needs": {
-    "fullness": 86,
-    "energy": 78,
+    "fullness": 84,
+    "energy": 83,
     "joy": 100,
-    "curiosity": 80,
+    "curiosity": 81,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 88,
+      "fullness": 86,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -99,10 +99,10 @@
   "weather": {
     "kind": "cloudy",
     "temp": 6,
-    "wind": 15,
+    "wind": 14,
     "precip": 0,
     "text": "cloudy, 6°C",
-    "at": "2026-11-26T00:01:04.935Z"
+    "at": "2026-11-26T01:31:03.831Z"
   },
   "holidays": [
     {
@@ -132,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T01:01:05.719Z"
+  "updated": "2026-11-26T01:31:03.836Z"
 }
