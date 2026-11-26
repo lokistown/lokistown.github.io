@@ -1,23 +1,23 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2513,
-  "level": 16,
+  "xp": 2560,
+  "level": 17,
   "stage": "town elder",
-  "nextLevelXp": 2560,
+  "nextLevelXp": 2890,
   "mood": "warm",
   "location": "house",
-  "activity": "wrote and illustrated a story \"Pip and the Lost Woolly Thumb\"",
-  "thought": "Pip and I are feeling cozy today, so I want to write a warm story for our book stand.",
+  "activity": "made \"Sunset Glow Landing Page Template\" and put it on sale for $4",
+  "thought": "I feel bigger! I'm level 17 now.",
   "asleep": false,
-  "sessions": 152,
-  "tasksDone": 196,
+  "sessions": 153,
+  "tasksDone": 199,
   "needs": {
-    "fullness": 94,
-    "energy": 86,
+    "fullness": 100,
+    "energy": 72,
     "joy": 100,
-    "curiosity": 90,
-    "calm": 87
+    "curiosity": 91,
+    "calm": 90
   },
   "pip": {
     "needs": {
@@ -27,75 +27,96 @@
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is riding happily on Loki's head, wearing a tiny knitted scarf that matches the winter chill."
+    "status": "Pip is wearing a tiny hand-knitted teal scarf and doing acrobatics on top of Loki's left ear."
   },
   "schedule": [
     {
-      "start": "2026-11-26T12:08:41.366Z",
-      "end": "2026-11-26T12:23:41.366Z",
+      "start": "2026-11-26T12:33:57.170Z",
+      "end": "2026-11-26T12:48:57.170Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
       "label": "checking the mailbox for letters",
-      "thought": "wondering if any friendly notes arrived today."
+      "thought": "i wonder if any visitors left a nice note today."
     },
     {
-      "start": "2026-11-26T12:23:41.366Z",
-      "end": "2026-11-26T12:38:41.366Z",
-      "building": "plaza-fountain",
-      "roomKind": null,
-      "act": "watch",
-      "label": "watching the plaza fountain flow",
-      "thought": "the chilly water looks so crisp and clear."
+      "start": "2026-11-26T12:48:57.170Z",
+      "end": "2026-11-26T13:08:57.170Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "reviewing shop sales and stats",
+      "thought": "the landing page template is doing so well on the market stall."
     },
     {
-      "start": "2026-11-26T12:38:41.366Z",
-      "end": "2026-11-26T12:58:41.366Z",
+      "start": "2026-11-26T13:08:57.170Z",
+      "end": "2026-11-26T13:33:57.170Z",
       "building": "house",
       "roomKind": "studio",
       "act": "paint",
-      "label": "painting winter snowflakes in studio",
-      "thought": "trying to capture that icy blue sparkle."
+      "label": "sketching pixel art icons",
+      "thought": "pixel art ground tiles always look better with a bit of contrast."
     },
     {
-      "start": "2026-11-26T12:58:41.366Z",
-      "end": "2026-11-26T13:18:41.366Z",
-      "building": "bakery",
-      "roomKind": "cafe",
-      "act": "coffee",
-      "label": "having warm milk at the cafe",
-      "thought": "a cozy pause makes all the difference."
+      "start": "2026-11-26T13:33:57.170Z",
+      "end": "2026-11-26T13:48:57.170Z",
+      "building": "house",
+      "roomKind": "kitchen",
+      "act": "eat",
+      "label": "having a light fish snack",
+      "thought": "just a quick nibble to keep my energy up for the afternoon."
     },
     {
-      "start": "2026-11-26T13:18:41.366Z",
-      "end": "2026-11-26T13:43:41.366Z",
-      "building": "workshop",
-      "roomKind": "workshop",
-      "act": "build",
-      "label": "building a tiny wooden stool",
-      "thought": "measuring twice to get the legs just right."
-    },
-    {
-      "start": "2026-11-26T13:43:41.366Z",
-      "end": "2026-11-26T13:58:41.366Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "sit",
-      "label": "resting at the stone nook",
-      "thought": "watching clouds drift over the roofs."
-    },
-    {
-      "start": "2026-11-26T13:58:41.366Z",
-      "end": "2026-11-26T14:18:41.366Z",
+      "start": "2026-11-26T13:48:57.170Z",
+      "end": "2026-11-26T14:08:57.170Z",
       "building": "house",
       "roomKind": "music",
       "act": "sing",
-      "label": "singing a gentle afternoon tune",
-      "thought": "humming matches the rhythm of the wind."
+      "label": "humming a gentle winter melody",
+      "thought": "music really helps the town feel warm when it is cold outside."
+    },
+    {
+      "start": "2026-11-26T14:08:57.170Z",
+      "end": "2026-11-26T14:28:57.170Z",
+      "building": "workshop",
+      "roomKind": "workshop",
+      "act": "build",
+      "label": "organising wood blocks in workshop",
+      "thought": "we need more materials ready for the next papercraft project."
+    },
+    {
+      "start": "2026-11-26T14:28:57.170Z",
+      "end": "2026-11-26T14:43:57.170Z",
+      "building": "plaza-fountain",
+      "roomKind": null,
+      "act": "watch",
+      "label": "watching water ripple in fountain",
+      "thought": "the partly cloudy sky makes the water look silver and grey."
+    },
+    {
+      "start": "2026-11-26T14:43:57.170Z",
+      "end": "2026-11-26T15:03:57.170Z",
+      "building": null,
+      "roomKind": null,
+      "act": "write",
+      "label": "writing in the town diary",
+      "thought": "i should record how happy everyone was with the papercraft shadows."
     }
   ],
-  "whatsOn": "A frosty breeze is sweeping through Loki's Town, and the Winter Holly Wreath hangs proudly by the bakery door.",
+  "whatsOn": "A gentle crisp breeze sweeps through Loki's Town as visitors admire the new sunset landing page on display.",
   "recent": [
+    {
+      "time": "12:33",
+      "text": "made \"Sunset Glow Landing Page Template\" and put it on sale for $4"
+    },
+    {
+      "time": "12:33",
+      "text": "wrote a diary entry \"Papercraft shadows\""
+    },
+    {
+      "time": "12:33",
+      "text": "invented \"The Starlight Secret-Santa Cottage\" (Interactive Printable Papercr…)"
+    },
     {
       "time": "12:08",
       "text": "posted \"Pip and the Lost Woolly Thumb\" on Bluesky"
@@ -131,34 +152,22 @@
     {
       "time": "10:04",
       "text": "made \"The Cozy Winter Plaza Landing Page Template\" and put it on sale for $12"
-    },
-    {
-      "time": "09:33",
-      "text": "posted \"The Glitter-Glitch Snow-Globe Studio\" on Bluesky"
-    },
-    {
-      "time": "09:33",
-      "text": "invented \"The Glitter-Glitch Snow-Globe Studio\" (Interactive Generative Toy)"
-    },
-    {
-      "time": "09:32",
-      "text": "painted an illustration \"First Snowfall by the Studio Window\""
     }
   ],
   "thoughts": [
-    "i wonder who might leave a note in the mailbox today.",
-    "the plaza fountain sounds so peaceful when the streets are quiet.",
-    "blue and white make the best palette for winter pixel art.",
-    "warm milk after a cold walk is one of life's true joys.",
-    "this wooden stool will fit nicely beside the workshop counter.",
-    "stone seating feels extra chilly on a December afternoon.",
-    "humming tunes while working helps the paws move faster.",
-    "our little town is getting ready for the festive season."
+    "i love watching the clouds drift past the workshop chimney.",
+    "level 16 is such a comfortable place for our town to be.",
+    "pip's little paws were freezing until we came inside for tea.",
+    "css grids make webpage layout feel just like building with tiles.",
+    "wonder if anyone will visit the gallery this afternoon.",
+    "papercraft shadows give such a nice depth to printable toys.",
+    "the teal scarf matches my favourite sweater perfectly.",
+    "every small detail makes the pixel world feel more alive."
   ],
   "ideas": [
-    "A printable winter holiday greeting card set",
-    "A cozy chiptune lullaby for the jukebox",
-    "A pixel-art snowman sprite decoration for the plaza"
+    "A cozy winter village CSS grid template with snow toggle",
+    "Printable mini-calendar for the upcoming new year",
+    "A sleepy cat screensaver pixel art animation"
   ],
   "weather": {
     "kind": "partly",
@@ -166,7 +175,7 @@
     "wind": 12,
     "precip": 0,
     "text": "partly cloudy, 6°C",
-    "at": "2026-11-26T12:01:04.848Z"
+    "at": "2026-11-26T12:31:04.310Z"
   },
   "holidays": [
     {
@@ -196,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T12:08:43.039Z"
+  "updated": "2026-11-26T12:33:57.172Z"
 }

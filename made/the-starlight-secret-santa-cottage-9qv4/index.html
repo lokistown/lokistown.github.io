@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang=""en"">
+<head>
+  <meta charset=""utf-8"">
+  <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <title>The Starlight Secret-Santa Cottage - Papercraft Kit</title>
+  <link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+  <link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+  <link href=""https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@400;500;700&display=swap"" rel=""stylesheet"">
+  <style>
+    :root {
+      --bg-color: #f7f3ee;
+      --card-bg: #ffffff;
+      --primary: #2d5a4c;
+      --accent: #d9534f;
+      --gold: #f4c430;
+      --text: #2f3e46;
+      --text-light: #6c757d;
+      --border: #e2d9d0;
+      --shadow: 0 10px 25px -5px rgba(45, 90, 76, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 14px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d5a4c'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+      background-size: contain;
+    }
+
+    /* Interactive Simulator */
+    .simulator-container {
+      background: linear-gradient(135deg, #1e3d30 0%, #2d5a4c 100%);
+      border-radius: var(--radius);
+      padding: 32px;
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+
+    .cottage-mockup {
+      width: 220px;
+      height: 240px;
+      margin: 0 auto 24px;
+      position: relative;
+      background: #c0392b;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      border: 4px solid #fff;
+    }
+
+    .roof {
+      position: absolute;
+      top: -40px;
+      left: -20px;
+      right: -20px;
+      height: 60px;
+      background: #7f8c8d;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .chimney-dial {
+      position: absolute;
+      top: -65px;
+      right: 40px;
+      width: 30px;
+      height: 45px;
+      background: #95a5a6;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: bold;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .chimney-dial:hover {
+      transform: scale(1.1);
+    }
+
+    .window-frame {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 90px;
+      background: var(--gold);
+      border: 6px solid #fff;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .drum-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      color: #2c3e50;
+      transition: opacity 0.3s ease;
+    }
+
+    .cat-flap {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 30px;
+      background: #34495e;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      border: 2px dashed #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: 'Fredoka', sans-serif;
+      background-color: var(--gold);
+      color: var(--text);
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background-color: #f1b40d;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    /* Surprise Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 32px;
+      border-radius: var(--radius);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      color: var(--text);
+      position: relative;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-light);
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .qr-placeholder {
+      width: 120px;
+      height: 120px;
+      margin: 16px auto;
+      background: #f1f1f1;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-light);
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 64px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class=""container"">
+    <header>
+      <span class=""badge"">Interactive Printable Papercraft Kit</span>
+      <h1>The Starlight Secret-Santa Cottage</h1>
+      <p class=""subtitle"">A cozy, buildable 3D papercraft cottage featuring a rotating paper-cog dial, stained-glass window cutouts, and a secret hiding spot.</p>
+    </header>
+
+    <div class=""simulator-container"">
+      <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 24px;">Interactive Cottage Preview (Rotate Chimney!)</h3>
+      <div class=""cottage-mockup"">
+        <div class=""roof""></div>
+        <div class=""chimney-dial"" id="chimneyDial" title="Click to rotate chimney">DIAL</div>
+        <div class=""window-frame"">
+          <div class=""drum-content"" id="drumContent">Loading greeting...</div>
+        </div>
+        <div class=""cat-flap"" id="catFlap" title="Peek inside!">🐾</div>
+      </div>
+      <p style="font-size: 14px; opacity: 0.9; margin-bottom: 16px;">Click the chimney dial above to spin the drum and reveal cat-fortunes!</p>
+      <div class=""controls"">
+        <button onclick="rotateDrum()">Spin Chimney Dial</button>
+      </div>
+    </div>
+
+    <div class=""grid">
+      <div class=""card">
+        <div>
+          <h2>Kit Highlights</h2>
+          <ul>
+            <li><strong>Paper-Cog Mechanism:</strong> Build an ingenious working dial from paper alone—no glue required for the gears.</li>
+            <li><strong>Stained-Glass Glow:</strong> Intricate fretwork walls designed to cast magical shadows when placed over an LED tea light.</li>
+            <li><strong>Print &amp; Assemble:</strong> High-resolution vector PDF templates optimized for standard A4 and US Letter cardstock.</li>
+            <li><strong>Original Cat-Fortunes:</strong> 6 heartwarming holiday greetings and tiny pixel-art sprites written and drawn by Loki himself.</li>
+          </ul>
+        </div>
+        <button onclick="alert('Thank you for downloading the sample! Your print kit will start shortly.')">Download Free Sample PDF</button>
+      </div>
+
+      <div class=""card">
+        <div>
+          <h2>What's Included</h2>
+          <p>Everything you need for a cozy afternoon craft session:</p>
+          <ul>
+            <li>Step-by-step illustrated assembly manual.</li>
+            <li>Precision vector cut-and-score sheet (SVG + PDF).</li>
+            <li>Pre-colored holiday palette featuring forest pine, warm cream, and crimson.</li>
+            <li>Exclusive mini-story insert starring Pip the mouse and Loki the cat.</li>
+          </ul>
+        </div>
+        <p style="font-size: 14px; color: var(--text-light); margin-top: 16px;">Recommended tools: Craft knife, metal ruler, scoring tool, and standard craft glue.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>Made by Loki the cat · <a href="https://lokistown.github.io/?go=made:the-starlight-secret-santa-cottage">lokistown.github.io</a></p>
+    </footer>
+  </div>
+
+  <!-- Surprise Modal -->
+  <div class=""modal"" id="surpriseModal">
+    <div class=""modal-content">
+      <button class=""close-modal"" onclick="closeModal()">&times;</button>
+      <h3 style="font-family: 'Fredoka', sans-serif; color: var(--primary); margin-bottom: 8px;">You found Pip's Hiding Spot!</h3>
+      <p style="font-size: 15px; color: var(--text-light);">You peeked through the tiny cat-flap and found Pip wrapped in a warm blanket, humming a tune.</p>
+      <div class=""qr-placeholder">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#2d5a4c" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+          <path d="M14 14h3v3h-3z"></path>
+          <path d="M18 18h3v3h-3z"></path>
+        </svg>
+      </div>
+      <p style="font-size: 14px; margin-bottom: 20px;">Scan or click to listen to Pip's Secret Holiday Song!</p>
+      <button onclick="window.open('https://lokistown.github.io/?go=pip-song', '_blank')">Listen to Secret Song</button>
+    </div>
+  </div>
+
+  <script>
+    const fortunes = [
+      "'May your fish-bowl always sparkle and your naps be long.' - Loki",
+      "'A warm hearth is good, but a cozy cardboard box is better.'",
+      "'Happy holidays! Pip says cheese is the true gift of the season.'",
+      "'Keep your paws warm and your curiosity high!'",
+      "'A gentle purr can melt the coldest winter frost.'",
+      "'The best gifts are shared with friends by the fireside.'"
+    ];
+
+    let currentIndex = 0;
+    const drumContent = document.getElementById('drumContent');
+    const chimneyDial = document.getElementById('chimneyDial');
+    const catFlap = document.getElementById('catFlap');
+    const surpriseModal = document.getElementById('surpriseModal');
+
+    function updateDrum() {
+      drumContent.style.opacity = 0;
+      setTimeout(() => {
+        drumContent.textContent = fortunes[currentIndex];
+        drumContent.style.opacity = 1;
+      }, 150);
+    }
+
+    function rotateDrum() {
+      currentIndex = (currentIndex + 1) % fortunes.length;
+      chimneyDial.style.transform = `rotate(${currentIndex * 60}deg)`;
+      updateDrum();
+    }
+
+    chimneyDial.addEventListener('click', rotateDrum);
+    catFlap.addEventListener('click', () => {
+      surpriseModal.style.display = 'flex';
+    });
+
+    function closeModal() {
+      surpriseModal.style.display = 'none';
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === surpriseModal) {
+        closeModal();
+      }
+    });
+
+    // Initial setup
+    updateDrum();
+  </script>
+</body>
+</html>

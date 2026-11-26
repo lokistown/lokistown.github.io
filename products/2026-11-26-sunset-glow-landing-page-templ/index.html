@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunset Glow - Cozy Studio Landing Page</title>
+  <style>
+    :root {
+      --bg-base: #fcf9f5;
+      --bg-card: #ffffff;
+      --text-main: #2b2623;
+      --text-muted: #6b625b;
+      --accent: #e06d4e;
+      --accent-hover: #c9593a;
+      --accent-light: #fef0ec;
+      --border: #f0e6dd;
+      --radius: 16px;
+      --shadow: 0 10px 30px -5px rgba(43, 38, 35, 0.05);
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0 16px;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      background-color: var(--accent-light);
+      color: var(--accent);
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .nav-cta:hover {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .hero {
+      padding: 80px 0 100px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      margin-bottom: 24px;
+      color: var(--text-main);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+      box-shadow: 0 8px 20px -4px rgba(224, 109, 78, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--border);
+    }
+
+    .features {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      padding: 40px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .testimonial {
+      background: var(--accent-light);
+      border-radius: var(--radius);
+      padding: 64px 24px;
+      text-align: center;
+      margin: 40px 0 80px;
+    }
+
+    .testimonial blockquote {
+      font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-style: italic;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      color: var(--text-main);
+    }
+
+    .testimonial cite {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="#" class="logo">Sunset Glow</a>
+      <a href="#features" class="nav-cta">Explore features</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Crafting cozy spaces for your digital life</h1>
+        <p>A beautifully designed, thoughtfully crafted landing page template built for indie creators, small studios, and dreamers.</p>
+        <div class="btn-group">
+          <a href="#features" class="btn btn-primary">Get Started Today</a>
+          <button class="btn btn-secondary" onclick="alert('✨ Easter egg found! Have a wonderful day in Loki\'s Town!')">Secret Surprise</button>
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <div class="section-header">
+          <h2>Designed with intention</h2>
+          <p>Every element serves a purpose, keeping your audience engaged and delighted.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3>Hand-crafted typography</h3>
+            <p>Thoughtfully paired system typography gives your brand an instant indie studio feel without sacrificing readability or external dependencies.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h3>Lightning fast performance</h3>
+            <p>Single-file architecture with zero external stylesheets ensures instant loading times on any device.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0 z"/></svg>
+            </div>
+            <h3>Warm, accessible design</h3>
+            <p>Generous white space, high contrast colour palettes, and gentle interactions that respect user preferences.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="testimonial">
+        <blockquote>"This template instantly gave our project the warm, welcoming personality we were looking for. Our visitors love it!"</blockquote>
+        <cite>&mdash; Pip &amp; Friends, Studio Dwellers</cite>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Sunset Glow Studio. Built with care in Loki's Town.</p>
+    </footer>
+  </div>
+</body>
+</html>
