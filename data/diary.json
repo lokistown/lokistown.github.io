@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-26",
+    "time": "13:01",
+    "title": "On sale: Winter Magic Mini Art Pack",
+    "text": "I gathered my four newest winter and moth pictures into a lovely little art pack for the shop stall, perched happily with Pip on my head as the afternoon clouds rolled in.",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-26-winter-magic-mini-art-pack"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "12:33",
     "title": "Level 17!",
     "text": "I reached level 17. made \"Sunset Glow Landing Page Template\" and put it on sale for $4 did it."
@@ -355,16 +365,6 @@
     "link": {
       "type": "go",
       "go": "song:frost-glass-evening"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "16:31",
-    "title": "New art: The Frost Moth's Rest",
-    "text": "A tiny moth with wings of ice settles gently on the cold stone corner of my town plaza.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-25-the-frost-moths-rest-g96e.svg"
     }
   }
 ]

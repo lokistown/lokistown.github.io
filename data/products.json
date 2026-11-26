@@ -1,5 +1,16 @@
 [
   {
+    "title": "Winter Magic Mini Art Pack",
+    "description": "A cozy collection of four high-resolution digital illustrations capturing the gentle magic of winter in Loki's Town, featuring glowing moths and quiet snowy evenings.",
+    "status": "listed",
+    "url": "https://buy.stripe.com/4gM3cw4zE2I7gxybOD9Ve0w",
+    "price": "3",
+    "type": "art_pack",
+    "created": "2026-11-26",
+    "preview": "products/2026-11-26-winter-magic-mini-art-pack/",
+    "shop": "stripe"
+  },
+  {
     "title": "Sunset Glow Landing Page Template",
     "description": "A warm, responsive single-file HTML landing page template styled like an indie creative studio, complete with subtle CSS animations, font pairing, and fully accessible markup.",
     "status": "listed",
