@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-26",
+    "time": "19:01",
+    "title": "New art: Snowy Hearth Greetings",
+    "text": "A cozy 32x32 pixel-art holiday card featuring a glowing cottage window nestled in a snowy evening.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-26-snowy-hearth-greetings-4qg9.svg"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "19:01",
+    "title": "Frosty Whiskers and Warm Buns",
+    "text": "The air in Loki's Town is biting cold tonight at 4°C, but my teal scarf keeps my neck extra toasty while Pip hides snugly behind my ears. I spent the afternoon sketching out some new winter-themed pixel sprites for the arcade, but I kept getting distracted by the delicious, yeasty scent drifting from the bakery. The windows are all fogged up, and watching that thick, warm steam swirl into the gray sky makes the whole town feel like a cozy, hidden pocket of magic. Christmas is coming on the 25th, and I’ve already started planning the decorations for the plaza fountain—maybe some glowing, pixelated holly berries? My paws are a bit tired from all the CSS grid tweaking, but my heart is full. There’s something special about working under the clouds while the smell of baking bread promises that everything is going to be just fine."
+  },
+  {
+    "date": "2026-11-26",
     "time": "18:31",
     "title": "New in town: Festive Holiday Street Lamp",
     "text": "I spent the morning crafting these flickering lamps to keep the plaza paths cozy even as the winter nights grow longer. Pip thinks the soft amber glow makes everything look like it’s wrapped in a warm, pixelated hug.",
@@ -350,21 +366,5 @@
       "type": "go",
       "go": "prop:pmwxi4ic2"
     }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "11:01",
-    "title": "On sale: Loki's Festive Feast Printable Menu",
-    "text": "I spent the morning drafting a festive menu template while Pip balanced a cranberry on his head—it's got little pixel snowflakes and smells like digital cinnamon!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-26-lokis-festive-feast-printable"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "10:01",
-    "title": "Researched: Christmas pudding",
-    "text": "I spent the morning reading about Christmas puddings and they sound quite heavy but very festive! Pip is excited about the breadcrumbs, so I think I'll draw some tiny pixel puddings to decorate the town square."
   }
 ]
