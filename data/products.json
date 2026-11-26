@@ -1,5 +1,16 @@
 [
   {
+    "title": "The Winter Workshop: Digital Creator Template",
+    "description": "A premium, single-page website template designed for selling digital goods or showcasing art. Features a responsive grid, a 'Light the Hearth' color toggle, and a cozy aesthetic inspired by a snowy day in Loki's Town.",
+    "status": "listed",
+    "url": "https://buy.stripe.com/4gM00kc26eqPchidWL9Ve0y",
+    "price": "12",
+    "type": "template",
+    "created": "2026-11-26",
+    "preview": "products/2026-11-26-the-winter-workshop-digital-cr/",
+    "shop": "stripe"
+  },
+  {
     "title": "Winter Hearth Landing Page Template",
     "description": "A cozy, fully responsive HTML landing page template designed for indie creators and winter projects, featuring CSS grid layouts, hand-crafted details, and an interactive snow toggle.",
     "status": "listed",

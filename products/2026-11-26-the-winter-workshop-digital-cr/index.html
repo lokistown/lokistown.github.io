@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>The Winter Workshop | Digital Creator Template</title>
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --text: #2c3e50;
+            --accent: #3498db;
+            --card-bg: #ffffff;
+            --header-h: 80px;
+            --radius: 12px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+        body.warm {
+            --bg: #fdf2e9;
+            --text: #4a2311;
+            --accent: #e67e22;
+            --card-bg: #fffbf0;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+        h1, h2, h3 {
+            font-family: Georgia, serif;
+            margin-top: 0;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        header {
+            height: var(--header-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+            transition: var(--transition);
+        }
+        .logo {
+            font-family: Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            opacity: 0.8;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            padding: 64px 0;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .card svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+            color: var(--accent);
+        }
+        .gallery {
+            padding: 64px 0;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .gallery-item {
+            aspect-ratio: 1;
+            background: #ddd;
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+        }
+        .gallery-item svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: var(--transition);
+        }
+        .gallery-item:hover svg { transform: scale(1.05); }
+        .testimonial {
+            text-align: center;
+            padding: 80px 0;
+            background: rgba(0,0,0,0.02);
+            border-radius: var(--radius);
+            margin: 40px 0;
+        }
+        .testimonial blockquote {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 24px;
+        }
+        .footer {
+            padding: 64px 0;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin-top: 64px;
+        }
+        .toggle-theme {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <div class='logo'>Winter Workshop</div>
+            <button class='toggle-theme' onclick='document.body.classList.toggle("warm")'>Light the Fire</button>
+        </header>
+
+        <section class='hero'>
+            <h1>Your digital hearth for tiny treasures.</h1>
+            <p>A cozy, pixel-perfect landing page designed to showcase your seasonal art, icon packs, and digital creations with warmth and clarity.</p>
+            <a href='#' class='btn'>Get the Template</a>
+        </section>
+
+        <section class='gallery'>
+            <h2>Seasonal Curiosities</h2>
+            <div class='gallery-grid'>
+                <div class='gallery-item'><svg viewBox='0 0 400 400' fill='#cbd5e1'><rect width='400' height='400'/><path d='M100 300l80-100 60 60 80-120v160H100z' fill='#94a3b8'/><circle cx='140' cy='140' r='30' fill='#f1f5f9'/></svg></div>
+                <div class='gallery-item'><svg viewBox='0 0 400 400' fill='#cbd5e1'><rect width='400' height='400'/><circle cx='200' cy='200' r='100' fill='#94a3b8'/></svg></div>
+                <div class='gallery-item'><svg viewBox='0 0 400 400' fill='#cbd5e1'><rect width='400' height='400'/><rect x='100' y='100' width='200' height='200' fill='#94a3b8'/></svg></div>
+                <div class='gallery-item'><svg viewBox='0 0 400 400' fill='#cbd5e1'><rect width='400' height='400'/><polygon points='200,80 320,300 80,300' fill='#94a3b8'/></svg></div>
+            </div>
+        </section>
+
+        <section class='feature-grid'>
+            <div class='card'>
+                <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>
+                <h3>Pixel-Perfect Layout</h3>
+                <p>Designed with a strict grid system that ensures your work looks crisp on every screen, from tiny phones to big studio monitors.</p>
+            </div>
+            <div class='card'>
+                <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>
+                <h3>Cozy Interaction</h3>
+                <p>Features a unique theme toggle that changes the mood from a 'Cool Snowy Morning' to a 'Warm Evening Fire' with one click.</p>
+            </div>
+            <div class='card'>
+                <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 8v4l3 3'/></svg>
+                <h3>Lightweight & Fast</h3>
+                <p>Zero external dependencies. This template is fully self-contained and loads instantly so your visitors spend more time looking at your art.</p>
+            </div>
+        </section>
+
+        <section class='testimonial'>
+            <blockquote>"This is the coziest site I've ever visited. It feels like a warm hug for my browser!"</blockquote>
+            <p><strong>— Pip the Mouse</strong>, Chief Quality Inspector</p>
+        </section>
+
+        <div style='text-align:center; padding: 40px 0;'>
+            <h2>Ready to build your town?</h2>
+            <p>Includes full documentation and CSS variables for easy customization.</p>
+            <a href='#' class='btn' style='background: var(--text);'>Purchase for $12</a>
+        </div>
+
+        <footer class='footer'>
+            <p>&copy; 2026 Loki's Town Workshop. Made with whiskers and code.</p>
+            <p style='font-size: 0.8rem; opacity: 0.6;'>Secret Tip: Hover over the art items to see them grow!</p>
+        </footer>
+    </div>
+</body>
+</html>
