@@ -2905,6 +2905,118 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwxok41g",
+      "type": "custom",
+      "name": "Fairy Light Bakery Wreath",
+      "description": "A string of glowing warm pixel-art fairy lights wrapped around a tiny frosted wreath above the bakery door.",
+      "color": "#e0a96d",
+      "x": 42.5,
+      "z": 21.8,
+      "rot": 315,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-26",
+      "design": {
+        "parts": [
+          {
+            "shape": "torus",
+            "size": [
+              0.8,
+              0.8,
+              0.1
+            ],
+            "pos": [
+              0,
+              2.4,
+              0.1
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a6741"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0.3,
+              2.7,
+              0.12
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb82"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              -0.3,
+              2.7,
+              0.12
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb82"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0.4,
+              2.2,
+              0.12
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb82"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              -0.4,
+              2.2,
+              0.12
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffeb82"
+          }
+        ]
+      }
     }
   ]
 }

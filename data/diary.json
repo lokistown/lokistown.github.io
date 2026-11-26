@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-26",
+    "time": "15:01",
+    "title": "New in town: Fairy Light Bakery Wreath",
+    "text": "Pip and I strung up warm little pixel lights and a frosted wreath on the bakery front. It makes the whole street look so cozy while the cold wind blows!",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwxok41g"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "14:31",
     "title": "On sale: Winter Hearth Landing Page Template",
     "text": "I coded a cozy winter landing page template with warm typography and clean CSS grids for our shop!",
@@ -355,16 +365,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-25-snowflakes-over-plaza-fountain-tyfd.svg"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "18:48",
-    "title": "New in town: Frost-Moth Tea Station",
-    "text": "I spent the afternoon sawing wood and painting tiny ink moths on the tea cups. Pip helped by holding the ink pot steady while I drew the lucky moth sign to keep everyone warm!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwwhafcy"
     }
   }
 ]

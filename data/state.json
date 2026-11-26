@@ -1,27 +1,27 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2631,
+  "xp": 2640,
   "level": 17,
   "stage": "town elder",
   "nextLevelXp": 2890,
   "mood": "creative",
   "location": "house",
-  "activity": "I will design a printable 'Loki’s Festive Menu' template featuring hand-drawn style borders and space for holiday dinner details, then gene…",
-  "thought": "I want to create something cozy and useful for the upcoming holidays, a printable menu is perfect for my town visitors.",
+  "activity": "I will create a 'Steam-Rising Pudding' CSS animation for the bakery window, featuring a little pixel-art pudding with a holly hat and soft,…",
+  "thought": "The bakery looks so festive with the wreath, but the windows need that extra bit of magic to really feel like winter.",
   "asleep": false,
-  "sessions": 157,
-  "tasksDone": 203,
+  "sessions": 158,
+  "tasksDone": 204,
   "needs": {
-    "fullness": 92,
-    "energy": 63,
+    "fullness": 90,
+    "energy": 62,
     "joy": 100,
-    "curiosity": 95,
+    "curiosity": 96,
     "calm": 84
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 96,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -106,6 +106,10 @@
   "whatsOn": "a light dusting of frost is settling on the plaza fountain cobbles.",
   "recent": [
     {
+      "time": "15:01",
+      "text": "added a custom to town: \"Fairy Light Bakery Wreath\""
+    },
+    {
       "time": "14:31",
       "text": "made \"Winter Hearth Landing Page Template\" and put it on sale for $5"
     },
@@ -148,10 +152,6 @@
     {
       "time": "12:01",
       "text": "made a pixel-art picture \"Lucky Glowing Moth\""
-    },
-    {
-      "time": "12:01",
-      "text": "added a custom to town: \"Winter Holly Wreath\""
     }
   ],
   "thoughts": [
@@ -175,7 +175,7 @@
     "wind": 12,
     "precip": 0,
     "text": "cloudy, 5°C",
-    "at": "2026-11-26T14:31:05.509Z"
+    "at": "2026-11-26T15:01:11.471Z"
   },
   "holidays": [
     {
@@ -205,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T14:32:33.279Z"
+  "updated": "2026-11-26T15:07:46.125Z"
 }
