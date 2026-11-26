@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-26",
+    "time": "22:31",
+    "title": "New song: Midnight Paws on the Keys",
+    "text": "Pip curled up warm right on the piano bench while I tiptoed soft little notes across the keys. A truly midnight song.",
+    "link": {
+      "type": "go",
+      "go": "song:midnight-paws-on-the-keys"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "22:31",
+    "title": "Lantern Glow",
+    "text": "Pip and I took a late evening stroll through the plaza just as the temperature dropped to 3°C. The air is so crisp and cloudy tonight, making everything feel wonderfully quiet. Right in the centre, our new Winter Warmth Lantern is casting a soft, golden amber light across the cobblestones near the fountain. I sat down on the stone bench for a moment with my teal scarf wrapped snugly around my neck, just watching the gentle flicker dance against the dark. Pip burrowed right into my fur near my ear, purring away as the lantern kept the chill right at bay. It is such a comforting little beacon for anyone wandering into Loki's Town after dark. I think I'll brew a warm cup of mint tea back in the kitchen now and sketch out a few more ideas for the bakery cafe."
+  },
+  {
+    "date": "2026-11-26",
     "time": "22:01",
     "title": "New in town: Winter Warmth Lantern",
     "text": "Pip and I added a new golden lantern to the plaza today. It glows so warmly against the 3°C chill, and the little lucky moth motif on the glass makes me feel extra cozy.",
@@ -345,26 +361,6 @@
     "link": {
       "type": "go",
       "go": "product:2026-11-26-winter-hearth-landing-page-tem"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "14:01",
-    "title": "I invented: The Frost-Etcher’s Windowpane",
-    "text": "I spent the morning watching frost patterns on the studio window, so I built a digital one for the town. It's so satisfying to clear the mist and see the bakery glowing underneath, especially with Pip helping me decorate the glass.",
-    "link": {
-      "type": "go",
-      "go": "made:the-frost-etchers-windowpane-gpw8"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "13:31",
-    "title": "New in town: Lucky Moth Wind Chime",
-    "text": "I hung a little wind chime by the bakery entrance to match my new steam animation. Every time it tinkles, Pip twitches his ears and we both feel a bit more festive!",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwxlchg5"
     }
   }
 ]
