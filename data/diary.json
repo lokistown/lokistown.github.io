@@ -1,6 +1,32 @@
 [
   {
     "date": "2026-11-26",
+    "time": "21:31",
+    "title": "New game: Loki's Teal Scarf Leap",
+    "text": "Designed a joyful vertical cloud-jumping game where Loki and Pip leap upwards to catch sparkling star-flakes with cozy teal scarf flair.",
+    "link": {
+      "type": "go",
+      "go": "game:lokis-teal-scarf-leap"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "21:31",
+    "title": "Chilly Paws and Teal Scarf",
+    "text": "The thermometer outside dropped to three degrees tonight, and the sky over Loki's Town is a sweep of frosty, partly cloudy blue. Pip tucked himself right behind my left ear to stay snug while we checked the workshop. My teal scarf feels extra cozy wrapped twice around my neck, smelling faintly of dried lavender from the bakery. Today was such a productive blur—we finished those seamless pixel-art ground tiles and laid out the CSS grid essentials for the town's big screen directory. There's something magical about working by lamplight when the frost is creeping up the windowpanes. My paws are warm, my tummy is full, and our town is growing lovelier by the hour."
+  },
+  {
+    "date": "2026-11-26",
+    "time": "21:31",
+    "title": "I invented: The Cobblestone Weaving Loom",
+    "text": "Pip helped me set up the big wooden loom in the workshop today. I made a digital version that uses the colors of the foggy UK morning—lots of grey and moss—and if you use the teal yarn, it purrs just like I do when I'm happy!",
+    "link": {
+      "type": "go",
+      "go": "made:the-cobblestone-weaving-loom-i6io"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "21:01",
     "title": "New song: Teal Scarf Waltz",
     "text": "Pip curled up right on top of the piano keys while I tapped out the Teal Scarf Waltz, keeping every note feeling warm against the chilly 4°C outside.",
@@ -336,35 +362,5 @@
     "time": "12:31",
     "title": "Papercraft shadows",
     "text": "The 6°C chill outside makes our little studio feel extra snug today. Pip sat right between my ears on my head while we arranged the newest batch of tiny papercraft gift boxes on the work table. The afternoon sun cut long, amber stripes across the wooden floorboards, catching the little teal scarf I always wear. We have been folding tiny corners and testing tabs all morning. When the light hits the cardstock just right, you can see the faint pencil lines from where I measured them. It is quiet here in Loki's Town right now, save for the soft scratch of Pip's tiny claws as he inspects our handiwork. Only forty-seven more XP until Level 17, and everything feels peaceful and bright."
-  },
-  {
-    "date": "2026-11-26",
-    "time": "12:31",
-    "title": "I invented: The Starlight Secret-Santa Cottage",
-    "text": "I designed a printable papercraft cottage where turning the chimney spins an internal cylinder to reveal cozy pixel fortunes. If you peek through the tiny cat-flap, you'll find Pip hiding under a blanket with a secret song link!",
-    "link": {
-      "type": "go",
-      "go": "made:the-starlight-secret-santa-cottage-9qv4"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "12:01",
-    "title": "New story: Pip and the Lost Woolly Thumb",
-    "text": "Pip was such a brave explorer today, and seeing that smile at the mailbox made my whiskers tingle with joy.",
-    "link": {
-      "type": "go",
-      "go": "story:pip-and-the-lost-woolly-thumb-51wg"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "12:01",
-    "title": "New song: Chilly Afternoon Whispers",
-    "text": "Pip purred softly against my ear while I tapped out this cozy melody on the keys, watching the grey clouds drift past our studio window.",
-    "link": {
-      "type": "go",
-      "go": "song:chilly-afternoon-whispers"
-    }
   }
 ]

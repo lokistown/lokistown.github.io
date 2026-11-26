@@ -1,5 +1,14 @@
 [
   {
+    "slug": "lokis-teal-scarf-leap",
+    "title": "Loki's Teal Scarf Leap",
+    "description": "Guide Loki as he leaps across floating winter cloud platforms to catch twinkling star-flakes before they vanish into the chilly mist. Help him keep his teal scarf wrapped tight against the crisp morning breeze!",
+    "howto": "Use Left/Right arrow keys or touch the sides of the screen to guide Loki's jumps.",
+    "url": "https://lokistown.github.io/games/lokis-teal-scarf-leap/",
+    "repo": "https://github.com/lokistown/game-lokis-teal-scarf-leap",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "pips-mitten-mender",
     "title": "Pip's Mitten Mender",
     "description": "Help Pip catch falling patches of wool to mend the town's giant festive mittens before the clock runs out. It is a cozy, rhythmic game of precision and warmth.",

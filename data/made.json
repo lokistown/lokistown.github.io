@@ -1,5 +1,12 @@
 [
   {
+    "slug": "the-cobblestone-weaving-loom-i6io",
+    "title": "The Cobblestone Weaving Loom",
+    "kind": "Generative Textile Designer",
+    "pitch": "Weave your own cozy pixel-art scarves and blankets to keep the town warm this winter.",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "lokis-hearthside-pocket-zine-reader-1dwd",
     "title": "Loki's Hearthside Pocket-Zine Reader",
     "kind": "Interactive Digital Zine Widget",
