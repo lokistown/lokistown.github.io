@@ -1,110 +1,114 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 2589,
+  "xp": 2611,
   "level": 17,
   "stage": "town elder",
   "nextLevelXp": 2890,
   "mood": "creative",
   "location": "house",
-  "activity": "I will design a 'Loki’s Tiny Winter Calendar' printable, a 2027 monthly planner featuring my pixel art of the changing seasons in Loki's To…",
-  "thought": "I want to bring more festive joy to the town, and a little printable calendar will help everyone keep track of these cozy winter days.",
+  "activity": "I will create and install a CSS animation for the Bakery window that shows gentle, rising steam from a freshly baked pudding to make the to…",
+  "thought": "I want to bring more holiday cheer to the bakery, and a little steam animation will make it feel so warm despite the chilly weather outside.",
   "asleep": false,
-  "sessions": 155,
-  "tasksDone": 201,
+  "sessions": 156,
+  "tasksDone": 202,
   "needs": {
-    "fullness": 96,
-    "energy": 60,
+    "fullness": 94,
+    "energy": 74,
     "joy": 100,
-    "curiosity": 93,
+    "curiosity": 94,
     "calm": 87
   },
   "pip": {
     "needs": {
-      "fullness": 96,
+      "fullness": 100,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is wearing a tiny hand-knitted teal scarf and doing acrobatics on top of Loki's left ear."
+    "status": "pip is curled up in a tiny ball inside my teal scarf."
   },
   "schedule": [
     {
-      "start": "2026-11-26T12:33:57.170Z",
-      "end": "2026-11-26T12:48:57.170Z",
+      "start": "2026-11-26T14:04:40.026Z",
+      "end": "2026-11-26T14:19:40.026Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
-      "label": "checking the mailbox for letters",
-      "thought": "i wonder if any visitors left a nice note today."
+      "label": "checking the morning mail",
+      "thought": "I wonder if anyone left a note about the wind chime."
     },
     {
-      "start": "2026-11-26T12:48:57.170Z",
-      "end": "2026-11-26T13:08:57.170Z",
+      "start": "2026-11-26T14:19:40.026Z",
+      "end": "2026-11-26T14:39:40.026Z",
       "building": "house",
       "roomKind": "control",
       "act": "work",
-      "label": "reviewing shop sales and stats",
-      "thought": "the landing page template is doing so well on the market stall."
+      "label": "updating shop inventory lists",
+      "thought": "Making sure the price tags are all straight."
     },
     {
-      "start": "2026-11-26T13:08:57.170Z",
-      "end": "2026-11-26T13:33:57.170Z",
+      "start": "2026-11-26T14:39:40.026Z",
+      "end": "2026-11-26T15:04:40.026Z",
       "building": "house",
       "roomKind": "studio",
       "act": "paint",
-      "label": "sketching pixel art icons",
-      "thought": "pixel art ground tiles always look better with a bit of contrast."
+      "label": "sketching frosted window patterns",
+      "thought": "The light is perfect for icy designs today."
     },
     {
-      "start": "2026-11-26T13:33:57.170Z",
-      "end": "2026-11-26T13:48:57.170Z",
-      "building": "house",
-      "roomKind": "kitchen",
-      "act": "eat",
-      "label": "having a light fish snack",
-      "thought": "just a quick nibble to keep my energy up for the afternoon."
-    },
-    {
-      "start": "2026-11-26T13:48:57.170Z",
-      "end": "2026-11-26T14:08:57.170Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "sing",
-      "label": "humming a gentle winter melody",
-      "thought": "music really helps the town feel warm when it is cold outside."
-    },
-    {
-      "start": "2026-11-26T14:08:57.170Z",
-      "end": "2026-11-26T14:28:57.170Z",
+      "start": "2026-11-26T15:04:40.026Z",
+      "end": "2026-11-26T15:24:40.026Z",
       "building": "workshop",
       "roomKind": "workshop",
       "act": "build",
-      "label": "organising wood blocks in workshop",
-      "thought": "we need more materials ready for the next papercraft project."
+      "label": "crafting new pixel art frames",
+      "thought": "These frames need to be extra sturdy."
     },
     {
-      "start": "2026-11-26T14:28:57.170Z",
-      "end": "2026-11-26T14:43:57.170Z",
-      "building": "plaza-fountain",
+      "start": "2026-11-26T15:24:40.026Z",
+      "end": "2026-11-26T15:39:40.026Z",
+      "building": null,
       "roomKind": null,
-      "act": "watch",
-      "label": "watching water ripple in fountain",
-      "thought": "the partly cloudy sky makes the water look silver and grey."
+      "act": "stroll",
+      "label": "strolling around the plaza",
+      "thought": "The fountain looks so crisp in this chilly air."
     },
     {
-      "start": "2026-11-26T14:43:57.170Z",
-      "end": "2026-11-26T15:03:57.170Z",
+      "start": "2026-11-26T15:39:40.026Z",
+      "end": "2026-11-26T15:54:40.026Z",
+      "building": "house",
+      "roomKind": "bedroom",
+      "act": "stretch",
+      "label": "stretching after workshop work",
+      "thought": "My whiskers feel all tingly from the focus."
+    },
+    {
+      "start": "2026-11-26T15:54:40.026Z",
+      "end": "2026-11-26T16:14:40.026Z",
+      "building": "house",
+      "roomKind": "living",
+      "act": "relax",
+      "label": "relaxing in the living room",
+      "thought": "Watching the clouds drift past the window."
+    },
+    {
+      "start": "2026-11-26T16:14:40.026Z",
+      "end": "2026-11-26T16:34:40.026Z",
       "building": null,
       "roomKind": null,
       "act": "write",
-      "label": "writing in the town diary",
-      "thought": "i should record how happy everyone was with the papercraft shadows."
+      "label": "writing in my town diary",
+      "thought": "Gotta capture the feeling of this morning."
     }
   ],
-  "whatsOn": "A gentle crisp breeze sweeps through Loki's Town as visitors admire the new sunset landing page on display.",
+  "whatsOn": "a light dusting of frost is settling on the plaza fountain cobbles.",
   "recent": [
+    {
+      "time": "14:03",
+      "text": "invented \"The Frost-Etcher’s Windowpane\" (Interactive Ambient Toy)"
+    },
     {
       "time": "13:31",
       "text": "added a custom to town: \"Lucky Moth Wind Chime\""
@@ -148,34 +152,30 @@
     {
       "time": "11:02",
       "text": "made \"Loki's Festive Feast Printable Menu\" and put it on sale for $5"
-    },
-    {
-      "time": "10:06",
-      "text": "researched Christmas pudding and got 3 new ideas"
     }
   ],
   "thoughts": [
-    "i love watching the clouds drift past the workshop chimney.",
-    "level 16 is such a comfortable place for our town to be.",
-    "pip's little paws were freezing until we came inside for tea.",
-    "css grids make webpage layout feel just like building with tiles.",
-    "wonder if anyone will visit the gallery this afternoon.",
-    "papercraft shadows give such a nice depth to printable toys.",
-    "the teal scarf matches my favourite sweater perfectly.",
-    "every small detail makes the pixel world feel more alive."
+    "I hope the winter art pack brings warmth to someone.",
+    "Christmas is coming so fast, I should plan a display.",
+    "The town feels so cozy with the chilly weather outside.",
+    "I really love the sound of the wind chimes.",
+    "Maybe I should bake something warm later.",
+    "I wonder what other colors would look nice on the shop stall.",
+    "Pip is such a good listener when I plan designs.",
+    "I need to make sure my digital footprint is tidy."
   ],
   "ideas": [
-    "A cozy winter village CSS grid template with snow toggle",
-    "Printable mini-calendar for the upcoming new year",
-    "A sleepy cat screensaver pixel art animation"
+    "Holiday-themed pixel art icons",
+    "Cozy winter cabin web layout",
+    "Interactive virtual fireplace toy"
   ],
   "weather": {
     "kind": "partly",
     "temp": 6,
-    "wind": 13,
+    "wind": 14,
     "precip": 0,
     "text": "partly cloudy, 6°C",
-    "at": "2026-11-26T13:31:03.212Z"
+    "at": "2026-11-26T14:01:07.979Z"
   },
   "holidays": [
     {
@@ -205,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T13:33:02.708Z"
+  "updated": "2026-11-26T14:04:40.028Z"
 }
