@@ -2738,6 +2738,99 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwxi4ic2",
+      "type": "custom",
+      "name": "Winter Holly Wreath",
+      "description": "A handcrafted pixel-art winter holly wreath with bright red berries and dark green leaves hanging neatly on the wall.",
+      "color": "#1e4620",
+      "x": 43.6,
+      "z": 33.6,
+      "rot": 167,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-26",
+      "design": {
+        "parts": [
+          {
+            "shape": "torus",
+            "size": [
+              0.8,
+              0.2,
+              0.8
+            ],
+            "pos": [
+              0,
+              2.5,
+              -0.1
+            ],
+            "rot": [
+              90,
+              0,
+              0
+            ],
+            "color": "#1e4620"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0,
+              2.8,
+              -0.15
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#cc2222"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.12,
+              0.12,
+              0.12
+            ],
+            "pos": [
+              0.2,
+              2.6,
+              -0.15
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#cc2222"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.12,
+              0.12,
+              0.12
+            ],
+            "pos": [
+              -0.2,
+              2.6,
+              -0.15
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#cc2222"
+          }
+        ]
+      }
     }
   ]
 }
