@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang=""en"">
+<head>
+  <meta charset=""utf-8"">
+  <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
+  <title>Loki's Hearthside Pocket-Zine Reader</title>
+  <link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+  <link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+  <link href=""https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,600..900;1,600..900&display=swap"" rel=""stylesheet">
+  <style>
+    :root {
+      --bg-base: #f4efe6;
+      --paper: #fcf8f2;
+      --paper-shadow: rgba(61, 48, 38, 0.12);
+      --text-main: #2b231d;
+      --text-muted: #6b5c52;
+      --accent: #b85d38;
+      --accent-hover: #9c4b27;
+      --accent-light: #f3e5df;
+      --border: #e2d7cc;
+      --radius: 12px;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lora', serif;
+    }
+
+    body.night-mode {
+      --bg-base: #181518;
+      --paper: #242024;
+      --paper-shadow: rgba(0, 0, 0, 0.4);
+      --text-main: #f0e6e0;
+      --text-muted: #b09e95;
+      --accent: #e08259;
+      --accent-hover: #f0956c;
+      --accent-light: #362a26;
+      --border: #3d3430;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px var(--paper-shadow);
+    }
+
+    .btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    .zine-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1400px;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .zine-book {
+      width: 100%;
+      max-width: 720px;
+      aspect-ratio: 4 / 3;
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: 0 16px 32px var(--paper-shadow), 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.4s ease, background-color 0.4s ease;
+    }
+
+    .zine-page {
+      flex: 1;
+      padding: 40px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      height: 100%;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .zine-page.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .page-header {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .page-footer-num {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      margin-top: 16px;
+    }
+
+    .zine-title {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .zine-subtitle {
+      font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      font-size: 1.02rem;
+    }
+
+    .illustration-box {
+      background: var(--accent-light);
+      border: 1px dashed var(--accent);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .pip-stamp {
+      display: inline-block;
+      cursor: pointer;
+      padding: 4px 8px;
+      background: transparent;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--accent);
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .pip-stamp:hover {
+      background: var(--accent-light);
+    }
+
+    .embed-box {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px var(--paper-shadow);
+    }
+
+    .embed-box h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      resize: none;
+      margin-top: 8px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 40px;
+      padding-bottom: 20px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .zine-page {
+        padding: 20px;
+      }
+      .zine-book {
+        aspect-ratio: 3 / 4;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class=""container"">
+    <header>
+      <h1>Hearthside Pocket-Zine Reader</h1>
+      <p class=""subtitle"">Flip through hand-crafted micro-zines with soft paper rustles and cozy winter vibes.</p>
+      <div class=""controls-bar"">
+        <button class=""btn"" id=""audio-toggle"">🔊 Hearth Audio: Off</button>
+        <button class=""btn"" id=""print-btn"">🖨️ Printable PDF View</button>
+        <button class=""btn"" id=""embed-toggle"">📋 Embed Code</button>
+      </div>
+    </header>
+
+    <div class=""zine-stage"">
+      <div class=""zine-book"" id=""zine-book">
+        <!-- Page 1: Cover -->
+        <div class=""zine-page active"" data-page=""1">
+          <div class=""page-header">
+            <span>Vol. 1</span>
+            <span>Winter 2026</span>
+          </div>
+          <div>
+            <div class=""zine-title"">Snow-Paw Musings &amp; Tea Pairings</div>
+            <div class=""zine-subtitle"">Collected reflections from Loki's Town window sill.</div>
+            <div class=""illustration-box">
+              [Pixel Art: A small orange cat and tiny mouse peering at frost ferns on glass]
+            </div>
+            <p>Welcome, wandering friend. Pull up a wooden stool, warm your paws by the hearth, and turn the page.</p>
+          </div>
+          <div class=""page-footer-num">1 / 6</div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class=""zine-page"" data-page=""2">
+          <div class=""page-header">
+            <span>Snow-Paw Musings</span>
+            <span>Loki &amp; Pip</span>
+          </div>
+          <div>
+            <p><strong>The Quiet of 4°C</strong></p>
+            <p>When the sky turns slate grey and the frost gathers in delicate lace patterns on the glass, the bakery smells richer. Cinnamon rolls and toasted hazelnuts anchor the afternoon.</p>
+            <p>Pip says winter is just the world wrapping itself in a heavy woolen blanket to dream about spring bulbs.</p>
+          </div>
+          <div class=""page-footer-num">2 / 6</div>
+        </div>
+
+        <!-- Page 3 -->
+        <div class=""zine-page"" data-page=""3">
+          <div class=""page-header">
+            <span>Tea Pairings</span>
+            <span>Cozy Guide</span>
+          </div>
+          <div>
+            <p><strong>Three Perfect Pairings for Chilly Days:</strong></p>
+            <p><em>1. Lapsang Souchong &amp; Sharp Cheddar</em> — Smoky fire notes match the deep autumn rind.</p>
+            <p><em>2. Spiced Rooibos &amp; Shortbread</em> — Sweet vanilla warmth with zero caffeine jitters for late-night crafting.</p>
+          </div>
+          <div class=""page-footer-num">3 / 6</div>
+        </div>
+
+        <!-- Page 4 -->
+        <div class=""zine-page"" data-page=""4">
+          <div class=""page-header">
+            <span>Studio Notes</span>
+            <span>Making Things</span>
+          </div>
+          <div>
+            <p>Building a pixel town isn't just about code and tiles; it's about making space for people to rest. Every little bench, warm lamp, and interactive widget is an invitation to slow down.</p>
+            <div class=""illustration-box">
+              [Tiny pixel icon of a teal scarf draped over a wooden chair]
+            </div>
+          </div>
+          <div class=""page-footer-num">4 / 6</div>
+        </div>
+
+        <!-- Page 5 -->
+        <div class=""zine-page"" data-page=""5">
+          <div class=""page-header">
+            <span>Mouse Corner</span>
+            <span>Pip's Page</span>
+          </div>
+          <div>
+            <p><em>Squeak note from Pip:</em></p>
+            <p>If you find a crumb behind the jukebox, mind your manners and leave it for the night shift. Also, Loki snores when he dreams about catching red dragonflies in June.</p>
+          </div>
+          <div class=""page-footer-num">5 / 6</div>
+        </div>
+
+        <!-- Page 6: Back Cover -->
+        <div class=""zine-page"" data-page=""6">
+          <div class=""page-header">
+            <span>Colophon</span>
+            <span>Fin</span>
+          </div>
+          <div>
+            <p>Created with warmth in Loki's Town.</p>
+            <p>Published under the open hearth license. Share freely, stay cozy, and always leave room for tea.</p>
+            <div style="text-align: center; margin-top: 24px;">
+              <button class=""pip-stamp"" id=""pip-stamp-btn"">🐾 Tap Pip's footprint (0/3)</button>
+            </div>
+          </div>
+          <div class=""page-footer-num">6 / 6</div>
+        </div>
+      </div>
+    </div>
+
+    <div class=""nav-controls"">
+      <button class=""btn"" id=""prev-btn"">← Previous Page</button>
+      <span id=""page-indicator"" style="font-size: 0.95rem; color: var(--text-muted);">Page 1 of 6</span>
+      <button class=""btn btn-primary"" id=""next-btn"">Next Page →</button>
+    </div>
+
+    <div class=""embed-box"" id=""embed-container"" style="display: none;">
+      <h3>Embed this Zine on your site</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Copy the snippet below to add Loki's pocket zine reader to your own web page or digital clubhouse.</p>
+      <textarea readonly>&lt;iframe src="https://lokistown.github.io/zines/snow-paw.html" width="100%" height="500px" style="border:none; border-radius:12px;"&gt;&lt;/iframe&gt;</textarea>
+    </div>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href="https://lokistown.github.io/?go=made:pocket-zine-reader">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 6;
+    let audioActive = false;
+    let audioCtx = null;
+    let nightLightActive = false;
+    let tapCount = 0;
+
+    const pages = document.querySelectorAll('.zine-page');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageIndicator = document.getElementById('page-indicator');
+    const audioToggle = document.getElementById('audio-toggle');
+    const printBtn = document.getElementById('print-btn');
+    const embedToggle = document.getElementById('embed-toggle');
+    const embedContainer = document.getElementById('embed-container');
+    const pipStampBtn = document.getElementById('pip-stamp-btn');
+    const zineBook = document.getElementById('zine-book');
+
+    function updatePages() {
+      pages.forEach((page, index) => {
+        if (index + 1 === currentPage) {
+          page.classList.add('active');
+        } else {
+          page.classList.remove('active');
+        }
+      });
+      pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.style.visibility = currentPage === 1 ? 'hidden' : 'visible';
+      nextBtn.style.visibility = currentPage === totalPages ? 'hidden' : 'visible';
+    }
+
+    function playPageSound() {
+      if (!audioActive) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Soft white noise rustle burst
+        const bufferSize = audioCtx.sampleRate * 0.15;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1200;
+        filter.Q.value = 1.2;
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start();
+      } catch (e) {
+        console.log('Audio playback prevented or unsupported');
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        updatePages();
+        playPageSound();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        updatePages();
+        playPageSound();
+      }
+    });
+
+    audioToggle.addEventListener('click', () => {
+      audioActive = !audioActive;
+      audioToggle.textContent = audioActive ? '🔊 Hearth Audio: On' : '🔊 Hearth Audio: Off';
+      if (audioActive && !audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    });
+
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+
+    embedToggle.addEventListener('click', () => {
+      embedContainer.style.display = embedContainer.style.display === 'none' ? 'block' : 'none';
+    });
+
+    pipStampBtn.addEventListener('click', () => {
+      tapCount++;
+      if (tapCount < 3) {
+        pipStampBtn.textContent = `🐾 Tap Pip's footprint (${tapCount}/3)`;
+      } else {
+        tapCount = 0;
+        pipStampBtn.textContent = `✨ Night-light activated!`;
+        document.body.classList.toggle('night-mode');
+        nightLightActive = !nightLightActive;
+        
+        // Play soft chime
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.3); // E5
+          gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+          osc.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.8);
+        } catch(e){}
+
+        setTimeout(() => {
+          pipStampBtn.textContent = `🐾 Tap Pip's footprint (0/3)`;
+        }, 3000);
+      }
+    });
+
+    updatePages();
+  </script>
+</body>
+</html>

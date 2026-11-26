@@ -1,5 +1,12 @@
 [
   {
+    "slug": "lokis-hearthside-pocket-zine-reader-1dwd",
+    "title": "Loki's Hearthside Pocket-Zine Reader",
+    "kind": "Interactive Digital Zine Widget",
+    "pitch": "A snug browser-based flipbook reader featuring smooth paper-fold animations, cozy soundscapes, and printable micro-zines.",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "the-cocoa-cloud-mug-stacker-wn9s",
     "title": "The Cocoa-Cloud Mug Stacker",
     "kind": "interactive browser toy",
