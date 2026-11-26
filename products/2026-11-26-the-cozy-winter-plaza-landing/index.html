@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Plaza Showcase Template</title>
+    <style>
+        :root {
+            --base: #f0f7ff;
+            --surface: #ffffff;
+            --accent: #2a5a75;
+            --highlight: #e63946;
+            --glow: #fdf0d5;
+            --text-main: #1d3557;
+            --text-muted: #457b9d;
+            --radius: 16px;
+            --shadow: 0 4px 12px rgba(29, 53, 87, 0.08);
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 48px;
+            --space-xl: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: var(--base);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        nav {
+            padding: var(--space-m) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--highlight);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: var(--space-m);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-l);
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: var(--text-main);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+            padding: var(--space-xl) 0;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: var(--space-l);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--glow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-s);
+            font-size: 1.5rem;
+        }
+
+        .showcase {
+            background: var(--accent);
+            color: white;
+            padding: var(--space-xl) 0;
+            border-radius: 40px;
+            margin-bottom: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase h2 {
+            color: white;
+            margin-bottom: var(--space-s);
+        }
+
+        .interaction-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            padding: var(--space-l);
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: var(--space-m);
+        }
+
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-m);
+            margin-bottom: var(--space-xl);
+        }
+
+        .price-card {
+            background: var(--surface);
+            border: 2px solid #dae5f0;
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-card.featured {
+            border-color: var(--highlight);
+            box-shadow: 0 8px 24px rgba(230, 57, 70, 0.15);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .price-card h3 {
+            margin-bottom: var(--space-s);
+        }
+
+        .price-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: var(--space-m);
+        }
+
+        .price-card p {
+            margin-bottom: var(--space-m);
+            flex-grow: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-l) 0;
+            border-top: 1px solid rgba(29, 53, 87, 0.1);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes waggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .hidden-mitten {
+            cursor: pointer;
+            display: inline-block;
+            animation: waggle 2s infinite ease-in-out;
+            user-select: none;
+        }
+
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .price-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .showcase { border-radius: 0; }
+            .grid { padding: var(--space-m) 0; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snow-canvas"></canvas>
+
+    <div class="container">
+        <nav>
+            <a href="#" class="logo" aria-label="Loki's Plaza Home"><span aria-hidden="true">❄️</span> Loki's Plaza</a>
+            <div class="nav-links">
+                <button class="btn" style="padding: 8px 16px; font-size: 0.85rem;" onclick="toggleSnow()" id="snow-toggle-btn">Disable Snow</button>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <h1>Winter isn't a season, it's a feeling.</h1>
+            <p>Welcome to the digital hearth. Whether you're building a holiday market or a cozy portfolio, our template brings the warmth of a pixel-art town to your visitors.</p>
+            <a href="#pricing" class="btn">Get the License</a>
+        </header>
+
+        <main>
+            <section class="grid">
+                <article class="card">
+                    <div class="card-icon" aria-hidden="true">🕯️</div>
+                    <h3>Cozy Accessibility</h3>
+                    <p>Semantic HTML5 and high-contrast color variables ensure every visitor feels welcome in your town.</p>
+                </article>
+                <article class="card">
+                    <div class="card-icon" aria-hidden="true">☕</div>
+                    <h3>Instant Warmth</h3>
+                    <p>Lightweight CSS-only layout with zero external dependencies. Your site loads faster than a kettle boils.</p>
+                </article>
+                <article class="card">
+                    <div class="card-icon" aria-hidden="true">🧤</div>
+                    <h3>Responsive Knits</h3>
+                    <p>Our CSS grid stretches and folds perfectly from the widest desktops to the smallest mobile screens.</p>
+                </article>
+            </section>
+
+            <section class="showcase">
+                <div class="container" style="text-align: center;">
+                    <h2>Interactive Frost</h2>
+                    <p>A template that responds to your touch. We believe in details that delight, like this secret mitten interaction.</p>
+                    <div class="interaction-box">
+                        <div class="hidden-mitten" id="mitten" onclick="mittenFind()" style="font-size: 3rem;" role="button" aria-label="Interact with the mitten">🧤</div>
+                        <p id="mitten-msg" style="margin-top: 10px;">There's a lost mitten here. Can you help Pip find it?</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pricing">
+                <h2 style="text-align: center; margin-bottom: var(--space-m);">Choose Your Journey</h2>
+                <div class="pricing">
+                    <div class="price-card">
+                        <h3>Snowflake</h3>
+                        <span class="price-val">$0</span>
+                        <p>Perfect for personal journals and non-profit town boards.</p>
+                        <button class="btn btn-outline">Start Free</button>
+                    </div>
+                    <div class="price-card featured">
+                        <h3>Blizzard</h3>
+                        <span class="price-val">$12</span>
+                        <p>Commercial use, premium support from Loki, and extra pixel-art assets included in the bundle.</p>
+                        <button class="btn">Join the Plaza</button>
+                    </div>
+                    <div class="price-card">
+                        <h3>Evergreen</h3>
+                        <span class="price-val">$45</span>
+                        <p>The lifetime town pass. All future templates and updates included forever.</p>
+                        <button class="btn btn-outline">Get Access</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="testimonials">
+                <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center;">
+                    <p class="quote">"Loki's designs always feel like a warm hug. This template turned my bakery's website into a destination!"</p>
+                    <p class="author">— The Town Baker</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Loki's Town. Hand-crafted with pixel-perfect care and a lot of cocoa.</p>
+            <p style="font-size: 0.7rem; margin-top: 10px;">Designed by a cat & a mouse.</p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, dpr, particles = [];
+        let snowActive = true;
+        let animationId = null;
+
+        function init() {
+            dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.scale(dpr, dpr);
+            
+            particles = [];
+            const count = Math.min(100, Math.floor(width / 10));
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 3 + 1,
+                    v: Math.random() * 0.8 + 0.2,
+                    o: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+
+        function draw() {
+            if (!snowActive) return;
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let p of particles) {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.o})`;
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+                
+                p.y += p.v;
+                p.x += Math.sin(p.y / 50) * 0.5;
+                if (p.y > height) {
+                    p.y = -10;
+                    p.x = Math.random() * width;
+                }
+            }
+            animationId = requestAnimationFrame(draw);
+        }
+
+        function toggleSnow() {
+            snowActive = !snowActive;
+            const btn = document.getElementById('snow-toggle-btn');
+            if (snowActive) {
+                btn.innerText = "Disable Snow";
+                draw();
+            } else {
+                btn.innerText = "Enable Snow";
+                ctx.clearRect(0, 0, width, height);
+                cancelAnimationFrame(animationId);
+            }
+        }
+
+        function mittenFind() {
+            const msg = document.getElementById('mitten-msg');
+            msg.innerText = "You found it! Pip is very happy. He's doing a tiny dance on your head now.";
+            const mitten = document.getElementById('mitten');
+            mitten.style.animation = 'none';
+            mitten.innerHTML = '🐭✨';
+            mitten.onclick = null;
+            mitten.style.cursor = 'default';
+        }
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                init();
+                if (snowActive && !animationId) draw();
+            }, 200);
+        });
+
+        init();
+        draw();
+    </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loki's Tiny-Traveler Passport</title>
+  <style>
+    :root {
+      --cream: #FDFCF0;
+      --forest: #2D5A27;
+      --terracotta: #D95D39;
+      --gold: #E6AF2E;
+      --slate: #2C3639;
+      --ink: #1A1A1A;
+      --radius: 12px;
+      --shadow: 0 4px 0 rgba(0,0,0,0.1);
+      --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-header: 'Trebuchet MS', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--slate);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-family: var(--font-header);
+      font-size: 2.5rem;
+      color: var(--terracotta);
+      margin-bottom: 8px;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      background: white;
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 3px solid var(--slate);
+      box-shadow: 8px 8px 0 var(--slate);
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) { .setup-grid { grid-template-columns: 1fr; } }
+
+    .field { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+      color: var(--forest);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--slate);
+      border-radius: 8px;
+      font-family: inherit;
+    }
+
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .stamp-btn {
+      padding: 8px 12px;
+      background: #f0f0f0;
+      border: 2px solid var(--slate);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+
+    .stamp-btn.active {
+      background: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 var(--slate);
+    }
+
+    /* Passport Preview Canvas */
+    .passport-canvas {
+      background: #ccc;
+      padding: 20px;
+      overflow-x: auto;
+      margin-bottom: 40px;
+      border-radius: var(--radius);
+    }
+
+    .zine-sheet {
+      width: 1050px;
+      height: 742px;
+      background: white;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      margin: 0 auto;
+      border: 1px solid #999;
+      position: relative;
+    }
+
+    .page {
+      border: 0.5px solid #eee;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-num {
+      position: absolute;
+      bottom: 10px;
+      font-size: 10px;
+      font-weight: bold;
+      opacity: 0.3;
+    }
+
+    /* Fold logic: Top row is upside down */
+    .row-top { transform: rotate(180deg); }
+
+    .passport-photo {
+      width: 80px;
+      height: 80px;
+      background: #f0f0f0;
+      border: 3px solid var(--slate);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .stamp-ink {
+      width: 50px;
+      height: 50px;
+      border: 3px double currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin: 5px;
+      transform: rotate(-15deg);
+      opacity: 0.8;
+    }
+
+    .print-btn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 16px 32px;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #a03d21;
+    }
+
+    .print-btn:active { transform: translateY(2px); box-shadow: none; }
+
+    .qr-seal {
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--ink);
+      background: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 50% / 10px 10px;
+      margin: 10px 0;
+    }
+
+    @media print {
+      @page { size: landscape; margin: 0; }
+      body * { visibility: hidden; }
+      .passport-canvas, .passport-canvas * { visibility: visible; }
+      .passport-canvas {
+        position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
+        background: white; padding: 0;
+      }
+      .zine-sheet {
+        width: 297mm; height: 210mm; /* A4 Landscape */
+        border: 0.5pt solid #ddd;
+      }
+    }
+
+    #secret-pip {
+      position: fixed; bottom: 20px; right: 20px; font-size: 30px;
+      cursor: pointer; opacity: 0.3; transition: 0.3s;
+    }
+    #secret-pip:hover { opacity: 1; }
+    .pip-content { display: none; }
+    .has-pip .pip-content { display: block; }
+    .has-pip .no-pip-content { display: none; }
+  </style>
+</head>
+<body id="root-body">
+
+  <div class="container">
+    <header>
+      <h1>Loki's Tiny Passport</h1>
+      <p>A printable souvenir for your visits to Loki's Town.</p>
+    </header>
+
+    <div class="setup-grid">
+      <div class="setup-left">
+        <div class="field">
+          <label>Adventurer Name</label>
+          <input type="text" id="in-name" placeholder="Enter name..." oninput="sync()">
+        </div>
+        <div class="field">
+          <label>Avatar</label>
+          <div class="btn-group">
+            <button class="stamp-btn active" onclick="setAvatar('cat', this)">🐱 Cat</button>
+            <button class="stamp-btn" onclick="setAvatar('fox', this)">🦊 Fox</button>
+            <button class="stamp-btn" onclick="setAvatar('frog', this)">🐸 Frog</button>
+          </div>
+        </div>
+      </div>
+      <div class="setup-right">
+        <label>Places Visited</label>
+        <div class="btn-group">
+          <button class="stamp-btn" onclick="togglePlace('bakery', this)">🥨 Bakery</button>
+          <button class="stamp-btn" onclick="togglePlace('gallery', this)">🎨 Gallery</button>
+          <button class="stamp-btn" onclick="togglePlace('workshop', this)">🔨 Workshop</button>
+          <button class="stamp-btn" onclick="togglePlace('house', this)">🏠 House</button>
+          <button class="stamp-btn" onclick="togglePlace('plaza', this)">⛲ Plaza</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="passport-canvas">
+      <div class="zine-sheet">
+        <!-- Zine Layout Grid (4x2) -->
+        <!-- Top Row (Upside Down): Page 2, 3, 4, 5 -->
+        <div class="page row-top">
+          <div class="page-num">2</div>
+          <div class="passport-photo" id="p2-avatar">🐱</div>
+          <div id="p2-name" style="font-weight:bold; font-size:14px;">ADVENTURER</div>
+          <div style="font-size:10px; opacity:0.6;">Verified Explorer</div>
+        </div>
+        <div class="page row-top">
+          <div class="page-num">3</div>
+          <div style="font-size:10px; font-weight:800; border-bottom:1px solid #eee; width:100%; margin-bottom:10px;">VISAS / STAMPS</div>
+          <div id="p3-stamps" style="display:flex; flex-wrap:wrap; justify-content:center;"></div>
+        </div>
+        <div class="page row-top">
+          <div class="page-num">4</div>
+          <div style="font-size:10px; font-weight:800; border-bottom:1px solid #eee; width:100%; margin-bottom:10px;">VISAS / STAMPS</div>
+          <div id="p4-stamps" style="display:flex; flex-wrap:wrap; justify-content:center;"></div>
+        </div>
+        <div class="page row-top">
+          <div class="page-num">5</div>
+          <div style="width:100%; height:100%; border:1px dashed #ccc; padding:5px; text-align:left; font-size:8px;">NOTES:</div>
+        </div>
+
+        <!-- Bottom Row: Page 1, 8, 7, 6 -->
+        <div class="page">
+          <div class="page-num">1</div>
+          <div style="font-size:30px;">🐾</div>
+          <h2 style="font-family:var(--font-header); color:var(--terracotta); font-size:18px;">LOKI'S TOWN</h2>
+          <div style="letter-spacing:4px; font-weight:900; font-size:12px; margin-top:5px; border-top:2px solid var(--slate);">PASSPORT</div>
+        </div>
+        <div class="page">
+          <div class="page-num">8</div>
+          <div style="font-size:10px; font-weight:bold;">SCAN TO RETURN</div>
+          <div class="qr-seal"></div>
+          <div style="font-size:8px;">lokistown.github.io</div>
+        </div>
+        <div class="page">
+          <div class="page-num">7</div>
+          <div class="no-pip-content" style="opacity:0.2; font-size:40px;">❔</div>
+          <div class="pip-content">
+            <div style="font-size:12px; color:var(--forest); font-weight:bold;">SECRET GARDEN</div>
+            <div style="font-size:30px;">🐭</div>
+            <div style="font-size:8px;">Pip's Private Guest</div>
+          </div>
+        </div>
+        <div class="page">
+          <div class="page-num">6</div>
+          <div style="width:100%; height:100%; border:1px dashed #ccc; padding:5px; text-align:left; font-size:8px;">SKETCHES:</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Print Your Passport</button>
+    <p style="text-align:center; font-size:0.9rem; margin-top:10px;">💡 <b>Folding tip:</b> Fold in half twice, then cut the center slit to make a book!</p>
+  </div>
+
+  <div id="secret-pip" onclick="foundPip()">🐭</div>
+
+  <script>
+    let state = {
+      name: 'ADVENTURER',
+      avatar: '🐱',
+      places: new Set()
+    };
+
+    const placeIcons = {
+      bakery: { icon: '🥨', color: '#D95D39' },
+      gallery: { icon: '🎨', color: '#E6AF2E' },
+      workshop: { icon: '🔨', color: '#2C3639' },
+      house: { icon: '🏠', color: '#2D5A27' },
+      plaza: { icon: '⛲', color: '#4A90E2' }
+    };
+
+    function sync() {
+      const val = document.getElementById('in-name').value.trim();
+      state.name = val || 'ADVENTURER';
+      document.getElementById('p2-name').innerText = state.name.toUpperCase();
+      
+      const p3 = document.getElementById('p3-stamps');
+      const p4 = document.getElementById('p4-stamps');
+      p3.innerHTML = ''; p4.innerHTML = '';
+      
+      let i = 0;
+      state.places.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'stamp-ink';
+        div.style.color = placeIcons[p].color;
+        div.innerText = placeIcons[p].icon;
+        div.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+        if (i < 3) p3.appendChild(div); else p4.appendChild(div);
+        i++;
+      });
+    }
+
+    function setAvatar(emoji, btn) {
+      state.avatar = emoji === 'cat' ? '🐱' : (emoji === 'fox' ? '🦊' : '🐸');
+      document.getElementById('p2-avatar').innerText = state.avatar;
+      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function togglePlace(p, btn) {
+      if (state.places.has(p)) state.places.delete(p); else state.places.add(p);
+      btn.classList.toggle('active');
+      sync();
+    }
+
+    function foundPip() {
+      document.getElementById('root-body').classList.toggle('has-pip');
+      alert("Squeak! Pip is happy to travel with you! (Secret page unlocked)");
+    }
+
+    sync();
+  </script>
+</body>
+</html>

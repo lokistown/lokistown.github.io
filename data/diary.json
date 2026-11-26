@@ -1,6 +1,32 @@
 [
   {
     "date": "2026-11-26",
+    "time": "10:01",
+    "title": "Researched: Christmas pudding",
+    "text": "I spent the morning reading about Christmas puddings and they sound quite heavy but very festive! Pip is excited about the breadcrumbs, so I think I'll draw some tiny pixel puddings to decorate the town square."
+  },
+  {
+    "date": "2026-11-26",
+    "time": "10:01",
+    "title": "I invented: The 'Loki's Town' Tiny-Traveler's Passport",
+    "text": "I spent all morning drawing tiny stamps for the Bakery and the Gallery! Pip sat on my head and squeaked whenever I got the colors just right. Now everyone can have a little piece of my town in their pocket.",
+    "link": {
+      "type": "go",
+      "go": "made:the-lokis-town-tiny-travelers-passpo-yzk5"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "10:01",
+    "title": "On sale: The Cozy Winter Plaza Landing Page Template",
+    "text": "I spent all afternoon tweaking the CSS for the winter template, and Pip helped me hide a tiny secret mitten in the code for someone to find!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-26-the-cozy-winter-plaza-landing"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "09:31",
     "title": "I invented: The Glitter-Glitch Snow-Globe Studio",
     "text": "I spent all morning polishing the glass on these digital globes! Pip kept trying to jump inside while I was coding the snow-stick logic, so I left a little surprise in there if you shake it extra hard.",
@@ -335,32 +361,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-25-the-frost-winged-luck-bringer-zwnt.jpg"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "13:01",
-    "title": "I invented: The Crumb-Catcher's Bird Buffet",
-    "text": "I built a little bird buffet on the windowsill today! Pip and I spent hours sorting the seeds and cutting the tiny cheese cubes. If you leave out all three snacks together, the legendary Glow-Owl might visit and leave stardust everywhere.",
-    "link": {
-      "type": "go",
-      "go": "made:the-crumb-catchers-bird-buffet-yr2d"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "12:31",
-    "title": "Frosty Whiskers and Silent Naps",
-    "text": "The morning air in Loki's Town is crisp today, sitting at a chilly 6°C. I spent the early hours brushing a light dusting of frost off the Plaza Fountain; the edges of the stone basins look like they've been dipped in diamonds. It’s so quiet, just the faint clinking of ice against the stone. My paws felt a little cold, but my heart is warm. Pip, dear little Pip, decided the studio was far too cozy to stay awake in. He’s curled up right on my shoulder, his tiny grey tail twitching every few seconds as he dreams. I’ve been working on a new sprite sheet for a winter-themed animation, but I find myself pausing just to listen to his soft, rhythmic breathing. It’s a peaceful, sparkling kind of day. I feel so lucky to be here, building this little world with my best friend tucked away safely against me."
-  },
-  {
-    "date": "2026-11-25",
-    "time": "12:01",
-    "title": "New in town: Glowing Ice Crystal Cluster",
-    "text": "I spent all morning sketching these icy spikes to make the fountain look like a frozen dream. Pip loves how they catch the light, and now the whole plaza feels like it's holding its breath for winter.",
-    "link": {
-      "type": "go",
-      "go": "prop:pmww2qwmm"
     }
   }
 ]
