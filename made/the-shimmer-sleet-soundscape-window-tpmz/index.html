@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shimmer-Sleet Soundscape Window</title>
+    <style>
+        :root {
+            --bg-deep: #050a0f;
+            --window-frame: #1e293b;
+            --glass-tint: rgba(173, 216, 230, 0.05);
+            --snow-white: #f8fafc;
+            --accent-teal: #38bdf8;
+            --text-main: #cbd5e1;
+            --spacing: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px var(--spacing);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 8px;
+            text-align: center;
+            color: var(--snow-white);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        #window-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            aspect-ratio: 16 / 10;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            border: 14px solid var(--window-frame);
+            border-radius: 4px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), inset 0 0 80px rgba(0,0,0,0.5);
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .window-muntin-v {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background: var(--window-frame);
+            transform: translateX(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .window-muntin-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: var(--window-frame);
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        #main-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            cursor: crosshair;
+        }
+
+        #controls {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        button {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent-teal);
+        }
+
+        button.active {
+            background: var(--accent-teal);
+            color: #000;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        }
+
+        #audio-toggle {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid var(--accent-teal);
+            color: var(--accent-teal);
+            padding: 10px 24px;
+        }
+
+        #pip-visitor {
+            position: absolute;
+            bottom: 5px;
+            right: 15px;
+            z-index: 20;
+            transition: transform 0.5s ease-in-out, opacity 0.5s;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px 0;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Shimmer-Sleet</h1>
+    <p class="subtitle">The town is quiet tonight. Brush the glass to clear the frost and hear the wind chimes sing.</p>
+
+    <div id="window-container">
+        <div class="window-muntin-v"></div>
+        <div class="window-muntin-h"></div>
+        <canvas id="main-canvas"></canvas>
+        
+        <div id="pip-visitor">
+            <!-- Pip the tiny grey mouse -->
+            <svg viewBox="0 0 100 100" width="40" height="40">
+                <circle cx="50" cy="70" r="20" fill="#94a3b8" /> <!-- body -->
+                <circle cx="40" cy="50" r="10" fill="#94a3b8" /> <!-- ear l -->
+                <circle cx="60" cy="50" r="10" fill="#94a3b8" /> <!-- ear r -->
+                <circle cx="45" cy="65" r="2" fill="#1e293b" /> <!-- eye l -->
+                <circle cx="55" cy="65" r="2" fill="#1e293b" /> <!-- eye r -->
+                <path d="M50 72 L48 75 L52 75 Z" fill="#f472b6" /> <!-- nose -->
+            </svg>
+        </div>
+    </div>
+
+    <div id="controls">
+        <button onclick="setIntensity('none')" id="btn-none">Clear</button>
+        <button onclick="setIntensity('light')" id="btn-light">Flurry</button>
+        <button onclick="setIntensity('medium')" id="btn-medium" class="active">Drift</button>
+        <button onclick="setIntensity('heavy')" id="btn-heavy">Blizzard</button>
+    </div>
+
+    <button id="audio-toggle" onclick="toggleAudio()">Enable Soundscapes</button>
+
+    <footer>
+        LOKI'S TOWN &middot; EST. 2024
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('main-canvas');
+        const ctx = canvas.getContext('2d');
+        const pip = document.getElementById('pip-visitor');
+        
+        let audioCtx = null;
+        let windGain, crackleGain, isAudioPlaying = false;
+        let frostPoints = [];
+        let snowflakes = [];
+        let currentIntensity = 'medium';
+        let lastChimeX = 0, lastChimeY = 0;
+
+        function resize() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            createSnowflakes(getSnowCount(currentIntensity));
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function getSnowCount(level) {
+            if (level === 'light') return 50;
+            if (level === 'medium') return 150;
+            if (level === 'heavy') return 400;
+            return 0;
+        }
+
+        function createSnowflakes(count) {
+            snowflakes = [];
+            for (let i = 0; i < count; i++) {
+                snowflakes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 1.5 + 0.5,
+                    drift: Math.random() * 1 - 0.5
+                });
+            }
+        }
+
+        function handleInput(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            frostPoints.push({x, y, age: 0, size: Math.random() * 10 + 5});
+
+            // Throttle chime sounds by distance
+            const dist = Math.hypot(x - lastChimeX, y - lastChimeY);
+            if (dist > 25 && isAudioPlaying) {
+                playChime(y);
+                lastChimeX = x;
+                lastChimeY = y;
+            }
+        }
+
+        canvas.addEventListener('mousemove', handleInput);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleInput(e); }, {passive: false});
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Snow
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            snowflakes.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.y += s.speed;
+                s.x += s.drift;
+                if (s.y > canvas.height) s.y = -10;
+                if (s.x > canvas.width) s.x = 0;
+                if (s.x < 0) s.x = canvas.width;
+            });
+
+            // Draw Frost Trails
+            for (let i = 0; i < frostPoints.length; i++) {
+                let p = frostPoints[i];
+                p.age += 1;
+                let alpha = Math.max(0, 0.6 - p.age / 100);
+                ctx.fillStyle = `rgba(224, 242, 254, ${alpha})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'white';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            frostPoints = frostPoints.filter(p => p.age < 100);
+
+            requestAnimationFrame(animate);
+        }
+
+        function setIntensity(level) {
+            currentIntensity = level;
+            document.querySelectorAll('#controls button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + level).classList.add('active');
+            
+            createSnowflakes(getSnowCount(level));
+
+            // Pip logic: he likes a good drift or light snow, but hides in blizzards
+            if (level === 'light' || level === 'medium') {
+                pip.style.opacity = '1';
+                pip.style.transform = 'translateY(0)';
+            } else {
+                pip.style.opacity = '0';
+                pip.style.transform = 'translateY(20px)';
+            }
+            
+            if (isAudioPlaying) updateAudioLevels(level);
+        }
+
+        async function initAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            const bufferSize = 2 * audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+
+            const windNoise = audioCtx.createBufferSource();
+            windNoise.buffer = noiseBuffer;
+            windNoise.loop = true;
+            
+            const windFilter = audioCtx.createBiquadFilter();
+            windFilter.type = 'lowpass';
+            windFilter.frequency.value = 350;
+
+            windGain = audioCtx.createGain();
+            windGain.gain.value = 0;
+
+            windNoise.connect(windFilter).connect(windGain).connect(audioCtx.destination);
+            windNoise.start();
+
+            crackleGain = audioCtx.createGain();
+            crackleGain.gain.value = 0;
+            crackleGain.connect(audioCtx.destination);
+            
+            // Sub-routine for snow crackle
+            setInterval(() => {
+                if (!isAudioPlaying || !audioCtx) return;
+                if (crackleGain.gain.value < 0.01) return;
+                
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = Math.random() * 100 + 20;
+                g.gain.setValueAtTime(0.005, audioCtx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.03);
+                osc.connect(g).connect(crackleGain);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.03);
+            }, 300);
+        }
+
+        function toggleAudio() {
+            if (!audioCtx) initAudio();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (isAudioPlaying) {
+                windGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+                crackleGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+                document.getElementById('audio-toggle').innerText = 'Enable Soundscapes';
+                isAudioPlaying = false;
+            } else {
+                document.getElementById('audio-toggle').innerText = 'Mute Soundscapes';
+                isAudioPlaying = true;
+                updateAudioLevels(currentIntensity);
+            }
+        }
+
+        function updateAudioLevels(level) {
+            if (!windGain || !crackleGain) return;
+            let w = 0, c = 0;
+            if (level === 'light') { w = 0.04; c = 0.08; }
+            if (level === 'medium') { w = 0.12; c = 0.12; }
+            if (level === 'heavy') { w = 0.35; c = 0.05; }
+            windGain.gain.setTargetAtTime(w, audioCtx.currentTime, 1);
+            crackleGain.gain.setTargetAtTime(c, audioCtx.currentTime, 1);
+        }
+
+        function playChime(y) {
+            if (!audioCtx) return;
+            const freq = 900 - (y / canvas.height * 700);
+            const osc = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            const reverb = audioCtx.createConvolver(); // Not used to keep it simple, but clean sine
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            // Harmonic
+            const osc2 = audioCtx.createOscillator();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(freq * 1.5, audioCtx.currentTime);
+            
+            g.gain.setValueAtTime(0.02, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+            
+            osc.connect(g).connect(audioCtx.destination);
+            osc2.connect(g).connect(audioCtx.destination);
+            
+            osc.start();
+            osc2.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+            osc2.stop(audioCtx.currentTime + 1.2);
+        }
+
+        setIntensity('medium');
+        animate();
+    </script>
+</body>
+</html>

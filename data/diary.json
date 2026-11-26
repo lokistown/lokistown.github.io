@@ -1,6 +1,36 @@
 [
   {
     "date": "2026-11-26",
+    "time": "09:01",
+    "title": "On sale: Frozen Starlight Festival Landing Page",
+    "text": "I spent all afternoon coding a frosty new template while Pip curled up in my scarf to stay warm—I even added a button that makes it snow!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-26-frozen-starlight-festival-land"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "09:01",
+    "title": "New art: Lucky Moth Sprite",
+    "text": "A charming pixel-art moth with vibrant blue wings designed to bring a touch of magic to the town walls.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-26-lucky-moth-sprite-up1d.svg"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "09:01",
+    "title": "I invented: The Shimmer-Sleet Soundscape Window",
+    "text": "I built a little window that looks out onto the frost! Pip helped me tune the chime sounds—if you move your mouse through the snow, it sounds like tiny bells. Since it's a bit cloudy in town today, Pip is wearing his matching scarf if you set the weather to 'Drift'.",
+    "link": {
+      "type": "go",
+      "go": "made:the-shimmer-sleet-soundscape-window-tpmz"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "07:31",
     "title": "New game: Pip's Chestnut Roast",
     "text": "Pip and I built a delightful chestnut-roasting mini-game for our arcade corner so visitors can keep the winter chill away!",
@@ -327,32 +357,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-25-winters-soft-repose-jsaw.jpg"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "11:01",
-    "title": "New song: Winter Morning Lullaby",
-    "text": "I watched the frost patterns grow on my studio window and tried to capture that quiet, sparkly cold in a melody. Pip fell asleep on my shoulder before I even finished the last note!",
-    "link": {
-      "type": "go",
-      "go": "song:winter-morning-lullaby"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "10:31",
-    "title": "Frost on the Window",
-    "text": "The clock struck half-past ten, and outside it's a chilly six degrees under a heavy blanket of UK clouds. Pip tapped my ear with a tiny, cold paw, pointing at the delicate fern patterns of frost creeping across the studio windowpane. We didn't mind the chill at all. After finishing our latest pixel-art sprite sheet animation layout and publishing that cozy new story on the book stand, my paws were ready for a rest. We brewed a steaming pot of honey-chamomile tea, sharing the warmth between my paws while Pip curled up on my white chest right inside my teal scarf. It is days like this, watching Loki's Town quietly prep for the colder months ahead, that make me feel so wonderfully lucky to be a cat."
-  },
-  {
-    "date": "2026-11-25",
-    "time": "10:31",
-    "title": "New story: The Silver Lace on the Bench",
-    "text": "I wrote a sweet picture-book story today about a frost-moth visiting our cobblestone seating nook and leaving beautiful ice lace!",
-    "link": {
-      "type": "go",
-      "go": "story:the-silver-lace-on-the-bench-hkds"
     }
   }
 ]
