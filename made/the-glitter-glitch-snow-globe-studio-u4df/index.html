@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Glitter-Glitch Snow-Globe Studio</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text-main: #f1f5f9;
+            --text-dim: #94a3b8;
+            --snow: #ffffff;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --radius: 20px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: var(--space-m);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: var(--space-xs);
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .tagline {
+            color: var(--text-dim);
+            margin-bottom: var(--space-l);
+            text-align: center;
+        }
+
+        .studio-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: var(--space-m);
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        @media (max-width: 900px) {
+            .studio-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .globe-wrapper {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(56, 189, 248, 0.1);
+            overflow: hidden;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .globe-wrapper.shaking {
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0,0) rotate(0); }
+            25% { transform: translate(-5px, 5px) rotate(-1deg); }
+            50% { transform: translate(5px, -5px) rotate(1deg); }
+            75% { transform: translate(-5px, -5px) rotate(-1deg); }
+            100% { transform: translate(5px, 5px) rotate(1deg); }
+        }
+
+        .globe-base {
+            width: 80%;
+            height: 40px;
+            background: linear-gradient(to bottom, #475569, #1e293b);
+            border-radius: 0 0 40px 40px;
+            margin: -20px auto 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        #snowCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .shelf-panel {
+            background: var(--card);
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-s);
+        }
+
+        .shelf-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .charm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .charm-item {
+            aspect-ratio: 1;
+            background: #334155;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 24px;
+            user-select: none;
+        }
+
+        .charm-item:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .charm-item.active {
+            border-color: var(--accent);
+            background: #0f172a;
+        }
+
+        .controls {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: filter 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        button.secondary {
+            background: #475569;
+            color: white;
+        }
+
+        .pip-alert {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        footer {
+            margin-top: var(--space-l);
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .placed-charm {
+            position: absolute;
+            transform: translate(-50%, -100%);
+            pointer-events: none;
+            font-size: 40px;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Glitter-Glitch</h1>
+    <p class="tagline">Craft your own tiny world of shimmering chaos.</p>
+
+    <div class="studio-container">
+        <div class="main-stage">
+            <div class="globe-wrapper" id="globe">
+                <div id="charm-container"></div>
+                <canvas id="snowCanvas"></canvas>
+                <div id="pip-easter-egg" class="pip-alert">
+                    <!-- Inlined Pip SVG -->
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#94a3b8"/>
+                        <circle cx="8" cy="10" r="1.5" fill="#000"/>
+                        <circle cx="16" cy="10" r="1.5" fill="#000"/>
+                        <path d="M10 14C10 14 11 16 12 16C13 16 14 14 14 14" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M5 7L3 4M19 7L21 4" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="globe-base"></div>
+        </div>
+
+        <aside class="shelf-panel">
+            <h2 class="shelf-title">Micro-Charms</h2>
+            <p style="font-size: 0.85rem; color: var(--text-dim)">Tap a charm, then tap the globe to place it.</p>
+            <div class="charm-grid">
+                <div class="charm-item" data-emoji="🌲">🌲</div>
+                <div class="charm-item" data-emoji="🏠">🏠</div>
+                <div class="charm-item" data-emoji="🐈">🐈</div>
+                <div class="charm-item" data-emoji="🏮">🏮</div>
+                <div class="charm-item" data-emoji="🍄">🍄</div>
+                <div class="charm-item" data-emoji="⛄">⛄</div>
+            </div>
+
+            <div class="controls">
+                <button onclick="shakeGlobe()">Shake the Magic</button>
+                <button class="secondary" onclick="clearGlobe()">Reset Scene</button>
+                <button class="secondary" onclick="snapshot()">Save Snapshot</button>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        Made by Loki the cat with help from Pip
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+        const globe = document.getElementById('globe');
+        const charmContainer = document.getElementById('charm-container');
+        const pipEgg = document.getElementById('pip-easter-egg');
+        
+        let width, height;
+        let snowParticles = [];
+        let placedCharms = [];
+        let selectedCharm = null;
+
+        function resize() {
+            const rect = globe.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            initSnow();
+        }
+
+        function initSnow() {
+            snowParticles = [];
+            for (let i = 0; i < 300; i++) {
+                snowParticles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: Math.random() * 1.5 + 0.5,
+                    size: Math.random() * 1.5 + 0.5,
+                    stuck: false
+                });
+            }
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, width, height);
+            
+            snowParticles.forEach(p => {
+                if (!p.stuck) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+
+                    // Stick logic for bottom
+                    if (p.y > height - 15) {
+                        if (Math.random() > 0.95) p.stuck = true;
+                    }
+
+                    // Stick logic for charms
+                    placedCharms.forEach(c => {
+                        const dx = p.x - c.x;
+                        const dy = p.y - (c.y - 20);
+                        if (Math.abs(dx) < 20 && Math.abs(dy) < 10) {
+                            if (Math.random() > 0.98) p.stuck = true;
+                        }
+                    });
+
+                    if (p.y > height) p.y = -10;
+                }
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.stuck ? 0.4 : 0.9})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        function handlePlace(e) {
+            if (!selectedCharm) return;
+            const rect = globe.getBoundingClientRect();
+            const touch = e.touches ? e.touches[0] : e;
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            const el = document.createElement('div');
+            el.className = 'placed-charm';
+            el.innerText = selectedCharm;
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            charmContainer.appendChild(el);
+
+            placedCharms.push({ x, y, emoji: selectedCharm });
+        }
+
+        globe.addEventListener('mousedown', handlePlace);
+        globe.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handlePlace(e);
+        }, {passive: false});
+
+        document.querySelectorAll('.charm-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.charm-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                selectedCharm = item.dataset.emoji;
+            });
+        });
+
+        function shakeGlobe() {
+            globe.classList.add('shaking');
+            snowParticles.forEach(p => {
+                p.stuck = false;
+                p.vx = (Math.random() - 0.5) * 20;
+                p.vy = (Math.random() - 0.5) * 20;
+            });
+
+            if (Math.random() > 0.7) {
+                pipEgg.style.opacity = '1';
+                setTimeout(() => { pipEgg.style.opacity = '0'; }, 1000);
+            }
+
+            setTimeout(() => {
+                globe.classList.remove('shaking');
+                snowParticles.forEach(p => {
+                    p.vx = (Math.random() - 0.5) * 1.5;
+                    p.vy = Math.random() * 1.5 + 0.5;
+                });
+            }, 1000);
+        }
+
+        function clearGlobe() {
+            charmContainer.innerHTML = '';
+            placedCharms = [];
+            initSnow();
+        }
+
+        function snapshot() {
+            const tempCanvas = document.createElement('canvas');
+            const tCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = width;
+            tempCanvas.height = height;
+
+            // Draw Background
+            tCtx.fillStyle = '#1e293b';
+            tCtx.fillRect(0, 0, width, height);
+
+            // Draw Charms
+            tCtx.font = '40px serif';
+            tCtx.textAlign = 'center';
+            placedCharms.forEach(c => {
+                tCtx.fillText(c.emoji, c.x, c.y);
+            });
+
+            // Draw Snow
+            tCtx.fillStyle = 'white';
+            snowParticles.forEach(p => {
+                tCtx.globalAlpha = p.stuck ? 0.4 : 0.9;
+                tCtx.beginPath();
+                tCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                tCtx.fill();
+            });
+
+            const link = document.createElement('a');
+            link.download = 'snow-globe-snapshot.png';
+            link.href = tempCanvas.toDataURL();
+            link.click();
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        update();
+    </script>
+</body>
+</html>

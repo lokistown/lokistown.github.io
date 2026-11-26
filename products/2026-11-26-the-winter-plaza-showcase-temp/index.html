@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Plaza Showcase</title>
+    <style>
+        :root {
+            --bg-deep: #0f172a;
+            --bg-card: #1e293b;
+            --accent-glow: #f59e0b;
+            --accent-cool: #38bdf8;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --snow-white: #ffffff;
+            --spacing-unit: 8px;
+            --border-radius: 12px;
+            --max-width: 1100px;
+            /* High-quality system font stack */
+            --font-main: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-display: "Segoe UI Variable Display", system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-deep);
+            color: var(--text-bright);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 calc(var(--spacing-unit) * 3);
+        }
+
+        header {
+            padding: calc(var(--spacing-unit) * 4) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: calc(var(--spacing-unit) * 4);
+        }
+
+        nav a {
+            color: var(--text-bright);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+            outline: none;
+        }
+
+        nav a:hover, nav a:focus-visible {
+            color: var(--accent-glow);
+        }
+
+        .hero {
+            padding: calc(var(--spacing-unit) * 10) 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: calc(var(--spacing-unit) * 3);
+            background: linear-gradient(to bottom, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto calc(var(--spacing-unit) * 5);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--bg-deep);
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover, .btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .features {
+            padding: calc(var(--spacing-unit) * 10) 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: calc(var(--spacing-unit) * 4);
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: calc(var(--spacing-unit) * 5);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent-cool);
+            transform: translateY(-4px);
+        }
+
+        .card svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: calc(var(--spacing-unit) * 3);
+            color: var(--accent-cool);
+        }
+
+        .card h3 {
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            font-size: 1.5rem;
+        }
+
+        .showcase {
+            padding: calc(var(--spacing-unit) * 8);
+            background: radial-gradient(circle at top right, #1e293b, transparent);
+            border-radius: 40px;
+            margin-bottom: calc(var(--spacing-unit) * 10);
+        }
+
+        .grid-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-gallery { grid-template-columns: 1fr; }
+            header { flex-direction: column; text-align: center; }
+            nav ul { justify-content: center; font-size: 0.8rem; }
+            .showcase { padding: calc(var(--spacing-unit) * 4); }
+        }
+
+        .gallery-item {
+            height: 300px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .testimonials {
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 10) 0;
+        }
+
+        .quote {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 24px;
+            line-height: 1.4;
+            color: var(--text-bright);
+        }
+
+        .author {
+            color: var(--accent-glow);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        #pip-secret {
+            position: fixed;
+            bottom: -80px;
+            left: 50px;
+            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            z-index: 99;
+            font-size: 2.5rem;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            user-select: none;
+        }
+
+        #pip-secret.peek {
+            bottom: 20px;
+        }
+
+        @keyframes drift {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="#" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                LOKI'S TOWN
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#gallery">Showcase</a></li>
+                    <li><a href="#contact">Get in Touch</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>A Winter Wonder for the Web.</h1>
+            <p>Build your corner of the internet with a template that feels like a warm fireplace on a snowy night. Responsive, accessible, and full of heart.</p>
+            <button class="btn" id="magic-btn" onclick="toggleSnow()">Experience the Magic</button>
+        </section>
+
+        <section id="features" class="features">
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <h3>Pixel-Perfect Layout</h3>
+                <p>Designed on a strict grid with generous whitespace to ensure your content has room to breathe and look professional.</p>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h3>Built to Last</h3>
+                <p>Semantic HTML5 and modern CSS variables make this template easy to customize and maintain for years to come.</p>
+            </div>
+            <div class="card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <h3>Global Ready</h3>
+                <p>Fully responsive architecture that works as beautifully on a tiny smartphone as it does on a massive 4K monitor.</p>
+            </div>
+        </section>
+
+        <section id="gallery" class="showcase">
+            <div style="text-align: center">
+                <h2>The Winter Collection</h2>
+                <p style="color: var(--text-muted); margin-top: 12px;">A glimpse into the cozy moments we've built.</p>
+            </div>
+            <div class="grid-gallery">
+                <div class="gallery-item">[ Cozy Art ]</div>
+                <div class="gallery-item">[ Pixel Magic ]</div>
+                <div class="gallery-item">[ Warm Vibes ]</div>
+                <div class="gallery-item">[ Mouse Friends ]</div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <p class="quote">"The most charming template I've ever used. It actually makes me feel warmer just looking at the screen!"</p>
+            <p class="author">&mdash; PIP THE MOUSE, RESIDENT CRITIC</p>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Loki's Town. Built with paws and pixels.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem">Hand-crafted for the indie web movement.</p>
+        </footer>
+    </div>
+
+    <div id="pip-secret" onclick="this.classList.remove('peek')" title="It's Pip!" role="img" aria-label="A tiny mouse appearing from the bottom">🐭</div>
+
+    <script>
+        let snowActive = false;
+
+        function toggleSnow() {
+            const btn = document.getElementById('magic-btn');
+            const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            
+            if (motionQuery.matches) {
+                revealPip();
+                return;
+            }
+
+            if (snowActive) return;
+            snowActive = true;
+            btn.disabled = true;
+            btn.textContent = "Magic in progress...";
+
+            const count = 40;
+            for(let i = 0; i < count; i++) {
+                setTimeout(createSnowflake, i * 120);
+            }
+            
+            setTimeout(revealPip, 2500);
+            
+            // Reset after duration
+            setTimeout(() => { 
+                snowActive = false; 
+                btn.disabled = false;
+                btn.textContent = "Experience the Magic";
+            }, 10000);
+        }
+
+        function revealPip() {
+            document.getElementById('pip-secret').classList.add('peek');
+        }
+
+        function createSnowflake() {
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.innerHTML = '&#10052;';
+            flake.setAttribute('aria-hidden', 'true');
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.opacity = Math.random() * 0.7 + 0.3;
+            flake.style.fontSize = (Math.random() * 12 + 10) + 'px';
+            
+            const duration = Math.random() * 3 + 5;
+            flake.style.animation = `drift ${duration}s linear forwards`;
+            
+            document.body.appendChild(flake);
+            
+            setTimeout(() => {
+                flake.remove();
+            }, duration * 1000);
+        }
+    </script>
+</body>
+</html>
