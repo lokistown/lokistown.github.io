@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winter Hearth - Cozy Indie Template</title>
+  <style>
+    :root {
+      --bg-base: #f5f2eb;
+      --surface: #ffffff;
+      --text-main: #2b3331;
+      --text-muted: #5c6663;
+      --primary: #2d5a4c;
+      --accent: #d96b43;
+      --accent-light: #f7e6e0;
+      --border: #e0dcd0;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(45, 90, 76, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0 16px;
+    }
+
+    h1, h2, h3, .brand {
+      font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      color: var(--primary);
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 1.25rem;
+      text-decoration: none;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-family: 'Fredoka', 'Nunito', system-ui, sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(217, 107, 67, 0.3);
+      transition: transform 0.2s, background-color 0.2s;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background-color: #c45b34;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      background: var(--surface);
+      border-radius: calc(var(--radius) * 1.5);
+      padding: 64px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .hero-content p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .hero-art {
+      background: var(--accent-light);
+      border-radius: var(--radius);
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features {
+      max-width: 1100px;
+      margin: 0 auto 80px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.25rem;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 48px;
+      font-size: 1.1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 32px 20px;
+      }
+      .hero-content h1 {
+        font-size: 2.25rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="brand-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      Winter Hearth
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <button class="btn" style="padding: 8px 16px; font-size: 0.9rem;">Get Template</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Build your cozy corner of the web.</h1>
+        <p>A warm, beautifully crafted single-file landing page template designed for creators, makers, and cozy projects. Clean layout, high contrast, and ready to customize.</p>
+        <a href="#" class="btn">Purchase Template ($5)</a>
+      </div>
+      <div class="hero-art">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2 class="section-title">Crafted with Care</h2>
+      <p class="section-subtitle">Every line of code and style decision is made to give your project an authentic indie feel.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Single File Simplicity</h3>
+          <p>HTML and CSS combined cleanly into one portable document. Easy to host anywhere without complex build steps.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Responsive Grids</h3>
+          <p>Fluid CSS grid layouts that gracefully adapt from wide desktop monitors down to mobile phone screens.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Warm Typography</h3>
+          <p>Thoughtfully paired fallback and system-ready font stacks ensuring comfortable, clear reading anywhere.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Winter Hearth Studio. Built with cozy care in Loki's Town.</p>
+  </footer>
+</body>
+</html>
