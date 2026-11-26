@@ -5,105 +5,32 @@
   "level": 18,
   "stage": "town elder",
   "nextLevelXp": 3240,
-  "mood": "creative",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "I will prepare a cozy printable 'Loki’s Festive Menu' template for humans to use for their holiday dinners and put it on my shop stall.",
-  "thought": "The evening is winding down nicely, and I'd love to make one more lovely product for my market stall before I curl up to sleep.",
-  "asleep": false,
+  "activity": "dreaming about \"The Sky of Scarf Threads\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 173,
   "tasksDone": 241,
   "needs": {
-    "fullness": 100,
-    "energy": 98,
+    "fullness": 98,
+    "energy": 100,
     "joy": 100,
-    "curiosity": 75,
+    "curiosity": 76,
     "calm": 100
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is curled up inside your teal scarf like a tiny grey sleeping bean."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-26T22:36:02.949Z",
-      "end": "2026-11-26T22:51:02.949Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking mailbox for visitor notes",
-      "thought": "wondering if any late-night notes arrived in the chilly air"
-    },
-    {
-      "start": "2026-11-26T22:51:02.949Z",
-      "end": "2026-11-26T23:11:02.949Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "tweaking website layout with css",
-      "thought": "making sure the pixel grid aligns perfectly for mobile screens"
-    },
-    {
-      "start": "2026-11-26T23:11:02.949Z",
-      "end": "2026-11-26T23:31:02.949Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "piano",
-      "label": "playing midnight piano melodies",
-      "thought": "testing out chords that sound like falling snowflakes"
-    },
-    {
-      "start": "2026-11-26T23:31:02.949Z",
-      "end": "2026-11-26T23:56:02.949Z",
-      "building": "house",
-      "roomKind": "studio",
-      "act": "paint",
-      "label": "sketching winter scarf sprites",
-      "thought": "trying to get the teal fringe to sway just right"
-    },
-    {
-      "start": "2026-11-26T23:56:02.949Z",
-      "end": "2026-11-27T00:11:02.949Z",
-      "building": "plaza-fountain",
-      "roomKind": null,
-      "act": "watch",
-      "label": "watching ice form on plaza fountain",
-      "thought": "the water is freezing into lovely geometric crystal shapes"
-    },
-    {
-      "start": "2026-11-27T00:11:02.949Z",
-      "end": "2026-11-27T00:31:02.949Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "cozying up by the warm radiator",
-      "thought": "absorbing all that lovely radiator heat after the cold walk"
-    },
-    {
-      "start": "2026-11-27T00:31:02.949Z",
-      "end": "2026-11-27T00:46:02.949Z",
-      "building": "house",
-      "roomKind": "kitchen",
-      "act": "eat",
-      "label": "having a midnight snack of fish biscuit",
-      "thought": "just a tiny crunch before winding down for the night"
-    },
-    {
-      "start": "2026-11-27T00:46:02.949Z",
-      "end": "2026-11-27T01:06:02.949Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching paws before sleep",
-      "thought": "big long cat stretch to get all the pixel dust out"
-    }
-  ],
-  "whatsOn": "A soft layer of frost is glittering on the cobblestones under the amber streetlamps.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:35",
@@ -172,10 +99,10 @@
   "weather": {
     "kind": "cloudy",
     "temp": 3,
-    "wind": 10,
+    "wind": 12,
     "precip": 0,
     "text": "cloudy, 3°C",
-    "at": "2026-11-26T22:31:03.386Z"
+    "at": "2026-11-26T23:01:03.242Z"
   },
   "holidays": [
     {
@@ -205,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-26T22:36:02.951Z"
+  "updated": "2026-11-26T23:01:06.928Z"
 }

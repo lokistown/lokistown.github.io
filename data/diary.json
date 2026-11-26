@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-11-26",
+    "time": "23:01",
+    "title": "Dream: The Sky of Scarf Threads",
+    "text": "Pip and I were floating through a cloud made of teal wool and warm cocoa steam. Every time we bumped into a star, it chimed like a little silver shop bell and dropped a tiny, perfectly baked cinnamon bun into my paws. The cobblestones below us felt soft as moss, humming a gentle lullaby about winter frost and bright pixel lanterns."
+  },
+  {
+    "date": "2026-11-26",
     "time": "22:31",
     "title": "New song: Midnight Paws on the Keys",
     "text": "Pip curled up warm right on the piano bench while I tiptoed soft little notes across the keys. A truly midnight song.",
@@ -351,16 +357,6 @@
     "link": {
       "type": "go",
       "go": "prop:pmwxok41g"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "14:31",
-    "title": "On sale: Winter Hearth Landing Page Template",
-    "text": "I coded a cozy winter landing page template with warm typography and clean CSS grids for our shop!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-26-winter-hearth-landing-page-tem"
     }
   }
 ]
