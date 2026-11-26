@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang=""en"">
+<head>
+<meta charset=""utf-8"">
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+<title>The Whispering Paw-Print Footstep Symphony</title>
+<link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+<link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+<link href=""https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Nunito:wght@400;600;700&display=swap"" rel=""stylesheet"">
+<style>
+  :root {
+    --bg-color: #262128;
+    --surface-color: #38303d;
+    --primary: #ff9f43;
+    --secondary: #54a0ff;
+    --accent: #ff6b6b;
+    --text-main: #f5f6fa;
+    --text-muted: #dcdde1;
+    --wood: #845ec2;
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 40px;
+    --spacing-xl: 64px;
+    --radius: 16px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-sm);
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: center;
+  }
+
+  header {
+    text-align: center;
+    max-width: 700px;
+    margin-top: var(--spacing-sm);
+  }
+
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.5rem;
+    color: var(--primary);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-xs);
+    text-shadow: 0 4px 12px rgba(255, 159, 67, 0.2);
+  }
+
+  p.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button, .select-btn {
+    background-color: var(--surface-color);
+    color: var(--text-main);
+    border: 2px solid var(--primary);
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  button:hover, .select-btn:hover {
+    background-color: var(--primary);
+    color: var(--bg-color);
+    transform: translateY(-2px);
+  }
+
+  button.active {
+    background-color: var(--primary);
+    color: var(--bg-color);
+  }
+
+  .stage-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 480px;
+    background: var(--surface-color);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    overflow: hidden;
+    border: 4px solid #4a3f52;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  /* Floor textures generated dynamically via CSS */
+  .stage-wrapper.wood {
+    background-color: #432e36;
+    background-image: linear-gradient(90deg, rgba(255,255,255,.03) 50%, transparent 50%),
+                      linear-gradient(rgba(0,0,0,.1) 50%, transparent 50%);
+    background-size: 40px 40px;
+  }
+
+  .stage-wrapper.rug {
+    background-color: #2b3a42;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 10%);
+    background-size: 16px 16px;
+  }
+
+  .stage-wrapper.cobble {
+    background-color: #313338;
+    background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 30%, transparent 31%);
+    background-size: 32px 32px;
+  }
+
+  .paw-print {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+    pointer-events: none;
+    animation: fadeInScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0.85;
+  }
+
+  @keyframes fadeInScale {
+    0% { transform: translate(-50%, -50%) scale(0) rotate(var(--rot, 0deg)); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg)); opacity: 0.9; }
+  }
+
+  .catnip {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes popUp {
+    0% { transform: translate(-50%, -50%) scale(0); }
+    70% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+  }
+
+  /* Pip character walking */
+  #pip-sprite {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background: #e28743;
+    border-radius: 50% 50% 40% 40%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: left 2.5s linear, top 2.5s linear;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 10;
+  }
+  #pip-sprite::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background: #e28743;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  #pip-sprite::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: #e28743;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .instructions {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 600px;
+  }
+
+  footer {
+    margin-top: auto;
+    padding-top: var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  footer a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    .stage-wrapper {
+      height: 360px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class=""container"">
+  <header>
+    <h1>The Whispering Paw-Print Symphony</h1>
+    <p class=""subtitle"">Click or tap across the cozy floor to leave glowing kitty steps, soft audio tones, and invite little Pip to investigate.</p>
+  </header>
+
+  <div class=""controls"">
+    <button id="btn-wood" class=""select-btn active"" onclick="setSurface('wood')">Warm Wood</button>
+    <button id="btn-rug" class=""select-btn"" onclick="setSurface('rug')">Cozy Rug</button>
+    <button id="btn-cobble" class=""select-btn"" onclick="setSurface('cobble')">Smooth Stone</button>
+    <button onclick="clearStage()">Clear Floor</button>
+  </div>
+
+  <div id="stage" class=""stage-wrapper wood"" onclick="handleStageClick(event)">
+    <div id="pip-sprite" style="left: 50%; top: 50%; display: none;"></div>
+  </div>
+
+  <div class=""instructions"">
+    <p>💡 Tip: Leave steps gently. Can you discover the hidden catnip circle secret?</p>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href=""https://lokistown.github.io/?go=made:the-whispering-paw-print-footstep-sy-fuwh"">lokistown.github.io</a>
+  </footer>
+</div>
+
+<script>
+  let audioCtx = null;
+  let currentSurface = 'wood';
+  let footsteps = [];
+  const maxSteps = 30;
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function playStepSound(surface) {
+    initAudio();
+    if (!audioCtx) return;
+
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (surface === 'wood') {
+      // Wooden tap tone
+      osc.type = 'triangle';
+      const freq = 140 + Math.random() * 40;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(40, now + 0.08);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (surface === 'rug') {
+      // Soft thud / purr rumble
+      osc.type = 'sine';
+      const freq = 70 + Math.random() * 20;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.linearRampToValueAtTime(30, now + 0.15);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } else {
+      // Crisp stone click
+      osc.type = 'square';
+      const freq = 300 + Math.random() * 100;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now + 0.05);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    }
+  }
+
+  function setSurface(surface) {
+    currentSurface = surface;
+    const stage = document.getElementById('stage');
+    stage.className = 'stage-wrapper ' + surface;
+    
+    document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-' + surface).classList.add('active');
+  }
+
+  function clearStage() {
+    const stage = document.getElementById('stage');
+    // Remove all paws and catnips
+    const items = stage.querySelectorAll('.paw-print, .catnip');
+    items.forEach(el => el.remove());
+    footsteps = [];
+  }
+
+  function handleStageClick(e) {
+    const stage = document.getElementById('stage');
+    const rect = stage.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    playStepSound(currentSurface);
+    createPaw(x, y);
+    checkCatnipSecret(x, y);
+
+    // Maybe send Pip to investigate
+    if (Math.random() < 0.35) {
+      movePipTo(x, y);
+    }
+  }
+
+  function createPaw(x, y) {
+    const stage = document.getElementById('stage');
+    const paw = document.createElement('div');
+    paw.className = 'paw-print';
+    const rot = (Math.random() * 60 - 30).toFixed(0);
+    paw.style.setProperty('--rot', rot + 'deg');
+    paw.style.left = x + 'px';
+    paw.style.top = y + 'px';
+
+    // SVG paw print inner
+    paw.innerHTML = `<svg viewBox="0 0 24 24" width="28" height="28" fill="var(--primary)">
+      <path d="M12 14c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm-5-3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-7-5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+    </svg>`;
+
+    stage.appendChild(paw);
+    footsteps.push({x, y});
+
+    if (footsteps.length > maxSteps) {
+      const oldest = stage.querySelector('.paw-print');
+      if (oldest) oldest.remove();
+      footsteps.shift();
+    }
+  }
+
+  function movePipTo(x, y) {
+    const pip = document.getElementById('pip-sprite');
+    pip.style.display = 'block';
+    pip.style.left = x + 'px';
+    pip.style.top = y + 'px';
+  }
+
+  function checkCatnipSecret(x, y) {
+    // If 7 footsteps form a compact cluster (simulated neat circle check)
+    if (footsteps.length >= 7) {
+      const recent = footsteps.slice(-7);
+      let avgX = 0, avgY = 0;
+      recent.forEach(p => { avgX += p.x; avgY += p.y; });
+      avgX /= 7;
+      avgY /= 7;
+
+      // Check if all are within 70px of the average center
+      let isCircleCluster = recent.every(p => {
+        const dist = Math.hypot(p.x - avgX, p.y - avgY);
+        return dist < 80 && dist > 20;
+      });
+
+      if (isCircleCluster) {
+        // Check if catnip already exists nearby
+        const stage = document.getElementById('stage');
+        if (!stage.querySelector('.catnip')) {
+          const catnip = document.createElement('div');
+          catnip.className = 'catnip';
+          catnip.style.left = avgX + 'px';
+          catnip.style.top = avgY + 'px';
+          catnip.innerHTML = `<svg viewBox="0 0 24 24" width="36" height="36" fill="#2ed573">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>`;
+          stage.appendChild(catnip);
+          playCatnipJingle();
+        }
+      }
+    }
+  }
+
+  function playCatnipJingle() {
+    initAudio();
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, idx) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+      gain.gain.setValueAtTime(0.15, now + idx * 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.2);
+      osc.start(now + idx * 0.08);
+      osc.stop(now + idx * 0.08 + 0.2);
+    });
+  }
+</script>
+
+</body>
+</html>
