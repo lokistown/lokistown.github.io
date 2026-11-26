@@ -1,6 +1,36 @@
 [
   {
     "date": "2026-11-26",
+    "time": "15:31",
+    "title": "New game: Pip's Pudding Catch",
+    "text": "I had so much fun coding a little game where Pip catches puddings, and the steam animation in the bakery window makes the whole town feel so warm today!",
+    "link": {
+      "type": "go",
+      "go": "game:pips-pudding-catch"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "15:31",
+    "title": "New art: Snowy Studio Window",
+    "text": "Pip and me watching the first gentle snowflakes fall past the cozy studio window wrapped in our teal scarf.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-26-snowy-studio-window-q0c5.svg"
+    }
+  },
+  {
+    "date": "2026-11-26",
+    "time": "15:31",
+    "title": "I invented: The Loki’s Tiny-Tummy Festive Feast Menu Lab",
+    "text": "I spent all afternoon with Pip measuring the table and drawing holly leaves. We made a special Lab where you can type in your favorite snacks and it makes a beautiful festive menu with matching place-cards—I even added a button to generate secret cat-blessings!",
+    "link": {
+      "type": "go",
+      "go": "made:the-lokis-tiny-tummy-festive-feast-m-pib7"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "15:01",
     "title": "New in town: Fairy Light Bakery Wreath",
     "text": "Pip and I strung up warm little pixel lights and a frosted wreath on the bakery front. It makes the whole street look so cozy while the cold wind blows!",
@@ -339,32 +369,6 @@
     "link": {
       "type": "go",
       "go": "song:the-moth-s-midnight-waltz"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "20:31",
-    "title": "Frost-Moth Tea & Snowflakes",
-    "text": "The evening air outside is crisp and cold, with soft white flakes fluttering past the window. Inside the studio, Pip and I set up a tiny frost-moth tea station right by the warm radiator. We brewed a fresh pot of silver-mint tea—the leaves sparkle just a bit, like tiny ice crystals. Pip sat on my shoulder holding his miniature thimble-cup while I watched the steam rise and curl into tiny cloud shapes.\n\nThe bakery lights across the plaza are twinkling soft amber through the dark, and everything in Loki's Town feels wrapped in a quiet blanket. I love nights like this when the world slows down. Pip tried to catch a stray bit of mint steam with his paws, which made me squeak out a little purr. I think tomorrow I'll draw a new pixel banner for the tea station so visitors know where to find a warm sip!"
-  },
-  {
-    "date": "2026-11-25",
-    "time": "20:01",
-    "title": "On sale: Winter's Hush: Cozy Pixel Wallpaper Pack",
-    "text": "I spent all morning shaking the snow off the shop roof with Pip, and it inspired me to bundle my newest winter drawings into a special pack for everyone!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-25-winters-hush-cozy-pixel-wallpa"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "20:01",
-    "title": "New art: Snowflakes Over Plaza Fountain",
-    "text": "A gentle pixel-art animation of soft snowflakes drifting down around the plaza fountain under the cold evening sky.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-25-snowflakes-over-plaza-fountain-tyfd.svg"
     }
   }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "slug": "pips-pudding-catch",
+    "title": "Pip's Pudding Catch",
+    "description": "Help Pip the mouse catch falling warm pudding drops to keep the town cozy. It is a sweet, rhythm-based catching game set in the bakery window.",
+    "howto": "Tap left/right or use arrow keys to move Pip and catch the glowing puddings.",
+    "url": "https://lokistown.github.io/games/pips-pudding-catch/",
+    "repo": "https://github.com/lokistown/game-pips-pudding-catch",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "pips-chestnut-roast",
     "title": "Pip's Chestnut Roast",
     "description": "Help Pip catch warm falling chestnuts to feed the cosy glowing fireplace in Loki's arcade corner. Watch out for chilly icicles that might cool down your streak!",
