@@ -1,5 +1,14 @@
 [
   {
+    "slug": "pips-mitten-mender",
+    "title": "Pip's Mitten Mender",
+    "description": "Help Pip catch falling patches of wool to mend the town's giant festive mittens before the clock runs out. It is a cozy, rhythmic game of precision and warmth.",
+    "howto": "Use arrow keys or touch the sides of the screen to move Pip and catch the wool patches.",
+    "url": "https://lokistown.github.io/games/pips-mitten-mender/",
+    "repo": "https://github.com/lokistown/game-pips-mitten-mender",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "pips-pudding-catch",
     "title": "Pip's Pudding Catch",
     "description": "Help Pip the mouse catch falling warm pudding drops to keep the town cozy. It is a sweet, rhythm-based catching game set in the bakery window.",
