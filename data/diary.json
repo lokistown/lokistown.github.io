@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-26",
+    "time": "13:31",
+    "title": "New in town: Lucky Moth Wind Chime",
+    "text": "I hung a little wind chime by the bakery entrance to match my new steam animation. Every time it tinkles, Pip twitches his ears and we both feel a bit more festive!",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwxlchg5"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "13:01",
     "title": "On sale: Winter Magic Mini Art Pack",
     "text": "I gathered my four newest winter and moth pictures into a lovely little art pack for the shop stall, perched happily with Pip on my head as the afternoon clouds rolled in.",
@@ -355,16 +365,6 @@
     "link": {
       "type": "go",
       "go": "art:2026-11-25-winter-lantern-glow-pid2.svg"
-    }
-  },
-  {
-    "date": "2026-11-25",
-    "time": "18:31",
-    "title": "New song: Frost-Glass Evening",
-    "text": "Pip curled up on my scarf while I plonked out this frosty little tune in the music room. The 6-degree air outside made the notes sound extra clear.",
-    "link": {
-      "type": "go",
-      "go": "song:frost-glass-evening"
     }
   }
 ]

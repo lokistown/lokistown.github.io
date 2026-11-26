@@ -2831,6 +2831,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwxlchg5",
+      "type": "custom",
+      "name": "Lucky Moth Wind Chime",
+      "description": "A delicate metal wind chime featuring tiny brass moth wings that gently tinkle when the winter breeze blows.",
+      "color": "#c4a484",
+      "x": 21.7,
+      "z": 23.4,
+      "rot": 251,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-26",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.1,
+              0.5,
+              0.1
+            ],
+            "pos": [
+              0,
+              2.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d4af37"
+          },
+          {
+            "shape": "torus",
+            "size": [
+              0.3,
+              0.05,
+              0.3
+            ],
+            "pos": [
+              0,
+              2.2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#c4a484"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.2,
+              0.05,
+              0.2
+            ],
+            "pos": [
+              0.1,
+              2,
+              0.1
+            ],
+            "rot": [
+              0,
+              45,
+              0
+            ],
+            "color": "#a0522d"
+          }
+        ]
+      }
     }
   ]
 }
