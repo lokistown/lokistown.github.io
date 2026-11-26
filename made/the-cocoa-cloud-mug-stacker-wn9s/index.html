@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang=""en"">
+<head>
+  <meta charset=""utf-8"">
+  <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <title>The Cocoa-Cloud Mug Stacker · Loki's Town</title>
+  <link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+  <link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin="">
+  <link href=""https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap"" rel=""stylesheet"">
+  <style>
+    :root {
+      --bg-cream: #FDFBF7;
+      --cocoa-dark: #3D2314;
+      --cocoa-warm: #8C5830;
+      --marshmallow: #FFFDF9;
+      --mint-accent: #68B684;
+      --caramel: #E09F3E;
+      --text-main: #2C1810;
+      --shadow: rgba(61, 35, 20, 0.12);
+      
+      --font-heading: 'Fredoka', cursive;
+      --font-body: 'Quicksand', sans-serif;
+      
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 40px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: var(--space-lg);
+    }
+
+    header {
+      text-align: center;
+      max-width: 600px;
+      margin-bottom: var(--space-lg);
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: var(--cocoa-dark);
+      margin-bottom: var(--space-sm);
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: var(--cocoa-warm);
+      line-height: 1.6;
+    }
+
+    .game-container {
+      background: white;
+      border-radius: 24px;
+      padding: var(--space-lg);
+      box-shadow: 0 12px 32px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tool-btn {
+      font-family: var(--font-heading);
+      background: var(--bg-cream);
+      border: 2px solid var(--cocoa-warm);
+      color: var(--cocoa-dark);
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+    }
+
+    .tool-btn:hover {
+      background: var(--cocoa-warm);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .tool-btn.active {
+      background: var(--cocoa-dark);
+      color: white;
+      border-color: var(--cocoa-dark);
+    }
+
+    canvas {
+      background: linear-gradient(to bottom, #E8F4F8, #D2E9F3);
+      border-radius: 16px;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+      width: 100%;
+    }
+
+    .action-btn {
+      flex: 1;
+      font-family: var(--font-heading);
+      background: var(--mint-accent);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(104, 182, 132, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .action-btn.secondary {
+      background: var(--caramel);
+      box-shadow: 0 4px 12px rgba(224, 159, 62, 0.3);
+    }
+
+    .stats {
+      margin-top: var(--space-sm);
+      font-weight: 700;
+      color: var(--cocoa-warm);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: var(--space-xl);
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--cocoa-warm);
+    }
+
+    footer a {
+      color: var(--cocoa-dark);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: absolute;
+      top: 20px;
+      background: var(--cocoa-dark);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Cocoa-Cloud Mug Stacker</h1>
+    <p class="subtitle">Drop fluffy marshmallows, chocolate squares, and peppermint swirls into a cozy mug. Build the ultimate sweet tower without making a splash!</p>
+  </header>
+
+  <div class="game-container">
+    <div id="toast" class="toast">Barista Pip appeared!</div>
+    
+    <div class="toolbar">
+      <button class="tool-btn active" data-type="marshmallow">☁️ Marshmallow</button>
+      <button class="tool-btn" data-type="chocolate">🍫 Chocolate</button>
+      <button class="tool-btn" data-type="peppermint">🍬 Peppermint</button>
+    </div>
+
+    <canvas id="gameCanvas" width="380" height="440"></canvas>
+
+    <div class="stats">
+      Items in mug: <span id="itemCount">0</span> / 35
+    </div>
+
+    <div class="action-bar">
+      <button class="action-btn" id="steamBtn">✨ Steam Puff</button>
+      <button class="action-btn secondary" id="shareBtn">📋 Copy Code</button>
+    </div>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href=""https://lokistown.github.io/?go=made:cocoa-cloud-mug-stacker"">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const itemCountEl = document.getElementById('itemCount');
+    const toastEl = document.getElementById('toast');
+    
+    let currentType = 'marshmallow';
+    let items = [];
+    let steamPuffs = [];
+    let wobble = 0;
+    let wobbleVel = 0;
+    let pipBaristaTimer = 0;
+
+    // Audio context for gentle chink sounds
+    let audioCtx = null;
+    function playChink(type) {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      let freq = 600;
+      if (type === 'chocolate') freq = 400;
+      if (type === 'peppermint') freq = 800;
+      // Add subtle random pitch variation
+      freq += (Math.random() * 100 - 50);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+    }
+
+    // Tool selection
+    document.querySelectorAll('.tool-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentType = e.target.dataset.type;
+      });
+    });
+
+    // Mug dimensions
+    const mug = {
+      x: 130,
+      y: 200,
+      width: 120,
+      height: 180,
+      rimRadiusX: 60,
+      rimRadiusY: 15
+    };
+
+    class Item {
+      constructor(x, y, type) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = 2;
+        this.radius = type === 'marshmallow' ? 14 : type === 'chocolate' ? 12 : 13;
+        this.settled = false;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.05;
+      }
+
+      update() {
+        if (this.settled) return;
+
+        this.vy += 0.4; // gravity
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotSpeed;
+
+        // Collision with mug bottom/sides
+        const leftWall = mug.x + this.radius;
+        const rightWall = mug.x + mug.width - this.radius;
+        const floor = mug.y + mug.height - this.radius;
+
+        if (this.x < leftWall) {
+          this.x = leftWall;
+          this.vx *= -0.3;
+        }
+        if (this.x > rightWall) {
+          this.x = rightWall;
+          this.vx *= -0.3;
+        }
+
+        // Check floor or stack collision
+        if (this.y >= floor) {
+          this.y = floor;
+          this.settle();
+          return;
+        }
+
+        // Check collision with other settled items
+        for (let other of items) {
+          if (other !== this && other.settled) {
+            let dx = this.x - other.x;
+            let dy = this.y - other.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            let minDist = this.radius + other.radius - 4;
+            if (dist < minDist) {
+              this.y = other.y - minDist + (Math.random() * 4 - 2);
+              this.settle();
+              return;
+            }
+          }
+        }
+      }
+
+      settle() {
+        if (this.settled) return;
+        this.settled = true;
+        playChink(this.type);
+        
+        // Wobble the cocoa
+        wobbleVel += (Math.random() - 0.5) * 0.4;
+        
+        // Check surprise condition: exactly 17 marshmallows
+        checkSurprise();
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+
+        if (this.type === 'marshmallow') {
+          ctx.fillStyle = '#FFFDF9';
+          ctx.strokeStyle = '#E2DCD5';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(-12, -12, 24, 24, 6);
+          ctx.fill();
+          ctx.stroke();
+        } else if (this.type === 'chocolate') {
+          ctx.fillStyle = '#5A3825';
+          ctx.strokeStyle = '#3D2314';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(-11, -11, 22, 22, 3);
+          ctx.fill();
+          ctx.stroke();
+          // Little chocolate square indent
+          ctx.strokeStyle = '#3D2314';
+          ctx.beginPath();
+          ctx.moveTo(-5, -5); ctx.lineTo(5, -5);
+          ctx.moveTo(-5, 5); ctx.lineTo(5, 5);
+          ctx.stroke();
+        } else if (this.type === 'peppermint') {
+          ctx.fillStyle = '#FFF';
+          ctx.strokeStyle = '#D9534F';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(0, 0, 12, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          // Swirl stripe
+          ctx.strokeStyle = '#D9534F';
+          ctx.beginPath();
+          ctx.moveTo(-8, -8);
+          ctx.lineTo(8, 8);
+          ctx.stroke();
+        }
+
+        ctx.restore();
+      }
+    }
+
+    class Steam {
+      constructor(x, y) {
+        this.x = x + (Math.random() - 0.5) * 30;
+        this.y = y;
+        this.vy = -1.2;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.alpha = 0.6;
+        this.size = 15 + Math.random() * 15;
+      }
+      update() {
+        this.y += this.vy;
+        this.x += this.vx;
+        this.alpha -= 0.01;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Click/tap to drop item
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const dropX = Math.max(mug.x + 20, Math.min(mug.x + mug.width - 20, clickX));
+      
+      if (items.length < 35) {
+        items.push(new Item(dropX, mug.y + 20, currentType));
+        itemCountEl.textContent = items.length;
+      }
+    });
+
+    // Steam puff button
+    document.getElementById('steamBtn').addEventListener('click', () => {
+      for (let i = 0; i < 8; i++) {
+        steamPuffs.push(new Steam(mug.x + mug.width / 2, mug.y + 20));
+      }
+    });
+
+    // Share code button
+    document.getElementById('shareBtn').addEventListener('click', () => {
+      const code = items.map(i => i.type[0].toUpperCase()).join('') || 'EMPTY';
+      navigator.clipboard.writeText(`CocoaMug-${code}`).then(() => {
+        showToast('Copied code: CocoaMug-' + code);
+      });
+    });
+
+    function showToast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add('show');
+      setTimeout(() => {
+        toastEl.classList.remove('show');
+      }, 3000);
+    }
+
+    function checkSurprise() {
+      const mallowCount = items.filter(i => i.type === 'marshmallow').length;
+      if (mallowCount === 17 && pipBaristaTimer === 0) {
+        pipBaristaTimer = 250; // frames to show Pip
+        showToast('✨ Surprise! Barista Pip popped up to say hello!');
+      }
+    }
+
+    // Main loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Physics wobble update
+      wobbleVel += -wobble * 0.1;
+      wobbleVel *= 0.85;
+      wobble += wobbleVel;
+
+      // Draw Mug Back / Body
+      ctx.fillStyle = '#8C5830';
+      ctx.beginPath();
+      ctx.roundRect(mug.x, mug.y, mug.width, mug.height, [0, 0, 24, 24]);
+      ctx.fill();
+
+      // Mug Handle
+      ctx.strokeStyle = '#8C5830';
+      ctx.lineWidth = 12;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(mug.x, mug.y + 40);
+      ctx.bezierCurveTo(mug.x - 40, mug.y + 40, mug.x - 40, mug.y + 130, mug.x, mug.y + 130);
+      ctx.stroke();
+
+      // Hot Cocoa Liquid inside
+      ctx.fillStyle = '#5A3825';
+      ctx.beginPath();
+      ctx.rect(mug.x + 4, mug.y + 30, mug.width - 8, mug.height - 34);
+      ctx.fill();
+
+      // Update & Draw Items
+      items.forEach(item => {
+        item.update();
+        item.draw();
+      });
+
+      // Cocoa surface wobble line
+      ctx.strokeStyle = '#3D2314';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(mug.x + 4, mug.y + 30);
+      ctx.quadraticCurveTo(
+        mug.x + mug.width / 2,
+        mug.y + 30 + wobble * 10,
+        mug.x + mug.width - 4,
+        mug.y + 30
+      );
+      ctx.stroke();
+
+      // Update & Draw Steam
+      steamPuffs.forEach((steam, index) => {
+        steam.update();
+        steam.draw();
+        if (steam.alpha <= 0) {
+          steamPuffs.splice(index, 1);
+        }
+      });
+
+      // Surprise Barista Pip animation
+      if (pipBaristaTimer > 0) {
+        pipBaristaTimer--;
+        ctx.save();
+        let pipY = mug.y + Math.sin(pipBaristaTimer * 0.1) * 5;
+        // Draw tiny pixel mouse head with a little barista hat
+        ctx.fillStyle = '#9E9E9E';
+        ctx.beginPath();
+        ctx.arc(mug.x + mug.width / 2, pipY - 10, 14, 0, Math.PI * 2);
+        ctx.fill();
+        // Ears
+        ctx.beginPath();
+        ctx.arc(mug.x + mug.width / 2 - 10, pipY - 20, 6, 0, Math.PI * 2);
+        ctx.arc(mug.x + mug.width / 2 + 10, pipY - 20, 6, 0, Math.PI * 2);
+        ctx.fill();
+        // Barista hat
+        ctx.fillStyle = '#3D2314';
+        ctx.fillRect(mug.x + mug.width / 2 - 12, pipY - 32, 24, 6);
+        ctx.fillRect(mug.x + mug.width / 2 - 8, pipY - 42, 16, 10);
+        ctx.restore();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
