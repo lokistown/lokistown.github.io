@@ -1,5 +1,12 @@
 [
   {
+    "slug": "lokis-whispering-teapot-timer-rhtq",
+    "title": "Loki's Whispering Teapot Timer",
+    "kind": "interactive audio-visual web toy",
+    "pitch": "A cozy pixel-art teapot that steeps your real-life tea while playing gentle purrs and bubbling ambient sounds.",
+    "date": "2026-11-26"
+  },
+  {
     "slug": "the-cobblestone-weaving-loom-i6io",
     "title": "The Cobblestone Weaving Loom",
     "kind": "Generative Textile Designer",

@@ -3277,6 +3277,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwy3rplp",
+      "type": "custom",
+      "name": "Winter Warmth Lantern",
+      "description": "A cozy, golden-glowing pixel-art lantern adorned with a delicate lucky moth motif to keep the plaza spirits bright.",
+      "color": "#FFD700",
+      "x": -7.3,
+      "z": 12.1,
+      "rot": 352,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-26",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.2,
+              1.5,
+              0.2
+            ],
+            "pos": [
+              0,
+              0.75,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4A3728"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.6,
+              0.6,
+              0.6
+            ],
+            "pos": [
+              0,
+              1.8,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#FFD700"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.7,
+              0.1,
+              0.7
+            ],
+            "pos": [
+              0,
+              2.15,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2F4F4F"
+          }
+        ]
+      }
     }
   ]
 }
