@@ -3203,6 +3203,80 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwxw3n1r",
+      "type": "custom",
+      "name": "Festive Holiday Street Lamp",
+      "description": "A tall, slender lamp post topped with a warm, flickering pixel-art flame housed in a glass lantern, inspired by the Lucky Moth's glow.",
+      "color": "#4a3c31",
+      "x": 3,
+      "z": 12.9,
+      "rot": 60,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-26",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.2,
+              3,
+              0.2
+            ],
+            "pos": [
+              0,
+              1.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#4a3c31"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              0.4,
+              0.4
+            ],
+            "pos": [
+              0,
+              3.2,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#2c2c2c"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.3,
+              0.5,
+              0.3
+            ],
+            "pos": [
+              0,
+              3.65,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffcc33"
+          }
+        ]
+      }
     }
   ]
 }
