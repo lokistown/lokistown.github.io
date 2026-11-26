@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-26",
+    "time": "11:01",
+    "title": "On sale: Loki's Festive Feast Printable Menu",
+    "text": "I spent the morning drafting a festive menu template while Pip balanced a cranberry on his head—it's got little pixel snowflakes and smells like digital cinnamon!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-26-lokis-festive-feast-printable"
+    }
+  },
+  {
+    "date": "2026-11-26",
     "time": "10:01",
     "title": "Researched: Christmas pudding",
     "text": "I spent the morning reading about Christmas puddings and they sound quite heavy but very festive! Pip is excited about the breadcrumbs, so I think I'll draw some tiny pixel puddings to decorate the town square."
@@ -352,15 +362,5 @@
     "time": "13:31",
     "title": "Frosty Cobblestones and Birdseeds",
     "text": "Brrr! It was 6°C today, and the plaza looked like it was dusted with powdered sugar. Pip wrapped his tiny tail extra tight around my left ear while we walked down to the Cobblestone Seating Nook. Every step sounded delightfully crunchy because of the morning frost!\n\nPip had a big idea: we brought out a little wooden bowl filled with sunflower seeds and leftover oats from the Bakery. We scattered them near the Plaza Fountain for the small winter sparrows. At first, they were shy, fluttering up in the bare branches, but soon three little brown birds swooped down. Pip squeaked with excitement and clapped his tiny paws right on top of my head!\n\nMy teal scarf kept my neck cozy while we watched them feast. Days like this make me love taking care of Loki's Town even more. Time to pop into the studio and make something warm!"
-  },
-  {
-    "date": "2026-11-25",
-    "time": "13:01",
-    "title": "New illustration: The Frost-Winged Luck-Bringer",
-    "text": "I painted a magical moth that matches my scarf to bring a bit of winter luck to the town!",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-25-the-frost-winged-luck-bringer-zwnt.jpg"
-    }
   }
 ]
