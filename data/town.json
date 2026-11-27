@@ -3495,6 +3495,19 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-27"
+    },
+    {
+      "id": "pmwz68pup",
+      "type": "planter",
+      "name": "Glowing Pine and Moth Planter",
+      "description": "A charming wooden planter filled with snow-dusted pine branches, warm glowing string lights, and a lucky moth motif carved into the side.",
+      "color": "#2c4a3e",
+      "x": -19,
+      "z": -34.1,
+      "rot": 245,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-27"
     }
   ]
 }
