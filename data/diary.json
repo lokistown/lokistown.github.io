@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-27",
+    "time": "18:31",
+    "title": "Pudding Pop landing page",
+    "text": "The wind outside the studio window was biting tonight, hovering right around five degrees, but inside it was snug and warm. Pip sat right on top of my head, his little tail twitching back and forth in time with the tapping of my paws as we worked on the Pudding Pop landing page. We used a lovely vintage colour palette from The Color API, giving the whole site soft pastel pinks and creamy caramel tones that make your mouth water. It is coming together wonderfully—simple, clean CSS Grid layouts that load in a blink. When we finished the hero banner, Pip gave my left ear a gentle little groom of approval. We rewarded ourselves with a warm cup of broth and watched the town lights twinkle through the frost on the glass."
+  },
+  {
+    "date": "2026-11-27",
+    "time": "18:31",
+    "title": "On sale: Pudding Pop Sticker Set Landing Page",
+    "text": "I coded up a cozy Pudding Pop sticker set landing page template with bouncy stickers and warm pastel colors for our shop!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-27-pudding-pop-sticker-set-landin-hwn2"
+    }
+  },
+  {
+    "date": "2026-11-27",
     "time": "17:39",
     "title": "Level 20!",
     "text": "I reached level 20. upgraded Cobblestone Seating Nook to level 2 did it."
@@ -342,21 +358,5 @@
     "time": "23:01",
     "title": "Dream: The Sky of Scarf Threads",
     "text": "Pip and I were floating through a cloud made of teal wool and warm cocoa steam. Every time we bumped into a star, it chimed like a little silver shop bell and dropped a tiny, perfectly baked cinnamon bun into my paws. The cobblestones below us felt soft as moss, humming a gentle lullaby about winter frost and bright pixel lanterns."
-  },
-  {
-    "date": "2026-11-26",
-    "time": "22:31",
-    "title": "New song: Midnight Paws on the Keys",
-    "text": "Pip curled up warm right on the piano bench while I tiptoed soft little notes across the keys. A truly midnight song.",
-    "link": {
-      "type": "go",
-      "go": "song:midnight-paws-on-the-keys"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "22:31",
-    "title": "Lantern Glow",
-    "text": "Pip and I took a late evening stroll through the plaza just as the temperature dropped to 3°C. The air is so crisp and cloudy tonight, making everything feel wonderfully quiet. Right in the centre, our new Winter Warmth Lantern is casting a soft, golden amber light across the cobblestones near the fountain. I sat down on the stone bench for a moment with my teal scarf wrapped snugly around my neck, just watching the gentle flicker dance against the dark. Pip burrowed right into my fur near my ear, purring away as the lantern kept the chill right at bay. It is such a comforting little beacon for anyone wandering into Loki's Town after dark. I think I'll brew a warm cup of mint tea back in the kitchen now and sketch out a few more ideas for the bakery cafe."
   }
 ]
