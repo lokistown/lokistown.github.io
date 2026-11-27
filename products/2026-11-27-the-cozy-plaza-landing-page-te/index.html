@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cozy Plaza | Landing Template</title>
+    <style>
+        :root {
+            --base: #fdfaf3;
+            --surface: #ffffff;
+            --accent: #d35400;
+            --secondary: #2d5a27;
+            --text: #2c2c2c;
+            --muted: #717171;
+            --warm-glow: #ffecd2;
+            --radius: 16px;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --space-xl: 64px;
+            --max-width: 1100px;
+            /* System Font Stack - Cozy & Rounded Fallbacks */
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-heading: 'Rounded Mplus 1c', 'Quicksand', 'Trebuchet MS', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--base);
+            color: var(--text);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--secondary);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        header {
+            padding: var(--space-m) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .hero {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            display: grid;
+            gap: var(--space-m);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted);
+            margin-bottom: var(--space-s);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(211, 84, 0, 0.2);
+            background-color: #e67e22;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+            padding: var(--space-xl) 0;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 0 rgba(0,0,0,0.02);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--warm-glow);
+            border-radius: 12px;
+            margin-bottom: var(--space-s);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-m);
+            margin: var(--space-xl) 0;
+        }
+
+        .gallery-item {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .gallery-placeholder {
+            height: 200px;
+            background-color: #f0f0f0;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #999;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .gallery-content {
+            padding: var(--space-m);
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 800;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .testimonial-block {
+            background: var(--secondary);
+            color: white;
+            padding: var(--space-xl) var(--space-m);
+            border-radius: var(--radius);
+            text-align: center;
+            margin: var(--space-xl) 0;
+        }
+
+        .testimonial-block h2 {
+            color: white;
+            font-style: italic;
+            max-width: 700px;
+            margin: 0 auto var(--space-m);
+            font-size: clamp(1.25rem, 5vw, 1.75rem);
+        }
+
+        footer {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .pip-surprise {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            cursor: pointer;
+            background: var(--surface);
+            padding: 12px;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pip-surprise:hover, .pip-surprise:focus {
+            transform: scale(1.2) rotate(10deg);
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        .hidden-message {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 12px;
+            white-space: nowrap;
+            font-size: 14px;
+            transition: opacity 0.2s ease;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .pip-surprise:hover .hidden-message, .pip-surprise:focus .hidden-message {
+            opacity: 1;
+        }
+
+        svg {
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="#" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                Loki's Town
+            </a>
+            <nav>
+                <a href="#" class="btn" style="padding: 10px 20px; font-size: 14px;">Get Template</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h1>Bring the warmth of the plaza to your site.</h1>
+                <p>A fast, clean, and charming landing page template built for makers who care about details. No fluff, just cozy code.</p>
+                <div>
+                    <a href="#" class="btn">Start Building Today</a>
+                </div>
+            </section>
+
+            <section class="grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    </div>
+                    <h3>Pixel Perfect</h3>
+                    <p>Designed with a strict grid system to ensure every element sits exactly where it belongs, even on tiny screens.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 14.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <h3>Truly Responsive</h3>
+                    <p>From the widest desktop to the slimmest phone, the Plaza template adapts beautifully with modern CSS flex and grid.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-4v-4h4v4zm0-6h-4V7h4v4z"/></svg>
+                    </div>
+                    <h3>Clean Code</h3>
+                    <p>Lightweight HTML and CSS. No heavy frameworks or complicated scripts—just clean, readable, and fast-loading code.</p>
+                </div>
+            </section>
+
+            <section class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Cocoa Kitty Mug Art</div>
+                    <div class="gallery-content">
+                        <span class="tag">Featured Art</span>
+                        <h3>Warm Sips & Whiskers</h3>
+                        <p>A look at how images fit into the gallery grid. Perfect for showcasing digital goods.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Festive Pudding Pops Art</div>
+                    <div class="gallery-content">
+                        <span class="tag">Latest Release</span>
+                        <h3>Holiday Sweetness</h3>
+                        <p>Easily swap out placeholders for your own pixel art or product photography.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="testimonial-block">
+                <h2>"The best thing to happen to my shop since I found that stash of blue yarn in the attic!"</h2>
+                <p>&mdash; Barnaby the Bear, Local Knitter</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Loki's Town. Hand-crafted with tea and curiosity.</p>
+        </footer>
+    </div>
+
+    <button class="pip-surprise" aria-label="Pet Pip">
+        <div class="hidden-message">Pip says: Squeak! (Thanks for visiting!)</div>
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </button>
+
+</body>
+</html>

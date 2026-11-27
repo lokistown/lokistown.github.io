@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Midnight Clockwork Music Box Workbench</title>
+    <style>
+        :root {
+            --bg: #0f141e;
+            --brass: #d4af37;
+            --brass-bright: #f1c40f;
+            --wood: #3e2723;
+            --wood-light: #5d4037;
+            --pin: #ff9e64;
+            --accent: #9ece6a;
+            --text: #f8f8f2;
+            --panel: rgba(0, 0, 0, 0.4);
+            --radius: 12px;
+            --spacing: 16px;
+            --cell-size: 40px;
+            --cell-gap: 4px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 50%, #1a1b26 0%, #0f141e 100%);
+        }
+
+        .workbench {
+            max-width: 900px;
+            width: 100%;
+            background: var(--wood);
+            border: 10px solid var(--wood-light);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 100px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--brass);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto;
+            color: #d2c1b0;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            background: var(--panel);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .control-group {
+            display: flex; 
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-family: system-ui, sans-serif;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--brass);
+        }
+
+        select, input[type="range"] {
+            background: #1a1b26;
+            border: 1px solid var(--wood-light);
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .drum-viewport {
+            background: #111;
+            border-radius: 12px;
+            border: 4px solid #222;
+            box-shadow: inset 0 0 30px rgba(0,0,0,1);
+            overflow-x: auto;
+            margin-bottom: 24px;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--brass) transparent;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(16, var(--cell-size));
+            grid-template-rows: repeat(8, var(--cell-size));
+            gap: var(--cell-gap);
+            width: fit-content;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .cell {
+            width: var(--cell-size);
+            height: var(--cell-size);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cell:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .cell.active {
+            background: radial-gradient(circle at 30% 30%, var(--pin), #8e44ad);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5), 0 0 10px rgba(255, 158, 100, 0.4);
+            border-color: var(--brass-bright);
+        }
+
+        .cell.strike {
+            transform: scale(1.2);
+            filter: brightness(1.5);
+        }
+
+        .playhead {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            width: var(--cell-size);
+            height: calc(100% + 20px);
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 2px solid var(--brass-bright);
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.1s linear;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--brass);
+            color: var(--wood);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: system-ui, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.1s, background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 0 #9c7d1a;
+        }
+
+        button:hover {
+            background: var(--brass-bright);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #9c7d1a;
+        }
+
+        #pip-cameo {
+            position: absolute;
+            bottom: -60px;
+            right: 20px;
+            display: none;
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pip-sprite { font-size: 40px; }
+        .pip-bubble {
+            background: white;
+            color: #222;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: bold;
+            position: relative;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        footer {
+            margin-top: 80px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-family: system-ui, sans-serif;
+        }
+
+        footer a {
+            color: var(--brass);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .workbench { padding: 16px; border-width: 6px; }
+            .controls { padding: 12px; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workbench" id="main-box">
+        <header>
+            <h1>Midnight Clockwork</h1>
+            <p class="subtitle">Design a chime-cylinder for your music box. Set the pins and wind the key to listen.</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Case Finish</label>
+                <select id="casing-select">
+                    <option value="#3e2723">Antique Walnut</option>
+                    <option value="#1a1b26">Polished Ebony</option>
+                    <option value="#7e4e2b">Golden Oak</option>
+                    <option value="#16213e">Twilight Blue</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Chime Type</label>
+                <select id="palette-select">
+                    <option value="sine">Silver Chimes</option>
+                    <option value="triangle">Soft Music Box</option>
+                    <option value="square">Tin Toy</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Winding Key (Tempo)</label>
+                <input type="range" id="tempo-slider" min="40" max="220" value="110">
+            </div>
+        </div>
+
+        <div class="drum-viewport">
+            <div class="grid" id="drum-grid">
+                <div class="playhead" id="playhead"></div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="start-btn">Wind & Play</button>
+            <button id="clear-btn" style="background: rgba(0,0,0,0.3); border: 2px solid var(--brass); color: var(--brass); box-shadow: none;">Empty Cylinder</button>
+        </div>
+
+        <div id="pip-cameo">
+            <div class="pip-bubble">Deep bass! 🎻</div>
+            <div class="pip-sprite">🐭</div>
+        </div>
+    </div>
+
+    <footer>
+        Created by Loki the cat & Pip the mouse · <a href="https://lokistown.github.io/">Visit Loki's Town</a>
+    </footer>
+
+    <script>
+        const gridEl = document.getElementById('drum-grid');
+        const playhead = document.getElementById('playhead');
+        const startBtn = document.getElementById('start-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const tempoSlider = document.getElementById('tempo-slider');
+        const paletteSelect = document.getElementById('palette-select');
+        const casingSelect = document.getElementById('casing-select');
+        const mainBox = document.getElementById('main-box');
+        const pipCameo = document.getElementById('pip-cameo');
+
+        let audioCtx = null;
+        let isPlaying = false;
+        let currentStep = 0;
+        let timerId = null;
+        let pins = Array(16).fill().map(() => Array(8).fill(false));
+
+        const frequencies = [880.00, 783.99, 659.25, 587.33, 523.25, 440.00, 392.00, 329.63];
+
+        // Initialize Grid
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 16; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = `cell-${c}-${r}`;
+                cell.onclick = () => togglePin(r, c, cell);
+                gridEl.appendChild(cell);
+            }
+        }
+
+        function togglePin(r, c, el) {
+            pins[c][r] = !pins[c][r];
+            el.classList.toggle('active');
+            checkConstellation();
+        }
+
+        function checkConstellation() {
+            const constellation = [[1,1], [3,2], [5,2], [6,3], [8,5], [10,6], [11,4]];
+            let count = 0;
+            constellation.forEach(([c, r]) => {
+                if (pins[c][r]) count++;
+            });
+            pipCameo.style.display = (count === constellation.length) ? 'block' : 'none';
+        }
+
+        casingSelect.onchange = (e) => {
+            mainBox.style.background = e.target.value;
+        };
+
+        function playSound(freq, type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+        }
+
+        function playBass() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(110.00, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.5);
+        }
+
+        function tick() {
+            if (!isPlaying) return;
+
+            // Visual update
+            playhead.style.transform = `translateX(${currentStep * 44}px)`;
+
+            // Trigger Audio
+            pins[currentStep].forEach((active, r) => {
+                if (active) {
+                    playSound(frequencies[r], paletteSelect.value);
+                    const cell = document.getElementById(`cell-${currentStep}-${r}`);
+                    cell.classList.add('strike');
+                    setTimeout(() => cell.classList.remove('strike'), 150);
+                }
+            });
+
+            if (pipCameo.style.display === 'block' && currentStep % 4 === 0) {
+                playBass();
+            }
+
+            currentStep = (currentStep + 1) % 16;
+            const interval = (60 / tempoSlider.value) * 250;
+            timerId = setTimeout(tick, interval);
+        }
+
+        startBtn.onclick = async () => {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+
+            if (isPlaying) {
+                isPlaying = false;
+                clearTimeout(timerId);
+                startBtn.innerText = 'Wind & Play';
+                startBtn.style.background = 'var(--brass)';
+            } else {
+                isPlaying = true;
+                tick();
+                startBtn.innerText = 'Stop Mechanism';
+                startBtn.style.background = 'var(--accent)';
+            }
+        };
+
+        clearBtn.onclick = () => {
+            pins = Array(16).fill().map(() => Array(8).fill(false));
+            document.querySelectorAll('.cell').forEach(c => c.classList.remove('active'));
+            pipCameo.style.display = 'none';
+        };
+    </script>
+</body>
+</html>

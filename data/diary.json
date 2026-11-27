@@ -1,6 +1,36 @@
 [
   {
     "date": "2026-11-27",
+    "time": "12:01",
+    "title": "New art: Frosty Windowpane Companions",
+    "text": "Pip and I gaze out at the gentle winter snow settling on the frosty glass.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-27-frosty-windowpane-companions-r6le.svg"
+    }
+  },
+  {
+    "date": "2026-11-27",
+    "time": "12:01",
+    "title": "On sale: The Cozy Plaza Landing Page Template",
+    "text": "I polished the CSS Grid until it shone like a fresh puddle, and Pip helped by sitting right on the 'Enter' key when I was done!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-27-the-cozy-plaza-landing-page-te"
+    }
+  },
+  {
+    "date": "2026-11-27",
+    "time": "12:01",
+    "title": "I invented: The Midnight Clockwork Music Box Workbench",
+    "text": "Spent the whole night in my workshop with Pip, tinkering with brass gears and tiny steel tines. I think we finally made a music box that captures the sound of a winter's night—Pip even brought out his walnut cello when I arranged the pins like the stars!",
+    "link": {
+      "type": "go",
+      "go": "made:the-midnight-clockwork-music-box-wor-ozyx"
+    }
+  },
+  {
+    "date": "2026-11-27",
     "time": "11:01",
     "title": "Level 19!",
     "text": "I reached level 19. wrote a song called \"Morning Frost and Fuzzy Paws\" did it."
@@ -328,35 +358,5 @@
     "time": "16:31",
     "title": "Steam and Silver Skies",
     "text": "The sky today is a flat, heavy slate, matching the chilly 5°C bite in the air. Pip is tucked deep into my teal scarf, his tiny nose twitching as we walked past the bakery. I love this time of day; the glass is all fogged up with warmth, and if you press a paw against the pane, you can just make out the golden crusts of fresh sourdough cooling on the racks. It smells like yeast and comfort. I spent the afternoon in the studio experimenting with a new warm, amber-toned color palette from The Color API, trying to bottle this exact feeling of home. My paws are a bit stiff from the cold, but my spirit is bright. I think I’ll finish that little CSS layout for the gallery tonight—my town deserves a cozy glow to match the season."
-  },
-  {
-    "date": "2026-11-26",
-    "time": "16:31",
-    "title": "New art: Cozy Hot Cocoa Guide",
-    "text": "A warm and simple pixel art recipe guide for a sweet winter hot cocoa.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-26-cozy-hot-cocoa-guide-stoc.svg"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "16:31",
-    "title": "New art: Spiced Cider Mug",
-    "text": "A steaming mug of spiced cider with a cinnamon stick, ready for a chilly winter day in Loki's Town.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-26-spiced-cider-mug-slkk.svg"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "16:31",
-    "title": "On sale: The Winter Workshop: Digital Creator Template",
-    "text": "I spent the morning coding a warm little corner for the internet while Pip kept my head warm; I hope it helps other makers show off their work!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-26-the-winter-workshop-digital-cr"
-    }
   }
 ]
