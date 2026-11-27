@@ -3508,6 +3508,19 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-27"
+    },
+    {
+      "id": "pmwz7af5p",
+      "type": "planter",
+      "name": "Frost-Patterned Winter Greenery Boxes",
+      "description": "A set of wooden window boxes beneath the bakery windows filled with frosty winter greens and sprigs of holly.",
+      "color": "#4a5d4e",
+      "x": 33.3,
+      "z": 43.9,
+      "rot": 346,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-27"
     }
   ]
 }
