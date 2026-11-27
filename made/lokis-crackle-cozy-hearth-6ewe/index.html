@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Loki’s Crackle-&-Cozy Hearth</title>
+    <style>
+        :root {
+            --bg-deep: #0a0a0c;
+            --hearth-stone: #2d3436;
+            --ember-orange: #f57d1f;
+            --fire-red: #d22b2b;
+            --ash-grey: #636e72;
+            --accent-teal: #20c997;
+            --accent-violet: #a29bfe;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #f1f2f6;
+            font-family: system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glow-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at bottom, rgba(245, 125, 31, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            transition: background 0.8s ease;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .status {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .fireplace-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 80px;
+            z-index: 2;
+        }
+
+        .fire-pit {
+            position: relative;
+            width: 240px;
+            height: 160px;
+        }
+
+        .flame {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            background: var(--ember-orange);
+            border-radius: 0 100% 100% 100%;
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: height 0.6s ease, width 0.6s ease, opacity 0.6s ease, background 1s ease;
+            pointer-events: none;
+        }
+
+        .flame-anim {
+            animation: flicker 0.15s infinite alternate ease-in-out;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-52%) rotate(-45deg) scale(1); }
+            100% { transform: translateX(-48%) rotate(-45deg) scale(1.08); }
+        }
+
+        .logs-stack {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .log-visual {
+            width: 50px;
+            height: 16px;
+            background: #4a3728;
+            border-radius: 3px;
+            border-bottom: 3px solid #2d1e14;
+            transition: opacity 2s ease;
+        }
+
+        #sootCanvas {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: crosshair;
+            z-index: 6;
+            opacity: 0.7;
+            touch-action: none;
+        }
+
+        #pip {
+            position: absolute;
+            bottom: 30px;
+            right: -80px;
+            width: 36px;
+            height: 28px;
+            transition: right 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            z-index: 7;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            z-index: 20;
+        }
+
+        .log-btn {
+            background: #2d2d2f;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 0.85rem;
+        }
+
+        .log-btn:active { transform: scale(0.95); }
+        .log-btn span { font-size: 0.65rem; opacity: 0.5; }
+
+        .warmth-meter {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .points {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--ember-orange);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .color-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .color-dot.locked { opacity: 0.2; cursor: not-allowed; }
+        .color-dot.locked::after { content: '🔒'; font-size: 10px; position: absolute; top: 6px; left: 6px; }
+        .color-dot.active { border-color: white; outline: 2px solid rgba(255,255,255,0.2); }
+
+        footer {
+            padding: 12px;
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.4;
+            z-index: 10;
+        }
+
+        @media (max-width: 500px) {
+            .controls { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; }
+            .log-btn span { display: none; }
+            .warmth-meter { grid-column: span 3; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-overlay" id="glow"></div>
+
+    <header>
+        <p class="status" id="weather-status">Cloudy & Chilly · 5°C</p>
+        <h1>Loki’s Cozy Hearth</h1>
+    </header>
+
+    <main class="fireplace-container">
+        <div class="fire-pit">
+            <div class="flame flame-anim" id="flame-large" style="width: 140px; height: 140px; filter: blur(20px); opacity: 0.3;"></div>
+            <div class="flame flame-anim" id="flame-med" style="width: 90px; height: 100px; filter: blur(10px);"></div>
+            <div class="flame flame-anim" id="flame-small" style="width: 50px; height: 50px; filter: blur(4px);"></div>
+            
+            <div class="logs-stack" id="logs-stack"></div>
+            <canvas id="sootCanvas" width="300" height="80"></canvas>
+        </div>
+
+        <svg id="pip" viewBox="0 0 40 30" fill="#a4b0be">
+            <ellipse cx="20" cy="20" rx="12" ry="8" />
+            <circle cx="32" cy="15" r="5" />
+            <circle cx="18" cy="15" r="5" />
+            <path d="M8 20 Q 2 20 2 10" stroke="#a4b0be" fill="none" />
+            <circle cx="33" cy="14" r="1" fill="black" />
+        </svg>
+    </main>
+
+    <section class="controls">
+        <button class="log-btn" onclick="addLog('Birch')">Birch 🪵<span>Fast Burn</span></button>
+        <button class="log-btn" onclick="addLog('Oak')">Oak 🪵<span>Steady</span></button>
+        <button class="log-btn" onclick="addLog('Cedar')">Cedar 🪵<span>Crackle</span></button>
+
+        <div class="warmth-meter">
+            <div class="points" id="warmth-pts">0</div>
+            <span style="font-size: 0.6rem; opacity: 0.6">WARMTH</span>
+        </div>
+
+        <div class="color-picker">
+            <div class="color-dot active" style="background: #d22b2b" data-hex="#d22b2b" data-cost="0" onclick="setColor(this)"></div>
+            <div id="teal-dot" class="color-dot locked" style="background: #20c997" data-hex="#20c997" data-cost="50" onclick="setColor(this)"></div>
+            <div id="violet-dot" class="color-dot locked" style="background: #a29bfe" data-hex="#a29bfe" data-cost="150" onclick="setColor(this)"></div>
+        </div>
+    </section>
+
+    <footer>
+        Made by Loki the cat · lokistown.github.io
+    </footer>
+
+    <script>
+        let warmth = 0;
+        let fireIntensity = 0;
+        let currentHex = '#d22b2b';
+        let idleTime = 0;
+
+        const canvas = document.getElementById('sootCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resetSoot() {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = 'rgba(20, 20, 25, 0.85)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'destination-out';
+        }
+        resetSoot();
+
+        function handleDraw(e) {
+            e.preventDefault();
+            idleTime = 0;
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        let isDrawing = false;
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', (e) => isDrawing && handleDraw(e));
+        canvas.addEventListener('touchstart', (e) => handleDraw(e));
+        canvas.addEventListener('touchmove', (e) => handleDraw(e));
+
+        function addLog(type) {
+            idleTime = 0;
+            let boost = type === 'Birch' ? 35 : type === 'Oak' ? 22 : 28;
+            fireIntensity = Math.min(fireIntensity + boost, 100);
+            
+            const log = document.createElement('div');
+            log.className = 'log-visual';
+            log.style.transform = `rotate(${Math.random() * 24 - 12}deg)`;
+            if(type === 'Birch') log.style.background = '#dcdde1';
+            if(type === 'Cedar') log.style.background = '#8c4b2b';
+            
+            const stack = document.getElementById('logs-stack');
+            stack.appendChild(log);
+            if(stack.children.length > 6) stack.removeChild(stack.firstChild);
+
+            updateVisuals();
+        }
+
+        function setColor(el) {
+            const cost = parseInt(el.dataset.cost);
+            const hex = el.dataset.hex;
+            if (warmth >= cost) {
+                currentHex = hex;
+                document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+                el.classList.add('active');
+                updateVisuals();
+            }
+        }
+
+        function updateVisuals() {
+            const flames = ['flame-small', 'flame-med', 'flame-large'];
+            const glow = document.getElementById('glow');
+            
+            flames.forEach((id, i) => {
+                const el = document.getElementById(id);
+                const h = (fireIntensity * (1 + (i * 0.5))) * 1.2;
+                el.style.height = `${h}px`;
+                el.style.width = `${h * 0.8}px`;
+                el.style.opacity = (fireIntensity / 100) * (1 - (i * 0.2));
+                el.style.background = currentHex;
+            });
+
+            glow.style.background = `radial-gradient(circle at bottom, ${currentHex}33 0%, transparent 70%)`;
+        }
+
+        setInterval(() => {
+            if (fireIntensity > 0) {
+                fireIntensity -= 0.6;
+                warmth += fireIntensity / 40;
+                document.getElementById('warmth-pts').innerText = Math.floor(warmth);
+                
+                if (warmth >= 50) document.getElementById('teal-dot').classList.remove('locked');
+                if (warmth >= 150) document.getElementById('violet-dot').classList.remove('locked');
+                
+                updateVisuals();
+            } else if (fireIntensity < 0) {
+                fireIntensity = 0;
+                updateVisuals();
+            }
+
+            idleTime++;
+            const pip = document.getElementById('pip');
+            if (idleTime > 12) {
+                pip.style.right = '20px';
+            } else {
+                pip.style.right = '-80px';
+            }
+        }, 1000);
+
+        window.addEventListener('touchstart', () => idleTime = 0);
+        window.addEventListener('mousedown', () => idleTime = 0);
+    </script>
+</body>
+</html>
