@@ -3482,6 +3482,19 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwz2x9ev",
+      "type": "planter",
+      "name": "Frosty Pine and Fairy Light Planter",
+      "description": "A row of frosty pine tree planters strung with tiny glowing fairy lights to brighten up the plaza walkway.",
+      "color": "#2d5a3f",
+      "x": -12.9,
+      "z": -6.5,
+      "rot": 95,
+      "scale": 1,
+      "radius": 1.2,
+      "built": "2026-11-27"
     }
   ]
 }
