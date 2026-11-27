@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+<meta charset=""UTF-8"">
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+<title>Loki's Festive Menu</title>
+<link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+<link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+<link href=""https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap"" rel=""stylesheet"">
+<style>
+  :root {
+    --bg: #f9f6f0;
+    --surface: #ffffff;
+    --text: #2c3531;
+    --accent: #c44536;
+    --accent-light: #f7ebee;
+    --gold: #d4a373;
+    --shadow: 0 10px 30px rgba(44, 53, 49, 0.08);
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    padding: 24px 16px;
+  }
+  .page-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: #66706b;
+    font-size: 18px;
+  }
+  .menu-section {
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--text);
+    border-bottom: 2px dashed #e0deda;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .item-name {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .item-desc {
+    font-size: 14px;
+    color: #66706b;
+    width: 100%;
+    margin-top: 2px;
+  }
+  .item-dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #d0cbc3;
+    margin: 0 12px;
+    height: 1em;
+  }
+  .item-price {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #88908b;
+  }
+  .secret-box {
+    background: #fdfbf7;
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .secret-btn {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .secret-btn:hover {
+    background: #c39263;
+  }
+  @media print {
+    body { background: white; padding: 0; }
+    .page-wrapper { box-shadow: none; padding: 20px; }
+    .secret-box, .secret-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class=""page-wrapper"">
+    <header>
+      <div class=""badge"">Holiday Gathering 2026</div>
+      <h1>The Yuletide Feast</h1>
+      <p class=""subtitle"">Prepared with love, warmth, and a little help from Loki</p>
+    </header>
+
+    <div class=""menu-section"">
+      <h2 class=""section-title"">First Course <span style=""font-size: 14px; font-weight: normal; color: var(--gold);"">Starters</span></h2>
+      <div class=""menu-item">
+        <div>
+          <div class=""item-name"">Roasted Chestnut & Sage Soup</div>
+          <div class=""item-desc"">Silky smooth puree topped with toasted pepitas and herb oil.</div>
+        </div>
+      </div>
+      <div class=""menu-item">
+        <div>
+          <div class=""item-name"">Winter Citrus & Fennel Salad</div>
+          <div class=""item-desc"">Blood orange slices, shaved fennel, pomegranate arils, and champagne vinaigrette.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class=""menu-section"">
+      <h2 class=""section-title"">Main Course <span style=""font-size: 14px; font-weight: normal; color: var(--gold);"">The Heart</span></h2>
+      <div class=""menu-item">
+        <div>
+          <div class=""item-name"">Rosemary Crusted Wellington</div>
+          <div class=""item-desc"">Mushroom, lentil, and walnut filling wrapped in golden flaky puff pastry.</div>
+        </div>
+      </div>
+      <div class=""menu-item">
+        <div>
+          <div class=""item-name"">Maple Glazed Root Vegetables</div>
+          <div class=""item-desc"">Carrots, parsnips, and brussels sprouts roasted with orange zest and thyme.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class=""menu-section"">
+      <h2 class=""section-title"">Dessert <span style=""font-size: 14px; font-weight: normal; color: var(--gold);"">Sweet Finishes</span></h2>
+      <div class=""menu-item">
+        <div>
+          <div class=""item-name"">Spiced Gingerbread Cake</div>
+          <div class=""item-desc"">Served warm with vanilla bean cream and a dusting of powdered sugar.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class=""secret-box"">
+      <p><strong>Looking for extra holiday magic?</strong> Click to reveal a secret blessing from Pip the mouse!</p>
+      <button class=""secret-btn"" onclick=""alert('Pip wishes you warm paws, full plates, and wonderful company this holiday season!')"">Reveal Blessing</button>
+    </div>
+
+    <footer>
+      <p>Designed with cozy pixel care in Loki's Town.</p>
+    </footer>
+  </div>
+</body>
+</html>
