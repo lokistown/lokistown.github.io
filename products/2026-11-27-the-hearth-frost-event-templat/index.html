@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hearth & Frost | Invitation Template</title>
+    <style>
+        :root {
+            --bg: #fdfcf8;
+            --text: #1b262c;
+            --accent: #d45d31;
+            --secondary: #4a6fa5;
+            --frost: #e3f2fd;
+            --warm-glow: #fff9e6;
+            --card-bg: #ffffff;
+            --radius: 12px;
+            --space-s: 16px;
+            --space-m: 40px;
+            --space-l: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-s);
+        }
+
+        .hero {
+            padding: var(--space-l) 0;
+            text-align: center;
+            background: linear-gradient(to bottom, var(--frost), var(--bg));
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: var(--space-s);
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-m);
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 93, 49, 0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-m);
+            margin: var(--space-l) 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            border: 1px solid #eee;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--frost);
+        }
+
+        .card svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--space-s);
+            color: var(--accent);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--space-m);
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .testimonial-section {
+            background: var(--warm-glow);
+            padding: var(--space-l) 0;
+            border-radius: var(--radius);
+            margin: var(--space-l) 0;
+        }
+
+        .testimonial {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.4rem;
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: var(--space-l) auto;
+            padding: var(--space-m);
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--frost);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: var(--space-m) 0;
+            border-top: 1px solid #eee;
+            color: #888;
+        }
+
+        .candle-box {
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px;
+            border: 2px dashed var(--frost);
+            border-radius: var(--radius);
+            margin-top: 20px;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+
+        .flame {
+            fill: #ffcc00;
+            display: none;
+        }
+
+        .lit .flame {
+            display: block;
+            animation: flicker 0.5s infinite alternate;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <h1>Where the Frost Meets the Flame</h1>
+            <p>Join us for an intimate evening of seasonal celebration, warm spiced drinks, and the company of good friends as the winter stars begin to shine.</p>
+            <a href="#rsvp" class="btn">Reserve Your Seat</a>
+            
+            <div class="candle-box" onclick="this.classList.toggle('lit')" title="Click to light the candle">
+                <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="30" width="20" height="30" fill="#eee" rx="2"/>
+                    <path class="flame" d="M20 5C20 5 25 15 25 22C25 29 20 32 20 32C20 32 15 29 15 22C15 15 20 5 20 5Z" />
+                    <path d="M20 25V30" stroke="#333" stroke-width="2" />
+                </svg>
+                <p style="font-size: 0.8rem; margin: 0;">Click to light</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="grid">
+            <div class="card">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.5-7 3 10 1 15 1 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14a6 6 0 0012 0c0-3.314-1.686-6.314-4.5-8.5-2.814 2.186-4.5 5.186-4.5 8.5z"></path></svg>
+                <h3>The Hearth</h3>
+                <p>Gather around our central log fire. We provide hand-knit blankets and the coziest armchairs in the village.</p>
+            </div>
+            <div class="card">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707"></path></svg>
+                <h3>Winter Menu</h3>
+                <p>Enjoy slow-cooked stews, roasted root vegetables, and our signature ginger-spiced cocoa with mountain honey.</p>
+            </div>
+            <div class="card">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                <h3>Solstice Tales</h3>
+                <p>Local storytellers will share myths of the long night and the return of the sun by the soft light of lanterns.</p>
+            </div>
+        </section>
+
+        <section class="testimonial-section">
+            <div class="testimonial">
+                <p>"The most magical evening I've spent all year. The attention to detail&mdash;from the cedar-scented air to the perfectly warmed mugs&mdash;is simply unmatched."</p>
+                <p style="font-size: 1rem; margin-top: 20px; font-weight: 600; font-style: normal;">&mdash; Pip, Chief Gathering Critic</p>
+            </div>
+        </section>
+
+        <section id="rsvp" class="rsvp-form">
+            <div class="section-title">
+                <h2>Save Your Spot</h2>
+                <p>Spaces are limited to keep things cozy.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Thank you for RSVPing! Loki will see you there.');">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="e.g. Barnaby Cat" required>
+                </div>
+                <div class="form-group">
+                    <label for="diet">Dietary Preferences</label>
+                    <select id="diet">
+                        <option>Everything (The Adventurer)</option>
+                        <option>Vegetarian</option>
+                        <option>Vegan</option>
+                        <option>Gluten-Free</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="note">A note for the host</label>
+                    <textarea id="note" rows="3" placeholder="Tell us your favorite winter song..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%">Send RSVP</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 The Hearth & Frost. Designed with love in Loki's Town.</p>
+            <p style="font-size: 0.7rem; margin-top: 10px;">No pixels were harmed in the making of this invitation.</p>
+        </div>
+    </footer>
+</body>
+</html>

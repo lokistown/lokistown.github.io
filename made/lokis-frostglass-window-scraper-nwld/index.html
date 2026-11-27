@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loki’s Frostglass Window-Scraper</title>
+  <style>
+    :root {
+      --bg-deep: #0b1329;
+      --bg-surface: #141f3d;
+      --frost-tint: rgba(220, 235, 255, 0.88);
+      --accent: #5ef1bc;
+      --accent-glow: rgba(94, 241, 188, 0.3);
+      --text-main: #f0f4f8;
+      --text-muted: #94a3b8;
+      --radius: 16px;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 16px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    header {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .window-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: 580px;
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    button {
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .sound-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button, .window-card { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Loki’s Frostglass Window-Scraper</h1>
+      <p class="subtitle">Drag your paw or cursor across the icy pane to clear the frost and gaze out at the gentle winter night.</p>
+    </header>
+
+    <div class="window-card" id="windowCard">
+      <canvas id="frostCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <button id="refrostBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.73-5.73"/></svg>
+        Refrost Window
+      </button>
+      <button id="soundBtn">
+        <svg id="soundIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        <span id="soundText">Enable Wind Sound</span>
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href="https://lokistown.github.io/?go=made:lokis-frostglass-window-scraper-nwld">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('frostCanvas');
+    const ctx = canvas.getContext('2d');
+    const windowCard = document.getElementById('windowCard');
+    const refrostBtn = document.getElementById('refrostBtn');
+    const soundBtn = document.getElementById('soundBtn');
+    const soundText = document.getElementById('soundText');
+    const soundIcon = document.getElementById('soundIcon');
+
+    let width, height;
+    let isDrawing = false;
+    let audioCtx = null;
+    let noiseNode = null;
+    let gainNode = null;
+    let isSoundOn = false;
+
+    // Scene outside (drawn onto canvas buffer)
+    let sceneCanvas, sceneCtx;
+    let snowflakes = [];
+    let scratchBuffer, scratchCtx;
+
+    function initCanvas() {
+      const rect = windowCard.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      // Setup persistent scratch layer
+      scratchBuffer = document.createElement('canvas');
+      scratchBuffer.width = width;
+      scratchBuffer.height = height;
+      scratchCtx = scratchBuffer.getContext('2d');
+      
+      // Fill with initial frost
+      drawFrostPattern(scratchCtx, width, height);
+      
+      // Setup background scene buffer
+      sceneCanvas = document.createElement('canvas');
+      sceneCanvas.width = width;
+      sceneCanvas.height = height;
+      sceneCtx = sceneCanvas.getContext('2d');
+      drawOutsideScene(sceneCtx, width, height);
+
+      // Init snowflakes
+      snowflakes = Array.from({ length: 45 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2 + 1,
+        speed: Math.random() * 0.5 + 0.2,
+        drift: Math.random() * 0.4 - 0.2
+      }));
+    }
+
+    function drawOutsideScene(c, w, h) {
+      // Night sky gradient
+      const grad = c.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, '#060a17');
+      grad.addColorStop(1, '#182848');
+      c.fillStyle = grad;
+      c.fillRect(0, 0, w, h);
+
+      // Distant cozy cabin warm glow
+      c.fillStyle = 'rgba(255, 170, 80, 0.15)';
+      c.beginPath();
+      c.arc(w * 0.75, h * 0.7, 120, 0, Math.PI * 2);
+      c.fill();
+
+      // Pine trees silhouette
+      c.fillStyle = '#0f172a';
+      drawPineTree(c, w * 0.2, h * 0.85, 70, 140);
+      drawPineTree(c, w * 0.32, h * 0.88, 50, 100);
+      drawPineTree(c, w * 0.7, h * 0.82, 90, 170);
+      drawPineTree(c, w * 0.85, h * 0.87, 60, 120);
+
+      // Warm moon
+      c.fillStyle = '#fef08a';
+      c.shadowColor = 'rgba(254, 240, 138, 0.6)';
+      c.shadowBlur = 25;
+      c.beginPath();
+      c.arc(w * 0.25, h * 0.25, 28, 0, Math.PI * 2);
+      c.fill();
+      c.shadowBlur = 0;
+    }
+
+    function drawPineTree(c, x, baseY, width, height) {
+      c.beginPath();
+      c.moveTo(x, baseY - height);
+      c.lineTo(x - width/2, baseY);
+      c.lineTo(x + width/2, baseY);
+      c.closePath();
+      c.fill();
+    }
+
+    function drawFrostPattern(c, w, h) {
+      c.fillStyle = '#e2e8f0';
+      c.fillRect(0, 0, w, h);
+
+      // Procedural crystal texture overlay
+      c.fillStyle = 'rgba(255, 255, 255, 0.75)';
+      for (let i = 0; i < 300; i++) {
+        const px = Math.random() * w;
+        const py = Math.random() * h;
+        const pSize = Math.random() * 4 + 1;
+        c.fillRect(px, py, pSize, pSize);
+      }
+
+      // Fern-like frost crystals branching across corners
+      c.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+      c.lineWidth = 1.5;
+      drawCrystalCluster(c, 0, 0, w * 0.4, 6);
+      drawCrystalCluster(c, w, 0, w * 0.35, 6);
+      drawCrystalCluster(c, w, h, w * 0.45, 6);
+      drawCrystalCluster(c, 0, h, w * 0.35, 6);
+    }
+
+    function drawCrystalCluster(c, x, y, maxLen, depth) {
+      if (depth === 0) return;
+      const baseAngle = x === 0 && y === 0 ? 0.78 :
+                        x > 0 && y === 0 ? 2.35 :
+                        x > 0 && y > 0 ? 3.92 : 5.49;
+
+      for (let i = 0; i < 4; i++) {
+        const angle = baseAngle + (Math.random() - 0.5) * 0.8;
+        const len = maxLen * (0.4 + Math.random() * 0.6);
+        const endX = x + Math.cos(angle) * len;
+        const endY = y + Math.sin(angle) * len;
+
+        c.beginPath();
+        c.moveTo(x, y);
+        c.lineTo(endX, endY);
+        c.stroke();
+
+        if (depth > 2) {
+          drawCrystalCluster(c, endX, endY, len * 0.5, depth - 1);
+        }
+      }
+    }
+
+    function updateAndRender() {
+      // Update snowflakes on outside scene
+      sceneCtx.clearRect(0, 0, width, height);
+      drawOutsideScene(sceneCtx, width, height);
+      
+      snowflakes.forEach(f => {
+        f.y += f.speed;
+        f.x += f.drift;
+        if (f.y > height) f.y = 0;
+        if (f.x > width) f.x = 0;
+        if (f.x < 0) f.x = width;
+
+        sceneCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        sceneCtx.beginPath();
+        sceneCtx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+        sceneCtx.fill();
+      });
+
+      // Composite onto main canvas
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(sceneCanvas, 0, 0);
+      ctx.drawImage(scratchBuffer, 0, 0);
+
+      requestAnimationFrame(updateAndRender);
+    }
+
+    // Scraping interaction
+    function scratch(x, y) {
+      scratchCtx.globalCompositeOperation = 'destination-out';
+      scratchCtx.beginPath();
+      scratchCtx.arc(x, y, 24, 0, Math.PI * 2);
+      scratchCtx.fill();
+      scratchCtx.globalCompositeOperation = 'source-over';
+    }
+
+    // Surprise Easter Egg detection (Cat eyes blink if cat shape scraped)
+    function checkCatSurprise(x, y) {
+      const p = scratchCtx.getImageData(width/2 - 20, height/2 - 10, 40, 20);
+      let clearedCount = 0;
+      for(let i=3; i<p.data.length; i+=4) {
+        if(p.data[i] < 50) clearedCount++;
+      }
+      if(clearedCount > 300) {
+        sceneCtx.fillStyle = '#4ade80';
+        sceneCtx.shadowColor = '#22c55e';
+        sceneCtx.shadowBlur = 12;
+        // Left eye
+        sceneCtx.beginPath();
+        sceneCtx.ellipse(width/2 - 14, height/2, 5, 8, -0.2, 0, Math.PI * 2);
+        sceneCtx.fill();
+        // Right eye
+        sceneCtx.beginPath();
+        sceneCtx.ellipse(width/2 + 14, height/2, 5, 8, 0.2, 0, Math.PI * 2);
+        sceneCtx.fill();
+        sceneCtx.shadowBlur = 0;
+      }
+    }
+
+    // Mouse & Touch events
+    windowCard.addEventListener('pointerdown', (e) => {
+      isDrawing = true;
+      const rect = windowCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      scratch(x, y);
+      checkCatSurprise(x, y);
+    });
+
+    windowCard.addEventListener('pointermove', (e) => {
+      if (!isDrawing) return;
+      const rect = windowCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      scratch(x, y);
+      checkCatSurprise(x, y);
+    });
+
+    const setupPointerUp = () => {
+      window.addEventListener('pointerup', () => isDrawing = false);
+    };
+    setupPointerUp();
+
+    // Refrost action with smooth fade
+    refrostBtn.addEventListener('click', () => {
+      let alpha = 0;
+      const fadeInterval = setInterval(() => {
+        alpha += 0.1;
+        scratchCtx.fillStyle = `rgba(226, 232, 240, ${alpha})`;
+        scratchCtx.fillRect(0, 0, width, height);
+        if(alpha >= 1) {
+          clearInterval(fadeInterval);
+          drawFrostPattern(scratchCtx, width, height);
+        }
+      }, 30);
+    });
+
+    // Web Audio Ambient Wind
+    function toggleSound() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        const bufferSize = audioCtx.sampleRate * 2;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          output[i] = b0 + b1 + b2;
+          output[i] *= 0.11;
+        }
+
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuffer;
+        noiseNode.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 320;
+
+        gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0.15;
+
+        noiseNode.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        noiseNode.start();
+      }
+
+      if (isSoundOn) {
+        audioCtx.suspend();
+        isSoundOn = false;
+        soundText.textContent = 'Enable Wind Sound';
+        soundIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+      } else {
+        audioCtx.resume();
+        isSoundOn = true;
+        soundText.textContent = 'Disable Wind Sound';
+        soundIcon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+      }
+    }
+
+    soundBtn.addEventListener('click', toggleSound);
+
+    window.addEventListener('load', () => {
+      initCanvas();
+      requestAnimationFrame(updateAndRender);
+    });
+
+    window.addEventListener('resize', () => {
+      initCanvas();
+    });
+  </script>
+</body>
+</html>
