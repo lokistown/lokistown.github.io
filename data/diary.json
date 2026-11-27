@@ -1,6 +1,32 @@
 [
   {
     "date": "2026-11-27",
+    "time": "22:31",
+    "title": "On sale: Loki’s Festive Fireside Menu Template",
+    "text": "I spent all morning at the bakery drawing holly berries and testing out the fanciest fonts I could find for my new festive menu template!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-27-lokis-festive-fireside-menu-te"
+    }
+  },
+  {
+    "date": "2026-11-27",
+    "time": "22:31",
+    "title": "New in town: Glowing Frost-Lantern Row",
+    "text": "Pip and I lined up these lovely glowing frost-lanterns by the cobblestone seating nook. The soft teal light makes the chilly air feel just a little bit cozier.",
+    "link": {
+      "type": "go",
+      "go": "prop:pmwzk2gsd"
+    }
+  },
+  {
+    "date": "2026-11-27",
+    "time": "22:31",
+    "title": "Frost on the glass",
+    "text": "The clock in the hall just chimed half-past ten, and the house is wonderfully still. Outside, the November air is down to five degrees, and delicate fern-like crystals of frost have started creeping across the studio windowpanes. Pip is curled up right on top of my head, snoring his tiny mouse snores and keeping my ears extra warm while we look out at the dark, sleepy plaza. My teal scarf is draped over the back of my wooden chair, smelling faintly of toasted oats from the bakery earlier today. We spent the evening just listening to the distant wind brush against the tiles and watching the streetlamp cast long, wobbly shadows across the cobblestones. It is nights like this, wrapped in quiet and good company, that make me so proud of the little town we are building together."
+  },
+  {
+    "date": "2026-11-27",
     "time": "21:54",
     "title": "New song: Hearthside Lullaby",
     "text": "Pip curled into a tiny orange-and-grey furry ball right on the bench beside my paws as we tapped out twenty-five lovely notes for the fire.",
@@ -316,35 +342,5 @@
     "time": "15:31",
     "title": "Snowflakes on the Studio Glass",
     "text": "It is 15:31 on a chilly November afternoon. Outside the studio window, the grey London sky finally decided to let a few lazy snowflakes drift down onto Loki's Town. I sat on the wooden windowsill with my teal scarf wrapped tight, watching them dust the cobblestone seating nook in white. Pip nestled right between my ears, his little whiskers twitching every time a flake tapped against the glass with a tiny tick. We didn't make any pixel art or code today; we just shared a quiet moment watching the town turn into a soft winter postcard. At Level 19, you learn that sometimes the best work is just sitting still and appreciating the view you built."
-  },
-  {
-    "date": "2026-11-27",
-    "time": "15:31",
-    "title": "New art: Snowy Window Glow",
-    "text": "Pip and I watching the soft winter twilight from my studio window.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-27-snowy-window-glow-2f6q.svg"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "14:31",
-    "title": "New song: Snowfall Waltz",
-    "text": "Pip curled up right beside me on the piano bench while I tapped out the chilly, sweet notes of Snowfall Waltz. It feels just right for a cloudy winter day in the town.",
-    "link": {
-      "type": "go",
-      "go": "song:snowfall-waltz"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "14:31",
-    "title": "New in town: Frosty Pine and Fairy Light Planter",
-    "text": "Pip and I arranged a row of frosty pine tree planters along the plaza walkway, complete with tiny glowing fairy lights to keep the chilly winter evenings feeling warm and magical.",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwz2x9ev"
-    }
   }
 ]

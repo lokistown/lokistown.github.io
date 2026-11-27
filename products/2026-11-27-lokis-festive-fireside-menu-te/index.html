@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loki's Festive Fireside Menu</title>
+    <style>
+        :root {
+            --bg-color: #fdfaf6;
+            --pine-green: #2d5a27;
+            --berry-red: #b22222;
+            --gold: #d4af37;
+            --text-main: #2c1810;
+            --spacing: 24px;
+            /* High-quality system serif stack */
+            --font-display: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif;
+            --font-body: "Georgia", "Palatino", "Palatino Linotype", "Book Antiqua", serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #e5e5e5;
+            font-family: var(--font-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .menu-container {
+            background-color: var(--bg-color);
+            max-width: 800px;
+            width: 100%;
+            padding: 64px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        .border-accent {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid var(--pine-green);
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .holly-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 16px;
+            fill: var(--berry-red);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--pine-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--berry-red);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        @media (max-width: 600px) {
+            .menu-grid { grid-template-columns: 1fr; }
+            .menu-container { padding: 32px; }
+            h1 { font-size: 2rem; }
+        }
+
+        section {
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--gold);
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            color: var(--pine-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 400;
+        }
+
+        .menu-item {
+            margin-bottom: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateX(5px);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            font-style: italic;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .dietary {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            border-top: 1px dashed var(--gold);
+            padding-top: 24px;
+        }
+
+        footer {
+            margin-top: 64px;
+            text-align: center;
+        }
+
+        .seal {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--berry-red);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: help;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .seal:hover {
+            background: var(--berry-red);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .seal-text {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .hidden-note {
+            visibility: hidden;
+            opacity: 0;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: var(--berry-red);
+            transition: opacity 0.3s ease;
+        }
+
+        .seal:hover + .hidden-note {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .menu-container { box-shadow: none; border: none; }
+            .seal:hover + .hidden-note { display: none; }
+            .border-accent { border-color: #ccc; }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="border-accent"></div>
+        
+        <header>
+            <svg class="holly-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <title>Festive Holly Decoration</title>
+                <path d="M12,2C11.5,2 11,2.19 10.59,2.59L2.59,10.59C1.81,11.37 1.81,12.63 2.59,13.41L10.59,21.41C11.37,22.19 12.63,22.19 13.41,21.41L21.41,13.41C22.19,12.63 22.19,11.37 21.41,10.59L13.41,2.59C13,2.19 12.5,2 12,2M12,4L20,12L12,20L4,12L12,4M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z" />
+            </svg>
+            <h1>A Festive Feast</h1>
+            <p class="subtitle">Hosted at the Hearthside Cottage</p>
+        </header>
+
+        <main class="menu-grid">
+            <div class="left-col">
+                <section>
+                    <h2>Starters</h2>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Wild Mushroom Velouté</span><span>—</span></div>
+                        <p class="item-desc">Infused with truffle oil and served with warm crusty sourdough.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Loki’s Spiced Pear Salad</span><span>—</span></div>
+                        <p class="item-desc">Walnuts, blue cheese, and a honey-balsamic glaze.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Main Course</h2>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Slow-Roasted Heritage Turkey</span><span>—</span></div>
+                        <p class="item-desc">With chestnut stuffing, pancetta-wrapped sausages, and cranberry jus.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Roasted Root Vegetable Tart</span><span>—</span></div>
+                        <p class="item-desc">Goat’s cheese, caramelized onions, and fresh thyme in a buttery pastry.</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="right-col">
+                <section>
+                    <h2>Accompaniments</h2>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Honey Glazed Carrots</span><span>—</span></div>
+                        <p class="item-desc">Roasted with star anise and sea salt.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Brussels Sprouts & Chestnuts</span><span>—</span></div>
+                        <p class="item-desc">Sautéed until golden with a hint of nutmeg.</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Dessert</h2>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Grandmother’s Plum Pudding</span><span>—</span></div>
+                        <p class="item-desc">Served with a generous pour of brandy cream.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-header"><span>Clementine & Chocolate Torte</span><span>—</span></div>
+                        <p class="item-desc">A dark chocolate finish with zesty winter citrus.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <div class="dietary">
+            Please inform your host of any allergies or dietary requirements.
+        </div>
+
+        <footer>
+            <div class="seal" role="img" aria-label="Official seal of approval">
+                <div class="seal-text">Approved by Loki</div>
+            </div>
+            <p class="hidden-note">*Purrr* You found the secret! Loki wishes you a cozy dinner!</p>
+        </footer>
+    </div>
+</body>
+</html>
