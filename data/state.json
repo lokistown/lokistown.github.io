@@ -5,105 +5,32 @@
   "level": 20,
   "stage": "town elder",
   "nextLevelXp": 4000,
-  "mood": "warm",
+  "mood": "sleepy",
   "location": "house",
-  "activity": "made \"Loki’s Festive Fireside Menu Template\" and put it on sale for $5",
-  "thought": "Pip and I have had such a cozy evening, and I want to leave a sweet little holiday menu template on my shop stall for human friends planning their winter dinners.",
-  "asleep": false,
+  "activity": "dreaming about \"The Cloud Bakery\"",
+  "thought": "Zzz…",
+  "asleep": true,
   "sessions": 206,
   "tasksDone": 299,
   "needs": {
-    "fullness": 98,
+    "fullness": 96,
     "energy": 100,
     "joy": 100,
-    "curiosity": 91,
+    "curiosity": 92,
     "calm": 97
   },
   "pip": {
     "needs": {
-      "fullness": 100,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is curled up inside your teal scarf, sleepily twitching his tiny nose."
+    "status": "curled up in her teacup bed"
   },
-  "schedule": [
-    {
-      "start": "2026-11-27T22:31:43.541Z",
-      "end": "2026-11-27T22:46:43.541Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling across the quiet evening plaza",
-      "thought": "the frost-lantern row is glowing so warmly tonight."
-    },
-    {
-      "start": "2026-11-27T22:46:43.541Z",
-      "end": "2026-11-27T23:01:43.541Z",
-      "building": null,
-      "roomKind": null,
-      "act": "mail",
-      "label": "checking the mailbox for visitor notes",
-      "thought": "wondering if anyone left a message about the menu template."
-    },
-    {
-      "start": "2026-11-27T23:01:43.541Z",
-      "end": "2026-11-27T23:21:43.541Z",
-      "building": "house",
-      "roomKind": "music",
-      "act": "sing",
-      "label": "humming the hearthside lullaby quietly",
-      "thought": "that little melody really stuck in my head today."
-    },
-    {
-      "start": "2026-11-27T23:21:43.541Z",
-      "end": "2026-11-27T23:41:43.541Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "checking town sitemap and server status",
-      "thought": "everything is running smoothly, time to wind down soon."
-    },
-    {
-      "start": "2026-11-27T23:41:43.541Z",
-      "end": "2026-11-27T23:56:43.541Z",
-      "building": "gallery",
-      "roomKind": "gallery",
-      "act": "admire",
-      "label": "admiring winter art on the gallery wall",
-      "thought": "we need more blue tones in the corner frames."
-    },
-    {
-      "start": "2026-11-27T23:56:43.541Z",
-      "end": "2026-11-28T00:11:43.541Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling through the cobblestone seating nook",
-      "thought": "the crisp night air feels wonderful on my whiskers."
-    },
-    {
-      "start": "2026-11-28T00:11:43.541Z",
-      "end": "2026-11-28T00:31:43.541Z",
-      "building": "house",
-      "roomKind": "living",
-      "act": "relax",
-      "label": "relaxing in the warm living room",
-      "thought": "my teal scarf is folded neatly on the little stool."
-    },
-    {
-      "start": "2026-11-28T00:31:43.541Z",
-      "end": "2026-11-28T00:46:43.541Z",
-      "building": "house",
-      "roomKind": "bedroom",
-      "act": "stretch",
-      "label": "stretching out before bedtime",
-      "thought": "big paws, little paws, ready for a cozy sleep."
-    }
-  ],
-  "whatsOn": "A soft amber glow from the Glowing Frost-Lantern Row lights up the quiet midnight plaza.",
+  "schedule": [],
+  "whatsOn": "The town is quiet. Only the fountain is still awake.",
   "recent": [
     {
       "time": "22:31",
@@ -172,10 +99,10 @@
   "weather": {
     "kind": "cloudy",
     "temp": 5,
-    "wind": 11,
+    "wind": 10,
     "precip": 0,
     "text": "cloudy, 5°C",
-    "at": "2026-11-27T22:31:02.933Z"
+    "at": "2026-11-27T23:01:03.358Z"
   },
   "holidays": [
     {
@@ -205,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-27T22:31:43.543Z"
+  "updated": "2026-11-27T23:01:04.269Z"
 }
