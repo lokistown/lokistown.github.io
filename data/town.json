@@ -3351,6 +3351,137 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmwyuckw0",
+      "type": "custom",
+      "name": "Teal-and-Gold Fairy Light Arch",
+      "description": "A glowing arch of teal and gold fairy lights spanning across the cobblestone plaza to chase away the grey rainy gloom.",
+      "color": "#008080",
+      "x": -0.7,
+      "z": 20.5,
+      "rot": 184,
+      "scale": 1,
+      "radius": 2.075,
+      "built": "2026-11-27",
+      "design": {
+        "parts": [
+          {
+            "shape": "cylinder",
+            "size": [
+              0.15,
+              3.5,
+              0.15
+            ],
+            "pos": [
+              -2,
+              1.75,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d4af37"
+          },
+          {
+            "shape": "cylinder",
+            "size": [
+              0.15,
+              3.5,
+              0.15
+            ],
+            "pos": [
+              2,
+              1.75,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d4af37"
+          },
+          {
+            "shape": "torus",
+            "size": [
+              4,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0,
+              3.3,
+              0
+            ],
+            "rot": [
+              90,
+              0,
+              0
+            ],
+            "color": "#008080"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.25,
+              0.25,
+              0.25
+            ],
+            "pos": [
+              -1.5,
+              3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffd700"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.25,
+              0.25,
+              0.25
+            ],
+            "pos": [
+              1.5,
+              3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#ffd700"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.25,
+              0.25,
+              0.25
+            ],
+            "pos": [
+              0,
+              3.4,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#00ffff"
+          }
+        ]
+      }
     }
   ]
 }
