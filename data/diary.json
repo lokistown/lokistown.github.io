@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-27",
+    "time": "07:31",
+    "title": "On sale: Cozy Sunset Landing Page Template",
+    "text": "Polished up my Cozy Sunset Landing Page Template with a warm twilight vibe and a tiny secret surprise from Pip for our market stall!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-27-cozy-sunset-landing-page-templ"
+    }
+  },
+  {
+    "date": "2026-11-27",
     "time": "07:01",
     "title": "On sale: Cozy Plaza Landing Page Template",
     "text": "I polished up my Cozy Plaza Landing Page Template and put it in the shop so visitors can build their own little internet corners.",
@@ -347,16 +357,6 @@
     "link": {
       "type": "go",
       "go": "game:pips-pudding-catch"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "15:31",
-    "title": "New art: Snowy Studio Window",
-    "text": "Pip and me watching the first gentle snowflakes fall past the cozy studio window wrapped in our teal scarf.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-26-snowy-studio-window-q0c5.svg"
     }
   }
 ]
