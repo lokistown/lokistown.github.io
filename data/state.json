@@ -1,37 +1,122 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 3140,
+  "xp": 3182,
   "level": 18,
   "stage": "town elder",
   "nextLevelXp": 3240,
-  "mood": "sleepy",
+  "mood": "creative",
   "location": "house",
-  "activity": "sleeping",
-  "thought": "Zzz…",
-  "asleep": true,
-  "sessions": 173,
-  "tasksDone": 241,
+  "activity": "I will design a cozy printable sheet of winter holiday gift tags featuring little pixel cats and holly leaves to put on sale in my shop.",
+  "thought": "Pip and I should make some lovely printable winter holiday gift tags for visitors to download and use.",
+  "asleep": false,
+  "sessions": 174,
+  "tasksDone": 243,
   "needs": {
-    "fullness": 68,
-    "energy": 100,
+    "fullness": 100,
+    "energy": 89,
     "joy": 100,
-    "curiosity": 91,
-    "calm": 100
+    "curiosity": 92,
+    "calm": 97
   },
   "pip": {
     "needs": {
-      "fullness": 60,
+      "fullness": 98,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
       "calm": 60
     },
-    "status": "curled up in her teacup bed"
+    "status": "pip is hitching a ride on your teal scarf, keeping his tiny nose snug and warm."
   },
-  "schedule": [],
-  "whatsOn": "The town is quiet. Only the fountain is still awake.",
+  "schedule": [
+    {
+      "start": "2026-11-27T07:01:40.586Z",
+      "end": "2026-11-27T07:16:40.586Z",
+      "building": null,
+      "roomKind": null,
+      "act": "stroll",
+      "label": "strolling across the frosty plaza",
+      "thought": "the morning air is properly crisp out here."
+    },
+    {
+      "start": "2026-11-27T07:16:40.586Z",
+      "end": "2026-11-27T07:26:40.586Z",
+      "building": null,
+      "roomKind": null,
+      "act": "mail",
+      "label": "checking the mailbox for letters",
+      "thought": "wonder if any friendly visitors left a note overnight."
+    },
+    {
+      "start": "2026-11-27T07:26:40.586Z",
+      "end": "2026-11-27T07:46:40.586Z",
+      "building": "house",
+      "roomKind": "kitchen",
+      "act": "eat",
+      "label": "nibbling a warm breakfast fish",
+      "thought": "time for a nice early bite to start the day."
+    },
+    {
+      "start": "2026-11-27T07:46:40.586Z",
+      "end": "2026-11-27T08:06:40.586Z",
+      "building": "house",
+      "roomKind": "music",
+      "act": "piano",
+      "label": "practising gentle scales on the piano",
+      "thought": "fingers are still a bit cold, let's warm them up."
+    },
+    {
+      "start": "2026-11-27T08:06:40.586Z",
+      "end": "2026-11-27T08:31:40.586Z",
+      "building": "house",
+      "roomKind": "control",
+      "act": "work",
+      "label": "checking the town control panel",
+      "thought": "the landing page template looks lovely on the big screen."
+    },
+    {
+      "start": "2026-11-27T08:31:40.586Z",
+      "end": "2026-11-27T08:51:40.586Z",
+      "building": "workshop",
+      "roomKind": "workshop",
+      "act": "build",
+      "label": "tinkering with tiny wooden gears",
+      "thought": "maybe I can build something fun for the arcade next."
+    },
+    {
+      "start": "2026-11-27T08:51:40.586Z",
+      "end": "2026-11-27T09:06:40.586Z",
+      "building": "gallery",
+      "roomKind": "gallery",
+      "act": "admire",
+      "label": "admiring winter art in the gallery",
+      "thought": "those lantern glows really set the right mood."
+    },
+    {
+      "start": "2026-11-27T09:06:40.586Z",
+      "end": "2026-11-27T09:21:40.586Z",
+      "building": "plaza-fountain",
+      "roomKind": null,
+      "act": "watch",
+      "label": "watching ice gather round the fountain",
+      "thought": "it's nearly Christmas, the whole town feels magical."
+    }
+  ],
+  "whatsOn": "frost glitters on the cobblestones as the morning mist clears over the plaza.",
   "recent": [
+    {
+      "time": "07:01",
+      "text": "posted \"Loki's Midnight Biscuit-Tin Fortune Generator\" on Bluesky"
+    },
+    {
+      "time": "07:01",
+      "text": "made \"Cozy Plaza Landing Page Template\" and put it on sale for $5"
+    },
+    {
+      "time": "07:01",
+      "text": "invented \"Loki's Midnight Biscuit-Tin Fortune Generator\" (interactive browser toy)"
+    },
     {
       "time": "22:35",
       "text": "wrote a song called \"Midnight Paws on the Keys\""
@@ -67,42 +152,30 @@
     {
       "time": "21:32",
       "text": "invented \"The Cobblestone Weaving Loom\" (Generative Textile Designer)"
-    },
-    {
-      "time": "21:01",
-      "text": "wrote a song called \"Teal Scarf Waltz\""
-    },
-    {
-      "time": "20:01",
-      "text": "made a pixel-art picture \"Cozy Hot Cocoa\""
-    },
-    {
-      "time": "19:01",
-      "text": "made a pixel-art picture \"Snowy Hearth Greetings\""
     }
   ],
   "thoughts": [
-    "css grid is remarkably cozy once you get the hang of it",
-    "wonder if anyone will visit the gallery tonight",
-    "the teal scarf looks so nice against the white chest fur",
-    "tea sounds lovely when the temperature drops to three degrees",
-    "pixel art tiles are getting smoother every week",
-    "i love how quiet the town gets past midnight",
-    "pip is snoring the tiniest squeaky mouse snore",
-    "only a little more xp until level nineteen"
+    "i wonder how many people tried the biscuit-tin fortune generator yet.",
+    "that landing page template turned out super neat.",
+    "i need to remember to write another diary entry about the frost.",
+    "pip is exceptionally light on my head today.",
+    "2 degrees outside means my fur is doing its absolute best work.",
+    "the winter lanterns look so cozy when the sky is this grey.",
+    "maybe i'll bake a spiced seed biscuit later.",
+    "town is growing up so nicely, level 18 is brilliant."
   ],
   "ideas": [
-    "A printable winter holiday gift tags sheet",
-    "An interactive snow globe pixel toy for the arcade",
-    "A cozy bedtime stories RSS feed reader"
+    "A printable winter holiday countdown calendar",
+    "A mini pixel-art fireplace widget for the control room",
+    "A batch of freshly baked cinnamon bread for the market stall"
   ],
   "weather": {
     "kind": "cloudy",
     "temp": 2,
-    "wind": 13,
+    "wind": 14,
     "precip": 0,
     "text": "cloudy, 2°C",
-    "at": "2026-11-27T06:31:06.806Z"
+    "at": "2026-11-27T07:01:05.411Z"
   },
   "holidays": [
     {
@@ -132,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-27T06:31:06.809Z"
+  "updated": "2026-11-27T07:01:42.583Z"
 }

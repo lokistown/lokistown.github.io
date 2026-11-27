@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang=""en"">
+<head>
+<meta charset=""utf-8"">
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+<title>Loki's Midnight Biscuit-Tin Fortune Generator</title>
+<link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+<link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+<link href=""https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap"" rel=""stylesheet"">
+<style>
+  :root {
+    --bg: #2b233d;
+    --surface: #3a2e54;
+    --card: #493c6b;
+    --text: #f5f2eb;
+    --text-dim: #d4cbb8;
+    --accent: #ffb74d;
+    --accent-hover: #ffa726;
+    --gold: #ffe066;
+    --gold-glow: rgba(255, 224, 102, 0.4);
+    --shadow: rgba(0, 0, 0, 0.3);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fredoka', cursive;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin: auto 0;
+  }
+
+  header {
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px var(--shadow);
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  /* Stage / Scene */
+  .scene {
+    position: relative;
+    width: 100%;
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 40px 20px;
+    box-shadow: 0 12px 32px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 4px solid var(--card);
+  }
+
+  .table-edge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background: #251d33;
+    border-radius: 0 0 20px 20px;
+  }
+
+  /* Biscuit Tin */
+  .tin-wrapper {
+    position: relative;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+    background: none;
+    outline: none;
+  }
+
+  .tin-wrapper:hover {
+    transform: scale(1.05);
+  }
+
+  .tin-wrapper:active {
+    transform: scale(0.98);
+  }
+
+  .biscuit-tin {
+    width: 180px;
+    height: 130px;
+    background: linear-gradient(135deg, #d35400, #e67e22);
+    border-radius: 16px;
+    box-shadow: inset 0 4px 8px rgba(255,255,255,0.3), 0 8px 16px var(--shadow);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #b94000;
+  }
+
+  .tin-lid {
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    right: -4px;
+    height: 24px;
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    border-radius: 12px;
+    border: 3px solid #b94000;
+    box-shadow: 0 4px 6px var(--shadow);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom;
+    z-index: 2;
+  }
+
+  .tin-wrapper.open .tin-lid {
+    transform: rotateX(70deg) translateY(-25px);
+  }
+
+  .tin-label {
+    background: #fff8e8;
+    color: #b94000;
+    font-family: 'Fredoka', cursive;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1;
+    text-align: center;
+    border: 2px dashed #e67e22;
+  }
+
+  .pip-note {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Fortune Slip */
+  .fortune-display {
+    min-height: 110px;
+    width: 90%;
+    max-width: 460px;
+    background: #fffdf9;
+    color: #2b233d;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow);
+    text-align: center;
+    position: relative;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.4s ease-out;
+    border-left: 6px solid var(--accent);
+  }
+
+  .fortune-display.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fortune-display.gold-slip {
+    background: #fff9db;
+    border-left-color: #f59f00;
+    box-shadow: 0 0 20px var(--gold-glow), 0 8px 24px var(--shadow);
+  }
+
+  .fortune-text {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .fortune-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8c7b63;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* Crumb Plate */
+  .plate-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .plate-title {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+  }
+
+  .crumb-plate {
+    width: 100%;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 12px;
+    min-height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #5d4e82;
+  }
+
+  .crumb-item {
+    background: #e67e22;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-family: 'Fredoka', cursive;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .crumb-item.gold {
+    background: #f59f00;
+    color: #2b233d;
+  }
+
+  footer {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+  <div class=""container"">
+    <header>
+      <h1>Midnight Biscuit Tin</h1>
+      <p>Click the tin to pop the lid and pull out a cozy midnight fortune!</p>
+    </header>
+
+    <div class=""scene"">
+      <button class=""tin-wrapper"" id=""tinBtn"" aria-label=""Open biscuit tin for a fortune"">
+        <div class=""tin-lid""></div>
+        <div class=""biscuit-tin">
+          <div class=""tin-label"">Loki's Bakery</div>
+        </div>
+      </button>
+      <div class=""pip-note"">* Pip the mouse is snoozing peacefully beside the tin *</div>
+
+      <div class=""fortune-display"" id=""fortuneDisplay"">
+        <span class=""fortune-tag"" id=""fortuneTag"">Cozy Wisdom</span>
+        <p class=""fortune-text"" id=""fortuneText"">Click the tin above to reveal your first fortune slip!</p>
+      </div>
+
+      <div class=""table-edge""></div>
+    </div>
+
+    <div class=""plate-section"">
+      <span class=""plate-title"">Your Collected Biscuit Crumbs & Fortunes:</span>
+      <div class=""crumb-plate"" id=""crumbPlate">
+        <span style=""color: var(--text-dim); font-size: 0.8rem; font-style: italic;"">Plate is empty. Open some biscuits!</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href=""https://lokistown.github.io/?go=made:lokis-midnight-biscuit-tin-fortune-g-uq8q"">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    const fortunes = [
+      { tag: "Cat Logic", text: "If it fits, it sits. Even if 'it' is just a tiny box of grand ideas." },
+      { tag: "Cozy Advice", text: "Take a long stretch, wrap yourself in a teal scarf, and let the worries wait until sunrise." },
+      { tag: "Warm Wish", text: "May your tea be hot, your blanket soft, and your afternoon uninterrupted." },
+      { tag: "Midnight Thought", text: "The best discoveries happen when you are simply curious about what is around the next corner." },
+      { tag: "Bakery Secret", text: "A pinch of cinnamon and a dash of patience makes every pixel shine brighter." },
+      { tag: "Mouse Whispers", text: "Pip says: A crumb shared is worth two saved under the kitchen counter." },
+      { tag: "Starlight Note", text: "You do not need to finish everything tonight. Rest is part of the craft." },
+      { tag: "Playful Spark", text: "Chase your dreams like a laser pointer dot—swiftly, joyfully, and with absolute focus." }
+    ];
+
+    const tinBtn = document.getElementById('tinBtn');
+    const fortuneDisplay = document.getElementById('fortuneDisplay');
+    const fortuneTag = document.getElementById('fortuneTag');
+    const fortuneText = document.getElementById('fortuneText');
+    const crumbPlate = document.getElementById('crumbPlate');
+
+    let collectedCount = 0;
+
+    // Simple Web Audio API jingle for rare golden biscuit
+    function playPurrJingle() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = freq;
+          
+          gain.gain.setValueAtTime(0.1, ctx.currentTime + i * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.3);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          
+          osc.start(ctx.currentTime + i * 0.1);
+          osc.stop(ctx.currentTime + i * 0.1 + 0.3);
+        });
+      } catch (e) {
+        // Audio context ignored if not allowed
+      }
+    }
+
+    tinBtn.addEventListener('click', () => {
+      // Squeak animation
+      tinBtn.classList.add('open');
+      setTimeout(() => {
+        tinBtn.classList.remove('open');
+      }, 400);
+
+      // Check for rare golden fish biscuit (1 in 5 chance)
+      const isGold = Math.random() < 0.2;
+
+      fortuneDisplay.classList.remove('visible');
+      
+      setTimeout(() => {
+        if (isGold) {
+          fortuneTag.textContent = "✨ Rare Golden Fish Biscuit ✨";
+          fortuneText.textContent = "Purr-fect luck! You found the legendary golden biscuit. Pip gives a tiny happy squeak!";
+          fortuneDisplay.classList.add('gold-slip');
+          playPurrJingle();
+        } else {
+          const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+          fortuneTag.textContent = randomFortune.tag;
+          fortuneText.textContent = randomFortune.text;
+          fortuneDisplay.classList.remove('gold-slip');
+        }
+
+        fortuneDisplay.classList.add('visible');
+
+        // Add to crumb plate
+        if (collectedCount === 0) {
+          crumbPlate.innerHTML = '';
+        }
+        collectedCount++;
+
+        const crumb = document.createElement('div');
+        crumb.className = isGold ? 'crumb-item gold' : 'crumb-item';
+        crumb.innerHTML = isGold ? '🐟 Golden Crumb' : `🍪 Crumb #${collectedCount}`;
+        crumbPlate.appendChild(crumb);
+
+      }, 200);
+    });
+  </script>
+</body>
+</html>
