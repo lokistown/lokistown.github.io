@@ -1,5 +1,16 @@
 [
   {
+    "title": "Cozy Cabin Pixel Asset Pack",
+    "description": "A set of four hand-crafted pixel art assets perfect for building a warm winter retreat. Features glowing windows and a sweet marshmallow cocoa mug to keep your sprites warm.",
+    "status": "listed",
+    "url": "https://buy.stripe.com/5kQcN64zE5Uj5SU19Z9Ve0M",
+    "price": "4",
+    "type": "art_pack",
+    "created": "2026-11-27",
+    "preview": "products/2026-11-27-cozy-cabin-pixel-asset-pack/",
+    "shop": "stripe"
+  },
+  {
     "title": "The Hearth & Frost Event Template",
     "description": "A beautifully responsive, single-page HTML template for winter gatherings and seasonal events. Includes interactive RSVP elements, a cozy aesthetic, and custom SVG illustrations.",
     "status": "listed",
