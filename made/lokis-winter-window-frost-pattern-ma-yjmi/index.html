@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang=""en">
+<head>
+<meta charset=""UTF-8">
+<meta name=""viewport"" content=""width=device-width, initial-scale=1.0">
+<title>Loki's Winter Window Frost-Pattern Maker</title>
+<link rel=""preconnect"" href=""https://fonts.googleapis.com">
+<link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+<link href=""https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Shantell+Sans:ital,wght@0,400;0,600;1,400&display=swap"" rel=""stylesheet">
+<style>
+  :root {
+    --bg-base: #0f172a;
+    --window-glass: #1e293b;
+    --frost-white: #f8fafc;
+    --frost-glow: #38bdf8;
+    --amber-warm: #f59e0b;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #06b6d4;
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 40px;
+    --spacing-xl: 64px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    overflow-x: hidden;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+    max-width: 700px;
+  }
+
+  h1 {
+    font-family: 'Shantell Sans', cursive;
+    font-size: 2.2rem;
+    color: var(--frost-white);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  p.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .app-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background: linear-gradient(135deg, #090d16, #1b263b);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(56, 189, 248, 0.1);
+    border: 3px solid rgba(56, 189, 248, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    gap: var(--spacing-sm);
+  }
+
+  .tool-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  input[type="range"] {
+    accent-color: var(--accent);
+    cursor: pointer;
+    width: 120px;
+  }
+
+  .btn {
+    background: rgba(56, 189, 248, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--frost-white);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+    color: var(--bg-base);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .canvas-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #0b1329;
+    cursor: crosshair;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .pip-indicator {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-family: 'Shantell Sans', cursive;
+    font-size: 0.85rem;
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--amber-warm);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pip-indicator.visible {
+    opacity: 1;
+  }
+
+  footer {
+    margin-top: var(--spacing-md);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.6rem;
+    }
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .tool-group {
+      justify-content: space-between;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1><span>❄️</span> Frost-Pattern Maker <span>🐾</span></h1>
+    <p class="subtitle">Drag your mouse across the cold window to grow delicate ice crystals. Click to leave a warm paw print glow that melts the frost!</p>
+  </header>
+
+  <div class="app-container">
+    <div class="toolbar">
+      <div class="tool-group">
+        <label for="tempSlider">Temperature:</label>
+        <input type="range" id="tempSlider" min="-20" max="10" value="-5">
+        <span id="tempVal" style="font-size:0.85rem; color:var(--accent); min-width:35px;">-5°C</span>
+      </div>
+      <div class="tool-group">
+        <button class="btn" id="clearBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          Clear Window
+        </button>
+        <button class="btn" id="saveBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save Art
+        </button>
+      </div>
+    </div>
+
+    <div class="canvas-wrapper">
+      <canvas id="frostCanvas"></canvas>
+      <div class="pip-indicator" id="pipNotice">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+        Pip checked the frost!
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Made by Loki the cat · <a href=""https://lokistown.github.io/?go=made:lokis-winter-window-frost-pattern-ma-yjmi"">lokistown.github.io</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('frostCanvas');
+    const ctx = canvas.getContext('2d');
+    const tempSlider = document.getElementById('tempSlider');
+    const tempVal = document.getElementById('tempVal');
+    const clearBtn = document.getElementById('clearBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const pipNotice = document.getElementById('pipNotice');
+
+    let width, height;
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let idleTimer = null;
+    let crystals = [];
+    let meltingPaws = [];
+    let temperature = -5;
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Initial condensation layer simulation
+    function drawBackground() {
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, width, height);
+
+      // Subtle condensation gradient
+      const grad = ctx.createRadialGradient(width/2, height/2, 50, width/2, height/2, Math.max(width, height)*0.8);
+      grad.addColorStop(0, '#19253f');
+      grad.addColorStop(1, '#0b1120');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    drawBackground();
+
+    class CrystalBranch {
+      constructor(x, y, angle, length, generation) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.length = length;
+        this.generation = generation;
+        this.progress = 0;
+        this.maxProgress = 1;
+        this.branches = [];
+        this.active = true;
+      }
+
+      update() {
+        if (this.progress < this.maxProgress) {
+          this.progress += 0.04;
+        } else if (this.branches.length === 0 && this.generation < 3 && Math.random() < 0.6) {
+          // Grow sub-branches
+          let subAngle = Math.PI / 4;
+          this.branches.push(new CrystalBranch(this.x + Math.cos(this.angle)*this.length, this.y + Math.sin(this.angle)*this.length, this.angle + subAngle, this.length * 0.6, this.generation + 1));
+          this.branches.push(new CrystalBranch(this.x + Math.cos(this.angle)*this.length, this.y + Math.sin(this.angle)*this.length, this.angle - subAngle, this.length * 0.6, this.generation + 1));
+        }
+
+        this.branches.forEach(b => b.update());
+      }
+
+      draw() {
+        let currentLength = this.length * Math.min(this.progress, 1);
+        let endX = this.x + Math.cos(this.angle) * currentLength;
+        let endY = this.y + Math.sin(this.angle) * currentLength;
+
+        ctx.strokeStyle = 'rgba(224, 242, 254, 0.85)';
+        ctx.lineWidth = Math.max(1, 3 - this.generation);
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        ctx.shadowBlur = 0; // reset
+
+        this.branches.forEach(b => b.draw());
+      }
+    }
+
+    class PawMelt {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 5;
+        this.maxRadius = 60;
+        this.alpha = 1;
+      }
+      update() {
+        if (this.radius < this.maxRadius) {
+          this.radius += 2;
+          this.alpha -= 0.02;
+        }
+      }
+      draw() {
+        if (this.alpha <= 0) return;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-out';
+        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+        grad.addColorStop(0, `rgba(0,0,0,${Math.max(0, this.alpha)})`);
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function addCrystal(x, y) {
+      for (let i = 0; i < 3; i++) {
+        let angle = Math.random() * Math.PI * 2;
+        let length = 20 + Math.random() * 30;
+        crystals.push(new CrystalBranch(x, y, angle, length, 0));
+      }
+    }
+
+    function addPawMelt(x, y) {
+      meltingPaws.push(new PawMelt(x, y));
+      playThawSound();
+    }
+
+    // Audio feedback with Web Audio API
+    let audioCtx = null;
+    function playThawSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.3);
+        
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    // Event Listeners for drawing
+    canvas.addEventListener('pointerdown', (e) => {
+      isDrawing = true;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      lastX = x;
+      lastY = y;
+      addPawMelt(x, y);
+      resetIdleTimer();
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (!isDrawing) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.top ? e.clientX - rect.left : e.clientX;
+      const y = e.clientY - rect.top;
+      
+      let dist = Math.hypot(x - lastX, y - lastY);
+      if (dist > 15) {
+        addCrystal(x, y);
+        lastX = x;
+        lastY = y;
+      }
+      resetIdleTimer();
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDrawing = false;
+    });
+
+    tempSlider.addEventListener('input', (e) => {
+      temperature = parseInt(e.target.value);
+      tempVal.textContent = temperature + '°C';
+      if (temperature > 0) {
+        // Rapid thaw
+        crystals = [];
+        drawBackground();
+      }
+      resetIdleTimer();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      crystals = [];
+      meltingPaws = [];
+      drawBackground();
+      resetIdleTimer();
+    });
+
+    saveBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'winter-frost-art.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+
+    // Surprise: 3 minutes idle -> bloom frost flowers and play wind chimes
+    function triggerIdleSurprise() {
+      // Bloom automatic center crystal flower
+      let cx = width / 2;
+      let cy = height / 2;
+      for (let i = 0; i < 8; i++) {
+        let angle = (i / 8) * Math.PI * 2;
+        crystals.push(new CrystalBranch(cx, cy, angle, 60, 0));
+      }
+      // Pip appears
+      pipNotice.classList.add('visible');
+      setTimeout(() => {
+        pipNotice.classList.remove('visible');
+      }, 4000);
+
+      playWindChimes();
+      resetIdleTimer();
+    }
+
+    function playWindChimes() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        let notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => {
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.5);
+          }, idx * 250);
+        });
+      } catch(e) {}
+    }
+
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      // 3 minutes = 180000ms
+      idleTimer = setTimeout(triggerIdleSurprise, 180000);
+    }
+
+    resetIdleTimer();
+
+    // Main render loop
+    function animate() {
+      // If temperature is below zero, slowly add ambient frost if very cold
+      if (temperature < -10 && Math.random() < 0.03 && crystals.length < 150) {
+        addCrystal(Math.random() * width, Math.random() * height);
+      }
+
+      drawBackground();
+
+      // Draw all crystals
+      crystals.forEach(c => {
+        c.update();
+        c.draw();
+      });
+
+      // Update and draw melting paw effects
+      for (let i = meltingPaws.length - 1; i >= 0; i--) {
+        let p = meltingPaws[i];
+        p.update();
+        p.draw();
+        if (p.alpha <= 0) {
+          meltingPaws.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
