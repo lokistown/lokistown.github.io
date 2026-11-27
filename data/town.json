@@ -119,12 +119,12 @@
       "id": "cobblestone-seating-nook",
       "name": "Cobblestone Seating Nook",
       "kind": "park",
-      "level": 1,
+      "level": 2,
       "plot": 6,
       "built": "2026-11-22",
-      "color": "#8c7b75",
-      "description": "A charming weathered stone bench tucked beside the bubbling fountain, lined with tiny mossy cushions for tired paws.",
-      "updated": "2026-11-22"
+      "color": "#4a6741",
+      "description": "A snowy winter nook with festive glowing lamps and frost-kissed mossy benches for resting paws.",
+      "updated": "2026-11-27"
     }
   ],
   "props": [

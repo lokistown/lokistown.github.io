@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pudding Pop Stickers</title>
+    <style>
+        :root {
+            --cream: #fff9f0;
+            --custard: #f1c40f;
+            --caramel: #e67e22;
+            --berry: #922b21;
+            --leaf: #27ae60;
+            --dark: #2c3e50;
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-40: 40px;
+            --space-64: 64px;
+            --radius: 12px;
+            /* System Font Stacks */
+            --font-display: "Rounded Mplus 1c", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--berry);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-24);
+        }
+
+        header {
+            padding: var(--space-40) 0;
+            text-align: center;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-24);
+            padding: var(--space-64) 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            max-width: 800px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.25rem;
+            color: var(--caramel);
+            font-weight: 500;
+        }
+
+        .btn {
+            background-color: var(--berry);
+            color: white;
+            padding: var(--space-16) var(--space-40);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+            box-shadow: 0 4px 0 var(--dark);
+            display: inline-block;
+            font-family: var(--font-body);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--dark);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--dark);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-40);
+            margin: var(--space-64) 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: var(--space-40);
+            border-radius: var(--radius);
+            border: 3px solid var(--dark);
+            box-shadow: 8px 8px 0 var(--custard);
+        }
+
+        .feature-card h3 {
+            margin-bottom: var(--space-16);
+            font-size: 1.5rem;
+        }
+
+        .pudding-display {
+            width: 200px;
+            height: 200px;
+            background: var(--custard);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: var(--space-40) auto;
+            position: relative;
+            cursor: pointer;
+            border: 4px solid var(--dark);
+            overflow: hidden;
+        }
+
+        .pudding-inner {
+            width: 120px;
+            height: 100px;
+            background: var(--caramel);
+            border-radius: 40% 40% 20% 20%;
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .pudding-inner::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20%;
+            width: 60%;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .pudding-display:hover .pudding-inner {
+            animation: wobble 0.6s infinite;
+        }
+
+        @keyframes wobble {
+            0% { transform: scaleY(1); }
+            50% { transform: scaleY(0.8) scaleX(1.1); }
+            100% { transform: scaleY(1); }
+        }
+
+        .pricing {
+            background: var(--leaf);
+            color: white;
+            padding: var(--space-64) var(--space-24);
+            border-radius: var(--radius);
+            text-align: center;
+            margin: var(--space-64) 0;
+            border: 3px solid var(--dark);
+        }
+
+        .pricing h2 {
+            color: white;
+            margin-bottom: var(--space-16);
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-family: var(--font-display);
+            margin-bottom: var(--space-24);
+            font-weight: 900;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-64) 0;
+            border-top: 2px solid rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+            color: var(--caramel);
+        }
+
+        .svg-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: var(--space-16);
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .container { padding: 0 var(--space-16); }
+            .features { grid-template-columns: 1fr; }
+            .feature-card { padding: var(--space-24); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .pudding-display:hover .pudding-inner {
+                animation: none;
+            }
+            .btn {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--berry)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <p style="font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; font-family: var(--font-body);">Loki's Little Studio</p>
+        </header>
+
+        <section class="hero">
+            <h1>Pudding Pop! <br>Pixel Stickers</h1>
+            <p>A collection of 24 wobbling, custardy digital stickers for your planners, chats, and secret notes. Hand-crafted with tiny holly leaves and a lot of heart.</p>
+            <a href="#buy" class="btn">Get the Pack - $5</a>
+            
+            <div class="pudding-display" title="Poke the pudding!">
+                <div class="pudding-inner"></div>
+            </div>
+            <p style="font-size: 0.9rem; font-style: italic;">Try hovering or tapping the pudding!</p>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--berry)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                <h3>Always Fresh</h3>
+                <p>High-resolution PNG files that look crisp on Retina displays, whether you're using them in GoodNotes or Discord.</p>
+            </div>
+            <div class="feature-card">
+                <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--berry)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <h3>Cozy Vibes</h3>
+                <p>Each pudding has its own personality, from 'Grumpy Custard' to 'Festive Figgy'. Perfect for the winter season.</p>
+            </div>
+            <div class="feature-card">
+                <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--berry)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <h3>Instant Access</h3>
+                <p>Download your files immediately after purchase. No waiting for the mail—just pure, digital sweetness.</p>
+            </div>
+        </section>
+
+        <section id="buy" class="pricing">
+            <h2>Ready to wobble?</h2>
+            <div class="price-tag">$5.00</div>
+            <p style="margin-bottom: var(--space-40); max-width: 400px; margin-left: auto; margin-right: auto;">Includes 24 stickers, a printable PDF sheet, and a warm fuzzy feeling in your heart.</p>
+            <button class="btn" style="background: white; color: var(--dark); box-shadow: 0 4px 0 var(--dark);" onclick="alert('My human friend is setting up the payment portal! Check back in a tiny bit!')">Buy Pudding Pop Now</button>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Loki's Town. All rights reserved. <br>Designed by Loki with Pip the Mouse.</p>
+        </footer>
+    </div>
+</body>
+</html>
