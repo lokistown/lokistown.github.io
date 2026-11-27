@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loki's Festive Holiday Menu Template</title>
+  <style>
+    :root {
+      --bg-cream: #fbf8f3;
+      --card-bg: #fffdfa;
+      --pine-green: #1b4332;
+      --deep-crimson: #8b263e;
+      --warm-gold: #d4a373;
+      --text-dark: #2b2d42;
+      --text-muted: #6c757d;
+      --border-color: #e9ecef;
+      --shadow: 0 12px 32px rgba(27, 67, 50, 0.08);
+      --radius: 16px;
+      /* System font stacks to replace external fonts */
+      --font-serif: "Georgia", "Times New Roman", serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 24px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .toolbar {
+      max-width: 720px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--pine-green);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .toolbar p {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-print {
+      background: var(--warm-gold);
+      color: var(--text-dark);
+      border: none;
+      padding: 8px 16px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-print:hover {
+      background: #e6b382;
+      transform: translateY(-1px);
+    }
+
+    .menu-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 680px;
+      border: 3px double var(--pine-green);
+      border-radius: var(--radius);
+      padding: clamp(24px, 8vw, 48px);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed rgba(27, 67, 50, 0.25);
+      border-radius: calc(var(--radius) - 6px);
+      pointer-events: none;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      fill: var(--deep-crimson);
+    }
+
+    .title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 8vw, 2.5rem);
+      font-weight: 700;
+      color: var(--pine-green);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      outline: none;
+    }
+
+    .subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--deep-crimson);
+      outline: none;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: var(--warm-gold);
+    }
+
+    .divider svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .divider-line {
+      height: 1px;
+      width: 60px;
+      background-color: var(--warm-gold);
+      opacity: 0.6;
+    }
+
+    .menu-section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--pine-green);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    .menu-item {
+      margin-bottom: 20px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .item-name {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      outline: none;
+      flex-shrink: 0;
+      max-width: 70%;
+    }
+
+    .dots {
+      flex-grow: 1;
+      border-bottom: 1px dotted var(--warm-gold);
+      margin-bottom: 4px;
+      opacity: 0.6;
+    }
+
+    .item-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--deep-crimson);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .item-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      outline: none;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      outline: none;
+    }
+
+    [contenteditable="true"]:hover {
+      background-color: rgba(212, 163, 115, 0.1);
+      border-radius: 4px;
+      cursor: text;
+    }
+
+    [contenteditable="true"]:focus {
+      background-color: rgba(212, 163, 115, 0.15);
+      outline: 1px dashed var(--warm-gold);
+      border-radius: 4px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none !important;
+      }
+      .menu-card {
+        border: 2px solid var(--pine-green);
+        box-shadow: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 40px;
+        border-radius: 0;
+      }
+      .menu-card::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .toolbar p {
+        font-size: 0.8rem;
+      }
+      .item-header {
+        flex-wrap: wrap;
+      }
+      .dots {
+        display: none;
+      }
+      .item-name {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <p>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+      Click text to edit
+    </p>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      Print Menu
+    </button>
+  </div>
+
+  <main class="menu-card">
+    <header class="header">
+      <svg class="header-icon" viewBox="0 0 24 24">
+        <path d="M12 2L14.5 7.5L20 8.5L16 12.5L17 18L12 15.25L7 18L8 12.5L4 8.5L9.5 7.5L12 2Z" />
+      </svg>
+      <h1 class="title" contenteditable="true">The Grand Holiday Feast</h1>
+      <p class="subtitle" contenteditable="true">Hosted by the Cozy Cottage &bull; December 25th</p>
+    </header>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+      <span class="divider-line"></span>
+    </div>
+
+    <section class="menu-section">
+      <h2 class="section-title" contenteditable="true">To Begin</h2>
+      
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Roasted Chestnut &amp; Thyme Soup</span>
+          <span class="dots"></span>
+          <span class="item-tag">V / GF</span>
+        </div>
+        <p class="item-desc" contenteditable="true">Creamy autumn chestnut puree with fresh thyme oil, topped with toasted sourdough croutons.</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Winter Berry &amp; Goat Cheese Tartlet</span>
+          <span class="dots"></span>
+          <span class="item-tag">Veg</span>
+        </div>
+        <p class="item-desc" contenteditable="true">Warm puff pastry, whipped honey goat cheese, spiced cranberry compote, and fresh rosemary.</p>
+      </div>
+    </section>
+
+    <section class="menu-section">
+      <h2 class="section-title" contenteditable="true">Main Feast</h2>
+      
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Honey Glazed Holiday Roast</span>
+          <span class="dots"></span>
+        </div>
+        <p class="item-desc" contenteditable="true">Served with garlic caramelized root vegetables, buttered sage stuffing, and rich brown gravy.</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Wild Mushroom Wellington</span>
+          <span class="dots"></span>
+          <span class="item-tag">Vegan</span>
+        </div>
+        <p class="item-desc" contenteditable="true">Flaky golden pastry stuffed with wild sautéed mushrooms, chestnuts, spinach, and black truffle drizzle.</p>
+      </div>
+    </section>
+
+    <section class="menu-section">
+      <h2 class="section-title" contenteditable="true">Sweet Treats</h2>
+      
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Spiced Marshmallow Cocoa Pudding</span>
+          <span class="dots"></span>
+        </div>
+        <p class="item-desc" contenteditable="true">Rich dark chocolate fondant served with hand-whipped vanilla cream and toasted cinnamon fluffy marshmallows.</p>
+      </div>
+
+      <div class="menu-item">
+        <div class="item-header">
+          <span class="item-name" contenteditable="true">Mulled Orange &amp; Spice Cider</span>
+          <span class="dots"></span>
+        </div>
+        <p class="item-desc" contenteditable="true">Simmered fresh apple cider with star anise, cinnamon quills, clove, and sweet citrus peel.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-note" contenteditable="true">~ Wishing you warmth, delicious food, and cozy moments ~</p>
+    </footer>
+  </main>
+
+</body>
+</html>
