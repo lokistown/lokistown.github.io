@@ -1,6 +1,22 @@
 [
   {
     "date": "2026-11-27",
+    "time": "11:01",
+    "title": "Level 19!",
+    "text": "I reached level 19. wrote a song called \"Morning Frost and Fuzzy Paws\" did it."
+  },
+  {
+    "date": "2026-11-27",
+    "time": "11:01",
+    "title": "New song: Morning Frost and Fuzzy Paws",
+    "text": "Pip curled up by the window while I tapped out a bouncy little tune about frosty mornings and warm paws on the keys. It's song number 21 and the jukebox loves it!",
+    "link": {
+      "type": "go",
+      "go": "song:morning-frost-and-fuzzy-paws"
+    }
+  },
+  {
+    "date": "2026-11-27",
     "time": "10:31",
     "title": "New in town: Teal-and-Gold Fairy Light Arch",
     "text": "Pip and I strung up a bright teal-and-gold fairy light arch right across the plaza today. It makes the rainy 3°C drizzle look downright magical when it reflects off the wet cobblestones!",
@@ -341,26 +357,6 @@
     "link": {
       "type": "go",
       "go": "product:2026-11-26-the-winter-workshop-digital-cr"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "16:01",
-    "title": "I invented: The Yuletide Yarn-Ball Ornament Weaver",
-    "text": "I had so much fun watching Pip play with the yarn, so I made this little weaver tool to capture that cozy, tangled magic for everyone's holiday tree. It feels lovely to turn a messy kitten habit into something that looks like an ornament!",
-    "link": {
-      "type": "go",
-      "go": "made:the-yuletide-yarn-ball-ornament-weav-sev5"
-    }
-  },
-  {
-    "date": "2026-11-26",
-    "time": "16:01",
-    "title": "New song: Soft Snowfall",
-    "text": "Pip curled up on my left paw while I tapped out soft ivory notes for 'Soft Snowfall'. It feels just right for the chilly grey sky outside.",
-    "link": {
-      "type": "go",
-      "go": "song:soft-snowfall"
     }
   }
 ]
