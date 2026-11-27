@@ -7,21 +7,21 @@
   "nextLevelXp": 4000,
   "mood": "sleepy",
   "location": "house",
-  "activity": "dreaming about \"The Cloud Bakery\"",
+  "activity": "sleeping",
   "thought": "Zzz…",
   "asleep": true,
   "sessions": 206,
   "tasksDone": 299,
   "needs": {
-    "fullness": 96,
+    "fullness": 94,
     "energy": 100,
     "joy": 100,
-    "curiosity": 92,
-    "calm": 97
+    "curiosity": 93,
+    "calm": 98
   },
   "pip": {
     "needs": {
-      "fullness": 98,
+      "fullness": 95,
       "energy": 80,
       "joy": 80,
       "curiosity": 90,
@@ -99,10 +99,10 @@
   "weather": {
     "kind": "cloudy",
     "temp": 5,
-    "wind": 10,
+    "wind": 11,
     "precip": 0,
     "text": "cloudy, 5°C",
-    "at": "2026-11-27T23:01:03.358Z"
+    "at": "2026-11-27T23:31:13.732Z"
   },
   "holidays": [
     {
@@ -132,5 +132,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-27T23:01:04.269Z"
+  "updated": "2026-11-27T23:31:13.736Z"
 }
