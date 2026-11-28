@@ -3726,6 +3726,99 @@
           }
         ]
       }
+    },
+    {
+      "id": "pmx0e2otf",
+      "type": "custom",
+      "name": "Cozy Snowfall Arch",
+      "description": "A charming winter archway frosted with soft glowing snow crystals and a tiny carved lucky moth motif at the crest.",
+      "color": "#76b5c5",
+      "x": 0.4,
+      "z": -19.1,
+      "rot": 359,
+      "scale": 1,
+      "radius": 1.7,
+      "built": "2026-11-28",
+      "design": {
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              3,
+              0.4
+            ],
+            "pos": [
+              -1.5,
+              1.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#e0f2fe"
+          },
+          {
+            "shape": "box",
+            "size": [
+              0.4,
+              3,
+              0.4
+            ],
+            "pos": [
+              1.5,
+              1.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#e0f2fe"
+          },
+          {
+            "shape": "box",
+            "size": [
+              3.4,
+              0.4,
+              0.4
+            ],
+            "pos": [
+              0,
+              3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#bae6fd"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "pos": [
+              0,
+              3.3,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#38bdf8"
+          }
+        ]
+      }
     }
   ]
 }
