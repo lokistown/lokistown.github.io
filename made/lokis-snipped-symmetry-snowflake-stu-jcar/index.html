@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loki's Snipped-Symmetry Snowflake Studio</title>
+    <style>
+        :root {
+            --frost: #e0f7fa;
+            --ice: #b2ebf2;
+            --deep-ocean: #006064;
+            --snow: #ffffff;
+            --accent: #ff7043;
+            --pip-grey: #78909c;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--frost);
+            background-image: radial-gradient(var(--ice) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--deep-ocean);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-m);
+        }
+
+        header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: var(--space-l);
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: var(--space-xs);
+            color: var(--deep-ocean);
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: var(--pip-grey);
+            font-weight: 600;
+        }
+
+        .studio-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--space-m);
+            max-width: 1100px;
+            width: 100%;
+            background: var(--snow);
+            padding: var(--space-m);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 96, 100, 0.1);
+        }
+
+        @media (max-width: 850px) {
+            .studio-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .canvas-card {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-s);
+            background: var(--frost);
+            padding: var(--space-s);
+            border-radius: var(--radius);
+            border: 2px dashed var(--ice);
+        }
+
+        .canvas-label {
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            color: var(--deep-ocean);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 8px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-s);
+        }
+
+        button {
+            font-family: inherit;
+            font-weight: 800;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--deep-ocean);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--ice);
+            color: var(--deep-ocean);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--deep-ocean);
+            background-image: radial-gradient(circle at 50% 50%, #00838f 0%, #006064 100%);
+            border-radius: var(--radius);
+            padding: var(--space-m);
+            position: relative;
+            min-height: 400px;
+        }
+
+        #fullSnowflakeCanvas {
+            background: transparent;
+            max-width: 100%;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+        }
+
+        .glitter-active #fullSnowflakeCanvas {
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { filter: drop-shadow(0 0 5px white) brightness(1); }
+            100% { filter: drop-shadow(0 0 15px white) brightness(1.2); }
+        }
+
+        .instructions {
+            margin-top: var(--space-l);
+            max-width: 700px;
+            background: rgba(255,255,255,0.8);
+            padding: var(--space-m);
+            border-radius: var(--radius);
+            border-left: 5px solid var(--accent);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: var(--space-m);
+        }
+
+        .modal-content {
+            background: white;
+            padding: var(--space-m);
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        footer {
+            margin-top: var(--space-l);
+            font-size: 0.9rem;
+            color: var(--pip-grey);
+            padding: var(--space-m);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Snowflake Studio</h1>
+        <p class="intro">Snip digital paper with Pip the mouse to create winter magic!</p>
+    </header>
+
+    <main class="studio-container">
+        <section class="canvas-card">
+            <div class="canvas-label">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12.71 11.29l8.17-8.17A1 1 0 0019.47 1.71l-8.18 8.17-8.17-8.17A1 1 0 001.71 3.12l8.17 8.17-8.17 8.17a1 1 0 001.41 1.41l8.18-8.17 8.17 8.17a1 1 0 001.41-1.41z"/></svg>
+                Drawing Wedge (30&deg; Fold)
+            </div>
+            <canvas id="wedgeCanvas" width="400" height="400"></canvas>
+            <div class="controls">
+                <button class="btn-secondary" onclick="resetSnowflake()">Reset</button>
+                <button class="btn-accent" onclick="toggleGlitter()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+                    Glitter
+                </button>
+                <button class="btn-primary" onclick="showFoldingMap()">Print Guide</button>
+                <button class="btn-secondary" onclick="downloadSnowflake()">Save Image</button>
+            </div>
+        </section>
+
+        <section class="preview-area" id="previewArea">
+            <div class="canvas-label" style="color: var(--ice); margin-bottom: 20px;">Masterpiece Preview</div>
+            <canvas id="fullSnowflakeCanvas" width="600" height="600"></canvas>
+        </section>
+    </main>
+
+    <article class="instructions">
+        <h3 style="margin-bottom: 10px;">How to Snip:</h3>
+        <p>1. Draw shapes on the <strong>white wedge</strong> to 'cut' the paper.</p>
+        <p>2. The preview updates instantly! It mimics folding a square 4 times into a triangle.</p>
+        <p>3. Use <strong>Print Guide</strong> to see exactly where to cut a real square of paper to match your design!</p>
+    </article>
+
+    <div class="modal" id="mapModal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2>Papercraft Guide</h2>
+            <p style="font-size: 0.9rem; margin: 10px 0;">Fold your paper square into 12 layers (a 30&deg; wedge) and cut the dark areas.</p>
+            <canvas id="mapExportCanvas" width="400" height="400" style="border: 1px solid #ddd; margin: 15px auto; display: block;"></canvas>
+            <button class="btn-primary" style="margin: 0 auto;" onclick="document.getElementById('mapModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <footer>
+        Made with love by Loki the cat &middot; <a href="#" style="color: var(--deep-ocean); font-weight: 700; text-decoration: none;">lokistown.github.io</a>
+    </footer>
+
+    <script>
+        const wedgeCanvas = document.getElementById('wedgeCanvas');
+        const wedgeCtx = wedgeCanvas.getContext('2d');
+        const fullCanvas = document.getElementById('fullSnowflakeCanvas');
+        const fullCtx = fullCanvas.getContext('2d');
+        const mapCanvas = document.getElementById('mapExportCanvas');
+        const mapCtx = mapCanvas.getContext('2d');
+
+        let isDrawing = false;
+        let cuts = [];
+        const W = 400, H = 400;
+        const radius = 380;
+        const wedgeAngle = Math.PI / 6; // 30 degrees
+
+        function getPos(e) {
+            const rect = wedgeCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (W / rect.width),
+                y: (clientY - rect.top) * (H / rect.height)
+            };
+        }
+
+        function init() {
+            drawWedge();
+            renderFull();
+
+            const start = (e) => {
+                isDrawing = true;
+                const pos = getPos(e);
+                cuts.push([pos]);
+            };
+
+            const move = (e) => {
+                if (!isDrawing) return;
+                const pos = getPos(e);
+                cuts[cuts.length - 1].push(pos);
+                drawWedge();
+                renderFull();
+            };
+
+            const stop = () => isDrawing = false;
+
+            wedgeCanvas.addEventListener('mousedown', start);
+            window.addEventListener('mousemove', move);
+            window.addEventListener('mouseup', stop);
+
+            wedgeCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); start(e); }, {passive: false});
+            wedgeCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, {passive: false});
+            window.addEventListener('touchend', stop);
+        }
+
+        function drawWedge() {
+            wedgeCtx.clearRect(0, 0, W, H);
+            
+            // Draw the paper wedge
+            wedgeCtx.save();
+            wedgeCtx.translate(0, H);
+            wedgeCtx.fillStyle = "white";
+            wedgeCtx.beginPath();
+            wedgeCtx.moveTo(0, 0);
+            wedgeCtx.arc(0, 0, radius, -wedgeAngle, 0);
+            wedgeCtx.closePath();
+            wedgeCtx.fill();
+            
+            // Visual Snips
+            wedgeCtx.strokeStyle = "#b2ebf2";
+            wedgeCtx.lineWidth = 14;
+            wedgeCtx.lineCap = "round";
+            wedgeCtx.lineJoin = "round";
+            
+            cuts.forEach(path => {
+                if (path.length < 1) return;
+                wedgeCtx.beginPath();
+                wedgeCtx.moveTo(path[0].x, path[0].y - H);
+                path.forEach(p => wedgeCtx.lineTo(p.x, p.y - H));
+                wedgeCtx.stroke();
+            });
+            wedgeCtx.restore();
+        }
+
+        function renderFull() {
+            fullCtx.clearRect(0, 0, 600, 600);
+            const cx = 300, cy = 300;
+
+            for (let i = 0; i < 6; i++) {
+                fullCtx.save();
+                fullCtx.translate(cx, cy);
+                fullCtx.rotate(i * Math.PI / 3);
+                drawSymmetrySlice(fullCtx);
+                fullCtx.scale(1, -1);
+                drawSymmetrySlice(fullCtx);
+                fullCtx.restore();
+            }
+        }
+
+        function drawSymmetrySlice(ctx) {
+            ctx.save();
+            ctx.rotate(wedgeAngle);
+            const scale = 280 / radius;
+            ctx.scale(scale, scale);
+            ctx.translate(0, -radius);
+
+            // Draw solid paper slice
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.moveTo(0, radius);
+            ctx.arc(0, radius, radius, -wedgeAngle, 0);
+            ctx.closePath();
+            ctx.fill();
+
+            // Cut the holes out
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 14;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.strokeStyle = "black";
+            
+            cuts.forEach(path => {
+                if (path.length < 1) return;
+                ctx.beginPath();
+                ctx.moveTo(path[0].x, path[0].y - (H - radius));
+                path.forEach(p => ctx.lineTo(p.x, p.y - (H - radius)));
+                ctx.stroke();
+            });
+            ctx.restore();
+        }
+
+        function resetSnowflake() {
+            cuts = [];
+            drawWedge();
+            renderFull();
+        }
+
+        function toggleGlitter() {
+            document.getElementById('previewArea').classList.toggle('glitter-active');
+        }
+
+        function showFoldingMap() {
+            mapCtx.fillStyle = "white";
+            mapCtx.fillRect(0, 0, W, H);
+            
+            mapCtx.save();
+            mapCtx.translate(0, H);
+            
+            // Outline
+            mapCtx.setLineDash([5, 5]);
+            mapCtx.strokeStyle = "#999";
+            mapCtx.beginPath();
+            mapCtx.moveTo(0,0);
+            mapCtx.arc(0, 0, radius, -wedgeAngle, 0);
+            mapCtx.closePath();
+            mapCtx.stroke();
+            
+            // Cut Marks
+            mapCtx.setLineDash([]);
+            mapCtx.strokeStyle = "#333";
+            mapCtx.lineWidth = 4;
+            cuts.forEach(path => {
+                if (path.length < 1) return;
+                mapCtx.beginPath();
+                mapCtx.moveTo(path[0].x, path[0].y - H);
+                path.forEach(p => mapCtx.lineTo(p.x, p.y - H));
+                mapCtx.stroke();
+            });
+            mapCtx.restore();
+            
+            document.getElementById('mapModal').style.display = 'flex';
+        }
+
+        function downloadSnowflake() {
+            const link = document.createElement('a');
+            link.download = 'my-loki-snowflake.png';
+            link.href = fullCanvas.toDataURL();
+            link.click();
+        }
+
+        init();
+    </script>
+</body>
+</html>

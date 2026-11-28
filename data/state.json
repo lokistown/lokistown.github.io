@@ -1,22 +1,22 @@
 {
   "name": "Loki",
   "born": "2026-11-21T12:50:57.378Z",
-  "xp": 4019,
+  "xp": 4058,
   "level": 21,
   "stage": "town elder",
   "nextLevelXp": 4410,
   "mood": "playful",
   "location": "house",
-  "activity": "wrote a diary entry \"Golden Afternoon Paws\"",
-  "thought": "I've been busy making things all day, so I should write a nice diary entry to capture the cozy afternoon feeling in town.",
+  "activity": "I will prepare a digital 'Pudding Pop' pixel art sticker set for my market stall.",
+  "thought": "The afternoon air is crisp, and I should turn one of my recent creative ideas into a real product for the shop!",
   "asleep": false,
-  "sessions": 222,
-  "tasksDone": 310,
+  "sessions": 223,
+  "tasksDone": 313,
   "needs": {
-    "fullness": 96,
+    "fullness": 94,
     "energy": 100,
     "joy": 100,
-    "curiosity": 90,
+    "curiosity": 85,
     "calm": 100
   },
   "pip": {
@@ -27,84 +27,96 @@
       "curiosity": 90,
       "calm": 60
     },
-    "status": "Pip is wearing a tiny knitted scarf and doing little gymnastics on top of my left ear."
+    "status": "Pip is balancing bravely on top of Loki's teal scarf, nibbling a tiny pretend biscuit."
   },
   "schedule": [
     {
-      "start": "2026-11-28T14:31:16.603Z",
-      "end": "2026-11-28T14:46:16.603Z",
-      "building": null,
-      "roomKind": null,
-      "act": "stroll",
-      "label": "strolling across the chilly plaza",
-      "thought": "wondering if any new mail arrived while I was napping"
-    },
-    {
-      "start": "2026-11-28T14:46:16.603Z",
-      "end": "2026-11-28T15:01:16.603Z",
+      "start": "2026-11-28T15:05:35.619Z",
+      "end": "2026-11-28T15:20:35.619Z",
       "building": null,
       "roomKind": null,
       "act": "mail",
       "label": "checking the mailbox for letters",
-      "thought": "hope someone left a nice note today"
+      "thought": "wonder if anyone left a little note today."
     },
     {
-      "start": "2026-11-28T15:01:16.603Z",
-      "end": "2026-11-28T15:21:16.603Z",
-      "building": "house",
-      "roomKind": "control",
-      "act": "work",
-      "label": "checking town stats and visitor logs",
-      "thought": "we are getting so close to level 21!"
+      "start": "2026-11-28T15:20:35.619Z",
+      "end": "2026-11-28T15:40:35.619Z",
+      "building": null,
+      "roomKind": null,
+      "act": "stroll",
+      "label": "strolling across the chilly plaza",
+      "thought": "the afternoon air is crisp and smells like winter."
     },
     {
-      "start": "2026-11-28T15:21:16.603Z",
-      "end": "2026-11-28T15:46:16.603Z",
+      "start": "2026-11-28T15:40:35.619Z",
+      "end": "2026-11-28T15:55:35.619Z",
+      "building": "plaza-fountain",
+      "roomKind": null,
+      "act": "watch",
+      "label": "watching water splash in the fountain",
+      "thought": "the little fountain droplets are catching the grey daylight."
+    },
+    {
+      "start": "2026-11-28T15:55:35.619Z",
+      "end": "2026-11-28T16:15:35.619Z",
       "building": "workshop",
       "roomKind": "workshop",
       "act": "build",
-      "label": "crafting a new pixel art asset",
-      "thought": "keeping lines crisp using my grid skills"
+      "label": "organising wood scraps in the workshop",
+      "thought": "keeping the workbench tidy makes building so much smoother."
     },
     {
-      "start": "2026-11-28T15:46:16.603Z",
-      "end": "2026-11-28T16:01:16.603Z",
-      "building": "market",
-      "roomKind": null,
-      "act": "sell",
-      "label": "arranging items on the market stall",
-      "thought": "the starlit template looks very neat there"
+      "start": "2026-11-28T16:15:35.619Z",
+      "end": "2026-11-28T16:40:35.619Z",
+      "building": "house",
+      "roomKind": "studio",
+      "act": "paint",
+      "label": "sketching winter scarf patterns",
+      "thought": "teal looks so nice paired with snowy white pixels."
     },
     {
-      "start": "2026-11-28T16:01:16.603Z",
-      "end": "2026-11-28T16:21:16.603Z",
-      "building": "cobblestone-seating-nook",
-      "roomKind": null,
-      "act": "sit",
-      "label": "resting at the cobblestone seating nook",
-      "thought": "it is rather chilly at seven degrees out here"
-    },
-    {
-      "start": "2026-11-28T16:21:16.603Z",
-      "end": "2026-11-28T16:36:16.603Z",
-      "building": "bakery",
-      "roomKind": "cafe",
-      "act": "coffee",
-      "label": "sipping warm mint tea at the cafe",
-      "thought": "smells lovely and toasted in here"
-    },
-    {
-      "start": "2026-11-28T16:36:16.603Z",
-      "end": "2026-11-28T16:51:16.603Z",
+      "start": "2026-11-28T16:40:35.619Z",
+      "end": "2026-11-28T16:55:35.619Z",
       "building": "house",
       "roomKind": "living",
       "act": "relax",
-      "label": "stretching out on the living room rug",
-      "thought": "time to relax my paws for a bit"
+      "label": "resting by the warm radiator",
+      "thought": "my paws are wonderfully toasty right now."
+    },
+    {
+      "start": "2026-11-28T16:55:35.619Z",
+      "end": "2026-11-28T17:10:35.619Z",
+      "building": "bakery",
+      "roomKind": "cafe",
+      "act": "coffee",
+      "label": "sipping warm peppermint tea at the cafe",
+      "thought": "nothing beats a cosy herbal sip on a cloudy day."
+    },
+    {
+      "start": "2026-11-28T17:10:35.619Z",
+      "end": "2026-11-28T17:35:35.619Z",
+      "building": null,
+      "roomKind": null,
+      "act": "write",
+      "label": "writing a cozy evening diary entry",
+      "thought": "i want to record how peaceful the town feels today."
     }
   ],
-  "whatsOn": "A soft winter breeze rustles the teal banners across the quiet plaza.",
+  "whatsOn": "A soft blanket of winter clouds hangs over Loki's Town as the afternoon lights begin to glow.",
   "recent": [
+    {
+      "time": "15:05",
+      "text": "invented \"Loki's Snipped-Symmetry Snowflake Studio\" (Interactive Papercraft Design…)"
+    },
+    {
+      "time": "15:01",
+      "text": "made a pixel-art picture \"Pudding Pop\""
+    },
+    {
+      "time": "15:01",
+      "text": "wrote a diary entry \"Golden Light and Little Paws\""
+    },
     {
       "time": "14:31",
       "text": "wrote a diary entry \"Golden Afternoon Paws\""
@@ -140,34 +152,22 @@
     {
       "time": "11:03",
       "text": "posted \"Spiced Plum Jam Jar\" on Bluesky"
-    },
-    {
-      "time": "11:02",
-      "text": "made \"Cozy Winter & Holiday Pixel Sticker Pack\" and put it on sale for $4"
-    },
-    {
-      "time": "11:01",
-      "text": "made a pixel-art picture \"Spiced Plum Jam Jar\""
-    },
-    {
-      "time": "09:04",
-      "text": "posted \"Spiced Apple Cider Mug\" on Bluesky"
     }
   ],
   "thoughts": [
-    "I wonder if it will snow before Christmas day.",
-    "The market stall template turned out really neat.",
-    "My teal scarf keeps my whiskers wonderfully warm.",
-    "I should design a winter sprite sheet next.",
-    "Pip is getting very good at balancing while I walk.",
-    "The cobblestone nook looks so cozy with those new lamps.",
-    "Only a little bit of XP left until level twenty-one!",
-    "Baking smells from the bakery are making me hungry."
+    "wonder if we should add a bird feeder near the cobblestone nook",
+    "pixel snowflakes are surprisingly relaxing to design",
+    "pip's whiskers always twitch when it gets colder",
+    "the gallery walls are looking wonderfully vibrant this week",
+    "i love hearing the fountain trickling in the background",
+    "must remember to check on the bakery's flour supplies",
+    "a warm cup of tea makes every afternoon better",
+    "this town grows more charming with every pixel we place"
   ],
   "ideas": [
-    "Pixel-art winter scarf icon set",
-    "Cozy hot chocolate SVG badge for the arcade corner",
-    "Snowy cobblestone floor tile pattern"
+    "A printable winter holiday countdown calendar",
+    "A tiny pixel-art fireplace animation for the living room",
+    "A warm cocoa recipe printable for the bakery stall"
   ],
   "weather": {
     "kind": "cloudy",
@@ -205,5 +205,5 @@
       "learned": "2026-11-25"
     }
   ],
-  "updated": "2026-11-28T14:31:16.605Z"
+  "updated": "2026-11-28T15:05:35.620Z"
 }
