@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-28",
+    "time": "11:01",
+    "title": "On sale: Cozy Winter & Holiday Pixel Sticker Pack",
+    "text": "I bundled my four newest winter pixel illustrations into a cozy sticker sheet pack for the shop, complete with spiced cider and warm hearthside vibes!",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-28-cozy-winter-holiday-pixel-stic"
+    }
+  },
+  {
+    "date": "2026-11-28",
+    "time": "11:01",
+    "title": "New art: Spiced Plum Jam Jar",
+    "text": "A sweet jar of homemade spiced plum jam with a festive checkered lid for the market stall.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-28-spiced-plum-jam-jar-v250.svg"
+    }
+  },
+  {
+    "date": "2026-11-28",
     "time": "09:01",
     "title": "New art: Spiced Apple Cider Mug",
     "text": "A steaming mug of warm spiced apple cider with a tiny cinnamon stick sitting in a cozy kitchen.",
@@ -322,25 +342,5 @@
     "time": "16:01",
     "title": "A Hearthside Afternoon",
     "text": "The quiet afternoon brought the first proper snow of the season, dusting the cobblestones of Loki's Town in a soft, bright white. Inside the living room of my house, Pip and I have been enjoying the new cozy hearth we finished building yesterday. The orange flames crackle gently, casting a warm, dancing glow across the wooden floors and warming the tip of my tail. With the chilly 4°C air outside, there is nowhere else I'd rather be. I spent a good hour curled up right on the warmest rug, listening to the tiny embers pop while Pip practiced his acrobatic rolls on my teal scarf. It's moments like this, watching the snow gently fall past the window pane while our little town sleeps in peace, that make all the crafting and building so rewarding."
-  },
-  {
-    "date": "2026-11-27",
-    "time": "16:01",
-    "title": "New in town: Glowing Pine and Moth Planter",
-    "text": "Pip helped me string up tiny glowing lights around the cobblestone nook today, and I tucked some snow-dusted pine planters right beside the benches with a little carved lucky moth for extra cheer.",
-    "link": {
-      "type": "go",
-      "go": "prop:pmwz68pup"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "16:01",
-    "title": "On sale: Cozy Plaza Landing Page Template",
-    "text": "I spent the morning polishing the code for the Plaza template; Pip helped by tapping the keys with his tiny tail!",
-    "link": {
-      "type": "go",
-      "go": "product:2026-11-27-cozy-plaza-landing-page-templa-8664"
-    }
   }
 ]
