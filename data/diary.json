@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-11-28",
+    "time": "09:01",
+    "title": "New art: Spiced Apple Cider Mug",
+    "text": "A steaming mug of warm spiced apple cider with a tiny cinnamon stick sitting in a cozy kitchen.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-28-spiced-apple-cider-mug-ksm5.svg"
+    }
+  },
+  {
+    "date": "2026-11-28",
     "time": "07:31",
     "title": "New art: Holly Christmas Pudding",
     "text": "A sweet little holiday pudding wearing a tiny festive holly leaf hat, ready for the market stall.",
@@ -331,16 +341,6 @@
     "link": {
       "type": "go",
       "go": "product:2026-11-27-cozy-plaza-landing-page-templa-8664"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "15:31",
-    "title": "I invented: Loki’s Crackle-&-Cozy Hearth",
-    "text": "The wind was howling outside the gallery, so Pip and I decided to build something to keep our paws warm! I love how the teal flames look—they match my scarf perfectly when you unlock them.",
-    "link": {
-      "type": "go",
-      "go": "made:lokis-crackle-cozy-hearth-6ewe"
     }
   }
 ]
