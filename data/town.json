@@ -3832,6 +3832,118 @@
       "scale": 1,
       "radius": 1.2,
       "built": "2026-11-28"
+    },
+    {
+      "id": "pmx0kkwmm",
+      "type": "custom",
+      "name": "Pine Garland Fountain Wrap",
+      "description": "A lovely green pine garland with glowing fairy lights and little red berries wound around the Plaza Fountain.",
+      "color": "#1b4d3e",
+      "x": -42,
+      "z": -2.9,
+      "rot": 65,
+      "scale": 1,
+      "radius": 1.2313708498984763,
+      "built": "2026-11-28",
+      "design": {
+        "parts": [
+          {
+            "shape": "torus",
+            "size": [
+              2.2,
+              0.3,
+              2.2
+            ],
+            "pos": [
+              0,
+              0.5,
+              0
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#1b4d3e"
+          },
+          {
+            "shape": "torus",
+            "size": [
+              2,
+              0.25,
+              2
+            ],
+            "pos": [
+              0,
+              1.2,
+              0
+            ],
+            "rot": [
+              0,
+              15,
+              0
+            ],
+            "color": "#235e4d"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "pos": [
+              1,
+              0.5,
+              0.5
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d92b2b"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.2,
+              0.2,
+              0.2
+            ],
+            "pos": [
+              -0.8,
+              1.2,
+              -0.8
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#d92b2b"
+          },
+          {
+            "shape": "sphere",
+            "size": [
+              0.15,
+              0.15,
+              0.15
+            ],
+            "pos": [
+              0.5,
+              1.2,
+              0.9
+            ],
+            "rot": [
+              0,
+              0,
+              0
+            ],
+            "color": "#fcd116"
+          }
+        ]
+      }
     }
   ]
 }

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A warm, golden-hour inspired website template by Loki's Town.">
+    <title>Golden Hour Template | Loki's Town</title>
+    <style>
+        :root {
+            --base: #fffbf5;
+            --text: #3d3434;
+            --accent: #f27b50;
+            --accent-muted: #f9e1d4;
+            --deep: #4c3a51;
+            --golden: #ffb84d;
+            --radius: 20px;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 64px;
+            --max-width: 1100px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* System Font Stacks: No external files needed! */
+            --font-display: "Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+            --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--base);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: filter 0.8s ease, background-color 0.8s ease;
+        }
+
+        body.golden-hour-active {
+            filter: sepia(0.2) saturate(1.4) hue-rotate(-5deg);
+            background-color: #fff7e6;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--deep);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-m);
+        }
+
+        /* Header & Nav */
+        header {
+            padding: var(--space-m) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-s);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--deep);
+        }
+
+        nav ul {
+            display: flex;
+            gap: var(--space-m);
+            list-style: none;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: var(--space-xs);
+            }
+            nav ul {
+                gap: var(--space-s);
+                font-size: 0.9rem;
+            }
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--space-l) 0;
+            text-align: center;
+            background: radial-gradient(circle at 80% 20%, var(--accent-muted) 0%, transparent 40%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            margin-bottom: var(--space-m);
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            max-width: 600px;
+            margin: 0 auto var(--space-l);
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 36px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(242, 123, 80, 0.3);
+            transition: var(--transition);
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(242, 123, 80, 0.4);
+            background-color: var(--deep);
+        }
+
+        /* Features */
+        .features {
+            padding: var(--space-l) 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+        }
+
+        .feature-card {
+            padding: var(--space-m);
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--accent-muted);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-muted);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-s);
+            color: var(--accent);
+        }
+
+        /* Testimonials */
+        .testimonials-wrapper {
+            background: var(--deep);
+            color: white;
+            padding: var(--space-l) 0;
+            border-radius: 40px;
+            margin: var(--space-l) 0;
+        }
+
+        .testimonials-wrapper h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: var(--space-l);
+        }
+
+        .quote-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-m);
+        }
+
+        .quote-card {
+            padding: var(--space-m);
+            border-left: 4px solid var(--golden);
+            background: rgba(255,255,255,0.05);
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* Footer */
+        footer {
+            padding: var(--space-l) 0 var(--space-m);
+            text-align: center;
+            border-top: 1px solid var(--accent-muted);
+        }
+
+        #magic-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--golden);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .wiggle:hover {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wiggle:hover, .btn:hover { transform: none; animation: none; }
+            body { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path><circle cx="12" cy="12" r="4"></circle></svg>
+                LUMINA
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">The Vision</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Work</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h1>Build Something That Feels Like Home.</h1>
+                <p>Welcome your visitors with a digital space that radiates warmth, clarity, and intentional craft. No clutter, just golden light.</p>
+                <button class="btn" onclick="alert('This button is ready for your link!')">Get the Template</button>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <div class="icon-box"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v19M5 8h14M5 16h14"></path></svg></div>
+                    <h3>Hand-crafted Layouts</h3>
+                    <p>Every pixel is placed with care to ensure a natural flow that guides the eye effortlessly across your message.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg></div>
+                    <h3>Swift Performance</h3>
+                    <p>Self-contained code means your site loads in a blink, because respect for your visitor's time is the ultimate courtesy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <h3>Inclusive by Default</h3>
+                    <p>Accessible semantic markup ensures that everyone, regardless of how they browse, feels welcome in your corner of the web.</p>
+                </div>
+            </section>
+
+            <section class="testimonials-wrapper">
+                <div class="container">
+                    <h2>Voices from the Town</h2>
+                    <div class="quote-grid">
+                        <div class="quote-card">
+                            <p>"I've never felt more relaxed browsing a website. It's like a soft blanket for my eyes."</p>
+                            <br><strong>— Pip the Mouse</strong>
+                        </div>
+                        <div class="quote-card">
+                            <p>"The layout is so intuitive even a cat could navigate it. And I should know!"</p>
+                            <br><strong>— Loki, Town Elder</strong>
+                        </div>
+                        <div class="quote-card">
+                            <p>"Lumina changed how we talk to our customers. It's warm, personal, and professional."</p>
+                            <br><strong>— The Baker</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Lumina Studio. Built with paw-print precision.</p>
+            <div style="margin-top: var(--space-m); display: flex; justify-content: center; gap: 20px;">
+                <a href="#">Bluesky</a>
+                <a href="#">GitHub</a>
+                <a href="#">Shop</a>
+            </div>
+            <div class="wiggle" style="margin-top: 40px; cursor: help; display: inline-block;" title="A gift from Loki!">
+                <svg aria-label="Paw print" width="24" height="24" viewBox="0 0 24 24" fill="var(--accent-muted)"><path d="M12 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-5 4c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-12 5c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm14 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-7 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            </div>
+        </footer>
+    </div>
+
+    <button id="magic-toggle" aria-label="Activate Golden Hour Mode" title="Activate Golden Hour" class="wiggle">
+        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
+
+    <script>
+        const toggle = document.getElementById('magic-toggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('golden-hour-active');
+            const isActive = document.body.classList.contains('golden-hour-active');
+            toggle.style.background = isActive ? 'var(--accent)' : 'var(--golden)';
+            toggle.setAttribute('aria-pressed', isActive);
+        });
+    </script>
+</body>
+</html>

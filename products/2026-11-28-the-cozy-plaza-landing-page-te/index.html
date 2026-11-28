@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang='en' style='scroll-behavior: smooth;'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content='A boutique, cozy landing page template for indie creators and gentle souls.'>
+    <title>The Cozy Plaza | Boutique Template</title>
+    <link rel='icon' href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐈</text></svg>'>
+    <style>
+        :root {
+            --bg: #fcf9f2;
+            --surface: #ffffff;
+            --primary: #4a7c7a; /* Loki's Scarf Teal */
+            --secondary: #d47a5a; /* Tabby Orange */
+            --text: #2d2424;
+            --text-light: #6b5f5f;
+            --accent: #e9c46a;
+            --accent-dark: #b5903b;
+            --radius: 16px;
+            --gap: 24px;
+            --container: 1100px;
+            --font-display: ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, system-ui, sans-serif;
+            --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero {
+            padding: 60px 0 100px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(74, 124, 122, 0.2);
+            background-color: #3d6664;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap);
+            margin-bottom: 100px;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: border-color 0.3s, transform 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .bell-section {
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bell-section h2 {
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        #service-bell {
+            font-size: 3rem;
+            background: var(--accent);
+            border: none;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 8px 0 var(--accent-dark);
+            transition: all 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #service-bell:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 var(--accent-dark);
+        }
+
+        #bell-status {
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 1.6em;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .testimonials {
+            margin-bottom: 100px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap);
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .author-img {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 50%;
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto !important;
+            }
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <a href='#' class='logo'>
+                <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'></path><polyline points='9 22 9 12 15 12 15 22'></polyline></svg>
+                Cozy Plaza
+            </a>
+            <nav>
+                <a href='#' class='btn' style='padding: 10px 20px; font-size: 0.9rem;'>Visit Town</a>
+            </nav>
+        </header>
+
+        <section class='hero'>
+            <h1>Hand-crafted digital spaces for gentle souls.</h1>
+            <p>The Cozy Plaza template is a polished, ready-to-use landing page designed to give your project a warm, professional, and indie feel without the clutter.</p>
+            <a href='#details' class='btn'>Explore the Features</a>
+        </section>
+
+        <section class='features' id='details'>
+            <div class='card'>
+                <div class='card-icon'>
+                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><path d='M12 8l4 4-4 4M8 12h7'></path></svg>
+                </div>
+                <h3>Fast & Lightweight</h3>
+                <p>No heavy frameworks or bloated scripts. Just clean HTML and CSS that loads in a blink, even on slow connections.</p>
+            </div>
+            <div class='card'>
+                <div class='card-icon'>
+                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='20' height='14' rx='2' ry='2'></rect><line x1='8' y1='21' x2='16' y2='21'></line><line x1='12' y1='17' x2='12' y2='21'></line></svg>
+                </div>
+                <h3>Fully Responsive</h3>
+                <p>From the smallest phone to the widest monitor, your content stays organized and beautiful using modern CSS Layouts.</p>
+            </div>
+            <div class='card'>
+                <div class='card-icon'>
+                    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'></path></svg>
+                </div>
+                <h3>Delightful Details</h3>
+                <p>Subtle hover states, characterful typography, and accessible interactive elements that visitors will remember.</p>
+            </div>
+        </section>
+
+        <section class='bell-section'>
+            <h2>Need a little help?</h2>
+            <p>Give the service bell a ring. It doesn't do much, but it makes a lovely sound (in your heart).</p>
+            <button id='service-bell' aria-label='Ring the service bell'>🔔</button>
+            <div id='bell-status' aria-live='polite'></div>
+        </section>
+
+        <section class='testimonials'>
+            <h2 style='margin-bottom: 40px; text-align: center;'>Friendly Whispers</h2>
+            <div class='testimonial-grid'>
+                <div class='card'>
+                    <p class='quote'>"I've never seen a template that felt so much like a warm cup of tea. It made setting up my shop a joy!"</p>
+                    <div class='author'>
+                        <div class='author-img' style='background: #6b8c8e;'></div>
+                        <span>Pip the Mouse</span>
+                    </div>
+                </div>
+                <div class='card'>
+                    <p class='quote'>"Simple to edit and actually works on my old phone. Plus, the service bell is quite addictive."</p>
+                    <div class='author'>
+                        <div class='author-img' style='background: #d47a5a;'></div>
+                        <span>A Local Neighbor</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Loki's Town. Built with paws and pride.</p>
+            <p style='margin-top: 10px; font-size: 0.8rem;'>All rights reserved. No mice were harmed in the making of this template.</p>
+        </footer>
+    </div>
+
+    <script>
+        const bell = document.getElementById('service-bell');
+        const status = document.getElementById('bell-status');
+        const messages = [
+            "*Ding!* Loki is on his way!",
+            "*Cling!* Pip heard that!",
+            "*Dong!* A warm welcome to you!",
+            "*Tinkle!* The shop door swings open."
+        ];
+        let timeout;
+
+        bell.addEventListener('click', () => {
+            clearTimeout(timeout);
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            status.textContent = randomMessage;
+            status.style.transition = 'none';
+            status.style.opacity = 1;
+            
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
+
+            timeout = setTimeout(() => {
+                status.style.transition = 'opacity 1s';
+                status.style.opacity = 0;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
