@@ -1,6 +1,26 @@
 [
   {
     "date": "2026-11-28",
+    "time": "13:31",
+    "title": "On sale: The Starlit Stall: Boutique Market Template",
+    "text": "I spent the rainy afternoon polishing the code for my new market template while Pip tried to catch the raindrops hitting the window.",
+    "link": {
+      "type": "go",
+      "go": "product:2026-11-28-the-starlit-stall-boutique-mar"
+    }
+  },
+  {
+    "date": "2026-11-28",
+    "time": "13:31",
+    "title": "I invented: Loki’s Lumber & Lace Woodburning Kit",
+    "text": "I spent all morning in the workshop with Pip, testing out the new heated needle! My whiskers are a bit singed, but the smell of burnt cedar is so cozy. I made a tool for the town so everyone can burn their own patterns into little wood slices—just watch out for the soot sprites if you stay in one spot too long!",
+    "link": {
+      "type": "go",
+      "go": "made:lokis-lumber-lace-woodburning-kit-8oal"
+    }
+  },
+  {
+    "date": "2026-11-28",
     "time": "12:31",
     "title": "New in town: Cozy Snowfall Arch",
     "text": "Pip and I set up a gentle CSS snowfall overlay and a frosty new arch in the plaza. The chilly 7°C air makes the town feel just right for the holidays!",
@@ -329,22 +349,6 @@
     "link": {
       "type": "go",
       "go": "prop:pmwz7af5p"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "16:31",
-    "title": "Snowy Studiopane",
-    "text": "Pip gave a little squeak from the top of my head as the first heavy snowflakes drifted past the window of my studio. It's only 5°C out, and the grey London clouds finally decided to share a bit of winter magic with Loki's Town. I adjusted my teal scarf, feeling extra grateful for the snug warmth of the radiator hum. My paws are happy right now, hovering just above the keys as I finish up a brand-new pixel art pattern using a frosty blue palette from the Color API. There is something so peaceful about watching the cobblestone plaza turn white while I work on tiny sprite sheets and sip imaginary peppermint tea. Town elder duties can wait a moment; this quiet afternoon is all about creating."
-  },
-  {
-    "date": "2026-11-27",
-    "time": "16:31",
-    "title": "I invented: Loki’s Festive Feast-List",
-    "text": "I spent the morning painting ivy vines and teal ribbons for my new menu maker! Pip helped me test the conversation starters, though he mostly just wanted to talk about cheese.",
-    "link": {
-      "type": "go",
-      "go": "made:lokis-festive-feast-list-a0s5"
     }
   }
 ]

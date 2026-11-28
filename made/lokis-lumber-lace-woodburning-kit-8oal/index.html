@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loki’s Lumber & Lace Woodburning Kit</title>
+    <style>
+        :root {
+            --bg: #f7f2eb;
+            --bark: #3d2b1f;
+            --cedar: #c47c5d;
+            --pine: #e3c4a8;
+            --oak: #916a4a;
+            --ember: #ff6b35;
+            --charcoal: #261b15;
+            --teal: #4db6ac;
+            --space-s: 16px;
+            --space-m: 24px;
+            --space-l: 40px;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--bark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: var(--space-l) var(--space-s);
+            background: radial-gradient(circle at top, #fff3e6, transparent);
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--bark);
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: var(--space-s);
+        }
+
+        .workshop-bench {
+            position: relative;
+            background: #e8ddd0;
+            padding: var(--space-m);
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(61, 43, 31, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-m);
+            width: 100%;
+        }
+
+        #wood-canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            cursor: crosshair;
+            overflow: hidden;
+            touch-action: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-size: cover;
+            border: 8px solid rgba(0,0,0,0.05);
+        }
+
+        #wood-canvas-container::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.35;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        #wood-canvas-container.varnished {
+            filter: saturate(1.4) contrast(1.1) brightness(1.05);
+            box-shadow: inset 0 0 100px rgba(255, 200, 100, 0.3), 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: var(--space-s);
+            width: 100%;
+        }
+
+        .control-group {
+            background: rgba(255,255,255,0.4);
+            padding: var(--space-s);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+
+        button {
+            background: var(--bark);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover { background: var(--ember); transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+        button.active { background: var(--teal); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+
+        .wood-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .wood-opt {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .wood-opt.active { border-color: var(--teal); transform: scale(1.15); }
+
+        .soot-sprite {
+            position: absolute;
+            width: 16px; height: 16px;
+            background: #111;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatSoot 1.2s ease-out forwards;
+            z-index: 20;
+            filter: blur(2px);
+        }
+
+        @keyframes floatSoot {
+            0% { transform: scale(0) translateY(0); opacity: 0.8; }
+            100% { transform: scale(2) translateY(-60px) rotate(45deg); opacity: 0; }
+        }
+
+        footer {
+            padding: var(--space-l);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 500px) {
+            .controls { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🪵 Lumber & Lace</h1>
+    <p class="subtitle">Drag slowly for deep burns, flick fast for light lace. Feel the heat!</p>
+</header>
+
+<main>
+    <div class="workshop-bench">
+        <div id="wood-canvas-container">
+            <canvas id="burnCanvas" width="800" height="800"></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Wood Grain</label>
+                <div class="wood-selector">
+                    <div class="wood-opt active" style="background: var(--cedar)" onclick="setWood('cedar', this)" title="Cedar"></div>
+                    <div class="wood-opt" style="background: var(--pine)" onclick="setWood('pine', this)" title="Pine"></div>
+                    <div class="wood-opt" style="background: var(--oak)" onclick="setWood('oak', this)" title="Oak"></div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Finish</label>
+                <button id="btnVarnish" onclick="toggleVarnish()">Varnish</button>
+            </div>
+            <div class="control-group">
+                <label>Workshop</label>
+                <button onclick="clearCanvas()">Sand Down</button>
+            </div>
+            <div class="control-group">
+                <label>Export</label>
+                <button onclick="downloadArt()" style="background: var(--teal)">Save PNG</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    Made with ♡ by Loki the cat & Pip the mouse · <a href="https://lokistown.github.io/">lokistown.github.io</a>
+</footer>
+
+<script>
+    const canvas = document.getElementById('burnCanvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('wood-canvas-container');
+    
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let currentWood = 'cedar';
+
+    let audioCtx = null;
+    let noiseNode = null;
+    let gainNode = null;
+
+    const woodStyles = {
+        cedar: { start: '#d48e70', end: '#a65d41' },
+        pine: { start: '#f2dbc4', end: '#c9a785' },
+        oak: { start: '#b08d6d', end: '#755235' }
+    };
+
+    function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const bufferSize = 2 * audioCtx.sampleRate;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+        }
+
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuffer;
+        noiseNode.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 800;
+
+        gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0;
+
+        noiseNode.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        noiseNode.start();
+    }
+
+    function setWood(type, el) {
+        currentWood = type;
+        const colors = woodStyles[type];
+        container.style.background = `radial-gradient(circle, ${colors.start} 0%, ${colors.end} 100%)`;
+        document.querySelectorAll('.wood-opt').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        container.classList.remove('varnished');
+        document.getElementById('btnVarnish').classList.remove('active');
+    }
+
+    function toggleVarnish() {
+        container.classList.toggle('varnished');
+        document.getElementById('btnVarnish').classList.toggle('active');
+    }
+
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+            x: (clientX - rect.left) * (canvas.width / rect.width),
+            y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+    }
+
+    function startDrawing(e) {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        isDrawing = true;
+        const pos = getPos(e);
+        lastX = pos.x;
+        lastY = pos.y;
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+        if (gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.05);
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+
+        const dist = Math.sqrt(Math.pow(pos.x - lastX, 2) + Math.pow(pos.y - lastY, 2));
+        const speed = Math.max(0.1, Math.min(40, dist));
+        
+        const opacity = Math.max(0.02, 1.2 - (speed / 12));
+        const size = Math.max(3, 30 - (speed * 0.9));
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.strokeStyle = `rgba(38, 27, 21, ${opacity})`;
+        ctx.lineWidth = size;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.shadowBlur = size / 3;
+        ctx.shadowColor = 'rgba(20, 10, 0, 0.4)';
+        ctx.stroke();
+
+        if (gainNode) {
+            const vol = Math.min(0.2, opacity * 0.3);
+            gainNode.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.02);
+        }
+
+        if (Math.random() > 0.94) spawnSoot(e);
+        
+        // Haptic feedback
+        if (navigator.vibrate && Math.random() > 0.5) navigator.vibrate(Math.floor(opacity * 10));
+
+        lastX = pos.x;
+        lastY = pos.y;
+    }
+
+    function spawnSoot(e) {
+        const rect = container.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const sprite = document.createElement('div');
+        sprite.className = 'soot-sprite';
+        sprite.style.left = `${clientX - rect.left - 8}px`;
+        sprite.style.top = `${clientY - rect.top - 8}px`;
+        container.appendChild(sprite);
+        setTimeout(() => sprite.remove(), 1200);
+    }
+
+    function downloadArt() {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = 800; tempCanvas.height = 800;
+        const tCtx = tempCanvas.getContext('2d');
+        
+        tCtx.beginPath();
+        tCtx.arc(400, 400, 400, 0, Math.PI * 2);
+        tCtx.clip();
+
+        const colors = woodStyles[currentWood];
+        const grad = tCtx.createRadialGradient(400, 400, 0, 400, 400, 400);
+        grad.addColorStop(0, colors.start); grad.addColorStop(1, colors.end);
+        tCtx.fillStyle = grad;
+        tCtx.fillRect(0, 0, 800, 800);
+
+        // Simulate grain on export
+        for (let i = 0; i < 50000; i++) {
+            const x = Math.random() * 800; const y = Math.random() * 800;
+            tCtx.fillStyle = `rgba(0,0,0,${Math.random() * 0.05})`;
+            tCtx.fillRect(x, y, 1, 1);
+        }
+
+        if (container.classList.contains('varnished')) {
+            tCtx.fillStyle = 'rgba(255, 200, 100, 0.1)';
+            tCtx.fillRect(0, 0, 800, 800);
+        }
+
+        tCtx.drawImage(canvas, 0, 0);
+        
+        const link = document.createElement('a');
+        link.download = `loki-pyrography-${currentWood}.png`;
+        link.href = tempCanvas.toDataURL();
+        link.click();
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    window.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mousemove', draw);
+
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); }, {passive: false});
+    canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, {passive: false});
+
+    setWood('cedar', document.querySelector('.wood-opt'));
+</script>
+</body>
+</html>
