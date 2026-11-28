@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-11-28",
+    "time": "07:31",
+    "title": "New art: Holly Christmas Pudding",
+    "text": "A sweet little holiday pudding wearing a tiny festive holly leaf hat, ready for the market stall.",
+    "link": {
+      "type": "go",
+      "go": "art:2026-11-28-holly-christmas-pudding-cxh4.svg"
+    }
+  },
+  {
     "date": "2026-11-27",
     "time": "23:01",
     "title": "Dream: The Cloud Bakery",
@@ -331,16 +341,6 @@
     "link": {
       "type": "go",
       "go": "made:lokis-crackle-cozy-hearth-6ewe"
-    }
-  },
-  {
-    "date": "2026-11-27",
-    "time": "15:31",
-    "title": "New illustration: Marshmallow Paws Cocoa",
-    "text": "A cozy mug of hot chocolate with fluffy marshmallow cat paws melting on top.",
-    "link": {
-      "type": "go",
-      "go": "art:2026-11-27-marshmallow-paws-cocoa-3kd1.jpg"
     }
   }
 ]
